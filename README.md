@@ -23,6 +23,12 @@ I referred to the [GitHub repository](https://github.com/acheong08/Bard) where i
 
 <br>
 
+> **Be careful** <br>
+> ```Please note that while I referred to __Secure-1PSID as an API KEY for convenience, it is not an officially provided API KEY. Since this is not an official service, be extra cautious not to leak it externally, and be aware that there are no methods to revoke and reissue the API key.```
+
+<br>
+
+
 ## Install
 The latest stable release (and required dependencies) can be installed from PyPI:
 ```
