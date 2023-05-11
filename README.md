@@ -2,7 +2,7 @@
 
 
 
-<p align="center">
+<p align="left">
 <a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 <!-- <a href="https://pepy.tech/project/bardapi"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a> -->
@@ -14,6 +14,7 @@
 
 > A package that returns Response of Google BARD through API
 
+![](./assets/bardapi.gif)
 
 
 I referred to the [GitHub repository](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier).
