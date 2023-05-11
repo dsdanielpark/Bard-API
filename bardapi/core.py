@@ -31,19 +31,19 @@ class Bard:
             raise Exception(f"Response Status: {resp.status_code}")
         return re.search(r"SNlM0e\":\"(.*?)\"", resp.text).group(1)
 
-    def get_answer(self, question: str) -> dict:
+    def get_answer(self, input_text: str) -> dict:
         params = {
             "bl": "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-        question_struct = [
-            [question],
+        input_text_struct = [
+            [input_text],
             None,
             [self.conversation_id, self.response_id, self.choice_id],
         ]
         data = {
-            "f.req": json.dumps([None, json.dumps(question_struct)]),
+            "f.req": json.dumps([None, json.dumps(input_text_struct)]),
             "at": self.SNlM0e,
         }
         resp = self.session.post(
