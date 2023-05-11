@@ -42,7 +42,9 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 
 <br>
 
-## Usage
+## Usage 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link)
+
 Simple Usage
 ```python
 from bardapi import Bard
