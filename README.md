@@ -45,6 +45,7 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 Simple Usage
 ```python
 from bardapi import Bard
+import os
 
 os.environ['_BARD_API_KEY']="xxxxxxxx."
 Bard().get_answer("What is Google BARD????")['content']
