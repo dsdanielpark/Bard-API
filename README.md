@@ -52,4 +52,4 @@ response = bardapi.core.Bard().get_answer(input_text)
 <br>
 
 ## License
-:star2: Just Give me and [them](https://github.com/acheong08/Bard) a star :star2:
+Just Give me and [them](https://github.com/acheong08/Bard) a star.
