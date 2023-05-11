@@ -1,6 +1,7 @@
+Development Status :: 4 - Beta
+
+
 # Google BARD API
-
-
 
 <p align="left">
 <a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
