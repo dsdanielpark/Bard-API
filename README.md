@@ -1,6 +1,6 @@
 # Google BARD API
-![](./assets/bard.gif)
-<h5 align="center"> A package that returns Response of Google BARD through API </h5>
+
+
 
 <p align="center">
 <a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
@@ -11,6 +11,8 @@
 <a href="https://www.buymeacoffee.com/parkminwoo"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="20px"></a>
 </p>
 
+
+> A package that returns Response of Google BARD through API
 
 
 
