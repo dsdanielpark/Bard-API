@@ -79,8 +79,15 @@ response = bardapi.core.Bard().get_answer(input_text)
 
 <br>
 
-## License 
+# License 
 Just Give me and [them](https://github.com/acheong08/Bard) a star.
+
+# Bugs and Issues
+Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
+
+# Contacts
+:mortar_board: Core maintainer: [Daniel Park, South Korea](https://github.com/DSDanielPark) <br>
+:envelope: E-mail: parkminwoo1991@gmail.com <br>
 
 # Reference 
 [1] https://github.com/acheong08/Bard
