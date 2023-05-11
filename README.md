@@ -72,3 +72,6 @@ response = bardapi.core.Bard().get_answer(input_text)
 
 ## License
 Just Give me and [them](https://github.com/acheong08/Bard) a star.
+
+# Reference
+[1] https://github.com/acheong08/Bard
