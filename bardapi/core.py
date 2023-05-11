@@ -71,4 +71,3 @@ class Bard:
         self._reqid += 100000
 
         return bard_answer
-    

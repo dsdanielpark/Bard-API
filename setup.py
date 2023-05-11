@@ -34,8 +34,7 @@ setup(
     url="https://github.com/dsdanielpark/BARD_API",
     packages=find_packages(exclude=[]),
     python_requires=">=3.6",
-    install_requires=[
-    ],
+    install_requires=[],
     keywords="BARD, Python, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",
     classifiers=[
         "Development Status :: 3 - Alpha",
