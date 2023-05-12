@@ -109,7 +109,7 @@ The Python package `BardAPI` just provides code for Python developers to easily 
 #### Could you kindly add this badge to your repository?
 markdown
 ```
-![Except-Notifier](https://img.shields.io/badge/pypi-ExceptNotifier-blue)
+![BardAPI](https://img.shields.io/badge/pypi-bardapi-blue)
 ```
 html
 ```
