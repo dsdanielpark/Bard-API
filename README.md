@@ -45,7 +45,7 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 ## Authentication
 1. Visit https://bard.google.com/
 2. F12 for console
-3. Session: Application → Cookies → Copy the value of  __Secure-1PSID cookie.
+3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
 
 <br>
 
