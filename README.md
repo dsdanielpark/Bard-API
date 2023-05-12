@@ -71,7 +71,7 @@ import os
 os.environ['_BARD_API_KEY']="xxxxxxxx."
 
 # set your input text
-input_text = "바드가 뭐야?"
+input_text = "What is Bard??????"
 
 # Send an API request and get a response.
 response = bardapi.core.Bard().get_answer(input_text)
