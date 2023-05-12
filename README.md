@@ -50,7 +50,7 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 <br>
 
 ## Usage 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1dhsdYQtFJ_JcU-LKqhzeJCGWWIJ3qk_n?usp=share_link) 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1YIMA8aBmEQSSk90bB0Q9tznaLLQcluGA?usp=share_link) 
 
 
 Simple Usage
