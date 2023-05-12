@@ -20,7 +20,7 @@ Development Status :: 4 - Beta
 ![](./assets/bardapi.gif)
 
 
-I referred to [this gitHub repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier). 
+I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier). 
 
 <br>
 
