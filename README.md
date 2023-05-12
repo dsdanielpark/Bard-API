@@ -59,7 +59,7 @@ from bardapi import Bard
 import os
 
 os.environ['_BARD_API_KEY']="xxxxxxxx"
-Bard().get_answer("우리 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 
@@ -72,7 +72,7 @@ import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 # set your input text
-input_text = "우리 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
+input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
 
 # Send an API request and get a response.
 response = bardapi.core.Bard().get_answer(input_text)
