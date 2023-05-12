@@ -15,12 +15,12 @@ Development Status :: 4 - Beta
 </p>
 
 
-> A package that returns Response of Google BARD through API [![Open In Colab]([https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link](https://colab.research.google.com/drive/1dhsdYQtFJ_JcU-LKqhzeJCGWWIJ3qk_n?usp=share_link))
+> A package that returns Response of Google BARD through API
 
 ![](./assets/bardapi.gif)
 
 
-I referred to the [GitHub repository](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier).
+I referred to the [GitHub repository](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier). 
 
 <br>
 
@@ -50,7 +50,8 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 <br>
 
 ## Usage 
-[![Open In Colab]([https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link](https://colab.research.google.com/drive/1dhsdYQtFJ_JcU-LKqhzeJCGWWIJ3qk_n?usp=share_link))
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1dhsdYQtFJ_JcU-LKqhzeJCGWWIJ3qk_n?usp=share_link) 
+
 
 Simple Usage
 ```python
