@@ -104,3 +104,15 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
   
 ### Important Warning: All legal responsibilities associated with the use of the package lie with the user.
 The Python package `BardAPI` just provides code for Python developers to easily access Google Bard. All responsibility for handling data and using the package lies with the user. There is no monetary compensation received for the use of this code, and it should be noted that there is no liability for the use of the code. Please refer to the Google Bard Official Document for more details. 
+  
+
+#### Could you kindly add this badge to your repository?
+markdown
+```
+![Except-Notifier](https://img.shields.io/badge/pypi-ExceptNotifier-blue)
+```
+html
+```
+<a href="https://github.com/dsdanielpark/BARD_API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
+```
+I would appreciate it if you could share the github widely. Thank you!
