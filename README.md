@@ -15,7 +15,7 @@ Development Status :: 4 - Beta
 </p>
 
 
-> A package that returns Response of Google BARD through API
+> A package that returns Response of Google BARD through API [![Open In Colab]([https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link](https://colab.research.google.com/drive/1dhsdYQtFJ_JcU-LKqhzeJCGWWIJ3qk_n?usp=share_link))
 
 ![](./assets/bardapi.gif)
 
@@ -50,7 +50,7 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 <br>
 
 ## Usage 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link)
+[![Open In Colab]([https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link](https://colab.research.google.com/drive/1dhsdYQtFJ_JcU-LKqhzeJCGWWIJ3qk_n?usp=share_link))
 
 Simple Usage
 ```python
