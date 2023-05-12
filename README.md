@@ -79,8 +79,8 @@ response = bardapi.core.Bard().get_answer(input_text)
 ```
 
 <br>
+<a href="https://bard.google.com/"><img src="./assets/bardimg.png" height="600px">
 
-![](./assets/bardimg.png)
 
 <br>
 
