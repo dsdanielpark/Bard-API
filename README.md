@@ -57,7 +57,7 @@ Simple Usage
 from bardapi import Bard
 import os
 
-os.environ['_BARD_API_KEY']="xxxxxxxx."
+os.environ['_BARD_API_KEY']="xxxxxxxx"
 Bard().get_answer("재미있는 이야기 알려줘")['content']
 ```
 
@@ -68,7 +68,7 @@ import bardapi
 import os
 
 # set your __Secure-1PSID value to key
-os.environ['_BARD_API_KEY']="xxxxxxxx."
+os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 # set your input text
 input_text = "What is Bard??????"
