@@ -81,7 +81,7 @@ response = bardapi.core.Bard().get_answer(input_text)
 <br>
 
 # License 
-Just Give me and [them](https://github.com/acheong08/Bard) a star.
+Just give me and [them](https://github.com/acheong08/Bard) a star.
 
 # Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
