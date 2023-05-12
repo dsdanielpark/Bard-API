@@ -72,6 +72,15 @@ response = bardapi.core.Bard().get_answer(input_text)
 
 <br>
 
+![](./assets/bardimg.png)
+
+<br>
+
+## Scripts
+In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
+
+
+
 ## License
 Just Give me and [them](https://github.com/acheong08/Bard) a star.
 
