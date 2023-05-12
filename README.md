@@ -78,7 +78,9 @@ input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알
 response = bardapi.core.Bard().get_answer(input_text)
 ```
 
+Example
 <br>
+
 <a href="https://bard.google.com/"><img src="./assets/bardimg.png" height="600px">
 
 
