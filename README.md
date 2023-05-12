@@ -72,7 +72,7 @@ import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 # set your input text
-input_text = "What is Google Bard??????"
+input_text = "우리 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
 
 # Send an API request and get a response.
 response = bardapi.core.Bard().get_answer(input_text)
