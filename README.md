@@ -59,7 +59,7 @@ from bardapi import Bard
 import os
 
 os.environ['_BARD_API_KEY']="xxxxxxxx"
-Bard().get_answer("재미있는 이야기 알려줘")['content']
+Bard().get_answer("우리 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 
