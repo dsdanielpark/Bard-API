@@ -11,6 +11,7 @@ Development Status :: 4 - Beta
 <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard_API?color=blue"></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://www.buymeacoffee.com/parkminwoo"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="20px"></a>
+<a href="https://hits.seeyoufarm.com"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=bardapi&edge_flat=false"/></a></a>
 </p>
 
 
@@ -19,9 +20,15 @@ Development Status :: 4 - Beta
 ![](./assets/bardapi.gif)
 
 
-I referred to the [GitHub repository](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier).
+I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier). 
 
 <br>
+
+> **Be careful** <br>
+> ```Please note that while I referred to __Secure-1PSID value as an API KEY for convenience, it is not an officially provided API KEY. Since this is not an official service, be extra cautious not to leak it externally, and be aware that there are no methods to revoke and reissue the __Secure-1PSID value.```
+
+<br>
+
 
 ## Install
 The latest stable release (and required dependencies) can be installed from PyPI:
@@ -43,15 +50,16 @@ pip install git+https://github.com/dsdanielpark/BARD_API.git
 <br>
 
 ## Usage 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1hxhoA9ZsO7sgc59WtfojNwZZLGxlX4Sl?usp=share_link)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1YIMA8aBmEQSSk90bB0Q9tznaLLQcluGA?usp=share_link) 
+
 
 Simple Usage
 ```python
 from bardapi import Bard
 import os
 
-os.environ['_BARD_API_KEY']="xxxxxxxx."
-Bard().get_answer("What is Google BARD????")['content']
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 
@@ -61,10 +69,10 @@ import bardapi
 import os
 
 # set your __Secure-1PSID value to key
-os.environ['_BARD_API_KEY']="xxxxxxxx."
+os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 # set your input text
-input_text = "What is Google Bard???"
+input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
 
 # Send an API request and get a response.
 response = bardapi.core.Bard().get_answer(input_text)
@@ -79,10 +87,15 @@ response = bardapi.core.Bard().get_answer(input_text)
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
-
-
 ## License
 Just Give me and [them](https://github.com/acheong08/Bard) a star.
 
-# Reference
+# Bugs and Issues
+Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
+
+# Contacts
+:mortar_board: Core maintainer: [Daniel Park, South Korea](https://github.com/DSDanielPark) <br>
+:envelope: E-mail: parkminwoo1991@gmail.com <br>
+
+# Reference 
 [1] https://github.com/acheong08/Bard
