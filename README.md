@@ -24,8 +24,7 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
-> **Be careful** <br>
-> ```Please note that while I referred to __Secure-1PSID value as an API KEY for convenience, it is not an officially provided API KEY. Since this is not an official service, be extra cautious not to leak it externally, and be aware that there are no methods to revoke and reissue the __Secure-1PSID value.```
+> Please note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 
 <br>
 
