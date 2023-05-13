@@ -1,7 +1,7 @@
 Development Status :: 4 - Beta
 
 
-# Google <a href="https://bard.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> BARD API 
+# Google <a href="https://bard.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> Bard API 
 
 
 <p align="left">
@@ -11,16 +11,16 @@ Development Status :: 4 - Beta
 <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard_API?color=blue"></a>
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://www.buymeacoffee.com/parkminwoo"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" height="20px"></a>
-<a href="https://github.com/dsdanielpark/Bard_API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=bardapi&edge_flat=false"/></a></a>
+<a href="https://github.com/dsdanielpark/Bard_API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBard-API&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=bardapi&edge_flat=false"/></a></a>
 </p>
 
 
-> A package that returns Response of Google BARD through API
+> A package that returns Response of Google Bard through API
 
 ![](./assets/bardapi.gif)
 
 
-I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of BARD was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google BARD. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). 
+I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). 
 
 <br>
 
@@ -36,7 +36,7 @@ pip install bardapi
 ```
 You may instead want to use the development version from Github:
 ```
-pip install git+https://github.com/dsdanielpark/BARD_API.git
+pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
 <br>
@@ -112,6 +112,6 @@ markdown
 ```
 html
 ```
-<a href="https://github.com/dsdanielpark/BARD_API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
+<a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
 ```
 I would appreciate it if you could share the github widely. Thank you!
