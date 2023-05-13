@@ -15,7 +15,7 @@ Development Status :: 4 - Beta
 </p>
 
 
-> A package that returns Response of Google Bard through API
+> A package that returns Response of [Google Bard](https://bard.google.com/) through API
 
 ![](./assets/bardapi.gif)
 
