@@ -93,8 +93,11 @@ In the scripts [folder](./scripts/), I have released a script to help you compar
 
 ## License
 - [MIT](https://opensource.org/license/mit/) 
-Belongs to Google AI's Bard license.
-Just give me and [them](https://github.com/acheong08/Bard) a star.
+- Belongs to Google AI's Bard license. 
+- The code is licensed under the MIT License.
+- But retained under Google Bard's license policy in the future.
+- The author is not involved in legal responsibility, please refer to the bottom of the readme.
+- Just give me and [them](https://github.com/acheong08/Bard) a star.
 
 
 ## Bugs and Issues
