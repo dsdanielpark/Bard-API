@@ -27,6 +27,10 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
+[Amazing-Bard-Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
+- Helpful prompts for Google Bard
+
+<br>
 
 ## Install
 The latest stable release (and required dependencies) can be installed from PyPI:
