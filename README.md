@@ -123,4 +123,4 @@ html
 ```
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
 ```
-I would appreciate it if you could share the github widely. Thank you!
+Thank you for your interest.
