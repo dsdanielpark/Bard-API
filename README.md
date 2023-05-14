@@ -22,7 +22,7 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
-Never expose the __Secure-1PSID for your safety. Never. Never.
+Never expose the `__Secure-1PSID` for your safety. Never. Never.
 > Please note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 
 <br>
