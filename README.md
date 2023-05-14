@@ -13,7 +13,7 @@ Development Status :: 4 - Beta
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=bardapi&edge_flat=false"/></a></a>
 </p>
 
-
+Never expose the __Secure-1PSID for your safety. Never. Never.
 > A package that returns Response of [Google Bard](https://bard.google.com/) through API
 
 ![](./assets/bardapi.gif)
