@@ -117,10 +117,10 @@ The Python package `BardAPI` just provides code for Python developers to easily 
 #### Could you kindly add this badge to your repository?
 markdown
 ```
-![BardAPI](https://img.shields.io/badge/pypi-bardapi-blue)
+![BardAPI](https://img.shields.io/badge/pypi-BardAPI-black)
 ```
 html
 ```
-<a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-blue"></a>
+<a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
 ```
 Thank you for your interest.
