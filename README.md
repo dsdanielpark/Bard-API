@@ -92,7 +92,10 @@ Example
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## License
+- [MIT](https://opensource.org/license/mit/) 
+Belongs to Google AI's Bard license.
 Just give me and [them](https://github.com/acheong08/Bard) a star.
+
 
 ## Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
