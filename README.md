@@ -27,7 +27,7 @@ Please, Never expose the `__Secure-1PSID` for your safety. Never. Never.
 
 <br>
 
-[Amazing-Bard-Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
+##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
 <br>
