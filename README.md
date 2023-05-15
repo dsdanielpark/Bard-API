@@ -106,8 +106,8 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 ## Reference 
 [1] https://github.com/acheong08/Bard
   
-### Important Warning: All legal responsibilities associated with the use of the package lie with the user.
-The Python package `BardAPI` just provides code for Python developers to easily access Google Bard. All responsibility for handling data and using the package lies with the user. There is no monetary compensation received for the use of this code, and it should be noted that there is no liability for the use of the code. Please refer to the Google Bard Official Document for more details. 
+### Important Notice
+  The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
   
 
 #### Could you kindly add this badge to your repository?
