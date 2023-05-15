@@ -120,3 +120,6 @@ html
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
 ```
 Thank you for your interest.
+
+  
+*Copyright (c) 2023 MinWoo Park, South Korea*<br>
