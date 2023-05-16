@@ -25,13 +25,13 @@ version = get_version()
 
 setup(
     name="bardapi",
-    version="0.1.2",
+    version="0.1.3",
     author="daniel park",
     author_email="parkminwoo1991@gmail.com",
-    description="A package that returns Response of Google BARD through API.",
+    description="The python package that returns Response of Google Bard through API.",
     long_description=get_long_description(),
     long_description_content_type="text/markdown",
-    url="https://github.com/dsdanielpark/BARD_API",
+    url="https://github.com/dsdanielpark/Bard-API",
     packages=find_packages(exclude=[]),
     python_requires=">=3.6",
     install_requires=[],
