@@ -81,13 +81,14 @@ response = bardapi.core.Bard().get_answer(input_text)
 ```
 
 Resolving errors due to delayed responses in Google Colab, containers, etc.
+- If a response error occurs even though the normal procedure has been followed, use the timeout variable.
 ```python
 from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
-bard_inproxy = Bard(timeout=10) # Set timeout in seconds
-bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard = Bard(timeout=10) # Set timeout in seconds
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 
