@@ -80,7 +80,7 @@ input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알
 response = bardapi.core.Bard().get_answer(input_text)
 ```
 
-Resolving errors due to delayed responses in Google Colab, containers, etc. If a response error occurs even though the normal procedure has been followed, use the timeout variable.
+Addressing errors caused by delayed responses in environments like Google Colab and containers. If an error occurs despite following the proper procedure, utilize the timeout argument.
 ```python
 from bardapi import Bard
 import os
@@ -91,7 +91,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 ```
 
 ## Behind a proxy
-
+If you are working behind a proxy, use the following.
 ```python
 from bardapi import Bard
 import os
