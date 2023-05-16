@@ -7,7 +7,18 @@ import requests
 
 
 class Bard:
-    def __init__(self):
+    def __init__(self, timeout=6, proxies=None):
+        '''
+        Initialize Bard
+
+        :param timeout: (`int`, *optional*)
+            Timeout in seconds when connecting bard server. The timeout is used on each request.
+        :param proxies: (`Dict[str, str]`, *optional*)
+            A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
+            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each request.
+        '''
+        self.proxies = proxies
+        self.timeout = timeout
         headers = {
             "Host": "bard.google.com",
             "X-Same-Domain": "1",
@@ -26,7 +37,7 @@ class Bard:
         self.SNlM0e = self._get_snim0e()
 
     def _get_snim0e(self):
-        resp = self.session.get(url="https://bard.google.com/", timeout=5)
+        resp = self.session.get(url="https://bard.google.com/", timeout=self.timeout, proxies=self.proxies)
         if resp.status_code != 200:
             raise Exception(f"Response Status: {resp.status_code}")
         return re.search(r"SNlM0e\":\"(.*?)\"", resp.text).group(1)
@@ -50,7 +61,8 @@ class Bard:
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
-            timeout=100,
+            timeout=self.timeout,
+            proxies=self.proxies
         )
 
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]

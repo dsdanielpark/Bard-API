@@ -8,7 +8,7 @@ Development Status :: 4 - Beta
 <a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 <!-- <a href="https://pepy.tech/project/bardapi"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a> -->
-<a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a>
+<!-- <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a> -->
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%2379C83D&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=bardapi&edge_flat=false"/></a></a>
 </p>
@@ -22,8 +22,8 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
-Please, Never expose the `__Secure-1PSID` for your safety. Never. Never.
-> Please note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
+Never expose the `__Secure-1PSID` for your safety.
+> Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 
 <br>
 
@@ -80,24 +80,45 @@ input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알
 response = bardapi.core.Bard().get_answer(input_text)
 ```
 
+Resolving errors due to delayed responses in Google Colab, containers, etc.
+- If a response error occurs even though the normal procedure has been followed, use the timeout variable.
+```python
+from bardapi import Bard
+import os
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+
+bard = Bard(timeout=10) # Set timeout in seconds
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+
+
+## Behind a proxy
+
+```python
+from bardapi import Bard
+import os
+
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+# Change 'http://127.0.0.1:1080' to your http proxy
+# timeout in seconds
+bard_inproxy = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
+bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+
 Example
 <br>
 
 <a href="https://bard.google.com/"><img src="./assets/bardimg.png" height="600px">
 
-
 <br>
+
 
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## License
 - [MIT](https://opensource.org/license/mit/) 
-- Belongs to Google AI's Bard license. 
-- The code is licensed under the MIT License.
-- But retained under Google Bard's license policy in the future.
-- The author is not involved in legal responsibility, please refer to the bottom of the readme.
-- Just give me and [them](https://github.com/acheong08/Bard) a star.
+- I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star...
 
 
 ## Bugs and Issues
@@ -110,8 +131,8 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 ## Reference 
 [1] https://github.com/acheong08/Bard
   
-### Important Warning: All legal responsibilities associated with the use of the package lie with the user.
-The Python package `BardAPI` just provides code for Python developers to easily access Google Bard. All responsibility for handling data and using the package lies with the user. There is no monetary compensation received for the use of this code, and it should be noted that there is no liability for the use of the code. Please refer to the Google Bard Official Document for more details. 
+### Important Notice
+  The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
   
 
 #### Could you kindly add this badge to your repository?
@@ -124,3 +145,6 @@ html
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
 ```
 Thank you for your interest.
+
+  
+*Copyright (c) 2023 MinWoo Park, South Korea*<br>
