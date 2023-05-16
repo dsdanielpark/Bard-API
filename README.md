@@ -80,7 +80,18 @@ input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알
 response = bardapi.core.Bard().get_answer(input_text)
 ```
 
-### Behind a proxy
+Resolving errors due to delayed responses in Google Colab, containers, etc.
+```python
+from bardapi import Bard
+import os
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+
+bard_inproxy = Bard(timeout=10) # Set timeout in seconds
+bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+
+
+## Behind a proxy
 
 ```python
 from bardapi import Bard
@@ -89,7 +100,8 @@ import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 # Change 'http://127.0.0.1:1080' to your http proxy
 # timeout in seconds
-Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10).get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard_inproxy = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
+bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 Example
