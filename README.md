@@ -85,8 +85,19 @@ Example
 
 <a href="https://bard.google.com/"><img src="./assets/bardimg.png" height="600px">
 
-
 <br>
+
+### Behind a proxy
+
+```python
+from bardapi import Bard
+import os
+
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+# Change 'http://127.0.0.1:1080' to your http proxy
+# timeout in seconds
+Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10).get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
 
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
