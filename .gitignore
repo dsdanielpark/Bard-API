@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 .gitattributes
 
+=======
+>>>>>>> 22bd392f86659577dedceecaca378424fa87bd24
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
