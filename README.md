@@ -89,7 +89,6 @@ os.environ['_BARD_API_KEY']="xxxxxxxx"
 bard = Bard(timeout=10) # Set timeout in seconds
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
-<br>
 
 ## Behind a proxy
 
@@ -103,8 +102,9 @@ os.environ['_BARD_API_KEY']="xxxxxxxx"
 bard_inproxy = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
 bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
+<br>
 
-Example
+Simple Example
 <br>
 
 <a href="https://bard.google.com/"><img src="./assets/bardimg.png" height="600px">
