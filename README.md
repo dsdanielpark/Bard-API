@@ -18,7 +18,7 @@ Development Status :: 4 - Beta
 ![](./assets/bard_api.gif)
 
 
-I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). 
+I referred to [this GitHub repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). 
 
 <br>
 
@@ -37,7 +37,7 @@ The latest stable release (and required dependencies) can be installed from PyPI
 ```
 pip install bardapi
 ```
-You may instead want to use the development version from Github:
+You may instead want to use the development version from GitHub:
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
