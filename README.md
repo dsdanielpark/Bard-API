@@ -140,8 +140,8 @@ Simple Example
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## License
-- [MIT](https://opensource.org/license/mit/) 
-- I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star...
+[MIT](https://opensource.org/license/mit/) <br>
+I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
 
 
 ## Bugs and Issues
