@@ -90,7 +90,10 @@ bard = Bard(timeout=10) # Set timeout in seconds
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
-## Behind a proxy
+<br>
+
+## Futher
+### Behind a proxy
 If you are working behind a proxy, use the following.
 ```python
 from bardapi import Bard
@@ -102,9 +105,8 @@ os.environ['_BARD_API_KEY']="xxxxxxxx"
 bard_inproxy = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
 bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
-<br>
 
-## Reusable session object
+### Reusable session object
 ```
 os.environ['_BARD_API_KEY'] = 'xxxxxxxxxxx'
 session = requests.Session()
