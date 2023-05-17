@@ -8,23 +8,24 @@ import requests
 
 class Bard:
     def __init__(self, timeout=6, proxies=None, session=None):
-        '''
+        """
         Initialize Bard
 
         :param timeout: (`int`, *optional*)
             Timeout in seconds when connecting bard server. The timeout is used on each request.
         :param proxies: (`Dict[str, str]`, *optional*)
             A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
-            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each request.
+            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each requpest.
         :param session: (`requests.Session`, *optional*)
             An existing requests.Session object to be used for making HTTP requests.
-        '''
+        """
         self.proxies = proxies
         self.timeout = timeout
         headers = {
             "Host": "bard.google.com",
             "X-Same-Domain": "1",
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) "
+            "Chrome/91.0.4472.114 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
             "Origin": "https://bard.google.com",
             "Referer": "https://bard.google.com/",
@@ -33,18 +34,20 @@ class Bard:
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
-        
+
         if session is None:
             self.session = requests.Session()
             self.session.headers = headers
             self.session.cookies.set("__Secure-1PSID", os.environ["_BARD_API_KEY"])
         else:
             self.session = session
-        
+
         self.SNlM0e = self._get_snim0e()
 
     def _get_snim0e(self):
-        resp = self.session.get(url="https://bard.google.com/", timeout=self.timeout, proxies=self.proxies)
+        resp = self.session.get(
+            url="https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
         if resp.status_code != 200:
             raise Exception(f"Response Status: {resp.status_code}")
         return re.search(r"SNlM0e\":\"(.*?)\"", resp.text).group(1)
@@ -69,7 +72,7 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies
+            proxies=self.proxies,
         )
 
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
