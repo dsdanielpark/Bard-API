@@ -102,8 +102,8 @@ import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 # Change 'http://127.0.0.1:1080' to your http proxy
 # timeout in seconds
-bard_inproxy = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
-bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 ### Reusable session object
@@ -124,7 +124,8 @@ session.headers = {
         }
 session.cookies.set("__Secure-1PSID", os.environ["_BARD_API_KEY"])
 
-Bard(session=session).get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard = Bard(session=session)
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 Simple Example
