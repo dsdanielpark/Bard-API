@@ -67,7 +67,7 @@ class Bard:
         resp = self.session.post(
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
-            json=data,
+            data=data,
             timeout=self.timeout,
             proxies=self.proxies
         )
