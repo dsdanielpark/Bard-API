@@ -13,7 +13,7 @@ Development Status :: 5 - Production/Stable
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 </p>
 
-> A package that returns Response of [Google Bard](https://bard.google.com/) through API
+> The python package that returns response of [Google Bard](https://bard.google.com/) through API.
 
 ![](./assets/bard_api.gif)
 
@@ -140,8 +140,8 @@ Simple Example
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## License
-- [MIT](https://opensource.org/license/mit/) 
-- I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star...
+[MIT](https://opensource.org/license/mit/) <br>
+I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
 
 
 ## Bugs and Issues
