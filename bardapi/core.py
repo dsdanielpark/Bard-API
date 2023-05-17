@@ -4,6 +4,7 @@ import re
 import string
 import os
 import requests
+import undetected_chromedriver as uc
 
 
 class Bard:
@@ -17,6 +18,7 @@ class Bard:
             A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
             'http://hostname': 'foo.bar:4012'}`. The proxies are used on each request.
         '''
+        self.auth()
         self.proxies = proxies
         self.timeout = timeout
         headers = {
@@ -27,6 +29,8 @@ class Bard:
             "Origin": "https://bard.google.com",
             "Referer": "https://bard.google.com/",
         }
+        
+        
         self._reqid = int("".join(random.choices(string.digits, k=4)))
         self.conversation_id = ""
         self.response_id = ""
@@ -81,5 +85,40 @@ class Bard:
         self.response_id = bard_answer["response_id"]
         self.choice_id = bard_answer["choices"][0]["id"]
         self._reqid += 100000
-
+        
         return bard_answer
+    
+    def auth(self):
+        url = 'https://bard.google.com'  
+
+        driver_path = "/path/to/chromedriver"
+
+        # Create a ChromeOptions object
+        options = uc.ChromeOptions()
+        options.add_argument("--ignore-certificate-error")
+        options.add_argument("--ignore-ssl-errors")
+        options.user_data_dir = "path_to _user-data-dir"
+        driver = uc.Chrome(options=options)
+
+        driver.get(url)
+
+        # Get the cookies
+        cookies = driver.get_cookies()
+
+        # Find the __Secure-1PSID cookie
+        for cookie in cookies:
+            if cookie['name'] == '__Secure-1PSID':
+                print("__Secure-1PSID cookie:")
+                print(cookie['value'])
+                os.environ['_BARD_API_KEY']=cookie['value']
+                break
+        else:
+            print("No __Secure-1PSID cookie found")
+
+        driver.quit()
+        # Close the browser
+
+        
+        
+        
+        
