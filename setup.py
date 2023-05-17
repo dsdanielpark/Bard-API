@@ -37,7 +37,7 @@ setup(
     install_requires=[],
     keywords="BARD, Python, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",
     classifiers=[
-        "Development Status :: 4 - Beta",
+        "Development Status :: 5 - Production/Stable",
         "Intended Audience :: Science/Research",
         "Natural Language :: English",
         "Programming Language :: Python",
