@@ -104,6 +104,23 @@ bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 �
 ```
 <br>
 
+## Reusable session object
+```
+os.environ['_BARD_API_KEY'] = 'xxxxxxxxxxx'
+session = requests.Session()
+session.headers = {
+            "Host": "bard.google.com",
+            "X-Same-Domain": "1",
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+            "Origin": "https://bard.google.com",
+            "Referer": "https://bard.google.com/",
+        }
+session.cookies.set("__Secure-1PSID", os.environ["_BARD_API_KEY"])
+
+Bard(session=session).get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+
 Simple Example
 <br>
 
