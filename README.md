@@ -13,7 +13,7 @@ Development Status :: 5 - Production/Stable
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 </p>
 
-> A package that returns Response of [Google Bard](https://bard.google.com/) through API
+> The python package that returns response of [Google Bard](https://bard.google.com/) through API.
 
 ![](./assets/bard_api.gif)
 
