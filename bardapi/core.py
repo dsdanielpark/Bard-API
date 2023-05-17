@@ -74,7 +74,6 @@ class Bard:
             timeout=self.timeout,
             proxies=self.proxies,
         )
-
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
         if resp_dict is None:
             return {"content": f"Response Error: {resp.content}."}
