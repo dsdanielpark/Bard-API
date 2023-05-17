@@ -48,5 +48,5 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Topic :: Scientific/Engineering :: Artificial Intelligence",
     ],
-    entry_points={"console_scripts": ["bard_api=bard_api.cli:main"]},
+    entry_points={"console_scripts": ["bard_api=bard_api.cli:main", "bard=bardapi.bard_repl:main",]},
 )
