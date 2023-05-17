@@ -107,7 +107,7 @@ bard_inproxy.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 �
 ```
 
 ### Reusable session object
-```
+```python
 os.environ['_BARD_API_KEY'] = 'xxxxxxxxxxx'
 session = requests.Session()
 session.headers = {
