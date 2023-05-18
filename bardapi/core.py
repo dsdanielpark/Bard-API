@@ -17,6 +17,7 @@ class Bard:
             Enter the __Secure-1PSID value. defaults to os.getenv("_BARD_API_KEY")
         :param timeout: (`int`, *optional*)
             Timeout in seconds when connecting bard server. The timeout is used on each request.
+            defaults to 10 seconds.
         :param proxies: (`Dict[str, str]`, *optional*)
             A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
             'http://hostname': 'foo.bar:4012'}`. The proxies are used on each request.
