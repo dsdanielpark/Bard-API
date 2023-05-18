@@ -117,6 +117,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 ```
 
 ### Reusable session object
+You can continue the conversation through a reusable session.
 ```python
 from bardapi import Bard
 import os
