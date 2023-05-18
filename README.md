@@ -64,8 +64,16 @@ token = 'xxxxxxxxxx'
 bard = Bard(token=token, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
-
 Or you can use this
+```python
+from bardapi import Bard
+import os
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+
+Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+
+To get reponse dictionary
 ```python
 import bardapi
 import os
@@ -80,14 +88,7 @@ input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알
 response = bardapi.core.Bard(token).get_answer(input_text)
 ```
 
-If you don't provide a separate token argument, you can set the _BARD_API_KEY environment variable.
-```python
-from bardapi import Bard
-import os
-os.environ['_BARD_API_KEY']="xxxxxxxx"
 
-Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
-```
 
 Addressing errors caused by delayed responses in environments like Google Colab and containers. If an error occurs despite following the proper procedure, utilize the timeout argument.
 ```python
