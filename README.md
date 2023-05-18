@@ -62,7 +62,7 @@ from bardapi import Bard
 
 token = 'xxxxxxxxxx'
 bard = Bard(token=token)
-bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard.get_answer("Tell me about New Jeans that me and my peers love")['content']
 ```
 Or you can use this
 ```python
@@ -70,7 +70,7 @@ from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
-Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+Bard().get_answer("Tell me about New Jeans that me and my peers love")['content']
 ```
 
 To get reponse dictionary
@@ -82,7 +82,8 @@ import os
 token = 'xxxxxxxxxx'
 
 # set your input text
-input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
+input_text = "Tell me about New Jeans that me and my peers love
+"
 
 # Send an API request and get a response.
 response = bardapi.core.Bard(token).get_answer(input_text)
@@ -97,7 +98,7 @@ import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 bard = Bard(timeout=30) # Set timeout in seconds
-bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard.get_answer("Tell me about New Jeans that me and my peers love")['content']
 ```
 
 <br>
@@ -113,7 +114,8 @@ os.environ['_BARD_API_KEY']="xxxxxxxx"
 # Change 'http://127.0.0.1:1080' to your http proxy
 # timeout in seconds
 bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
-bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard.get_answer("Tell me about New Jeans that me and my peers love
+")['content']
 ```
 
 ### Reusable session object
@@ -137,7 +139,7 @@ session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY"))
 # session.cookies.set("__Secure-1PSID", token) 
 
 bard = Bard(session=session, timeout=30)
-bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard.get_answer("Tell me about New Jeans that me and my peers love")['content']
 ```
 
 Simple Example
