@@ -8,7 +8,7 @@ import re
 
 class Bard:
     def __init__(
-        self, token=os.getenv("_BARD_API_KEY"), timeout=6, proxies=None, session=None
+        self, token=os.getenv("_BARD_API_KEY"), timeout=10, proxies=None, session=None
     ):
         """
         Initialize Bard
