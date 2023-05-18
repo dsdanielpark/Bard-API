@@ -56,29 +56,39 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 
 
 Simple Usage
+
+```python
+from bardapi import Bard
+
+token = 'xxxxxxxxxx'
+bard = Bard(token=token)
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+Or you can use this
 ```python
 from bardapi import Bard
 import os
-
 os.environ['_BARD_API_KEY']="xxxxxxxx"
+
 Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
-
-Or you can use this
+To get reponse dictionary
 ```python
 import bardapi
 import os
 
 # set your __Secure-1PSID value to key
-os.environ['_BARD_API_KEY']="xxxxxxxx"
+token = 'xxxxxxxxxx'
 
 # set your input text
 input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
 
 # Send an API request and get a response.
-response = bardapi.core.Bard().get_answer(input_text)
+response = bardapi.core.Bard(token).get_answer(input_text)
 ```
+
+
 
 Addressing errors caused by delayed responses in environments like Google Colab and containers. If an error occurs despite following the proper procedure, utilize the timeout argument.
 ```python
@@ -86,7 +96,7 @@ from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
-bard = Bard(timeout=10) # Set timeout in seconds
+bard = Bard(timeout=30) # Set timeout in seconds
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -98,8 +108,8 @@ If you are working behind a proxy, use the following.
 ```python
 from bardapi import Bard
 import os
-
 os.environ['_BARD_API_KEY']="xxxxxxxx"
+
 # Change 'http://127.0.0.1:1080' to your http proxy
 # timeout in seconds
 bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
@@ -111,8 +121,9 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 from bardapi import Bard
 import os
 import requests
-
 os.environ['_BARD_API_KEY'] = 'xxxxxxxxxxx'
+# token='xxxxxxxxxxx'
+
 session = requests.Session()
 session.headers = {
             "Host": "bard.google.com",
@@ -122,9 +133,10 @@ session.headers = {
             "Origin": "https://bard.google.com",
             "Referer": "https://bard.google.com/",
         }
-session.cookies.set("__Secure-1PSID", os.environ["_BARD_API_KEY"])
+session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
+# session.cookies.set("__Secure-1PSID", token) 
 
-bard = Bard(session=session)
+bard = Bard(session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
