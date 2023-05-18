@@ -56,14 +56,14 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 
 
 Simple Usage
+
 ```python
 from bardapi import Bard
-import os
 
-os.environ['_BARD_API_KEY']="xxxxxxxx"
-Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+bard_token = 'xxxxxxxxxx'
+bard = Bard(token=bard_token, timeout=30)
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
-
 
 Or you can use this
 ```python
@@ -71,13 +71,22 @@ import bardapi
 import os
 
 # set your __Secure-1PSID value to key
-os.environ['_BARD_API_KEY']="xxxxxxxx"
+bard_token = 'xxxxxxxxxx'
 
 # set your input text
 input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
 
 # Send an API request and get a response.
-response = bardapi.core.Bard().get_answer(input_text)
+response = bardapi.core.Bard(bard_token).get_answer(input_text)
+```
+
+If you don't provide a separate token argument, you can set the _BARD_API_KEY environment variable.
+```python
+from bardapi import Bard
+import os
+
+os.environ['_BARD_API_KEY']="xxxxxxxx"
+Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 Addressing errors caused by delayed responses in environments like Google Colab and containers. If an error occurs despite following the proper procedure, utilize the timeout argument.
