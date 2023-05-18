@@ -84,8 +84,8 @@ If you don't provide a separate token argument, you can set the _BARD_API_KEY en
 ```python
 from bardapi import Bard
 import os
-
 os.environ['_BARD_API_KEY']="xxxxxxxx"
+
 Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -107,8 +107,8 @@ If you are working behind a proxy, use the following.
 ```python
 from bardapi import Bard
 import os
-
 os.environ['_BARD_API_KEY']="xxxxxxxx"
+
 # Change 'http://127.0.0.1:1080' to your http proxy
 # timeout in seconds
 bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
@@ -120,8 +120,9 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 from bardapi import Bard
 import os
 import requests
-
 os.environ['_BARD_API_KEY'] = 'xxxxxxxxxxx'
+# token='xxxxxxxxxxx'
+
 session = requests.Session()
 session.headers = {
             "Host": "bard.google.com",
@@ -131,7 +132,8 @@ session.headers = {
             "Origin": "https://bard.google.com",
             "Referer": "https://bard.google.com/",
         }
-session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY"))
+session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
+# session.cookies.set("__Secure-1PSID", token) 
 
 bard = Bard(session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
