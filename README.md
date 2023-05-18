@@ -52,7 +52,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 ## Usage 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1YIMA8aBmEQSSk90bB0Q9tznaLLQcluGA?usp=share_link) 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1zzzlTIh0kt2MdjLzvXRby1rWbHzmog8t?usp=sharing) 
 
 
 Simple Usage
@@ -112,7 +112,7 @@ os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 # Change 'http://127.0.0.1:1080' to your http proxy
 # timeout in seconds
-bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=10)
+bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -166,6 +166,8 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 ## Reference 
 [1] https://github.com/acheong08/Bard
   
+<br>
+            
 ### Important Notice
   The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
   
