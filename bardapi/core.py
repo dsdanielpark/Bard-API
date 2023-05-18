@@ -15,7 +15,7 @@ class Bard:
             Timeout in seconds when connecting bard server. The timeout is used on each request.
         :param proxies: (`Dict[str, str]`, *optional*)
             A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
-            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each request.
+            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each requpest.
         :param session: (`requests.Session`, *optional*)
             An existing requests.Session object to be used for making HTTP requests.
         """
