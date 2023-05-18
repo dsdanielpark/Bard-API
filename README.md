@@ -148,13 +148,16 @@ Simple Example
 <br>
 
 ## Translate to other languages.
-- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/main/bardapi/core.py).
-- Ask ChatGPT to translate "Translate to Swift."
-- Ask ChatGPT to optimize the code or provide any desired instructions until you're satisfied.<br>
-Example: "Optimize it." <br><br>
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
+
+- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/main/bardapi/core.py).
+- Ask ChatGPT to translate like "Translate to Swift."
+- Ask ChatGPT to optimize the code or provide any desired instructions until you're satisfied.<br>
+<br>
+
             
       <br>
+![](./assets/translate.png)
             
             
 ## Scripts
