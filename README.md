@@ -60,7 +60,7 @@ Simple Usage
 ```python
 from bardapi import Bard
 
-bard_token = 'xxxxxxxxxx'
+token = 'xxxxxxxxxx'
 bard = Bard(token=token, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
