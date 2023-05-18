@@ -61,7 +61,7 @@ Simple Usage
 from bardapi import Bard
 
 bard_token = 'xxxxxxxxxx'
-bard = Bard(token=bard_token, timeout=30)
+bard = Bard(token=token, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -71,13 +71,13 @@ import bardapi
 import os
 
 # set your __Secure-1PSID value to key
-bard_token = 'xxxxxxxxxx'
+token = 'xxxxxxxxxx'
 
 # set your input text
 input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
 
 # Send an API request and get a response.
-response = bardapi.core.Bard(bard_token).get_answer(input_text)
+response = bardapi.core.Bard(token).get_answer(input_text)
 ```
 
 If you don't provide a separate token argument, you can set the _BARD_API_KEY environment variable.
