@@ -141,7 +141,7 @@ bard = Bard(session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 
 # Continued conversation without set new session
-bard.get_answer("What is my last prompt??)['content']
+bard.get_answer("What is my last prompt??")['content']
 ```
 
 Simple Example
