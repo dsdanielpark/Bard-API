@@ -164,7 +164,7 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## Shifting Service Policies: Bard and Google's Dynamics 
-Bard's service status and Google's API interfaces are in constant flux. The number of replies is currently limited, but certain users, such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
+Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
             
             
 ## License
