@@ -22,6 +22,8 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
+## The user assumes all legal responsibilities associated with using the BardAPI package. 
+After the announcement of the Google Bard service on March 21, 2023, there is no profer official API or documentation provided. Therefore, this Python implementation of internet POST requests and GET responses is not a hack but simply a functional implementation. It emphasizes that this is not an official API. Once again, all responsibility for the use of this code lies with the user.
 Do not expose the `__Secure-1PSID`
 > Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 
@@ -117,6 +119,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 ```
 
 ### Reusable session object
+You can continue the conversation through a reusable session.
 ```python
 from bardapi import Bard
 import os
@@ -138,6 +141,9 @@ session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY"))
 
 bard = Bard(session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+
+# Continued conversation without set new session
+bard.get_answer("What is my last prompt??")['content']
 ```
 
 Simple Example
@@ -159,6 +165,10 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
+## Shifting Service Policies: Bard and Google's Dynamics 
+Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
+            
+            
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
 I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
