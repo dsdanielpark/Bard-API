@@ -22,8 +22,7 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
-## The user assumes all legal responsibilities associated with using the BardAPI package. 
-After the announcement of the Google Bard service on March 21, 2023, there is no profer official API or documentation provided. Therefore, this Python implementation of internet POST requests and GET responses is not a hack but simply a functional implementation. It emphasizes that this is not an official API. Once again, all responsibility for the use of this code lies with the user.
+
 Do not expose the `__Secure-1PSID`
 > Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 
@@ -172,7 +171,29 @@ Bard's service status and Google's API interfaces are in constant flux. *The num
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
 I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
+```
+The MIT License (MIT)
 
+Copyright (c) 2023 Minwoo Park
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
 
 ## Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
