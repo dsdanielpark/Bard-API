@@ -22,8 +22,7 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
-## The user assumes all legal responsibilities associated with using the BardAPI package. 
-After the announcement of the Google Bard service on March 21, 2023, there is no profer official API or documentation provided. Therefore, this Python implementation of internet POST requests and GET responses is not a hack but simply a functional implementation. It emphasizes that this is not an official API. Once again, all responsibility for the use of this code lies with the user.
+
 Do not expose the `__Secure-1PSID`
 > Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 
