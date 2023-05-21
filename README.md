@@ -146,16 +146,6 @@ bard.get_answer("What is my last prompt??")['content']
 ```
 
 
-### Other languages
-To detect and translate using the Google Bard in unofficial languages, the Python package [googletrans](https://github.com/ssut/py-googletrans) is utilized.
-
-```python
-from bardapi import Bard
-token = 'xxxxxxx'
-bard = Bard(token=token, language='arabic')
-res = bard.get_answer("هل تعرف الكيمتشي")
-```
-
 Simple Example
 <br>
 
