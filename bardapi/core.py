@@ -7,7 +7,8 @@ import json
 import re
 import requests
 
-ALLOWED_LANGUAGES = {'en', 'ko', 'ja', 'english', 'korean', 'japanese'}
+ALLOWED_LANGUAGES = {"en", "ko", "ja", "english", "korean", "japanese"}
+
 
 class Bard:
     HEADERS = {
@@ -19,7 +20,14 @@ class Bard:
         "Referer": "https://bard.google.com/",
     }
 
-    def __init__(self, token=None, timeout=20, proxies=None, session=None, language=None):
+    def __init__(
+        self,
+        token: str = None,
+        timeout: int = 20,
+        proxies: dict = None,
+        session: requests.Session = None,
+        language: str = None,
+    ):
         """
         Initialize Bard
 
@@ -32,6 +40,8 @@ class Bard:
             'http://hostname': 'foo.bar:4012'}`. The proxies are used on each requpest.
         :param session: (`requests.Session`, *optional*)
             An existing requests.Session object to be used for making HTTP requests.
+        :param language: (`str`, *optional*)
+            The language to be used for translation. Default is None.
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
@@ -72,7 +82,7 @@ class Bard:
             "rt": "c",
         }
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            self.translate(input_text, 'en')
+            self.translate(input_text, "en")
         input_text_struct = [
             [input_text],
             None,
@@ -96,7 +106,9 @@ class Bard:
         parsed_answer = json.loads(resp_dict)
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
             parsed_answer[0][0] = self.translate(parsed_answer[0][0], self.language)
-            parsed_answer[4] = [(x[0], self.translate(x[1][0], self.language)) for x in parsed_answer[4]]
+            parsed_answer[4] = [
+                (x[0], self.translate(x[1][0], self.language)) for x in parsed_answer[4]
+            ]
             print(parsed_answer[4])
         bard_answer = {
             "content": parsed_answer[0][0],
@@ -127,9 +139,9 @@ class Bard:
                 if lang[0].capitalize() == translate_to[0].capitalize()
             ]
             if possible_languages:
-                suggestion = ', '.join(possible_languages)
+                suggestion = ", ".join(possible_languages)
                 raise Exception(
-                    f"No translation available for the requested language. Did you mean any of these languages? {suggestion}"
+                    f"No translation available for the requested language. Did you mean any of these? {suggestion}"
                 )
             else:
                 raise Exception("No translation available for the requested language.")

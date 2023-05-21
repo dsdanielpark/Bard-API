@@ -1,6 +1,7 @@
 from googletrans import Translator
 from googletrans.constants import LANGUAGES
 
+
 def translate(text: str, translate_to: str):
     """
     Translates the given text using the Google translation engine.
@@ -16,9 +17,13 @@ def translate(text: str, translate_to: str):
     try:
         return translator.translate(text, dest=translate_to).text
     except ValueError:
-        possible_languages = [lang for lang in LANGUAGES.values() if lang[0] == translate_to[0]] or [lang for lang in LANGUAGES.keys() if lang[0] == translate_to[0]]
+        possible_languages = [
+            lang for lang in LANGUAGES.values() if lang[0] == translate_to[0]
+        ] or [lang for lang in LANGUAGES.keys() if lang[0] == translate_to[0]]
         if possible_languages:
-            suggestion = ', '.join(possible_languages)
-            print(f"No translation available for the requested language. Did you mean any of these languages? {suggestion}")
+            suggestion = ", ".join(possible_languages)
+            print(
+                f"No translation available for the requested language. Did you mean any of these languages? {suggestion}"
+            )
         else:
             print("No translation available for the requested language.")
