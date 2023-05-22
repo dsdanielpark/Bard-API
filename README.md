@@ -109,7 +109,6 @@ If you are working behind a proxy, use the following.
 ```python
 from bardapi import Bard
 import os
-os.environ['_BARD_API_KEY']="xxxxxxxx"
 
 # Change 'http://proxy.example.com:8080' to your http proxy
 # timeout in seconds
