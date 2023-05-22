@@ -81,7 +81,7 @@ class Bard:
             "rt": "c",
         }
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            input_text = Translator().Translator().translate(input_text, dest="en").text
+            input_text = Translator().translate(input_text, dest="en").text
         input_text_struct = [
             [input_text],
             None,
