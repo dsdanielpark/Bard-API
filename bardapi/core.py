@@ -55,6 +55,7 @@ class Bard:
         self.session.cookies.set("__Secure-1PSID", self.token)
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
+        self.translator = Translator(service_urls=None, proxies=None, timeout=None)
 
     def _get_snim0e(self):
         if not self.token or self.token[-1] != ".":
@@ -82,7 +83,7 @@ class Bard:
             "rt": "c",
         }
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            self.translate(input_text, "en")
+            self.translator(input_text, dest="en")
         input_text_struct = [
             [input_text],
             None,
@@ -105,9 +106,9 @@ class Bard:
             return {"content": f"Response Error: {resp.content}."}
         parsed_answer = json.loads(resp_dict)
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            parsed_answer[0][0] = self.translate(parsed_answer[0][0], self.language)
+            parsed_answer[0][0] = self.translator(parsed_answer[0][0], self.language)
             parsed_answer[4] = [
-                (x[0], self.translate(x[1][0], self.language)) for x in parsed_answer[4]
+                (x[0], self.translator(x[1][0], self.language)) for x in parsed_answer[4]
             ]
             print(parsed_answer[4])
         bard_answer = {
