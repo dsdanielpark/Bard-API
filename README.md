@@ -171,7 +171,7 @@ Simple Example
 
 ## Translation to Another Programming Language
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
-- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/main/bardapi/core.py).
+- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/17d5e948d4afc535317de3964232ab82fe223521/bardapi/core.py).
 - Ask ChatGPT to translate like "Translate to Swift."
 - Ask ChatGPT to optimize the code or provide any desired instructions until you're satisfied.<br>
 
