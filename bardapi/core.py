@@ -1,4 +1,4 @@
-from bardapi.tranlsator import translate
+from googletrans import Translator
 import os
 import string
 import random
@@ -21,7 +21,7 @@ class Bard:
 
     def __init__(
         self,
-        bard_token: str = None,
+        token: str = None,
         timeout: int = 20,
         proxies: dict = None,
         session: requests.Session = None,
@@ -30,7 +30,7 @@ class Bard:
         """
         Initialize Bard
 
-        :param bard_token: (`str`, *optional*)
+        :param token: (`str`, *optional*)
             __Secure-1PSID value. default to os.getenv("_BARD_API_KEY")
         :param timeout: (`int`, *optional*)
             Timeout in seconds when connecting bard server. The timeout is used on each request.
@@ -42,7 +42,7 @@ class Bard:
         :param language: (`str`, *optional*)
             The language to be used for translation. Default is None.
         """
-        self.bard_token = bard_token or os.getenv("_BARD_API_KEY")
+        self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -51,12 +51,12 @@ class Bard:
         self.choice_id = ""
         self.session = session or requests.Session()
         self.session.headers = self.HEADERS
-        self.session.cookies.set("__Secure-1PSID", self.bard_token)
+        self.session.cookies.set("__Secure-1PSID", self.token)
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
 
     def _get_snim0e(self):
-        if not self.bard_token or self.bard_token[-1] != ".":
+        if not self.token or self.token[-1] != ".":
             raise Exception(
                 "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
             )
@@ -81,7 +81,7 @@ class Bard:
             "rt": "c",
         }
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            input_text = translate(input_text, "en")
+            input_text = Translator().Translator().translate(input_text, dest="en").text
         input_text_struct = [
             [input_text],
             None,
@@ -104,9 +104,9 @@ class Bard:
             return {"content": f"Response Error: {resp.content}."}
         parsed_answer = json.loads(resp_dict)
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            parsed_answer[0][0] = translate(parsed_answer[0][0], self.language)
+            parsed_answer[0][0] = Translator().translate(parsed_answer[0][0], self.language).text
             parsed_answer[4] = [
-                (x[0], translate(x[1][0], self.language)) for x in parsed_answer[4]
+                (x[0], Translator().translate(x[1][0], self.language).text) for x in parsed_answer[4]
             ]
             print(parsed_answer[4])
         bard_answer = {
