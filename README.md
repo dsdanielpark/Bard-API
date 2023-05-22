@@ -103,7 +103,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 
 <br>
 
-## Futher
+## Further
 ### Behind a proxy
 If you are working behind a proxy, use the following.
 ```python
