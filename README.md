@@ -160,6 +160,18 @@ res = bard.get_answer("你好。")
 print(res['content'])
 >>> 你好！今天我能帮到你什么？
 ```
+or
+```python
+#pip install git+https://github.com/dsdanielpark/Bard-API.git
+from bardapi import Bard
+import os
+os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
+os.environ["_BARD_API_KEY"] = 'xxxxxxxx'
+
+res = Bard().get_answer("你好。")
+print(res['content'])
+>>> 你好！今天我能帮到你什么？
+```
 
 <br><br>
 
