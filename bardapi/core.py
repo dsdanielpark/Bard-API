@@ -148,3 +148,82 @@ class Bard:
         self._reqid += 100000
 
         return bard_answer
+    
+    def get_quote(self,quote_type: str = "random",number_of_quotes:int = 1) -> str:
+        """
+        Get a random quote from the Bard API.
+
+        Args:
+            quote_ype (str): Quote Type.
+            number_of_quotes (int): Number of quotes to return.
+
+        Returns:
+            dict: Quote from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factualityQueries": list,
+                    "textQuery": str,
+                    "choices": list
+                }
+        """
+        params = {
+            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+        
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+            quote_type= translator_to_eng.translate(quote_type)
+        
+        input_text_struct = [
+            [f"{number_of_quotes}"+quote_type+"Quote"],
+            None,
+            [self.conversation_id, self.response_id, self.choice_id],
+        ]
+        
+        data = {
+            "f.req": json.dumps([None, json.dumps(input_text_struct)]),
+            "at": self.SNlM0e,
+        }
+        
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            params=params,
+            data=data,
+            timeout=self.timeout,
+            proxies=self.proxies,
+        )
+        
+        
+        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
+
+        if not resp_dict:
+            return {"content": f"Response Error: {resp.content}."}
+        
+        parsed_answer = json.loads(resp_dict)
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
+            parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
+            parsed_answer[4] = [
+                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
+            ]
+        quote = {
+            "content": parsed_answer[0][0],
+            "conversation_id": parsed_answer[1][0],
+            "response_id": parsed_answer[1][1],
+            "factualityQueries": parsed_answer[3],
+            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
+            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
+        }
+        self.conversation_id, self.response_id, self.choice_id = (
+            quote["conversation_id"],
+            quote["response_id"],
+            quote["choices"][0]["id"],
+        )
+        self._reqid += 100000
+
+        return quote
+    
