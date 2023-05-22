@@ -34,7 +34,7 @@ Do not expose the `__Secure-1PSID`
 <br>
 
 ## Install
-If you will not provide the language parameter(you can use english, korean, japanese only):
+If you will not provide the language parameter (se english, korean, japanese only):
 ```
 pip install bardapi
 ```
