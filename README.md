@@ -103,7 +103,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 
 <br>
 
-## Futher
+## Further
 ### Behind a proxy
 If you are working behind a proxy, use the following.
 ```python
@@ -145,16 +145,6 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
-
-### Other languages
-To detect and translate using the Google Bard in unofficial languages, the Python package [googletrans](https://github.com/ssut/py-googletrans) is utilized.
-
-```python
-from bardapi import Bard
-token = 'xxxxxxx'
-bard = Bard(token=token, language='arabic')
-res = bard.get_answer("هل تعرف الكيمتشي")
-```
 
 Simple Example
 <br>
