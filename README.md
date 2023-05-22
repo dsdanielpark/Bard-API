@@ -144,10 +144,21 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 # Continued conversation without set new session
 bard.get_answer("What is my last prompt??")['content']
 ```
+### Multi-language Bard API
+To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+```python
+#pip install git+https://github.com/dsdanielpark/Bard-API.git
+from bardapi import Bard
 
+bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
+res = bard.get_answer("你好。")
+print(res['content'])
+>>> 你好！今天我能帮到你什么？
+```
+
+<br><br>
 
 Simple Example
-<br>
 
 <a href="https://bard.google.com/"><img src="./assets/bard_img.png">
 
