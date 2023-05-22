@@ -1,5 +1,4 @@
-from googletrans import Translator
-from googletrans.constants import LANGUAGES
+from deep_translator import GoogleTranslator
 import os
 import string
 import random
@@ -28,21 +27,6 @@ class Bard:
         session: requests.Session = None,
         language: str = None,
     ):
-        """
-        Initialize Bard
-
-        :param token: (`str`, *optional*)
-            __Secure-1PSID value. default to os.getenv("_BARD_API_KEY")
-        :param timeout: (`int`, *optional*)
-            Timeout in seconds when connecting bard server. The timeout is used on each request.
-        :param proxies: (`Dict[str, str]`, *optional*)
-            A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
-            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each requpest.
-        :param session: (`requests.Session`, *optional*)
-            An existing requests.Session object to be used for making HTTP requests.
-        :param language: (`str`, *optional*)
-            The language to be used for translation. Default is None.
-        """
         self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
         self.timeout = timeout
@@ -55,7 +39,6 @@ class Bard:
         self.session.cookies.set("__Secure-1PSID", self.token)
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
-        self.translator = Translator(service_urls=None, proxies=None, timeout=None)
 
     def _get_snim0e(self):
         if not self.token or self.token[-1] != ".":
@@ -82,8 +65,9 @@ class Bard:
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-        if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            self.translator.translate(input_text, dest="en")
+        if self.language not in ALLOWED_LANGUAGES:
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+            input_text = translator_to_eng.translate(input_text)
         input_text_struct = [
             [input_text],
             None,
@@ -105,10 +89,11 @@ class Bard:
         if not resp_dict:
             return {"content": f"Response Error: {resp.content}."}
         parsed_answer = json.loads(resp_dict)
-        if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            parsed_answer[0][0] = self.translator.translate(parsed_answer[0][0], self.language)
+        if self.language not in ALLOWED_LANGUAGES:
+            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
+            parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
             parsed_answer[4] = [
-                (x[0], self.translator.translate(x[1][0], self.language)) for x in parsed_answer[4]
+                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
             print(parsed_answer[4])
         bard_answer = {
@@ -127,22 +112,3 @@ class Bard:
         self._reqid += 100000
 
         return bard_answer
-
-    @staticmethod
-    def translate(text: str, translate_to: str):
-        translator = Translator(service_urls=None, proxies=None, timeout=None)
-        try:
-            return translator.translate(text, dest=translate_to).text
-        except ValueError:
-            possible_languages = [
-                LANGUAGES.get(lang.capitalize())
-                for lang in LANGUAGES.keys()
-                if lang[0].capitalize() == translate_to[0].capitalize()
-            ]
-            if possible_languages:
-                suggestion = ", ".join(possible_languages)
-                raise Exception(
-                    f"No translation available for the requested language. Did you mean any of these? {suggestion}"
-                )
-            else:
-                raise Exception("No translation available for the requested language.")
