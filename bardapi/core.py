@@ -1,4 +1,5 @@
 from googletrans import Translator
+from googletrans.constants import LANGUAGES
 import os
 import string
 import random
@@ -81,7 +82,7 @@ class Bard:
             "rt": "c",
         }
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            input_text = Translator().translate(input_text, dest="en").text
+            self.translate(input_text, "en")
         input_text_struct = [
             [input_text],
             None,
@@ -104,9 +105,9 @@ class Bard:
             return {"content": f"Response Error: {resp.content}."}
         parsed_answer = json.loads(resp_dict)
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            parsed_answer[0][0] = Translator().translate(parsed_answer[0][0], self.language).text
+            parsed_answer[0][0] = self.translate(parsed_answer[0][0], self.language)
             parsed_answer[4] = [
-                (x[0], Translator().translate(x[1][0], self.language).text) for x in parsed_answer[4]
+                (x[0], self.translate(x[1][0], self.language)) for x in parsed_answer[4]
             ]
             print(parsed_answer[4])
         bard_answer = {
@@ -125,3 +126,22 @@ class Bard:
         self._reqid += 100000
 
         return bard_answer
+
+    @staticmethod
+    def translate(text: str, translate_to: str):
+        translator = Translator(service_urls=None, proxies=None, timeout=None)
+        try:
+            return translator.translate(text, dest=translate_to).text
+        except ValueError:
+            possible_languages = [
+                LANGUAGES.get(lang.capitalize())
+                for lang in LANGUAGES.keys()
+                if lang[0].capitalize() == translate_to[0].capitalize()
+            ]
+            if possible_languages:
+                suggestion = ", ".join(possible_languages)
+                raise Exception(
+                    f"No translation available for the requested language. Did you mean any of these? {suggestion}"
+                )
+            else:
+                raise Exception("No translation available for the requested language.")
