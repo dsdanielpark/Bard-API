@@ -221,6 +221,7 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 
 ## Reference 
 [1] https://github.com/acheong08/Bard
+[2] https://github.com/discordtehe/Bard
   
 <br>
             
