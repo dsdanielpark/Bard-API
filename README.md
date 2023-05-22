@@ -150,7 +150,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 ### Multi-language Bard API
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version. Alternatively, you can utilize Google Translate to translate the input and output to and from the languages officially supported by Bard. 
+To remove the dependencies of the bardapi package, you need to install the GitHub developer version. Alternatively, you can use any other translator to convert the input and output into the languages officially supported by Bard.
 ```python
 #pip install git+https://github.com/dsdanielpark/Bard-API.git
 from bardapi import Bard
