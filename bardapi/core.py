@@ -81,7 +81,7 @@ class Bard:
             "rt": "c",
         }
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            self.translate(input_text, "en")
+            input_text = translate(input_text, "en")
         input_text_struct = [
             [input_text],
             None,
@@ -104,9 +104,9 @@ class Bard:
             return {"content": f"Response Error: {resp.content}."}
         parsed_answer = json.loads(resp_dict)
         if self.language is not None or self.language not in ALLOWED_LANGUAGES:
-            parsed_answer[0][0] = self.translate(parsed_answer[0][0], self.language)
+            parsed_answer[0][0] = translate(parsed_answer[0][0], self.language)
             parsed_answer[4] = [
-                (x[0], self.translate(x[1][0], self.language)) for x in parsed_answer[4]
+                (x[0], translate(x[1][0], self.language)) for x in parsed_answer[4]
             ]
             print(parsed_answer[4])
         bard_answer = {
