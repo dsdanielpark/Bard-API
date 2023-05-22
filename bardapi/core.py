@@ -1,9 +1,12 @@
+from deep_translator import GoogleTranslator
 import os
-import random
 import string
-import requests
+import random
 import json
 import re
+import requests
+
+ALLOWED_LANGUAGES = {"en", "ko", "ja", "english", "korean", "japanese"}
 
 
 class Bard:
@@ -22,20 +25,8 @@ class Bard:
         timeout: int = 20,
         proxies: dict = None,
         session: requests.Session = None,
+        language: str = None,
     ):
-        """
-        Initialize Bard
-
-        :param token: (`str`, *optional*)
-            __Secure-1PSID value. default to os.getenv("_BARD_API_KEY")
-        :param timeout: (`int`, *optional*)
-            Timeout in seconds when connecting bard server. The timeout is used on each request.
-        :param proxies: (`Dict[str, str]`, *optional*)
-            A dictionary of proxy servers to use by protocol or endpoint, e.g., `{'http': 'foo.bar:3128',
-            'http://hostname': 'foo.bar:4012'}`. The proxies are used on each request.
-        :param session: (`requests.Session`, *optional*)
-            An existing requests.Session object to be used for making HTTP requests.
-        """
         self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
         self.timeout = timeout
@@ -47,6 +38,7 @@ class Bard:
         self.session.headers = self.HEADERS
         self.session.cookies.set("__Secure-1PSID", self.token)
         self.SNlM0e = self._get_snim0e()
+        self.language = language or os.getenv("_BARD_API_LANG")
 
     def _get_snim0e(self):
         if not self.token or self.token[-1] != ".":
@@ -68,32 +60,14 @@ class Bard:
         return snim0e.group(1)
 
     def get_answer(self, input_text: str) -> dict:
-        """
-        Get the answer from Bard based on the input text.
-
-        Example:
-        >>> token = 'xxxxxxxxxx'
-        >>> bard = Bard(token=token)
-        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-        >>> print(response['content'])
-
-        :param input_text: (`str`)
-            The input text for which the answer is requested.
-
-        :return: (`dict`)
-            The dictionary containing the response from Bard with the following keys:
-            - "content": The content of the answer.
-            - "conversation_id": The conversation ID.
-            - "response_id": The response ID.
-            - "factualityQueries": Factuality queries (if any).
-            - "textQuery": The text query used for the answer.
-            - "choices": The choices available (if any).
-        """
         params = {
             "bl": "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
+        if self.language not in ALLOWED_LANGUAGES:
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+            input_text = translator_to_eng.translate(input_text)
         input_text_struct = [
             [input_text],
             None,
@@ -115,13 +89,20 @@ class Bard:
         if not resp_dict:
             return {"content": f"Response Error: {resp.content}."}
         parsed_answer = json.loads(resp_dict)
+        if self.language not in ALLOWED_LANGUAGES:
+            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
+            parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
+            parsed_answer[4] = [
+                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
+            ]
+            print(parsed_answer[4])
         bard_answer = {
             "content": parsed_answer[0][0],
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
             "factualityQueries": parsed_answer[3],
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
-            "choices": [{"id": i[0], "content": i[1]} for i in parsed_answer[4]],
+            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
