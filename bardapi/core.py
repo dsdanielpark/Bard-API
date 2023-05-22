@@ -1,15 +1,19 @@
-from deep_translator import GoogleTranslator
 import os
 import string
 import random
 import json
 import re
 import requests
+from deep_translator import GoogleTranslator
 
 ALLOWED_LANGUAGES = {"en", "ko", "ja", "english", "korean", "japanese"}
 
 
 class Bard:
+    """
+    Bard class for interacting with the Bard API.
+    """
+
     HEADERS = {
         "Host": "bard.google.com",
         "X-Same-Domain": "1",
@@ -27,6 +31,16 @@ class Bard:
         session: requests.Session = None,
         language: str = None,
     ):
+        """
+        Initialize the Bard instance.
+
+        Args:
+            token (str): Bard API token.
+            timeout (int): Request timeout in seconds.
+            proxies (dict): Proxy configuration for requests.
+            session (requests.Session): Requests session object.
+            language (str): Language code for translation (e.g., "en", "ko", "ja").
+        """
         self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
         self.timeout = timeout
@@ -41,25 +55,48 @@ class Bard:
         self.language = language or os.getenv("_BARD_API_LANG")
 
     def _get_snim0e(self):
+        """
+        Get the SNlM0e value from the Bard API response.
+
+        Returns:
+            str: SNlM0e value.
+        Raises:
+            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
+        """
         if not self.token or self.token[-1] != ".":
-            raise Exception(
-                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
-            )
-        resp = self.session.get(
-            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
-        )
+            raise Exception("__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value.")
+        resp = self.session.get("https://bard.google.com/", timeout=self.timeout, proxies=self.proxies)
         if resp.status_code != 200:
-            raise Exception(
-                f"Response code not 200. Response Status is {resp.status_code}"
-            )
+            raise Exception(f"Response code not 200. Response Status is {resp.status_code}")
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
-            raise Exception(
-                "SNlM0e value not found in response. Check __Secure-1PSID value."
-            )
+            raise Exception("SNlM0e value not found in response. Check __Secure-1PSID value.")
         return snim0e.group(1)
 
     def get_answer(self, input_text: str) -> dict:
+        """
+        Get an answer from the Bard API for the given input text.
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+        >>> print(response['content'])
+
+        Args:
+            input_text (str): Input text for the query.
+
+        Returns:
+            dict: Answer from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factualityQueries": list,
+                    "textQuery": str,
+                    "choices": list
+                }
+        """
         params = {
             "bl": "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid": str(self._reqid),
@@ -95,7 +132,6 @@ class Bard:
             parsed_answer[4] = [
                 (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
-            print(parsed_answer[4])
         bard_answer = {
             "content": parsed_answer[0][0],
             "conversation_id": parsed_answer[1][0],
