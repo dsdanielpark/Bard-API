@@ -34,11 +34,12 @@ Do not expose the `__Secure-1PSID`
 <br>
 
 ## Install
-The latest stable release (and required dependencies) can be installed from PyPI:
+If you will not provide the language parameter(you can use english, korean, japanese only):
 ```
 pip install bardapi
 ```
-You may instead want to use the development version from Github:
+
+If you wish to use the Bard API, including the Google Translate feature, with the language parameter:
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
