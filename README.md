@@ -158,7 +158,6 @@ from bardapi import Bard
 bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
 res = bard.get_answer("你好。")
 print(res['content'])
->>> 你好！今天我能帮到你什么？
 ```
 or
 ```python
@@ -170,7 +169,6 @@ os.environ["_BARD_API_KEY"] = 'xxxxxxxx'
 
 res = Bard().get_answer("你好。")
 print(res['content'])
->>> 你好！今天我能帮到你什么？
 ```
 
 <br><br>
