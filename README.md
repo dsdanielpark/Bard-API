@@ -111,14 +111,19 @@ from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
-# Change 'http://127.0.0.1:1080' to your http proxy
+# Change 'http://proxy.example.com:8080' to your http proxy
 # timeout in seconds
-bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=30)
+proxies = {
+    'http': 'http://proxy.example.com:8080',
+    'https': 'https://proxy.example.com:8080'
+}
+
+bard = Bard(token='xxxxxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 ### Reusable session object
-You can continue the conversation through a reusable session.
+You can continue the conversation using a reusable session.
 ```python
 from bardapi import Bard
 import os
@@ -145,7 +150,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 ### Multi-language Bard API
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+To remove the dependencies of the bardapi package, you need to install the GitHub developer version. Alternatively, you can utilize Google Translate to translate the input and output to and from the languages officially supported by Bard. 
 ```python
 #pip install git+https://github.com/dsdanielpark/Bard-API.git
 from bardapi import Bard
