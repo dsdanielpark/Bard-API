@@ -220,7 +220,7 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 - E-mail: parkminwoo1991@gmail.com <br>
 
 ## Reference 
-[1] https://github.com/acheong08/Bard
+[1] https://github.com/acheong08/Bard <br>
 [2] https://github.com/discordtehe/Bard
   
 <br>
