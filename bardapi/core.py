@@ -1,5 +1,4 @@
-from googletrans import Translator
-from googletrans.constants import LANGUAGES
+from bardapi.tranlsator import translate
 import os
 import string
 import random
@@ -126,22 +125,3 @@ class Bard:
         self._reqid += 100000
 
         return bard_answer
-
-    @staticmethod
-    def translate(text: str, translate_to: str):
-        translator = Translator()
-        try:
-            return translator.translate(text, dest=translate_to).text
-        except ValueError:
-            possible_languages = [
-                LANGUAGES.get(lang.capitalize())
-                for lang in LANGUAGES.keys()
-                if lang[0].capitalize() == translate_to[0].capitalize()
-            ]
-            if possible_languages:
-                suggestion = ", ".join(possible_languages)
-                raise Exception(
-                    f"No translation available for the requested language. Did you mean any of these? {suggestion}"
-                )
-            else:
-                raise Exception("No translation available for the requested language.")
