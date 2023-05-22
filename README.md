@@ -111,14 +111,19 @@ from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxxx"
 
-# Change 'http://127.0.0.1:1080' to your http proxy
+# Change 'http://proxy.example.com:8080' to your http proxy
 # timeout in seconds
-bard = Bard(proxies={'http':'http://127.0.0.1:1080', 'https':'http://127.0.0.1:1080'}, timeout=30)
+proxies = {
+    'http': 'http://proxy.example.com:8080',
+    'https': 'https://proxy.example.com:8080'
+}
+
+bard = Bard(token='xxxxxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
 ### Reusable session object
-You can continue the conversation through a reusable session.
+You can continue the conversation using a reusable session.
 ```python
 from bardapi import Bard
 import os
@@ -144,10 +149,21 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 # Continued conversation without set new session
 bard.get_answer("What is my last prompt??")['content']
 ```
+### Multi-language Bard API
+To remove the dependencies of the bardapi package, you need to install the GitHub developer version. Alternatively, you can use any other translator to convert the input and output into the languages officially supported by Bard.
+```python
+#pip install git+https://github.com/dsdanielpark/Bard-API.git
+from bardapi import Bard
 
+bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
+res = bard.get_answer("你好。")
+print(res['content'])
+>>> 你好！今天我能帮到你什么？
+```
+
+<br><br>
 
 Simple Example
-<br>
 
 <a href="https://bard.google.com/"><img src="./assets/bard_img.png">
 
@@ -155,7 +171,7 @@ Simple Example
 
 ## Translation to Another Programming Language
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
-- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/main/bardapi/core.py).
+- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/17d5e948d4afc535317de3964232ab82fe223521/bardapi/core.py).
 - Ask ChatGPT to translate like "Translate to Swift."
 - Ask ChatGPT to optimize the code or provide any desired instructions until you're satisfied.<br>
 
