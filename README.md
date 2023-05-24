@@ -173,9 +173,18 @@ print(res['content'])
 
 <br><br>
 
-Simple Example
-
-<a href="https://bard.google.com/"><img src="./assets/bard_img.png">
+### Find image links
+GitHub Dev version only.
+```
+pip install git+https://github.com/dsdanielpark/Bard-API.git
+```
+```python
+from bardapi import Bard
+bard = Bard(token='xxxxxxxxxxx')
+res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
+res['links']
+```
+<a href="https://bard.google.com/"><img src="./assets/bard_links.png">
 
 <br>
 
