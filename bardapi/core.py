@@ -73,7 +73,7 @@ class Bard:
             raise Exception("SNlM0e value not found in response. Check __Secure-1PSID value.")
         return snim0e.group(1)
 
-    def extract_links(self, data):
+    def _extract_links(self, data):
         """
         Extract links from the given data.
 
@@ -87,7 +87,7 @@ class Bard:
         if isinstance(data, list):
             for item in data:
                 if isinstance(item, list):
-                    links.extend(self.extract_links(item))
+                    links.extend(self._extract_links(item))
                 elif isinstance(item, str) and item.startswith("http") and "favicon" not in item:
                     links.append(item)
         return links
@@ -159,7 +159,7 @@ class Bard:
             "factualityQueries": parsed_answer[3],
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": self.extract_links(parsed_answer[4]),
+            "links": self._extract_links(parsed_answer[4]),
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
