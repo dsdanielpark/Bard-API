@@ -253,16 +253,5 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 This Python package is not an official Google package or API service. It is not affiliated with Google and uses Google account cookies, which means that excessive or commercial usage may result in restrictions on your Google account. The package was created to support developers in testing functionalities due to delays in the official Google package. However, it should not be misused or abused. Please be cautious and refer to the Readme for more information.
   
 
-#### Could you kindly add this badge to your repository?
-markdown
-```
-![BardAPI](https://img.shields.io/badge/pypi-BardAPI-black)
-```
-html
-```
-<a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
-```
-Thank you for your interest.
-
   
 *Copyright (c) 2023 MinWoo Park, South Korea*<br>
