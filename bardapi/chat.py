@@ -16,7 +16,7 @@ class ChatBard:
             raise SystemExit("API Key is missing. Please set the _BARD_API_KEY environment variable.")
 
         language = os.getenv("_BARD_API_LANG", input("Enter the language (Just press enter to use English): ")).lower() or 'english'
-        timeout = int(os.getenv("_BARD_API_TIMEOUT", input("Enter the timeout value (in seconds): ")))
+        timeout = int(os.getenv("_BARD_API_TIMEOUT", input("Enter the timeout value (Just press enter to set 30 sec): "))) or 30
 
         session = requests.Session()
         session.headers = SESSION_HEADERS
@@ -36,8 +36,10 @@ class ChatBard:
                 break
 
             response = self.bard.get_answer(user_input)
-            content, images = response['content'], response['images']
 
-            print(f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {content} {images}{Fore.RESET}{Style.RESET_ALL}")
+            if response['images']:
+                print(f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} \n\n Image links: {response['images']}{Fore.RESET}{Style.RESET_ALL}")
+            else:
+                print(f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} {Fore.RESET}{Style.RESET_ALL}")
 
         print(f"{SEPARATOR_LINE}\n{Fore.RED}Chat Ended.{Fore.RESET}\n\nDanielPark's Chat Template\n{SEPARATOR_LINE}")
