@@ -145,7 +145,7 @@ session.headers = {
 session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
 # session.cookies.set("__Secure-1PSID", token) 
 
-bard = Bard(session=session, timeout=30)
+bard = Bard(token=token, session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 
 # Continued conversation without set new session
