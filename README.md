@@ -152,11 +152,14 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
-## Works only with GitHub version installation.
+<br>
+
+# GitHub installation required for the following features.
 To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
+
 ### Multi-language Bard API
 GitHub Dev version only.
 ```python
@@ -190,15 +193,17 @@ res['images'] # Get images (set)
 ```
 <a href="https://bard.google.com/"><img src="./assets/bard_links.png">
 
+<br>
+    
 ### ChatBard
-```
+```python
 from bardapi import ChatBard
     
 chat = ChatBard()
 chat.start()
 ```
 or
-```
+```python
 from bardapi import ChatBard
 import os
 os.environ["_BARD_API_KEY"] = 'xxxxxx'   # Requird
