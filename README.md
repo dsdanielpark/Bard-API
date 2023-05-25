@@ -184,7 +184,8 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 from bardapi import Bard
 bard = Bard(token='xxxxxxxxxxx')
 res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
-res['links']
+res['links'] # Get image links (list)
+res['images'] # Get images (set)
 ```
 <a href="https://bard.google.com/"><img src="./assets/bard_links.png">
 
