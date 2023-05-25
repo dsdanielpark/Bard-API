@@ -16,7 +16,7 @@ class ChatBard:
             raise SystemExit("API Key is missing. Please set the _BARD_API_KEY environment variable.")
 
         language = os.getenv("_BARD_API_LANG", input("Enter the language (Just press enter to use English): ")).lower() or 'english'
-        timeout = int(os.getenv("_BARD_API_TIMEOUT", input("Enter the timeout value (Just press enter to set 30 sec): "))) or 30
+        timeout = int(os.getenv("_BARD_API_TIMEOUT") or input("Enter the timeout value (Just press enter to set 30 sec): ") or 30)
 
         session = requests.Session()
         session.headers = SESSION_HEADERS
