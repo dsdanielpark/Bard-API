@@ -87,7 +87,6 @@ class Bard {
     
     private func generateRequest(inputText: String, completion: @escaping (Result<[String: Any], Error>) -> Void) {
         let params = [
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid": "\(reqid)",
             "rt": "c"
         ]
