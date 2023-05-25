@@ -145,6 +145,12 @@ class Bard:
 
         if not resp_dict:
             return {"content": f"Response Error: {resp.content}."}
+        
+        images = set()
+        if len(resp_dict) >= 3:
+            if len(resp_dict[4][0]) >= 4:
+                for img in resp_dict[4][0][4]:
+                    images.add(img[0][0][0])
         parsed_answer = json.loads(resp_dict)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
@@ -160,6 +166,7 @@ class Bard:
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
+            "images": images
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
