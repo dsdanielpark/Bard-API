@@ -146,11 +146,11 @@ class Bard:
 
         if not resp_dict:
             return {"content": f"Response Error: {resp.content}."}
-        
+        resp_json = json.loads(resp_dict)
         images = set()
-        if len(resp_dict) >= 3:
-            if len(resp_dict[4][0]) >= 4:
-                for img in resp_dict[4][0][4]:
+        if len(resp_json) >= 3:
+            if len(resp_json[4][0]) >= 4:
+                for img in resp_json[4][0][4]:
                     images.add(img[0][0][0])
         parsed_answer = json.loads(resp_dict)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
