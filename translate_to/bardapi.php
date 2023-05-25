@@ -51,7 +51,6 @@ class Bard {
 
     public function get_answer($input_text) {
         $params = array(
-            "bl" => "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid" => (string)$this->reqid,
             "rt" => "c"
         );

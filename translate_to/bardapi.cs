@@ -73,7 +73,6 @@ namespace BardNamespace
         {
             var parameters = new Dictionary<string, string>()
             {
-                { "bl", "boq_assistant-bard-web-server_20230419.00_p1" },
                 { "_reqid", reqId.ToString() },
                 { "rt", "c" }
             };

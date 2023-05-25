@@ -73,7 +73,6 @@ impl Bard {
         self.reqid += 100_000;
 
         let params = [
-            ("bl", "boq_assistant-bard-web-server_20230419.00_p1"),
             ("_reqid", &reqid.to_string()),
             ("rt", "c"),
         ];

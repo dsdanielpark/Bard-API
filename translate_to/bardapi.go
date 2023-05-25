@@ -100,7 +100,6 @@ func (b *Bard) getSNlM0e() error {
 
 func (b *Bard) GetAnswer(inputText string) (BardAnswer, error) {
 	params := url.Values{
-		"bl":     {"boq_assistant-bard-web-server_20230419.00_p1"},
 		"_reqid": {strconv.Itoa(b.ReqID)},
 		"rt":     {"c"},
 	}

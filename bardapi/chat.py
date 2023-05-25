@@ -1,15 +1,37 @@
-from colorama import Fore, Back, Style
 import os
+import requests
 from bardapi import Bard
 from bardapi.constants import SEPARATOR_LINE, USER_PROMPT, SESSION_HEADERS
-import requests
+from colorama import Fore, Back, Style
 
 
 class ChatBard:
+    """
+    A class representing a chatbot powered by the Bard API.
+
+    Usage:
+        chat = ChatBard()
+        chat.start()
+
+    Example:
+        from bardapi import ChatBard
+        
+        chat = ChatBard()
+        chat.start()
+    """
+
     def __init__(self):
         self.bard = None
 
     def initialize_bard(self):
+        """
+        Initializes the Bard API instance.
+
+        Prompts the user for Bard API key, language, and timeout values if not set as environment variables.
+
+        Raises:
+            SystemExit: If the API key is missing.
+        """
         print("If you don't want to execute the input, set the following environment variables: _BARD_API_KEY, _BARD_API_LANG, _BARD_API_TIMEOUT. _BARD_API_KEY is required.")
         token = os.getenv("_BARD_API_KEY", input("Enter Bard API Key: "))
         if not token:
@@ -25,6 +47,12 @@ class ChatBard:
         self.bard = Bard(token=token, session=session, timeout=timeout, language=language)
 
     def start(self):
+        """
+        Starts the chatbot interaction.
+
+        Takes user input and retrieves responses from the Bard API until the user enters "quit", "q", or "stop".
+        Prints the chatbot's response, including image links if available.
+        """
         self.initialize_bard()
 
         print(f"{SEPARATOR_LINE}\n{Back.BLUE}          Welcome to Chatbot        {Back.RESET}\n{SEPARATOR_LINE}")

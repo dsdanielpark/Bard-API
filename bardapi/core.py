@@ -10,7 +10,7 @@ from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 
 class Bard:
     """
-    Bard class for interacting with the Bard API.
+    Bard class for interacting with the Bard API.r
     """
 
     def __init__(
@@ -125,7 +125,6 @@ class Bard:
                 }
         """
         params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
