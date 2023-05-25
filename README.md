@@ -173,9 +173,9 @@ res = Bard().get_answer("你好。")
 print(res['content'])
 ```
 
-<br><br>
+<br>
 
-### Find image links
+### Get image links
 GitHub Dev version only.
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
