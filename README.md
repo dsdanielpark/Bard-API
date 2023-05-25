@@ -18,6 +18,8 @@ Development Status :: 5 - Production/Stable
 ![](./assets/bard_api.gif)
 
 
+Please exercise caution and use this package responsibly.
+
 I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes.
 
 <br>
@@ -246,18 +248,10 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
             
 ### Important Notice
   The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
+    
+### Caution!
+This Python package is not an official Google package or API service. It is not affiliated with Google and uses Google account cookies, which means that excessive or commercial usage may result in restrictions on your Google account. The package was created to support developers in testing functionalities due to delays in the official Google package. However, it should not be misused or abused. Please be cautious and refer to the Readme for more information.
   
-
-#### Could you kindly add this badge to your repository?
-markdown
-```
-![BardAPI](https://img.shields.io/badge/pypi-BardAPI-black)
-```
-html
-```
-<a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
-```
-Thank you for your interest.
 
   
 *Copyright (c) 2023 MinWoo Park, South Korea*<br>
