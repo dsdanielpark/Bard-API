@@ -151,10 +151,15 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 # Continued conversation without set new session
 bard.get_answer("What is my last prompt??")['content']
 ```
+
+## Works only with GitHub version installation.
+To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+```
+pip install git+https://github.com/dsdanielpark/Bard-API.git
+```
 ### Multi-language Bard API
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version. Alternatively, you can use any other translator to convert the input and output into the languages officially supported by Bard.
+GitHub Dev version only.
 ```python
-#pip install git+https://github.com/dsdanielpark/Bard-API.git
 from bardapi import Bard
 
 bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
@@ -163,7 +168,6 @@ print(res['content'])
 ```
 or
 ```python
-#pip install git+https://github.com/dsdanielpark/Bard-API.git
 from bardapi import Bard
 import os
 os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
@@ -177,9 +181,6 @@ print(res['content'])
 
 ### Get image links
 GitHub Dev version only.
-```
-pip install git+https://github.com/dsdanielpark/Bard-API.git
-```
 ```python
 from bardapi import Bard
 bard = Bard(token='xxxxxxxxxxx')
@@ -189,6 +190,25 @@ res['images'] # Get images (set)
 ```
 <a href="https://bard.google.com/"><img src="./assets/bard_links.png">
 
+### ChatBard
+```
+from bardapi import ChatBard
+    
+chat = ChatBard()
+chat.start()
+```
+or
+```
+from bardapi import ChatBard
+import os
+os.environ["_BARD_API_KEY"] = 'xxxxxx'   # Requird
+os.environ["_BARD_API_LANG"] = Arabic    # Optional, Default to English
+os.environ["_BARD_API_TIMEOUT"] = 30     # Optional, Session Timeout
+ 
+chat = ChatBard()
+chat.start()
+```
+    
 <br>
 
 ## Translation to Another Programming Language
