@@ -1,2 +1,3 @@
 requests
 deep_translator
+colorama
