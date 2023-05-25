@@ -48,9 +48,13 @@ class Bard:
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
-        self.session = session or requests.Session()
-        self.session.headers = self.HEADERS
-        self.session.cookies.set("__Secure-1PSID", self.token)
+        if session is None:
+            self.session = requests.Session()
+            self.session.headers = self.HEADERS
+            self.session.cookies.set("__Secure-1PSID", self.token)
+
+        else:
+            self.session = session
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
 
@@ -64,13 +68,21 @@ class Bard:
             Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
         """
         if not self.token or self.token[-1] != ".":
-            raise Exception("__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value.")
-        resp = self.session.get("https://bard.google.com/", timeout=self.timeout, proxies=self.proxies)
+            raise Exception(
+                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+            )
+        resp = self.session.get(
+            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
         if resp.status_code != 200:
-            raise Exception(f"Response code not 200. Response Status is {resp.status_code}")
+            raise Exception(
+                f"Response code not 200. Response Status is {resp.status_code}"
+            )
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
-            raise Exception("SNlM0e value not found in response. Check __Secure-1PSID value.")
+            raise Exception(
+                "SNlM0e value not found in response. Check __Secure-1PSID value."
+            )
         return snim0e.group(1)
 
     def _extract_links(self, data):
@@ -88,7 +100,11 @@ class Bard:
             for item in data:
                 if isinstance(item, list):
                     links.extend(self._extract_links(item))
-                elif isinstance(item, str) and item.startswith("http") and "favicon" not in item:
+                elif (
+                    isinstance(item, str)
+                    and item.startswith("http")
+                    and "favicon" not in item
+                ):
                     links.append(item)
         return links
 
@@ -167,7 +183,7 @@ class Bard:
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
-            "images": images
+            "images": images,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
