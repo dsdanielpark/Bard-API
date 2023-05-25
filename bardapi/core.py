@@ -5,23 +5,13 @@ import json
 import re
 import requests
 from deep_translator import GoogleTranslator
-
-ALLOWED_LANGUAGES = {"en", "ko", "ja", "english", "korean", "japanese"}
+from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 
 
 class Bard:
     """
     Bard class for interacting with the Bard API.
     """
-
-    HEADERS = {
-        "Host": "bard.google.com",
-        "X-Same-Domain": "1",
-        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
-        "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-        "Origin": "https://bard.google.com",
-        "Referer": "https://bard.google.com/",
-    }
 
     def __init__(
         self,
@@ -50,7 +40,7 @@ class Bard:
         self.choice_id = ""
         if session is None:
             self.session = requests.Session()
-            self.session.headers = self.HEADERS
+            self.session.headers = SESSION_HEADERS
             self.session.cookies.set("__Secure-1PSID", self.token)
 
         else:
