@@ -155,7 +155,7 @@ class Bard:
         resp_json = json.loads(resp_dict)
         images = set()
         if len(resp_json) >= 3:
-            if len(resp_json[4][0]) >= 4:
+            if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
                 for img in resp_json[4][0][4]:
                     images.add(img[0][0][0])
         parsed_answer = json.loads(resp_dict)
