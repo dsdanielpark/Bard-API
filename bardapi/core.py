@@ -155,9 +155,7 @@ class Bard:
         resp_json = json.loads(resp_dict)
         images = set()
         if len(resp_json) >= 3:
-            if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
-                for img in resp_json[4][0][4]:
-                    images.add(img[0][0][0])
+            images = [img[0][0][0] for img in resp_json[4][0][4] if img[0][0][0] is not None]
         parsed_answer = json.loads(resp_dict)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
