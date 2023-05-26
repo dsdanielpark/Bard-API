@@ -1,10 +1,12 @@
-import os
-import string
-import random
 import json
+import os
+import random
 import re
+import string
+
 import requests
 from deep_translator import GoogleTranslator
+
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 
 
@@ -20,7 +22,7 @@ class Bard:
         proxies: dict = None,
         session: requests.Session = None,
         language: str = None,
-    ):
+    ) -> None:
         """
         Initialize the Bard instance.
 
@@ -48,7 +50,7 @@ class Bard:
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
 
-    def _get_snim0e(self):
+    def _get_snim0e(self) -> str:
         """
         Get the SNlM0e value from the Bard API response.
 
@@ -58,24 +60,16 @@ class Bard:
             Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
         """
         if not self.token or self.token[-1] != ".":
-            raise Exception(
-                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
-            )
-        resp = self.session.get(
-            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
-        )
+            raise Exception("__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value.")
+        resp = self.session.get("https://bard.google.com/", timeout=self.timeout, proxies=self.proxies)
         if resp.status_code != 200:
-            raise Exception(
-                f"Response code not 200. Response Status is {resp.status_code}"
-            )
+            raise Exception(f"Response code not 200. Response Status is {resp.status_code}")
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
-            raise Exception(
-                "SNlM0e value not found in response. Check __Secure-1PSID value."
-            )
+            raise Exception("SNlM0e value not found in response. Check __Secure-1PSID value.")
         return snim0e.group(1)
 
-    def _extract_links(self, data):
+    def _extract_links(self, data:list) -> list:
         """
         Extract links from the given data.
 
@@ -90,11 +84,7 @@ class Bard:
             for item in data:
                 if isinstance(item, list):
                     links.extend(self._extract_links(item))
-                elif (
-                    isinstance(item, str)
-                    and item.startswith("http")
-                    and "favicon" not in item
-                ):
+                elif isinstance(item, str) and item.startswith("http") and "favicon" not in item:
                     links.append(item)
         return links
 
@@ -161,9 +151,7 @@ class Bard:
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
             parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
-            parsed_answer[4] = [
-                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
-            ]
+            parsed_answer[4] = [(x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]]
         bard_answer = {
             "content": parsed_answer[0][0],
             "conversation_id": parsed_answer[1][0],
