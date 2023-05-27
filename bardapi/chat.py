@@ -1,8 +1,8 @@
 import os
 import requests
 from bardapi import Bard
-from bardapi.constants import SEPARATOR_LINE, USER_PROMPT, SESSION_HEADERS
 from colorama import Fore, Back, Style
+from bardapi.constants import SEPARATOR_LINE, USER_PROMPT, SESSION_HEADERS
 
 
 class ChatBard:

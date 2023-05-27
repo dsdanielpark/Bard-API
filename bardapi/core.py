@@ -75,7 +75,7 @@ class Bard:
             )
         return snim0e.group(1)
 
-    def _extract_links(self, data):
+    def _extract_links(self, data: list) -> list:
         """
         Extract links from the given data.
 
