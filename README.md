@@ -228,7 +228,7 @@ proxies = {
     'https': 'https://proxy.example.com:8080'
 }
     
-ChatBard(token="xxxxx", session=session, proxies=proxies, timeout=40, language="chinese (simplified)").start()
+ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="chinese (simplified)").start()
 ```
     
 <br>
