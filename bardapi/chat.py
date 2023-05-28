@@ -90,7 +90,7 @@ class ChatBard:
 
             response = self.bard.get_answer(user_input)
 
-            if response["images"] is not None:
+            if response["images"]:
                 print(
                     f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} \n\n Image links: {response['images']}{Fore.RESET}{Style.RESET_ALL}"
                 )
