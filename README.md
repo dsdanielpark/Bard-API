@@ -214,7 +214,7 @@ chat = ChatBard()
 chat.start()
 ```
 or
-```
+```python
 from bardapi import Bard, SESSION_HEADERS
 import os
 import requests
