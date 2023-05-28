@@ -213,6 +213,23 @@ os.environ["_BARD_API_TIMEOUT"] = 30     # Optional, Session Timeout
 chat = ChatBard()
 chat.start()
 ```
+or
+```
+from bardapi import Bard, SESSION_HEADERS
+import os
+import requests
+
+token='xxxxxxxxxxx'
+session = requests.Session()
+session.headers = SESSION_HEADERS
+session.cookies.set("__Secure-1PSID", token) 
+proxies = {
+    'http': 'http://proxy.example.com:8080',
+    'https': 'https://proxy.example.com:8080'
+}
+    
+ChatBard(token="xxxxx", session=session, proxies=proxies, timeout=40, language="chinese (simplified)").start()
+```
     
 <br>
 
