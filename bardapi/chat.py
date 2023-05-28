@@ -1,8 +1,8 @@
-import os
 import requests
 from bardapi import Bard
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, USER_PROMPT, SESSION_HEADERS
+
 
 
 class ChatBard:
@@ -20,56 +20,64 @@ class ChatBard:
         chat.start()
     """
 
-    def __init__(self):
+    def __init__(
+        self,
+        token: str = None,
+        timeout: int = 20,
+        proxies: dict = None,
+        session: requests.Session = None,
+        language: str = None,
+    ):
+        """
+        Initialize the ChatBard object.
+
+        Parameters:
+            token (str): The Bard API token.
+            timeout (int): The timeout value for API requests.
+            proxies (dict): Dictionary of proxies to use for API requests.
+            session (requests.Session): Optional pre-initialized requests session.
+            language (str): The language for Bard API interactions.
+
+        Returns:
+            None
+        """
         self.bard = None
-
-    def initialize_bard(self):
-        """
-        Initializes the Bard API instance.
-
-        Prompts the user for Bard API key, language, and timeout values if not set as environment variables.
-
-        Raises:
-            SystemExit: If the API key is missing.
-        """
-        print(
-            "If you don't want to execute the input, set the following environment variables: _BARD_API_KEY, _BARD_API_LANG, _BARD_API_TIMEOUT. _BARD_API_KEY is required."
-        )
-        token = os.getenv("_BARD_API_KEY", input("Enter Bard API Key: "))
-        if not token:
-            raise SystemExit(
-                "API Key is missing. Please set the _BARD_API_KEY environment variable."
-            )
-
-        language = (
-            os.getenv(
+        if session is None:
+            self.session = requests.Session()
+            self.session.headers = SESSION_HEADERS
+            self.session.cookies.set("__Secure-1PSID", token)
+        else: 
+            self.session = session
+        self.language = (
+            language.lower()
+            or os.getenv(
                 "_BARD_API_LANG",
                 input("Enter the language (Just press enter to use English): "),
             ).lower()
             or "english"
         )
-        timeout = int(
-            os.getenv("_BARD_API_TIMEOUT")
+        self.timeout = int(
+            timeout
+            or os.getenv("_BARD_API_TIMEOUT")
             or input("Enter the timeout value (Just press enter to set 30 sec): ")
             or 30
         )
-
-        session = requests.Session()
-        session.headers = SESSION_HEADERS
-        session.cookies.set("__Secure-1PSID", token)
-
+        self.proxies = proxies
         self.bard = Bard(
-            token=token, session=session, timeout=timeout, language=language
+            token=token,
+            session=self.session,
+            timeout=self.timeout,
+            language=self.language,
+            proxies=self.proxies
         )
 
-    def start(self):
+    def start(self) -> None:
         """
         Starts the chatbot interaction.
 
         Takes user input and retrieves responses from the Bard API until the user enters "quit", "q", or "stop".
         Prints the chatbot's response, including image links if available.
         """
-        self.initialize_bard()
 
         print(
             f"{SEPARATOR_LINE}\n{Back.BLUE}          Welcome to Chatbot        {Back.RESET}\n{SEPARATOR_LINE}"
