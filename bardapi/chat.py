@@ -3,7 +3,7 @@ from bardapi import Bard
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, USER_PROMPT, SESSION_HEADERS
 
-z
+
 class ChatBard:
     """
     A class representing a chatbot powered by the Bard API.
