@@ -40,7 +40,6 @@ class ChatBard:
         Returns:
             None
         """
-        self.bard = None
         if session is None:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
