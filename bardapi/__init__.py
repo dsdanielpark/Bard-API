@@ -21,5 +21,5 @@ __all__ = [
     "SEPARATOR_LINE",
     "USER_PROMPT",
 ]
-__version__ = "0.1.14"
+__version__ = "0.1.15"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"
