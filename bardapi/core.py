@@ -48,7 +48,7 @@ class Bard:
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
 
-    def _get_snim0e(self):
+    def _get_snim0e(self) -> str:
         """
         Get the SNlM0e value from the Bard API response.
 
