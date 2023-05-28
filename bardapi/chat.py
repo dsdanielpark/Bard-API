@@ -4,7 +4,6 @@ from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, USER_PROMPT, SESSION_HEADERS
 
 
-
 class ChatBard:
     """
     A class representing a chatbot powered by the Bard API.
@@ -46,7 +45,7 @@ class ChatBard:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
             self.session.cookies.set("__Secure-1PSID", token)
-        else: 
+        else:
             self.session = session
         self.language = (
             language.lower()
@@ -68,7 +67,7 @@ class ChatBard:
             session=self.session,
             timeout=self.timeout,
             language=self.language,
-            proxies=self.proxies
+            proxies=self.proxies,
         )
 
     def start(self) -> None:
