@@ -1,8 +1,7 @@
 Development Status :: 5 - Production/Stable
 
 
-# Google <a href="https://bard.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> Bard API 
-
+# Google <a href="https://bard.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> Bard API
 
 <p align="left">
 <a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
@@ -13,7 +12,33 @@ Development Status :: 5 - Production/Stable
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 </p>
 
-> The python package that returns response of [Google Bard](https://bard.google.com/) through API.
+
+
+## Official Bard API: https://www.bardapi.dev/app
+For commercial and official use, please use the following official API.
+```python
+import requests
+
+bard_api_key = 'xxxxxxxx' # https://www.bardapi.dev/app
+input_text = "Who won the world cup last year?"
+
+headers = { 'Authorization': f'Bearer {bard_api_key}', 'Content-Type': 'text/plain' }
+data = { "input": input_text }
+req = requests.post('http://localhost:4000/chat', headers=headers, json=data)
+
+print(req.json())
+```
+In the official version, due to the lack of methods and official documentation for returning Bard's images or links, as well as plot images, for over two months, this project serves as a testing project to prepare for future additions of official features.
+
+<br>
+
+## Open LLM
+Alternatively, you can use Open LLM models according to the terms of the license.
+https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+
+## Unofficial Project
+
+> The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
 
 ![](./assets/bard_api.gif)
 
