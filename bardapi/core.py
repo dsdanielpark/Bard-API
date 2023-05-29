@@ -38,15 +38,114 @@ class Bard:
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
+        # Set session
         if session is None:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
             self.session.cookies.set("__Secure-1PSID", self.token)
-
         else:
             self.session = session
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
+
+    def get_answer(self, input_text: str) -> dict:
+        """
+        Get an answer from the Bard API for the given input text.
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+        >>> print(response['content'])
+
+        Args:
+            input_text (str): Input text for the query.
+
+        Returns:
+            dict: Answer from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factualityQueries": list,
+                    "textQuery": str,
+                    "choices": list,
+                    "links": list
+                    "imgaes": set
+                }
+        """
+        params = {
+            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+        # Set language (optional)
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+            input_text = translator_to_eng.translate(input_text)
+
+        # Make post data structure and insert prompt
+        input_text_struct = [
+            [input_text],
+            None,
+            [self.conversation_id, self.response_id, self.choice_id],
+        ]
+        data = {
+            "f.req": json.dumps([None, json.dumps(input_text_struct)]),
+            "at": self.SNlM0e,
+        }
+
+        # Get response
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            params=params,
+            data=data,
+            timeout=self.timeout,
+            proxies=self.proxies,
+        )
+
+        # Post-processing of response
+        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
+
+        if not resp_dict:
+            return {"content": f"Response Error: {resp.content}."}
+        resp_json = json.loads(resp_dict)
+
+        # Gather image links
+        images = set()
+        if len(resp_json) >= 3:
+            if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
+                for img in resp_json[4][0][4]:
+                    images.add(img[0][0][0])
+        parsed_answer = json.loads(resp_dict)
+
+        # Translated by Google Translator (optional)
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
+            parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
+            parsed_answer[4] = [
+                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
+            ]
+
+        # Returnd dictionary object
+        bard_answer = {
+            "content": parsed_answer[0][0],
+            "conversation_id": parsed_answer[1][0],
+            "response_id": parsed_answer[1][1],
+            "factualityQueries": parsed_answer[3],
+            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
+            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
+            "links": self._extract_links(parsed_answer[4]),
+            "images": images,
+        }
+        self.conversation_id, self.response_id, self.choice_id = (
+            bard_answer["conversation_id"],
+            bard_answer["response_id"],
+            bard_answer["choices"][0]["id"],
+        )
+        self._reqid += 100000
+
+        return bard_answer
 
     def _get_snim0e(self) -> str:
         """
@@ -98,94 +197,8 @@ class Bard:
                     links.append(item)
         return links
 
-    def get_answer(self, input_text: str) -> dict:
-        """
-        Get an answer from the Bard API for the given input text.
-
-        Example:
-        >>> token = 'xxxxxxxxxx'
-        >>> bard = Bard(token=token)
-        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-        >>> print(response['content'])
-
-        Args:
-            input_text (str): Input text for the query.
-
-        Returns:
-            dict: Answer from the Bard API in the following format:
-                {
-                    "content": str,
-                    "conversation_id": str,
-                    "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
-                    "choices": list,
-                    "links": list
-                    "imgaes": set
-                }
-        """
-        params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
-            "_reqid": str(self._reqid),
-            "rt": "c",
-        }
-        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
-            translator_to_eng = GoogleTranslator(source="auto", target="en")
-            input_text = translator_to_eng.translate(input_text)
-        input_text_struct = [
-            [input_text],
-            None,
-            [self.conversation_id, self.response_id, self.choice_id],
-        ]
-        data = {
-            "f.req": json.dumps([None, json.dumps(input_text_struct)]),
-            "at": self.SNlM0e,
-        }
-        resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
-            params=params,
-            data=data,
-            timeout=self.timeout,
-            proxies=self.proxies,
-        )
-        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
-
-        if not resp_dict:
-            return {"content": f"Response Error: {resp.content}."}
-        resp_json = json.loads(resp_dict)
-        images = set()
-        if len(resp_json) >= 3:
-            if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
-                for img in resp_json[4][0][4]:
-                    images.add(img[0][0][0])
-        parsed_answer = json.loads(resp_dict)
-        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
-            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
-            parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
-            parsed_answer[4] = [
-                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
-            ]
-        bard_answer = {
-            "content": parsed_answer[0][0],
-            "conversation_id": parsed_answer[1][0],
-            "response_id": parsed_answer[1][1],
-            "factualityQueries": parsed_answer[3],
-            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
-            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": self._extract_links(parsed_answer[4]),
-            "images": images,
-        }
-        self.conversation_id, self.response_id, self.choice_id = (
-            bard_answer["conversation_id"],
-            bard_answer["response_id"],
-            bard_answer["choices"][0]["id"],
-        )
-        self._reqid += 100000
-
-        return bard_answer
-    
     # def auth(self): #Idea Contribution
-    #     url = 'https://bard.google.com'  
+    #     url = 'https://bard.google.com'
     #     driver_path = "/path/to/chromedriver"
     #     options = uc.ChromeOptions()
     #     options.add_argument("--ignore-certificate-error")
@@ -204,8 +217,3 @@ class Bard:
     #     else:
     #         print("No __Secure-1PSID cookie found")
     #     driver.quit()
-
-        
-        
-        
-        

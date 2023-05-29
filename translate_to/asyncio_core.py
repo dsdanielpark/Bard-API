@@ -40,7 +40,9 @@ class Bard:
         self.response_id = ""
         self.choice_id = ""
         if session is None:
-            self.session = aiohttp.ClientSession(headers=SESSION_HEADERS, cookies={"__Secure-1PSID": self.token})
+            self.session = aiohttp.ClientSession(
+                headers=SESSION_HEADERS, cookies={"__Secure-1PSID": self.token}
+            )
         else:
             self.session = session
         self.SNlM0e = self._get_snim0e()
@@ -59,13 +61,17 @@ class Bard:
             raise Exception(
                 "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
             )
-        resp = await self.session.get("https://bard.google.com/", timeout=self.timeout, proxies=self.proxies)
+        resp = await self.session.get(
+            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
         if resp.status != 200:
             raise Exception(f"Response code not 200. Response Status is {resp.status}")
         resp_text = await resp.text()
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp_text)
         if not snim0e:
-            raise Exception("SNlM0e value not found in response. Check __Secure-1PSID value.")
+            raise Exception(
+                "SNlM0e value not found in response. Check __Secure-1PSID value."
+            )
         return snim0e.group(1)
 
     def _extract_links(self, data: list) -> list:
@@ -155,9 +161,12 @@ class Bard:
         parsed_answer = json.loads(resp_dict)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
-            parsed_answer[0][0] = await translator_to_lang.translate(parsed_answer[0][0])
+            parsed_answer[0][0] = await translator_to_lang.translate(
+                parsed_answer[0][0]
+            )
             parsed_answer[4] = [
-                (x[0], await translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
+                (x[0], await translator_to_lang.translate(x[1][0]))
+                for x in parsed_answer[4]
             ]
         bard_answer = {
             "content": parsed_answer[0][0],

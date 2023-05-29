@@ -61,6 +61,8 @@ class ChatBard:
             or 30
         )
         self.proxies = proxies
+
+        # Set Bard object
         self.bard = Bard(
             token=token,
             session=self.session,
@@ -82,11 +84,13 @@ class ChatBard:
         )
         print("If you enter quit, q, or stop, the chat will end.")
 
+        # Start chat
         while True:
             user_input = input(USER_PROMPT).lower()
             if user_input in ["quit", "q", "stop"]:
                 break
 
+            # Get response from bard
             response = self.bard.get_answer(user_input)
 
             if response["images"]:
