@@ -13,37 +13,12 @@ Development Status :: 5 - Production/Stable
 </p>
 
 
-
-## Official Bard API: https://www.bardapi.dev/app
-For commercial and official use, please use the following official API.
-```python
-import requests
-
-bard_api_key = 'xxxxxxxx' # https://www.bardapi.dev/app
-input_text = "Who won the world cup last year?"
-
-headers = { 'Authorization': f'Bearer {bard_api_key}', 'Content-Type': 'text/plain' }
-data = { "input": input_text }
-req = requests.post('http://localhost:4000/chat', headers=headers, json=data)
-
-print(req.json())
-```
-In the official version, due to the lack of methods and official documentation for returning Bard's images or links, as well as plot images, for over two months, this project serves as a testing project to prepare for future additions of official features.
-
-<br>
-
-## Open LLM
-Alternatively, you can use Open LLM models according to the terms of the license.
-https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-
-## Unofficial Project
-
 > The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
 
 ![](./assets/bard_api.gif)
 
 
-Please exercise caution and use this package responsibly.
+**Please exercise caution and use this package responsibly.**
 
 I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes.
 
@@ -54,6 +29,21 @@ Do not expose the `__Secure-1PSID`
 > Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 <br>
+
+In the official version, due to the lack of methods and official documentation for returning Bard's images or links, as well as plot images, for over two months, this project serves as a testing project to prepare for future additions of official features.
+
+Furthermore, there are limitations on using the current official Bard API, such as restrictions on maintaining a fixed session for continuous conversation and limitations on the output of responses. This project is intended to prepare in advance for future support from the official Bard API and to assist developers in their development efforts.
+
+
+
+<br>
+
+## Open LLM
+Alternatively, you can use Open LLM models according to the terms of the license.
+https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+
+## Bard API is Unofficial Project
+- However, the following website is also an unofficial site. https://www.bardapi.dev/app
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
