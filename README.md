@@ -28,6 +28,10 @@ print(req.json())
 
 <br>
 
+## Open LLM
+Alternatively, you can use Open LLM models according to the terms of the license.
+https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+
 ## Unofficial Project
 
 > The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
