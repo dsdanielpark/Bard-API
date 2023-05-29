@@ -30,10 +30,9 @@ Do not expose the `__Secure-1PSID`
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 <br>
 
-In the official version, due to the lack of methods and official documentation for returning Bard's images or links, as well as plot images, for over two months, this project serves as a testing project to prepare for future additions of official features.
-
-Furthermore, there are limitations on using the current official Bard API, such as restrictions on maintaining a fixed session for continuous conversation and limitations on the output of responses. This project is intended to prepare in advance for future support from the official Bard API and to assist developers in their development efforts.
-
+## Bard API is Unofficial Project
+Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
+> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
 
 
 <br>
@@ -42,9 +41,7 @@ Furthermore, there are limitations on using the current official Bard API, such 
 Alternatively, you can use Open LLM models according to the terms of the license.
 https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
-## Bard API is Unofficial Project
-Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
-> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
+<br>
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
