@@ -1,3 +1,4 @@
+# Copyright 2023 parkminwoo
 import os
 from bardapi.core import Bard
 from bardapi.chat import ChatBard
