@@ -30,6 +30,10 @@ print(req.json())
 ```
 In the official version, due to the lack of methods and official documentation for returning Bard's images or links, as well as plot images, for over two months, this project serves as a testing project to prepare for future additions of official features.
 
+Furthermore, there are limitations on using the current official Bard API, such as restrictions on maintaining a fixed session for continuous conversation and limitations on the output of responses. This project is intended to prepare in advance for future support from the official Bard API and to assist developers in their development efforts.
+
+
+
 <br>
 
 ## Open LLM
