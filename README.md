@@ -30,7 +30,7 @@ Do not expose the `__Secure-1PSID`
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 <br>
 
-## Bard API is unofficial Project
+## Bard API is unofficial project
 Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
 > Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
 
