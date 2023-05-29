@@ -44,6 +44,7 @@ https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 ## Bard API is Unofficial Project
 However, the following website is also an unofficial site, too. https://www.bardapi.dev/app (Not Official Site)
+> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
