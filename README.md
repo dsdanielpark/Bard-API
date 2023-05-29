@@ -28,7 +28,7 @@ req = requests.post('http://localhost:4000/chat', headers=headers, json=data)
 
 print(req.json())
 ```
-
+In the official version, due to the lack of methods and official documentation for returning Bard's images or links, as well as plot images, for over two months, this project serves as a testing project to prepare for future additions of official features.
 
 <br>
 
