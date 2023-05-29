@@ -4,7 +4,6 @@ import random
 import json
 import re
 import requests
-import undetected_chromedriver as uc
 from deep_translator import GoogleTranslator
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 
@@ -182,38 +181,29 @@ class Bard:
             bard_answer["choices"][0]["id"],
         )
         self._reqid += 100000
-        
+
         return bard_answer
     
-    def auth(self):
-        url = 'https://bard.google.com'  
-
-        driver_path = "/path/to/chromedriver"
-
-        # Create a ChromeOptions object
-        options = uc.ChromeOptions()
-        options.add_argument("--ignore-certificate-error")
-        options.add_argument("--ignore-ssl-errors")
-        options.user_data_dir = "path_to _user-data-dir"
-        driver = uc.Chrome(options=options)
-
-        driver.get(url)
-
-        # Get the cookies
-        cookies = driver.get_cookies()
-
-        # Find the __Secure-1PSID cookie
-        for cookie in cookies:
-            if cookie['name'] == '__Secure-1PSID':
-                print("__Secure-1PSID cookie:")
-                print(cookie['value'])
-                os.environ['_BARD_API_KEY']=cookie['value']
-                break
-        else:
-            print("No __Secure-1PSID cookie found")
-
-        driver.quit()
-        # Close the browser
+    # def auth(self): #Idea Contribution
+    #     url = 'https://bard.google.com'  
+    #     driver_path = "/path/to/chromedriver"
+    #     options = uc.ChromeOptions()
+    #     options.add_argument("--ignore-certificate-error")
+    #     options.add_argument("--ignore-ssl-errors")
+    #     options.user_data_dir = "path_to _user-data-dir"
+    #     driver = uc.Chrome(options=options)
+    #     driver.get(url)
+    #     cookies = driver.get_cookies()
+    #     # Find the __Secure-1PSID cookie
+    #     for cookie in cookies:
+    #         if cookie['name'] == '__Secure-1PSID':
+    #             print("__Secure-1PSID cookie:")
+    #             print(cookie['value'])
+    #             os.environ['_BARD_API_KEY']=cookie['value']
+    #             break
+    #     else:
+    #         print("No __Secure-1PSID cookie found")
+    #     driver.quit()
 
         
         
