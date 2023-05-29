@@ -18,7 +18,8 @@ Development Status :: 5 - Production/Stable
 For commercial and official use, please use the following official API.
 ```python
 import requests
-bard_api_key = 'xxxxxxxx'
+
+bard_api_key = 'xxxxxxxx' # https://www.bardapi.dev/app
 input_text = "Who won the world cup last year?"
 
 headers = { 'Authorization': f'Bearer {bard_api_key}', 'Content-Type': 'text/plain' }
