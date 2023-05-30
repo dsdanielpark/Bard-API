@@ -246,6 +246,16 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
     
 <br>
 
+### Executing Python code received as a response from Bard
+GitHub Dev version only.
+```python
+from bardapi import Bard
+    
+bard = Bard(token="xxxxxxxx", run_code=True)
+bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 'green':30, 'purple':15}")
+```
+    
+    
 ## Translation to Another Programming Language
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
 - Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/17d5e948d4afc535317de3964232ab82fe223521/bardapi/core.py).
