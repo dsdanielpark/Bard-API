@@ -54,7 +54,7 @@ If you will not provide the language parameter (use `english`, `korean`, `japane
 pip install bardapi
 ```
 
-If you wish to use the Bard API, including the Google Translate feature, with the `language` argument:
+If you wish to use the Bard API, including various features:
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
