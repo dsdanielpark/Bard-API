@@ -254,7 +254,7 @@ from bardapi import Bard
 bard = Bard(token="xxxxxxxx", run_code=True)
 bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 'green':30, 'purple':15}")
 ```
-![](assets/bard_run_code.png)
+![](assets/bardapi_run_code.png)
     
 <br>
     
