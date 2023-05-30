@@ -131,6 +131,7 @@ class Bard:
             parsed_answer[4] = [
                 (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
+            
         # Get code
         try:
             code = parsed_answer[0][0].split("```")[1][6:] 

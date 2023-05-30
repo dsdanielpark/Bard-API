@@ -1,4 +1,5 @@
-# Copyright 2023 parkminwoo
+# Copyright 2023 parkminwoo, MIT License
+
 import os
 from bardapi.core import Bard
 from bardapi.chat import ChatBard
@@ -22,5 +23,5 @@ __all__ = [
     "SEPARATOR_LINE",
     "USER_PROMPT",
 ]
-__version__ = "0.1.15"
+__version__ = "0.1.16"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"
