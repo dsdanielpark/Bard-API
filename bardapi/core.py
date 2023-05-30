@@ -20,6 +20,7 @@ class Bard:
         proxies: dict = None,
         session: requests.Session = None,
         language: str = None,
+        run_code: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -47,6 +48,7 @@ class Bard:
             self.session = session
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
+        self.run_code = run_code or False
 
     def get_answer(self, input_text: str) -> dict:
         """
@@ -116,7 +118,10 @@ class Bard:
         if len(resp_json) >= 3:
             if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
                 for img in resp_json[4][0][4]:
-                    images.add(img[0][0][0])
+                    try:
+                        images.add(img[0][0][0])
+                    except Exception:
+                        pass
         parsed_answer = json.loads(resp_dict)
 
         # Translated by Google Translator (optional)
@@ -137,6 +142,7 @@ class Bard:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
             "images": images,
+            "code": parsed_answer[0][0].split("```")[1][6:] or None,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -144,6 +150,13 @@ class Bard:
             bard_answer["choices"][0]["id"],
         )
         self._reqid += 100000
+
+        # Excute code if run_code
+        if self.run_code:
+            try:
+                exec(bard_answer["code"])
+            except Exception:
+                pass
 
         return bard_answer
 
