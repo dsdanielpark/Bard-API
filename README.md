@@ -181,7 +181,6 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
-<br>
 
 ## Contributor
 
