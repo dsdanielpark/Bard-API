@@ -187,7 +187,7 @@ In the scripts [folder](./scripts/), I have released a script to help you compar
 
 
 ### Contributor
-[![](https://opencollective.com/html-react-parser/contributors.svg?width=890&button=false)](https://github.com/dsdanielpark/Bard-API/graphs/contributors)
+[![](https://github.com/dsdanielpark/Bard-API/graphs/contributors.svg?width=890&button=false)](https://github.com/dsdanielpark/Bard-API/graphs/contributors)
 
 
 ## License
