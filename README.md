@@ -259,9 +259,14 @@ bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 
 <br>
 
 ### Using Bard asynchronously 
-GitHub Dev version only.
+GitHub Dev version only.    
+    
+Using asynchronous implementation will be efficient when implementing ChatBots or something alone those lines.    
+BardAsync is not using requests library instead it is using httpx library and http2 protocol.
+    
+BardAsync is present in translate_to.core_async.BardAsync
 ```python
-from bardapi import BardAsync
+from bardapi import BardAsync 
     
 bard = BardAsync(token="xxxxxxxx")
 await bard.get_answer("What is Metaverse?")
