@@ -45,15 +45,14 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 ## Authentication
+> **Warning** Do not expose the `__Secure-1PSID` 
 1. Visit https://bard.google.com/
 2. F12 for console
 3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
 
-<br>
-
-Do not expose the `__Secure-1PSID`
-> Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
+Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
+
 <br>
 
 ## Usage 
