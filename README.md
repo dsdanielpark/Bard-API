@@ -165,7 +165,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
-<br>
+<br><br>
 
 # GitHub installation required for the following features.
 To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
@@ -179,14 +179,12 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - Executing Python code received as a response from Bard
 - Translation to Another Programming Language
 
+<br><br>
 
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
-## Shifting Service Policies: Bard and Google's Dynamics 
-Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
-            
-            
+
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
 I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
@@ -213,6 +211,10 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
+
+## Shifting Service Policies: Bard and Google's Dynamics 
+Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
+            
 
 ## Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
