@@ -7,6 +7,8 @@ To remove the dependencies of the bardapi package, you need to install the GitHu
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
+<br>
+
 ### Multi-language Bard API
 GitHub Dev version only.
 ```python
