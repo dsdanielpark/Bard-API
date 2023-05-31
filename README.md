@@ -154,8 +154,9 @@ bard.get_answer("What is my last prompt??")['content']
 
 <br><br>
 
-# GitHub installation required for the following features.
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+# [GitHub Developer Version](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV)
+GitHub installation required for the following features. <br>
+To remove the dependencies of the bardapi package in pypi, you need to install the GitHub developer version.
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
