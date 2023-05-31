@@ -54,7 +54,7 @@ res = bard.get_answer("Find me an image of the main entrance of Stanford Univers
 res['links'] # Get image links (list)
 res['images'] # Get images (set)
 ```
-<a href="https://bard.google.com/"><img src="./assets/bard_links.png">
+
 
 <br>
     
