@@ -25,23 +25,6 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 <br>
 
 
-Do not expose the `__Secure-1PSID`
-> Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
-Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
-<br>
-
-## Bard API is unofficial project
-Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
-> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
-
-
-<br>
-
-## Open LLM
-Alternatively, you can use Open LLM models according to the terms of the license.
-https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-
-<br>
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
@@ -62,9 +45,13 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 ## Authentication
+> **Warning** Do not expose the `__Secure-1PSID` 
 1. Visit https://bard.google.com/
 2. F12 for console
 3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
+
+Note that while I referred to `__Secure-1PSID` value as an API KEY for convenience, it is not an officially provided API KEY. 
+Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 
 <br>
 
@@ -165,86 +152,34 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
-<br>
+<br><br>
 
-# GitHub installation required for the following features.
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+# [GitHub Developer Version](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
+GitHub installation required for the following features. <br>
+To remove the dependencies of the bardapi package in pypi, you need to install the GitHub developer version.
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
-### Multi-language Bard API
-GitHub Dev version only.
-```python
-from bardapi import Bard
+- [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#multi-language-bard-api)
+- [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
+- [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
+- [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
+- [Translation to Another Programming Language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 
-bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
-res = bard.get_answer("你好。")
-print(res['content'])
-```
-or
-```python
-from bardapi import Bard
-import os
-os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
-os.environ["_BARD_API_KEY"] = 'xxxxxxxx'
+<br><br>
 
-res = Bard().get_answer("你好。")
-print(res['content'])
-```
+## Scripts
+In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
-<br>
+## Contributor
 
-### Get image links
-GitHub Dev version only.
-```python
-from bardapi import Bard
-bard = Bard(token='xxxxxxxxxxx')
-res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
-res['links'] # Get image links (list)
-res['images'] # Get images (set)
-```
-<a href="https://bard.google.com/"><img src="./assets/bard_links.png">
+I would like to express my sincere gratitude for the contributions made by all the contributors.
 
-<br>
-    
-### ChatBard
-```python
-from bardapi import ChatBard
-    
-chat = ChatBard()
-chat.start()
-```
-or
-```python
-from bardapi import ChatBard
-import os
-os.environ["_BARD_API_KEY"] = 'xxxxxx'   # Requird
-os.environ["_BARD_API_LANG"] = Arabic    # Optional, Default to English
-os.environ["_BARD_API_TIMEOUT"] = 30     # Optional, Session Timeout
- 
-chat = ChatBard()
-chat.start()
-```
-or
-```python
-from bardapi import Bard, SESSION_HEADERS
-import os
-import requests
+<a href="https://github.com/dsdanielpark/Bard-API/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard-API" />
+</a>
 
-token='xxxxxxxxxxx'
-session = requests.Session()
-session.headers = SESSION_HEADERS
-session.cookies.set("__Secure-1PSID", token) 
-proxies = {
-    'http': 'http://proxy.example.com:8080',
-    'https': 'https://proxy.example.com:8080'
-}
-    
-ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="chinese (simplified)").start()
-```
-
-<br>    
 
 ### Executing Python code received as a response from Bard
 GitHub Dev version only.
@@ -288,16 +223,15 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 - Ask ChatGPT to translate like "Translate to Swift."
 - Ask ChatGPT to optimize the code or provide any desired instructions until you're satisfied.<br>
 
-![](./assets/translate.png)
-            
-            
-## Scripts
-In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
+## Bard API is unofficial project
+Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
+> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
+>>>>>>> 1c3081d10aedab37b75bd4e447ac10fc6b8fd1d8
 
-## Shifting Service Policies: Bard and Google's Dynamics 
-Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
-            
-            
+## Open LLM
+Alternatively, you can use Open LLM models according to the terms of the license.
+https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
+
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
 I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
@@ -325,6 +259,9 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
+## Shifting Service Policies: Bard and Google's Dynamics 
+Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
+            
 ## Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
 
@@ -334,14 +271,13 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 
 ## Reference 
 [1] https://github.com/acheong08/Bard <br>
-[2] https://github.com/discordtehe/Bard
   
 <br>
             
 ### Important Notice
   The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
     
-### Caution!
+### Caution
 This Python package is not an official Google package or API service. It is not affiliated with Google and uses Google account cookies, which means that excessive or commercial usage may result in restrictions on your Google account. The package was created to support developers in testing functionalities due to delays in the official Google package. However, it should not be misused or abused. Please be cautious and refer to the Readme for more information.
   
 
