@@ -137,7 +137,7 @@ resp = bard.get_answer("hi")
 resp['content']
 ```
 
-
+<br>
 
 
 ## Translation to Another Programming Language
