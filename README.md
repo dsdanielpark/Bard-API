@@ -185,6 +185,15 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 
+
+### Contributor
+<a href="https://bard.google.com/"><img src="https://github.com/dsdanielpark/Bard-API/blob/main/assets/bard.svg" height="20px"></a> Google Bard 
+<p>Contributed by: <a href="https://github.com/mehmetalicayhan">mehmetalicayhan</a></p>
+<blockquote>
+<p>I want you to act as a commit message generator. I will provide you with information about the task and the prefix for the task code, and I would like you to generate an appropriate commit message using the conventional commit format. Do not write any explanations or other words, just reply with the commit message.</p>
+</blockquote>
+
+
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
 I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
@@ -225,7 +234,6 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 
 ## Reference 
 [1] https://github.com/acheong08/Bard <br>
-[2] https://github.com/discordtehe/Bard
   
 <br>
             
