@@ -10,7 +10,8 @@ from bardapi.constants import (
     SEPARATOR_LINE,
     USER_PROMPT,
 )
-from translate_to.core_async import BardAsync
+from bardapi.core_async import BardAsync
+from bardapi.core_cookies import BardCookies
 
 bard_api_key = os.environ.get("_BARD_API_KEY")
 
