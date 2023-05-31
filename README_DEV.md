@@ -7,6 +7,19 @@ To remove the dependencies of the bardapi package, you need to install the GitHu
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
+
+
+- [GitHub installation required for the following features.](#github-installation-required-for-the-following-features)
+    - [Multi-language Bard API](#multi-language-bard-api)
+    - [Get image links](#get-image-links)
+    - [ChatBard](#chatbard)
+    - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
+    - [Using Bard asynchronously](#using-bard-asynchronously)
+  - [Bard Which Can get Cookies](#bard-which-can-get-cookies)
+  - [Translation to Another Programming Language](#translation-to-another-programming-language)
+
+
+
 <br>
 
 ### Multi-language Bard API
