@@ -16,8 +16,8 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [ChatBard](#chatbard)
     - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
     - [Using Bard asynchronously](#using-bard-asynchronously)
-  - [Bard Which Can get Cookies](#bard-which-can-get-cookies)
-  - [Translation to Another Programming Language](#translation-to-another-programming-language)
+    - [Bard Which Can get Cookies](#bard-which-can-get-cookies)
+    - [Translation to Another Programming Language](#translation-to-another-programming-language)
 
 
 
@@ -133,7 +133,7 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
 <br>
     
 
-## Bard Which Can get Cookies
+### Bard Which Can get Cookies
 GitHub Dev version only.    
 
 ```python
@@ -154,7 +154,7 @@ resp['content']
 <br>
 
 
-## Translation to Another Programming Language
+### Translation to Another Programming Language
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
 - Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/17d5e948d4afc535317de3964232ab82fe223521/bardapi/core.py).
 - Ask ChatGPT to translate like "Translate to Swift."
