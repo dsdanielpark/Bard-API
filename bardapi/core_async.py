@@ -12,7 +12,7 @@ from httpx import AsyncClient
 
 class BardAsync:
     """
-    Bard class for interacting with the Bard API.
+    Bard class for interacting with the Bard API using httpx[http2]
     """
 
     def __init__(
@@ -39,7 +39,7 @@ class BardAsync:
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
-        # Set session
+        # Making Httpx Async Client that will be used for all API calls
         self.client = AsyncClient(
             http2=True,
             headers=SESSION_HEADERS,
