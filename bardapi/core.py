@@ -131,13 +131,13 @@ class Bard:
             parsed_answer[4] = [
                 (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
-            
+
         # Get code
         try:
-            code = parsed_answer[0][0].split("```")[1][6:] 
+            code = parsed_answer[0][0].split("```")[1][6:]
         except Exception:
             code = None
-        
+
         # Returnd dictionary object
         bard_answer = {
             "content": parsed_answer[0][0],
@@ -148,7 +148,7 @@ class Bard:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
             "images": images,
-            "code":  code,
+            "code": code,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -158,10 +158,10 @@ class Bard:
         self._reqid += 100000
 
         # Excute Code
-        if self.run_code and bard_answer['code'] is not None:
+        if self.run_code and bard_answer["code"] is not None:
             try:
-                print(bard_answer['code'])
-                exec(bard_answer['code'])
+                print(bard_answer["code"])
+                exec(bard_answer["code"])
             except Exception:
                 pass
 
@@ -216,9 +216,6 @@ class Bard:
                 ):
                     links.append(item)
         return links
-
-
-    
 
     # def auth(self): #Idea Contribution
     #     url = 'https://bard.google.com'

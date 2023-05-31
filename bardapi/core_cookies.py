@@ -48,9 +48,11 @@ class BardCookies:
             if self.token is not None:
                 self.session.cookies.set("__Secure-1PSID", self.token)
             else:
-                self.session.cookies.set("__Secure-1PSID", self.cookie_dict['__Secure-1PSID'])
-            self.session.cookies.set("APISID", self.cookie_dict['APISID'])
-            self.session.cookies.set("SAPISID", self.cookie_dict['SAPISID'])
+                self.session.cookies.set(
+                    "__Secure-1PSID", self.cookie_dict["__Secure-1PSID"]
+                )
+            self.session.cookies.set("APISID", self.cookie_dict["APISID"])
+            self.session.cookies.set("SAPISID", self.cookie_dict["SAPISID"])
         else:
             self.session = session
         self.SNlM0e = self._get_snim0e()
@@ -138,13 +140,13 @@ class BardCookies:
             parsed_answer[4] = [
                 (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
-            
+
         # Get code
         try:
-            code = parsed_answer[0][0].split("```")[1][6:] 
+            code = parsed_answer[0][0].split("```")[1][6:]
         except Exception:
             code = None
-        
+
         # Returnd dictionary object
         bard_answer = {
             "content": parsed_answer[0][0],
@@ -155,7 +157,7 @@ class BardCookies:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
             "images": images,
-            "code":  code,
+            "code": code,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -165,10 +167,10 @@ class BardCookies:
         self._reqid += 100000
 
         # Excute Code
-        if self.run_code and bard_answer['code'] is not None:
+        if self.run_code and bard_answer["code"] is not None:
             try:
-                print(bard_answer['code'])
-                exec(bard_answer['code'])
+                print(bard_answer["code"])
+                exec(bard_answer["code"])
             except Exception:
                 pass
 
@@ -223,9 +225,6 @@ class BardCookies:
                 ):
                     links.append(item)
         return links
-
-
-    
 
     # def auth(self): #Idea Contribution
     #     url = 'https://bard.google.com'

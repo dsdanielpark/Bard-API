@@ -16,12 +16,12 @@ class BardAsync:
     """
 
     def __init__(
-            self,
-            token: str = None,
-            timeout: int = 20,
-            proxies: dict = None,
-            language: str = None,
-            run_code: bool = False,
+        self,
+        token: str = None,
+        timeout: int = 20,
+        proxies: dict = None,
+        language: str = None,
+        run_code: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -45,7 +45,7 @@ class BardAsync:
             headers=SESSION_HEADERS,
             cookies={"__Secure-1PSID": self.token},
             timeout=self.timeout,
-            proxies=self.proxies
+            proxies=self.proxies,
         )
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG", "en")
@@ -170,7 +170,7 @@ class BardAsync:
         self._reqid += 100000
 
         # Execute Code
-        if self.run_code and bard_answer['code'] is not None:
+        if self.run_code and bard_answer["code"] is not None:
             try:
                 print(bard_answer["code"])
                 # TODO:
@@ -200,7 +200,9 @@ class BardAsync:
                 "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
             )
 
-        resp = await self.client.get("https://bard.google.com/", timeout=self.timeout, follow_redirects=True)
+        resp = await self.client.get(
+            "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
+        )
         if resp.status_code != 200:
             raise Exception(
                 f"Response code not 200. Response Status is {resp.status_code}"
@@ -228,9 +230,9 @@ class BardAsync:
                 if isinstance(item, list):
                     links.extend(self._extract_links(item))
                 elif (
-                        isinstance(item, str)
-                        and item.startswith("http")
-                        and "favicon" not in item
+                    isinstance(item, str)
+                    and item.startswith("http")
+                    and "favicon" not in item
                 ):
                     links.append(item)
         return links
