@@ -171,6 +171,15 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
+## Contributor
+
+I would like to express my sincere gratitude for the contributions made by all the contributors.
+
+<a href="https://github.com/dsdanielpark/Bard-API/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard-API" />
+</a>
+
+
 ## Bard API is unofficial project
 Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
 > Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
