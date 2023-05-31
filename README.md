@@ -172,21 +172,13 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
-
-
-<br>
-
 ## Bard API is unofficial project
 Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
 > Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
 
-
-<br>
-
 ## Open LLM
 Alternatively, you can use Open LLM models according to the terms of the license.
 https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-
 
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
@@ -218,7 +210,6 @@ SOFTWARE.
 ## Shifting Service Policies: Bard and Google's Dynamics 
 Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
             
-
 ## Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
 
@@ -234,7 +225,7 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 ### Important Notice
   The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
     
-### Caution!
+### Caution
 This Python package is not an official Google package or API service. It is not affiliated with Google and uses Google account cookies, which means that excessive or commercial usage may result in restrictions on your Google account. The package was created to support developers in testing functionalities due to delays in the official Google package. However, it should not be misused or abused. Please be cautious and refer to the Readme for more information.
   
 
