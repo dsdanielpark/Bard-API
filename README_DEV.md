@@ -16,7 +16,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [ChatBard](#chatbard)
     - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
     - [Using Bard asynchronously](#using-bard-asynchronously)
-    - [Bard Which Can get Cookies](#bard-which-can-get-cookies)
+    - [Bard which can get Cookies](#bard-which-can-get-cookies)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
 
 
@@ -133,7 +133,7 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
 <br>
     
 
-### Bard Which Can get Cookies
+### Bard which can get Cookies
 GitHub Dev version only.    
 
 ```python
