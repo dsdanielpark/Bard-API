@@ -30,19 +30,6 @@ Do not expose the `__Secure-1PSID`
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 <br>
 
-## Bard API is unofficial project
-Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
-> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
-
-
-<br>
-
-## Open LLM
-Alternatively, you can use Open LLM models according to the terms of the license.
-https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
-
-<br>
-
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
@@ -188,6 +175,20 @@ In the scripts [folder](./scripts/), I have released a script to help you compar
 
 ### Contributor
 [![](https://github.com/dsdanielpark/Bard-API/graphs/contributors.svg?width=890&button=false)](https://github.com/dsdanielpark/Bard-API/graphs/contributors)
+
+
+<br>
+
+## Bard API is unofficial project
+Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
+> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
+
+
+<br>
+
+## Open LLM
+Alternatively, you can use Open LLM models according to the terms of the license.
+https://huggingface.co/spaces/HuggingFaceH4/open_llm_leaderboard
 
 
 ## License
