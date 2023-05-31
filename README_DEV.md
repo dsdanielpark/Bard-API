@@ -8,8 +8,9 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
 
-
+# Contents
 - [GitHub installation required for the following features.](#github-installation-required-for-the-following-features)
+- [Contents](#contents)
     - [Multi-language Bard API](#multi-language-bard-api)
     - [Get image links](#get-image-links)
     - [ChatBard](#chatbard)
