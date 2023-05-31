@@ -10,10 +10,14 @@ from bardapi.constants import (
     SEPARATOR_LINE,
     USER_PROMPT,
 )
+from core_async import BardAsync
+from core_cookies import BardCookies
 
 bard_api_key = os.environ.get("_BARD_API_KEY")
 
 __all__ = [
+    "BardAsync",
+    "BardCookies",
     "Bard",
     "ChatBard",
     "bard_api_key",

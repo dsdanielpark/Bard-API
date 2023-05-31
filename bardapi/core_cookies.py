@@ -1,27 +1,27 @@
-import json
 import os
-import random
 import string
-from re import search
-
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
-from bardapi.core import Bard
+import random
+import json
+import re
+import requests
 from deep_translator import GoogleTranslator
-from httpx import AsyncClient
+from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 
 
-class BardAsync:
+class BardCookies:
     """
-    Bard class for interacting with the Bard API using httpx[http2]
+    Bard class for interacting with the Bard API.
     """
 
     def __init__(
-            self,
-            token: str = None,
-            timeout: int = 20,
-            proxies: dict = None,
-            language: str = None,
-            run_code: bool = False,
+        self,
+        token: str = None,
+        cookie_dict: dict = None,
+        timeout: int = 20,
+        proxies: dict = None,
+        session: requests.Session = None,
+        language: str = None,
+        run_code: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -30,28 +30,34 @@ class BardAsync:
             token (str): Bard API token.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
+            session (requests.Session): Requests session object.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
         """
         self.token = token or os.getenv("_BARD_API_KEY")
+        self.cookie_dict = cookie_dict or None
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
-        # Making Httpx Async Client that will be used for all API calls
-        self.client = AsyncClient(
-            http2=True,
-            headers=SESSION_HEADERS,
-            cookies={"__Secure-1PSID": self.token},
-            timeout=self.timeout,
-            proxies=self.proxies
-        )
+        # Set session
+        if session is None:
+            self.session = requests.Session()
+            self.session.headers = SESSION_HEADERS
+            if self.token is not None:
+                self.session.cookies.set("__Secure-1PSID", self.token)
+            else:
+                self.session.cookies.set("__Secure-1PSID", self.cookie_dict['__Secure-1PSID'])
+            self.session.cookies.set("APISID", self.cookie_dict['APISID'])
+            self.session.cookies.set("SAPISID", self.cookie_dict['SAPISID'])
+        else:
+            self.session = session
         self.SNlM0e = self._get_snim0e()
-        self.language = language or os.getenv("_BARD_API_LANG", "en")
+        self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code or False
 
-    async def get_answer(self, input_text: str) -> dict:
+    def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
 
@@ -77,14 +83,11 @@ class BardAsync:
                     "imgaes": set
                 }
         """
-        if not isinstance(self.SNlM0e, str):
-            self.SNlM0e = await self.SNlM0e
         params = {
             "bl": "boq_assistant-bard-web-server_20230419.00_p1",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-
         # Set language (optional)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
@@ -101,14 +104,13 @@ class BardAsync:
             "at": self.SNlM0e,
         }
 
-        resp = await self.client.post(
+        # Get response
+        resp = self.session.post(
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
             timeout=self.timeout,
-            follow_redirects=True,
-            headers=SESSION_HEADERS,
-            cookies={"__Secure-1PSID": self.token},
+            proxies=self.proxies,
         )
 
         # Post-processing of response
@@ -125,10 +127,8 @@ class BardAsync:
                 for img in resp_json[4][0][4]:
                     try:
                         images.add(img[0][0][0])
-                    except Exception as e:
-                        # TODO:
-                        #  handle exception using logging instead
-                        print(f"Unable to parse image from the response: {e}")
+                    except Exception:
+                        pass
         parsed_answer = json.loads(resp_dict)
 
         # Translated by Google Translator (optional)
@@ -138,17 +138,14 @@ class BardAsync:
             parsed_answer[4] = [
                 (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
-
+            
         # Get code
         try:
-            code = parsed_answer[0][0].split("```")[1][6:]
-        except Exception as e:
-            # TODO:
-            #  handle exception using logging instead
+            code = parsed_answer[0][0].split("```")[1][6:] 
+        except Exception:
             code = None
-            print(f"Unable to parse answer from the response: {e}")
-
-        # Returned dictionary object
+        
+        # Returnd dictionary object
         bard_answer = {
             "content": parsed_answer[0][0],
             "conversation_id": parsed_answer[1][0],
@@ -158,10 +155,8 @@ class BardAsync:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
             "images": images,
-            "code": code,
-            "status_code": resp.status_code,
+            "code":  code,
         }
-
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
             bard_answer["response_id"],
@@ -169,43 +164,37 @@ class BardAsync:
         )
         self._reqid += 100000
 
-        # Execute Code
+        # Excute Code
         if self.run_code and bard_answer['code'] is not None:
             try:
-                print(bard_answer["code"])
-                # TODO:
-                #  find a way to handle this following warning
-                #  EX100: Use of builtin exec function for dynamic input is insecure and can leave your application
-                #  open to arbitrary code execution. Found in 'exec(bard_answer['code'])'.
-                exec(bard_answer["code"])
-            except Exception as e:
-                # TODO:
-                #  handle exception using logging instead
-                print(f"Unable to execute the code: {e}")
+                print(bard_answer['code'])
+                exec(bard_answer['code'])
+            except Exception:
+                pass
 
         return bard_answer
 
-    async def _get_snim0e(self):
+    def _get_snim0e(self) -> str:
         """
-        The _get_snim0e function is used to get the SNlM0e value from the Bard website.
+        Get the SNlM0e value from the Bard API response.
 
-        The function uses a regular expression to search for the SNlM0e value in the response text.
-        If it finds it, then it returns that value.
-
-        :param self: Represent the instance of the class
-        :return: (`str`) The snlm0e value
+        Returns:
+            str: SNlM0e value.
+        Raises:
+            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
         """
         if not self.token or self.token[-1] != ".":
             raise Exception(
                 "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
             )
-
-        resp = await self.client.get("https://bard.google.com/", timeout=self.timeout, follow_redirects=True)
+        resp = self.session.get(
+            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
         if resp.status_code != 200:
             raise Exception(
                 f"Response code not 200. Response Status is {resp.status_code}"
             )
-        snim0e = search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
             raise Exception(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
@@ -228,9 +217,33 @@ class BardAsync:
                 if isinstance(item, list):
                     links.extend(self._extract_links(item))
                 elif (
-                        isinstance(item, str)
-                        and item.startswith("http")
-                        and "favicon" not in item
+                    isinstance(item, str)
+                    and item.startswith("http")
+                    and "favicon" not in item
                 ):
                     links.append(item)
         return links
+
+
+    
+
+    # def auth(self): #Idea Contribution
+    #     url = 'https://bard.google.com'
+    #     driver_path = "/path/to/chromedriver"
+    #     options = uc.ChromeOptions()
+    #     options.add_argument("--ignore-certificate-error")
+    #     options.add_argument("--ignore-ssl-errors")
+    #     options.user_data_dir = "path_to _user-data-dir"
+    #     driver = uc.Chrome(options=options)
+    #     driver.get(url)
+    #     cookies = driver.get_cookies()
+    #     # Find the __Secure-1PSID cookie
+    #     for cookie in cookies:
+    #         if cookie['name'] == '__Secure-1PSID':
+    #             print("__Secure-1PSID cookie:")
+    #             print(cookie['value'])
+    #             os.environ['_BARD_API_KEY']=cookie['value']
+    #             break
+    #     else:
+    #         print("No __Secure-1PSID cookie found")
+    #     driver.quit()
