@@ -181,9 +181,52 @@ I would like to express my sincere gratitude for the contributions made by all t
 </a>
 
 
+### Executing Python code received as a response from Bard
+GitHub Dev version only.
+```python
+from bardapi import Bard
+    
+bard = Bard(token="xxxxxxxx", run_code=True)
+bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 'green':30, 'purple':15}")
+```
+![](assets/bardapi_run_code.png)
+    
+<br>
+
+### Using Bard asynchronously 
+GitHub Dev version only.    
+    
+Using asynchronous implementation will be efficient when implementing ChatBots or something alone those lines.    
+BardAsync is not using requests library instead it is using httpx library and http2 protocol.
+    
+BardAsync is present in translate_to.core_async.BardAsync
+```python
+from bardapi import BardAsync 
+    
+bard = BardAsync(token="xxxxxxxx")
+await bard.get_answer("What is Metaverse?")
+```
+or
+```python
+import asyncio
+from bardapi import BardAsync
+    
+bard = BardAsync(token="xxxxxxxx")
+asyncio.run(bard.get_answer("What is Metaverse?"))
+```
+
+<br>
+
+## Translation to Another Programming Language
+Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
+- Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/17d5e948d4afc535317de3964232ab82fe223521/bardapi/core.py).
+- Ask ChatGPT to translate like "Translate to Swift."
+- Ask ChatGPT to optimize the code or provide any desired instructions until you're satisfied.<br>
+
 ## Bard API is unofficial project
 Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
 > Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
+>>>>>>> 1c3081d10aedab37b75bd4e447ac10fc6b8fd1d8
 
 ## Open LLM
 Alternatively, you can use Open LLM models according to the terms of the license.
