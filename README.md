@@ -225,8 +225,7 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 
 ## Bard API is unofficial project
 Currently, there is no official API from Google. However, if an official API is released, I will make sure to announce it prominently at the top of the repository's readme.
-> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/538517
->>>>>>> 1c3081d10aedab37b75bd4e447ac10fc6b8fd1d8
+> Official API of Bard is still not released. https://www.googlecloudcommunity.com/gc/AI-ML/Google-Bard-API/m-p/5385171c3081d10aedab37b75bd4e447ac10fc6b8fd1d8
 
 ## Open LLM
 Alternatively, you can use Open LLM models according to the terms of the license.
