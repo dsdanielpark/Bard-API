@@ -118,6 +118,28 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
 
 <br>
     
+
+## Bard Which Can get Cookies
+GitHub Dev version only.    
+
+```python
+from bardapi import BardCookies
+
+cookies = {
+    '__Secure-1PSID': 'xxxxxxxxxxx',
+    'APISID' : 'xxxxxxxxxxx',
+    'SAPISID' : 'xxxxxxxxx'
+}
+
+bard = BardCookies(cookies=cookies)
+resp = bard.get_answer("hi")
+
+resp['content']
+```
+
+
+
+
 ## Translation to Another Programming Language
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
 - Copy the code of [Core.py](https://github.com/dsdanielpark/Bard-API/blob/17d5e948d4afc535317de3964232ab82fe223521/bardapi/core.py).
