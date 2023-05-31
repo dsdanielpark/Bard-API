@@ -187,11 +187,7 @@ In the scripts [folder](./scripts/), I have released a script to help you compar
 
 
 ### Contributor
-<a href="https://bard.google.com/"><img src="https://github.com/dsdanielpark/Bard-API/blob/main/assets/bard.svg" height="20px"></a> Google Bard 
-<p>Contributed by: <a href="https://github.com/mehmetalicayhan">mehmetalicayhan</a></p>
-<blockquote>
-<p>I want you to act as a commit message generator. I will provide you with information about the task and the prefix for the task code, and I would like you to generate an appropriate commit message using the conventional commit format. Do not write any explanations or other words, just reply with the commit message.</p>
-</blockquote>
+[![](https://opencollective.com/html-react-parser/contributors.svg?width=890&button=false)](https://github.com/dsdanielpark/Bard-API/graphs/contributors)
 
 
 ## License
