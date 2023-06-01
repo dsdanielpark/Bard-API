@@ -26,7 +26,7 @@ class BardCookies:
         Initialize the Bard instance.
 
         Args:
-            cookie_dict (dic): Bard cookies.
+            cookie_dict (dict): Bard cookies.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
             session (requests.Session): Requests session object.
@@ -44,7 +44,7 @@ class BardCookies:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
 
-            for k, v in self.cookie_dict:
+            for k, v in self.cookie_dict.items():
                 self.session.cookies.set(k, v)
         else:
             self.session = session
