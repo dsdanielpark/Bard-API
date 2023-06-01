@@ -139,16 +139,15 @@ GitHub Dev version only.
 ```python
 from bardapi import BardCookies
 
-cookies = {
-    '__Secure-1PSID': 'xxxxxxxxxxx',
-    'APISID' : 'xxxxxxxxxxx',
-    'SAPISID' : 'xxxxxxxxx'
+cookie_dict = {
+    "__Secure-1PSID": "...",
+    "__Secure-1PSIDTS": "...",
+    # Any cookie values you want to pass session object.
 }
 
-bard = BardCookies(cookies=cookies)
-resp = bard.get_answer("hi")
+bard = BardCookies(cookie_dict=cookie_dict)
 
-resp['content']
+print(bard.get_answer("こんにちは"))
 ```
 
 <br>
