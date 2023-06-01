@@ -37,7 +37,7 @@ or
 from bardapi import Bard
 import os
 os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
-os.environ["_BARD_API_KEY"] = 'xxxxxxxx'
+os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'
 
 res = Bard().get_answer("你好。")
 print(res['content'])
@@ -49,7 +49,7 @@ print(res['content'])
 GitHub Dev version only.
 ```python
 from bardapi import Bard
-bard = Bard(token='xxxxxxxxxxx')
+bard = Bard(token='xxxxxxxxx')
 res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
 res['links'] # Get image links (list)
 res['images'] # Get images (set)
@@ -69,7 +69,7 @@ or
 ```python
 from bardapi import ChatBard
 import os
-os.environ["_BARD_API_KEY"] = 'xxxxxx'   # Requird
+os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'   # Requird
 os.environ["_BARD_API_LANG"] = Arabic    # Optional, Default to English
 os.environ["_BARD_API_TIMEOUT"] = 30     # Optional, Session Timeout
  
@@ -82,7 +82,7 @@ from bardapi import Bard, SESSION_HEADERS
 import os
 import requests
 
-token='xxxxxxxxxxx'
+token='xxxxxxxxx'
 session = requests.Session()
 session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token) 
@@ -101,7 +101,7 @@ GitHub Dev version only.
 ```python
 from bardapi import Bard
     
-bard = Bard(token="xxxxxxxx", run_code=True)
+bard = Bard(token="xxxxxxxxx", run_code=True)
 bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 'green':30, 'purple':15}")
 ```
 ![](assets/bardapi_run_code.png)
@@ -118,7 +118,7 @@ BardAsync is present in translate_to.core_async.BardAsync
 ```python
 from bardapi import BardAsync 
     
-bard = BardAsync(token="xxxxxxxx")
+bard = BardAsync(token="xxxxxxxxx")
 await bard.get_answer("What is Metaverse?")
 ```
 or
@@ -126,7 +126,7 @@ or
 import asyncio
 from bardapi import BardAsync
     
-bard = BardAsync(token="xxxxxxxx")
+bard = BardAsync(token="xxxxxxxxx")
 asyncio.run(bard.get_answer("What is Metaverse?"))
 ```
 
@@ -140,8 +140,8 @@ GitHub Dev version only.
 from bardapi import BardCookies
 
 cookie_dict = {
-    "__Secure-1PSID": "...",
-    "__Secure-1PSIDTS": "...",
+    "__Secure-1PSID": "xxxxxxxxx",
+    "__Secure-1PSIDTS": "xxxxxxxxx",
     # Any cookie values you want to pass session object.
 }
 
