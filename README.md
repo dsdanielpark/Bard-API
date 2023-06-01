@@ -71,7 +71,7 @@ Simple Usage
 ```python
 from bardapi import Bard
 
-token = 'xxxxxxxxxx'
+token = 'xxxxxxx'
 bard = Bard(token=token)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
@@ -79,7 +79,7 @@ Or you can use this
 ```python
 from bardapi import Bard
 import os
-os.environ['_BARD_API_KEY']="xxxxxxxx"
+os.environ['_BARD_API_KEY']="xxxxxxx"
 
 Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
@@ -90,7 +90,7 @@ import bardapi
 import os
 
 # set your __Secure-1PSID value to key
-token = 'xxxxxxxxxx'
+token = 'xxxxxxx'
 
 # set your input text
 input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
@@ -105,7 +105,7 @@ Addressing errors caused by delayed responses in environments like Google Colab 
 ```python
 from bardapi import Bard
 import os
-os.environ['_BARD_API_KEY']="xxxxxxxx"
+os.environ['_BARD_API_KEY']="xxxxxxx"
 
 bard = Bard(timeout=30) # Set timeout in seconds
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
@@ -127,7 +127,7 @@ proxies = {
     'https': 'https://proxy.example.com:8080'
 }
 
-bard = Bard(token='xxxxxxxxxx', proxies=proxies, timeout=30)
+bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -137,8 +137,8 @@ You can continue the conversation using a reusable session.
 from bardapi import Bard
 import os
 import requests
-os.environ['_BARD_API_KEY'] = 'xxxxxxxxxxx'
-# token='xxxxxxxxxxx'
+os.environ['_BARD_API_KEY'] = 'xxxxxxx'
+# token='xxxxxxx'
 
 session = requests.Session()
 session.headers = {
@@ -182,7 +182,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 
-## Contributor
+## Contributors
 
 I would like to express my sincere gratitude for the contributions made by all the contributors.
 
