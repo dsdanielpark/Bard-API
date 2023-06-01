@@ -15,7 +15,6 @@ class BardCookies:
 
     def __init__(
         self,
-        token: str = None,
         cookie_dict: dict = None,
         timeout: int = 20,
         proxies: dict = None,
@@ -27,14 +26,13 @@ class BardCookies:
         Initialize the Bard instance.
 
         Args:
-            token (str): Bard API token.
+            cookie_dict (dic): Bard cookies.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
             session (requests.Session): Requests session object.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
         """
-        self.token = token or os.getenv("_BARD_API_KEY")
-        self.cookie_dict = cookie_dict or None
+        self.cookie_dict = cookie_dict
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -45,14 +43,9 @@ class BardCookies:
         if session is None:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
-            if self.token is not None:
-                self.session.cookies.set("__Secure-1PSID", self.token)
-            else:
-                self.session.cookies.set(
-                    "__Secure-1PSID", self.cookie_dict["__Secure-1PSID"]
-                )
-            self.session.cookies.set("APISID", self.cookie_dict["APISID"])
-            self.session.cookies.set("SAPISID", self.cookie_dict["SAPISID"])
+
+            for k, v in self.cookie_dict:
+                self.session.cookies.set(k, v)
         else:
             self.session = session
         self.SNlM0e = self._get_snim0e()
