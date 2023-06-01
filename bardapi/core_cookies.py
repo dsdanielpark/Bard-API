@@ -178,10 +178,6 @@ class BardCookies:
         Raises:
             Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
         """
-        if not self.token or self.token[-1] != ".":
-            raise Exception(
-                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
-            )
         resp = self.session.get(
             "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
         )
