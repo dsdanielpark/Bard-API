@@ -186,9 +186,10 @@ In the scripts [folder](./scripts/), I have released a script to help you compar
 
 I would like to express my sincere gratitude for the contributions made by all the contributors.
 
-<a href="https://github.com/dsdanielpark/Bard-API/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard-API" />
+<a href="https://github.com/dsdanielpark/Bard_API/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard_API" />
 </a>
+
 
 <br>
 
