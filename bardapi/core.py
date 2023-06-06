@@ -19,6 +19,7 @@ class Bard:
         timeout: int = 20,
         proxies: dict = None,
         session: requests.Session = None,
+        conversation_id: str = None,
         language: str = None,
         run_code: bool = False,
     ):
@@ -29,6 +30,7 @@ class Bard:
             token (str): Bard API token.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
+            conversation_id: ID to fetch conversational context
             session (requests.Session): Requests session object.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
         """
@@ -39,6 +41,8 @@ class Bard:
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
+        if conversation_id != None:
+            self.conversation_id = conversation_id
         # Set session
         if session is None:
             self.session = requests.Session()
