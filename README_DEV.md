@@ -17,6 +17,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
     - [Using Bard asynchronously](#using-bard-asynchronously)
     - [Bard which can get Cookies](#bard-which-can-get-cookies)
+    - [Fix Conversation ID (Fix Context)](#fix-conversation-id-fix-context)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
 
 
@@ -152,6 +153,32 @@ print(bard.get_answer("こんにちは"))
 
 <br>
 
+### Fix Conversation ID (Fix Context)
+BART returns multiple responses as candidate answers. Each of these responses is assigned a conversation_id. While using a reusable session, you can observe that your prompt is stored. However, if you desire consistent answers, you can provide the desired conversation_id as an argument among the returned candidate answers.
+
+- Passing only the `session`: Retains your prompt.
+- Passing both `session` and `conversation_id`: Retains your prompt and allows you to receive answers with consistent parameters.
+
+```python
+
+from bardapi import Bard, SESSION_HEADER
+import os
+import requests
+
+# Set token
+token= 'xxxxxxxxx'
+
+# Set session
+session = requests.Session()
+session.headers = SESSION_HEADER
+session.cookies.set("__Secure-1PSID", token) 
+
+# Give session and conversation id
+bard = Bard(token=token, session=session, conversation_id="c_1f04f704a788e6e4", timeout=30)
+bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
+```
+
+<br>
 
 ### Translation to Another Programming Language
 Please check the translation results in [this folder](https://github.com/dsdanielpark/Bard-API/tree/main/translate_to).
