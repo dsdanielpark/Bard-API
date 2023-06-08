@@ -160,8 +160,7 @@ BART returns multiple responses as candidate answers. Each of these responses is
 - Passing both `session` and `conversation_id`: Retains your prompt and allows you to receive answers with consistent parameters.
 
 ```python
-
-from bardapi import Bard, SESSION_HEADER
+from bardapi import Bard, SESSION_HEADERS
 import os
 import requests
 
@@ -170,7 +169,7 @@ token= 'xxxxxxxxx'
 
 # Set session
 session = requests.Session()
-session.headers = SESSION_HEADER
+session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token) 
 
 # Give session and conversation id
