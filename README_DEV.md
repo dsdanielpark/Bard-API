@@ -37,8 +37,8 @@ or
 ```python
 from bardapi import Bard
 import os
-os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
-os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'
+os.environ["290e1ce4c4244dc18e3eb3cf543acf09"] = 'chinese (simplified)'
+os.environ["290e1ce4c4244dc18e3eb3cf543acf09"] = 'xxxxxxxxx'
 
 res = Bard().get_answer("你好。")
 print(res['content'])
@@ -70,9 +70,9 @@ or
 ```python
 from bardapi import ChatBard
 import os
-os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'   # Requird
-os.environ["_BARD_API_LANG"] = Arabic    # Optional, Default to English
-os.environ["_BARD_API_TIMEOUT"] = 30     # Optional, Session Timeout
+os.environ["290e1ce4c4244dc18e3eb3cf543acf09"] = 'xxxxxxxxx'   # Requird
+os.environ["290e1ce4c4244dc18e3eb3cf543acf09"] = Arabic    # Optional, Default to English
+os.environ["290e1ce4c4244dc18e3eb3cf543acf09"] = 30     # Optional, Session Timeout
  
 chat = ChatBard()
 chat.start()
