@@ -13,7 +13,7 @@ from bardapi.constants import (
 from bardapi.core_async import BardAsync
 from bardapi.core_cookies import BardCookies
 
-bard_api_key = os.environ.get("_BARD_API_KEY")
+bard_api_key = os.environ.get("290e1ce4c4244dc18e3eb3cf543acf09")
 
 __all__ = [
     "BardAsync",
