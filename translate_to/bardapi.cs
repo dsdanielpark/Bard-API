@@ -31,7 +31,8 @@ namespace BardNamespace
         private string responseId;
         private string choiceId;
         private readonly HttpClient client;
-
+        private string SNlM0e;
+        
         public Bard(string token = null, int timeout = 20, Dictionary<string, string> proxies = null, HttpClient session = null)
         {
             this.token = token ?? Environment.GetEnvironmentVariable("_BARD_API_KEY");
@@ -42,12 +43,6 @@ namespace BardNamespace
             this.responseId = "";
             this.choiceId = "";
             this.client = session ?? new HttpClient();
-            this.client.DefaultRequestHeaders.Clear();
-            foreach (var header in HEADERS)
-            {
-                this.client.DefaultRequestHeaders.Add(header.Key, header.Value);
-            }
-            this.client.DefaultRequestHeaders.Add("Cookie", $"__Secure-1PSID={this.token}");
             this.SNlM0e = GetSnim0eAsync().GetAwaiter().GetResult();
         }
 
@@ -58,10 +53,18 @@ namespace BardNamespace
                 throw new Exception("__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value.");
             }
 
+            this.client.DefaultRequestHeaders.Clear();
+            foreach (var header in HEADERS)
+            {
+                if (header.Key == "Content-Type") break;
+                this.client.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+            this.client.DefaultRequestHeaders.Add("Cookie", $"__Secure-1PSID={this.token}");
+
             HttpResponseMessage response = await client.GetAsync(BARD_URL);
             response.EnsureSuccessStatusCode();
             string responseBody = await response.Content.ReadAsStringAsync();
-            Match match = Regex.Match(responseBody, @"SNlM0e\":\"(.*?)\"");
+            Match match = Regex.Match(responseBody, "SNlM0e\":\"(.*?)\"");
             if (!match.Success)
             {
                 throw new Exception("SNlM0e value not found in response. Check __Secure-1PSID value.");
@@ -71,6 +74,14 @@ namespace BardNamespace
 
         public async Task<Dictionary<string, object>> GetAnswer(string inputText)
         {
+            this.client.DefaultRequestHeaders.Clear();
+            foreach (var header in HEADERS)
+            {
+                if (header.Key == "Content-Type") break;
+                this.client.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+            this.client.DefaultRequestHeaders.Add("Cookie", $"__Secure-1PSID={this.token}");
+
             var parameters = new Dictionary<string, string>()
             {
                 { "_reqid", reqId.ToString() },
@@ -87,38 +98,47 @@ namespace BardNamespace
             };
             var data = new Dictionary<string, string>()
             {
-                { "f.req", $"[null, {JsonSerializer.Serialize(inputTextStruct)}]" },
+                { "f.req", "[null,'[[\""+inputText+"\",null,null,[]],[\"en\"],[\"\",\"\",\"\"],null,null,null,[0]]']" },
                 { "at", SNlM0e }
             };
+
+            var formUrlEncodedContent = new FormUrlEncodedContent(data);
+            formUrlEncodedContent.Headers.ContentType = MediaTypeHeaderValue.Parse("application/x-www-form-urlencoded;charset=UTF-8");
+
             var response = await client.PostAsync(STREAM_GENERATE_URL + GetQueryString(parameters), new FormUrlEncodedContent(data));
             response.EnsureSuccessStatusCode();
             var responseContent = await response.Content.ReadAsStringAsync();
+            responseContent = responseContent.Substring(responseContent.IndexOf("wrb.fr") - 3, responseContent.IndexOf("\"]]\"]]") - 4);
             var responseArray = JArray.Parse(responseContent);
-            var parsedAnswer = (JArray)responseArray[0][2];
+            var parsedAnswer = responseArray[0][2];
             if (parsedAnswer == null)
             {
                 return new Dictionary<string, object> { { "content", $"Response Error: {responseContent}." } };
             }
 
+            string s = parsedAnswer.ToString();
+            var js = JArray.Parse(s);
+
+
             var choices = new List<Dictionary<string, object>>();
-            foreach (var choice in parsedAnswer[4])
+            foreach (var choice in js[4])
             {
                 choices.Add(new Dictionary<string, object> { { "id", choice[0] }, { "content", choice[1] } });
             }
 
             var bardAnswer = new Dictionary<string, object>
             {
-                { "content", parsedAnswer[0][0] },
-                { "conversation_id", parsedAnswer[1][0] },
-                { "response_id", parsedAnswer[1][1] },
-                { "factualityQueries", parsedAnswer[3] },
-                { "textQuery", parsedAnswer[2][0]?.ToString() ?? "" },
+                { "content", js[0][0] },
+                { "conversation_id", js[1][0] },
+                { "response_id", js[1][1] },
+                { "factualityQueries", js[3] },
+                { "textQuery", js[2][0]?.ToString() ?? "" },
                 { "choices", choices }
             };
 
-            conversationId = (string)bardAnswer["conversation_id"];
-            responseId = (string)bardAnswer["response_id"];
-            choiceId = (string)choices[0]["id"];
+            conversationId = bardAnswer["conversation_id"].ToString();
+            responseId = bardAnswer["response_id"].ToString();
+            choiceId = choices[0]["id"].ToString();
             reqId += 100000;
 
             return bardAnswer;
