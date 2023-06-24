@@ -26,7 +26,7 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 
 # [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package.
+If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
 
 <br>
 
