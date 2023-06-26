@@ -120,28 +120,27 @@ class BardAsync:
 
         # Gather image links
         images = set()
-        if len(resp_json) >= 3:
-            if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
-                for img in resp_json[4][0][4]:
-                    try:
-                        images.add(img[0][0][0])
-                    except Exception as e:
-                        # TODO:
-                        #  handle exception using logging instead
-                        print(f"Unable to parse image from the response: {e}")
+        try:
+            if len(resp_json) >= 3:
+                nested_list = resp_json[4][0][4]
+                for img in nested_list:
+                    images.add(img[0][0][0])
+        except (IndexError, TypeError, KeyError):
+            pass
+
         parsed_answer = json.loads(resp_dict)
 
         # Translated by Google Translator (optional)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
-            parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])
+            parsed_answer[4][0][1][0] = translator_to_lang.translate(parsed_answer[4][0][1][0])
             parsed_answer[4] = [
                 (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
             ]
 
         # Get code
         try:
-            code = parsed_answer[0][0].split("```")[1][6:]
+            code = parsed_answer[4][0][1][0].split("```")[1][6:]
         except Exception as e:
             # TODO:
             #  handle exception using logging instead
@@ -150,7 +149,7 @@ class BardAsync:
 
         # Returned dictionary object
         bard_answer = {
-            "content": parsed_answer[0][0],
+            "content": parsed_answer[4][0][1][0],
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
             "factualityQueries": parsed_answer[3],
