@@ -166,7 +166,7 @@ bard.get_answer("What is my last prompt??")['content']
 <br><br>
 
 # [GitHub Developer Version](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
-starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. <br>
+Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. <br>
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
