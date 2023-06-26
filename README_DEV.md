@@ -63,7 +63,7 @@ res['images'] # Get images (set)
 ```python
 from bardapi import ChatBard
     
-chat = ChatBard()
+chat = ChatBard(token=token, language='en')
 chat.start()
 ```
 or
