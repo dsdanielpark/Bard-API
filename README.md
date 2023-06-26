@@ -28,7 +28,12 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 # [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
 If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
 
+
+    
+
 <br>
+
+
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
@@ -165,7 +170,7 @@ bard.get_answer("What is my last prompt??")['content']
 
 <br><br>
 
-# [GitHub Developer Version](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
+# [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
 Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. <br>
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
@@ -179,6 +184,41 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
+
+<br>
+
+# Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+<details>
+<summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
+
+<br>
+
+## Usage
+For the decoder models provided by Hugging Face, you can easily use them by either following a simple approach or overriding the inference method. You can explore various open-source language models at [this link](https://huggingface.co/models). Through the ranking information from [Open LLM Leader Board Report repository](https://github.com/dsdanielpark/Open-LLM-Leaderboard-Report), you can find information about good models.
+
+### For LLM that use languages `other than English`
+```python
+from transllm import LLMtranslator
+
+open_llama3b_kor = LLMtranslator('openlm-research/open_llama_3b', target_lang='ko', translator='google') # Korean
+
+trnaslated_answer = open_llama3b_kor.generate("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+print(trnaslated_answer)
+```
+
+
+### For LLM that use `English`
+Refer https://github.com/openlm-research/open_llama or using like this:
+```python
+from transllm import LLMtranslator
+
+open_llama3b = LLMtranslator('openlm-research/open_llama_3b) 
+
+answer = open_llama3b.generate("Tell me about the Korean girl group Newjeans.")
+print(answer)
+```
+
+</details>
 
 <br><br>
 
