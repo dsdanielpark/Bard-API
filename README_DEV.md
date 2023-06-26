@@ -2,7 +2,7 @@ Development Status :: 5 - Production/Stable
 
 
 # GitHub installation required for the following features.
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously.
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
@@ -25,7 +25,6 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 ### Multi-language Bard API
-GitHub Dev version only.
 ```python
 from bardapi import Bard
 
@@ -47,7 +46,6 @@ print(res['content'])
 <br>
 
 ### Get image links
-GitHub Dev version only.
 ```python
 from bardapi import Bard
 bard = Bard(token='xxxxxxxxx')
@@ -98,7 +96,6 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
 <br>    
 
 ### Executing Python code received as a response from Bard
-GitHub Dev version only.
 ```python
 from bardapi import Bard
     
@@ -110,8 +107,6 @@ bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 
 <br>
 
 ### Using Bard asynchronously 
-GitHub Dev version only.    
-    
 Using asynchronous implementation will be efficient when implementing ChatBots or something alone those lines.    
 BardAsync is not using requests library instead it is using httpx library and http2 protocol.
     
@@ -135,8 +130,6 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
     
 
 ### Bard which can get Cookies
-GitHub Dev version only.    
-
 ```python
 from bardapi import BardCookies
 
