@@ -25,6 +25,11 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 ### Multi-language Bard API
+For commercial use cases, please refrain from using the unofficial Google Translate package included in bardapi for non-commercial purposes. Instead, kindly visit the official Google Cloud Translation website. Please use it responsibly, taking full responsibility for your actions, as bardapi package does not assume any implicit or explicit liability.
+> Official Google Translation API
+- Support Languages: https://cloud.google.com/translate/docs/languages?hl=ko
+> Unofficial Google Trnaslator for non-profit purposes (such as feature testing)
+- Support Languages: https://github.com/nidhaloff/deep-translator/blob/master/deep_translator/constants.py
 ```python
 from bardapi import Bard
 
