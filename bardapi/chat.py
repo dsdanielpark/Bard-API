@@ -1,3 +1,4 @@
+import os
 import requests
 from bardapi import Bard
 from colorama import Fore, Back, Style
