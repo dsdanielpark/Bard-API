@@ -33,8 +33,8 @@ For commercial use cases, please refrain from using the unofficial Google Transl
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
-res = bard.get_answer("你好。")
+bard = Bard(token=token, language='chinese (simplified)')
+res = bard.get_answer("今天首尔的天气怎么样？")
 print(res['content'])
 ```
 or
@@ -44,7 +44,7 @@ import os
 os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
 os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'
 
-res = Bard().get_answer("你好。")
+res = Bard().get_answer("今天首尔的天气怎么样？")
 print(res['content'])
 ```
 
