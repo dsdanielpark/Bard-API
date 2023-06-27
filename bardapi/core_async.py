@@ -150,7 +150,7 @@ class BardAsync:
 
         # Get code
         try:
-            code = parsed_answer[0][0].split("```")[1][6:]
+            code = parsed_answer[4][0][1][0].split("```")[1][6:]
         except Exception as e:
             # TODO:
             #  handle exception using logging instead
@@ -159,7 +159,7 @@ class BardAsync:
 
         # Returned dictionary object
         bard_answer = {
-            "content": parsed_answer[0][0],
+            "content": parsed_answer[4][0][1][0],
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
             "factualityQueries": parsed_answer[3],

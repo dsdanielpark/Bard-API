@@ -2,7 +2,7 @@ Development Status :: 5 - Production/Stable
 
 
 # GitHub installation required for the following features.
-To remove the dependencies of the bardapi package, you need to install the GitHub developer version.
+Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously.
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
@@ -25,12 +25,16 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 ### Multi-language Bard API
-GitHub Dev version only.
+For commercial use cases, please refrain from using the unofficial Google Translate package included in bardapi for non-commercial purposes. Instead, kindly visit the official Google Cloud Translation website. Please use it responsibly, taking full responsibility for your actions, as bardapi package does not assume any implicit or explicit liability.
+> Official Google Translation API
+- Support Languages: https://cloud.google.com/translate/docs/languages?hl=ko
+> Unofficial Google Trnaslator for non-profit purposes (such as feature testing)
+- Support Languages: https://github.com/nidhaloff/deep-translator/blob/master/deep_translator/constants.py
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxxx', language='chinese (simplified)')
-res = bard.get_answer("你好。")
+bard = Bard(token=token, language='chinese (simplified)')
+res = bard.get_answer("今天首尔的天气怎么样？")
 print(res['content'])
 ```
 or
@@ -40,14 +44,13 @@ import os
 os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
 os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'
 
-res = Bard().get_answer("你好。")
+res = Bard().get_answer("今天首尔的天气怎么样？")
 print(res['content'])
 ```
 
 <br>
 
 ### Get image links
-GitHub Dev version only.
 ```python
 from bardapi import Bard
 bard = Bard(token='xxxxxxxxx')
@@ -98,7 +101,6 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
 <br>    
 
 ### Executing Python code received as a response from Bard
-GitHub Dev version only.
 ```python
 from bardapi import Bard
     
@@ -110,8 +112,6 @@ bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 
 <br>
 
 ### Using Bard asynchronously 
-GitHub Dev version only.    
-    
 Using asynchronous implementation will be efficient when implementing ChatBots or something alone those lines.    
 BardAsync is not using requests library instead it is using httpx library and http2 protocol.
     
@@ -135,8 +135,6 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
     
 
 ### Bard which can get Cookies
-GitHub Dev version only.    
-
 ```python
 from bardapi import BardCookies
 
