@@ -5,6 +5,7 @@ import json
 import re
 import requests
 from deep_translator import GoogleTranslator
+from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 
 
@@ -20,6 +21,7 @@ class Bard:
         proxies: dict = None,
         session: requests.Session = None,
         conversation_id: str = None,
+        google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
     ):
@@ -53,6 +55,7 @@ class Bard:
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code or False
+        self.google_translator_api_key = google_translator_api_key
 
     def get_answer(self, input_text: str) -> dict:
         """
@@ -85,11 +88,16 @@ class Bard:
             "_reqid": str(self._reqid),
             "rt": "c",
         }
+        if self.google_translator_api_key is not None:
+            google_official_translator = translate.Client(api_key=self.google_translator_api_key)
+
         # Set language (optional)
-        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES and self.google_translator_api_key is None:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             input_text = translator_to_eng.translate(input_text)
-
+        elif self.language is not None and self.language not in ALLOWED_LANGUAGES and self.google_translator_api_key is not None: 
+            input_text = google_official_translator.translate(input_text, target_language='en')
+        
         # Make post data structure and insert prompt
         input_text_struct = [
             [input_text],
@@ -117,7 +125,7 @@ class Bard:
             return {"content": f"Response Error: {resp.content}."}
         resp_json = json.loads(resp_dict)
 
-        # Gather image links
+        # Gather image links (optional)
         images = set()
         try:
             if len(resp_json) >= 3:
@@ -127,16 +135,17 @@ class Bard:
         except (IndexError, TypeError, KeyError):
             pass
 
-            
+        # Parsed Answer Object
         parsed_answer = json.loads(resp_dict)
 
         # Translated by Google Translator (optional)
-        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+        ## Unofficial for testing
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES and self.google_translator_api_key is None:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
-            parsed_answer[4][0][1][0] = translator_to_lang.translate(parsed_answer[4][0][1][0])
-            parsed_answer[4] = [
-                (x[0], translator_to_lang.translate(x[1][0])) for x in parsed_answer[4]
-            ]
+            parsed_answer[4] = [[x[0], [translator_to_lang.translate(x[1][0])]+x[1][1:], x[2]] for x in parsed_answer[4]]
+        ## Official Google Cloud Translation API
+        elif self.language is not None and self.language not in ALLOWED_LANGUAGES and self.google_translator_api_key is not None:
+            parsed_answer[4] = [[x[0], [google_official_translator(x[1][0], target_language=self.language)]+x[1][1:], x[2]] for x in parsed_answer[4]]
 
         # Get code
         try:
