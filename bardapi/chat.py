@@ -61,7 +61,7 @@ class ChatBard:
             or input("Enter the timeout value (Just press enter to set 30 sec): ")
             or 30
         )
-        self.token = str(
+        self.token = (
             token
             or os.getenv("_BARD_API_KEY")
             or input("Enter the Bard API Key(__Secure-1PSID): ")
@@ -71,7 +71,7 @@ class ChatBard:
 
         # Set Bard object
         self.bard = Bard(
-            token=token,
+            token=self.token,
             session=self.session,
             timeout=self.timeout,
             language=self.language,
@@ -85,7 +85,6 @@ class ChatBard:
         Takes user input and retrieves responses from the Bard API until the user enters "quit", "q", or "stop".
         Prints the chatbot's response, including image links if available.
         """
-
         print(
             f"{SEPARATOR_LINE}\n{Back.BLUE}          Welcome to Chatbot        {Back.RESET}\n{SEPARATOR_LINE}"
         )
@@ -94,6 +93,7 @@ class ChatBard:
         # Start chat
         while True:
             user_input = input(USER_PROMPT).lower()
+            print(f"USER: {user_input}")
             if user_input in ["quit", "q", "stop"]:
                 break
 
