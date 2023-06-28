@@ -48,11 +48,11 @@ class ChatBard:
         else:
             self.session = session
         self.language = (
-            language.lower()
+            language
             or os.getenv(
                 "_BARD_API_LANG",
                 input("Enter the language (Just press enter to use English): "),
-            ).lower()
+            )
             or "english"
         )
         self.timeout = int(
@@ -60,6 +60,12 @@ class ChatBard:
             or os.getenv("_BARD_API_TIMEOUT")
             or input("Enter the timeout value (Just press enter to set 30 sec): ")
             or 30
+        )
+        self.token = str(
+            token
+            or os.getenv("_BARD_API_KEY")
+            or input("Enter the Bard API Key(__Secure-1PSID): ")
+            or print("Bard API(__Secure-1PSID) Key must be entered.")
         )
         self.proxies = proxies
 
