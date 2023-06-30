@@ -99,16 +99,17 @@ class ChatBard:
 
             # Get response from bard
             response = self.bard.get_answer(user_input)
-
-            if response["images"]:
-                print(
-                    f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} \n\n Image links: {response['images']}{Fore.RESET}{Style.RESET_ALL}"
-                )
-            else:
-                print(
-                    f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} {Fore.RESET}{Style.RESET_ALL}"
-                )
-
+            try:
+                if response["images"]:
+                    print(
+                        f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} \n\n Image links: {response['images']}{Fore.RESET}{Style.RESET_ALL}"
+                    )
+                else:
+                    print(
+                        f"{Fore.BLUE}{Style.BRIGHT}Chatbot: {response['content']} {Fore.RESET}{Style.RESET_ALL}"
+                    )
+            except:
+                pass
         print(
             f"{SEPARATOR_LINE}\n{Fore.RED}Chat Ended.{Fore.RESET}\n\nDanielPark's Chat Template\n{SEPARATOR_LINE}"
         )
