@@ -93,7 +93,6 @@ class ChatBard:
         # Start chat
         while True:
             user_input = input(USER_PROMPT).lower()
-            print(f"USER: {user_input}")
             if user_input in ["quit", "q", "stop"]:
                 break
 
