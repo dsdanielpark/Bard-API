@@ -1,4 +1,5 @@
 import os
+import re
 import string
 import random
 import json
@@ -123,3 +124,31 @@ class Bard:
         self._reqid += 100000
 
         return bard_answer
+    
+
+    def _get_snim0e(self) -> str:
+        """
+        Get the SNlM0e value from the Bard API response.
+
+        Returns:
+            str: SNlM0e value.
+        Raises:
+            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
+        """
+        if not self.token or self.token[-1] != ".":
+            raise Exception(
+                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+            )
+        resp = self.session.get(
+            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
+        if resp.status_code != 200:
+            raise Exception(
+                f"Response code not 200. Response Status is {resp.status_code}"
+            )
+        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        if not snim0e:
+            raise Exception(
+                "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
+            )
+        return snim0e.group(1)
