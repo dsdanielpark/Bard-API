@@ -181,7 +181,7 @@ class Bard:
                 for x in parsed_answer[4]
             ]
 
-        # Get code
+        # Get code (optional)
         try:
             code = parsed_answer[4][0][1][0].split("```")[1][6:]
         except Exception:
