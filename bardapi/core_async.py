@@ -3,9 +3,7 @@ import string
 import random
 import json
 from re import search
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
-from deep_translator import GoogleTranslator
-from google.cloud import translate_v2 as translate
+from bardapi.constants import SESSION_HEADERS
 from httpx import AsyncClient
 
 
@@ -19,9 +17,6 @@ class BardAsync:
         token: str = None,
         timeout: int = 20,
         proxies: dict = None,
-        google_translator_api_key: str = None,
-        language: str = None,
-        run_code: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -30,7 +25,6 @@ class BardAsync:
             token (str): Bard API token.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
-            language (str): Language code for translation (e.g., "en", "ko", "ja").
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
@@ -48,9 +42,6 @@ class BardAsync:
             proxies=self.proxies,
         )
         self.SNlM0e = self._get_snim0e()
-        self.language = language or os.getenv("_BARD_API_LANG", "en")
-        self.run_code = run_code or False
-        self.google_translator_api_key = google_translator_api_key
 
     async def get_answer(self, input_text: str) -> dict:
         """
@@ -85,27 +76,6 @@ class BardAsync:
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-        if self.google_translator_api_key is not None:
-            google_official_translator = translate.Client(
-                api_key=self.google_translator_api_key
-            )
-
-        # Set language (optional)
-        if (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_eng = GoogleTranslator(source="auto", target="en")
-            input_text = translator_to_eng.translate(input_text)
-        elif (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
-        ):
-            input_text = google_official_translator.translate(
-                input_text, target_language="en"
-            )
 
         # Make post data structure and insert prompt
         input_text_struct = [
@@ -133,60 +103,8 @@ class BardAsync:
 
         if not resp_dict:
             return {"content": f"Response Error: {resp.content}."}
-        resp_json = json.loads(resp_dict)
 
-        # Gather image links (optional)
-        try:
-            images = set()
-            if len(resp_json) >= 3:
-                if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
-                    for img in resp_json[4][0][4]:
-                        try:
-                            images.add(img[0][0][0])
-                        except Exception as e:
-                            # TODO:
-                            #  handle exception using logging instead
-                            print(f"Unable to parse image from the response: {e}")
-        except:
-            pass
         parsed_answer = json.loads(resp_dict)
-
-        # Translated by Google Translator (optional)
-        ## Unofficial for testing
-        if (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
-            parsed_answer[4] = [
-                [x[0], [translator_to_lang.translate(x[1][0])] + x[1][1:], x[2]]
-                for x in parsed_answer[4]
-            ]
-        ## Official Google Cloud Translation API
-        elif (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
-        ):
-            parsed_answer[4] = [
-                [
-                    x[0],
-                    [google_official_translator(x[1][0], target_language=self.language)]
-                    + x[1][1:],
-                    x[2],
-                ]
-                for x in parsed_answer[4]
-            ]
-
-        # Get code
-        try:
-            code = parsed_answer[4][0][1][0].split("```")[1][6:]
-        except Exception as e:
-            # TODO:
-            #  handle exception using logging instead
-            code = None
-            print(f"Unable to parse answer from the response: {e}")
 
         # Returned dictionary object
         bard_answer = {
@@ -197,9 +115,6 @@ class BardAsync:
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
-            "images": images,
-            "code": code,
-            "status_code": resp.status_code,
         }
 
         self.conversation_id, self.response_id, self.choice_id = (
@@ -208,22 +123,6 @@ class BardAsync:
             bard_answer["choices"][0]["id"],
         )
         self._reqid += 100000
-
-        # Execute Code
-        if self.run_code and bard_answer["code"] is not None:
-            try:
-                print(bard_answer["code"])
-                # TODO:
-                #  find a way to handle this following warning
-                #  EX100: Use of builtin exec function for dynamic input is insecure and can leave your application
-                #  open to arbitrary code execution. Found in 'exec(bard_answer['code'])'.
-                exec(bard_answer["code"])
-            except Exception as e:
-                # TODO:
-                #  handle exception using logging instead
-                print(f"Unable to execute the code: {e}")
-
-        return bard_answer
 
     async def _get_snim0e(self):
         """

@@ -25,7 +25,7 @@ version = get_version()
 
 setup(
     name="bardapi",
-    version="0.1.22",
+    version="0.1.22a",
     author="daniel park",
     author_email="parkminwoo1991@gmail.com",
     description="The python package that returns Response of Google Bard through API.",
@@ -36,10 +36,8 @@ setup(
     python_requires=">=3.6",
     install_requires=[
         "requests",
-        "deep_translator",
         "colorama",
         "httpx[http2]",
-        "google-cloud-translate==2.0.1",
     ],
     keywords="Python, API, Bard, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",
     classifiers=[
