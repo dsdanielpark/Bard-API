@@ -190,7 +190,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
-- [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language
+- [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language)
 
 <br>
 
