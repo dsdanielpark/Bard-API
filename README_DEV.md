@@ -188,49 +188,50 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 ![](./assets/translate.png)
 
 
-# ChatBard
+<br>
 
+
+## ChatBard with more features
 ChatBard is a chatbot class powered by the Bard API. It allows users to have interactive conversations with the chatbot and retrieve responses from the Bard API.
 
-## Usage
+### Usage
 
 ```python
 from bardapi import ChatBard
 
 chat = ChatBard()
 chat.start()
+```
 
-#Features
-
-#Customize User Prompt
-
+### Features
+Customize User Prompt
 Users can customize the prompt displayed to the user before input by providing a custom prompt message to the start() method.
-
+```pythno
 chat.start(prompt="Enter your message: ")
+```
 
-#Handle API Errors
+### Handle API Errors
 Error handling has been implemented for API requests. If an error occurs while communicating with the Bard API, an appropriate error message will be displayed to the user.
 
-#Input Validation
+### Input Validation
 User input is validated before sending it to the API. The input is checked for emptiness and length validation. If the input is invalid, the user is prompted to provide valid input.
 
-#Chat History
+### Chat History
 Chat history is stored during the conversation, including the user input and the corresponding chatbot responses. The display_chat_history() method can be called to print the chat history.
-
+```python
 chat.display_chat_history()
+```
 
-#Multilingual Support
-
+### Multilingual Support
 Users can select different languages for the chatbot interaction by specifying the language parameter when initializing the ChatBard object. The default language is English.
+```python
+chat = ChatBard(language="spanish")
+```
 
-#chat = ChatBard(language="spanish")
-
-#Improved User Experience
-
+### Improved User Experience
 Chatbot responses are displayed using colors and formatting to enhance the user experience. User input is displayed in green, and chatbot responses are displayed in blue.
 
-#Integration with Other APIs
-
+### Integration with Other APIs
 The ChatBard class focuses on the interaction with the Bard API. If you want to integrate additional APIs, you can extend the functionality by adding appropriate methods and making the necessary API calls within the ChatBard class.
             
             
