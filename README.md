@@ -50,6 +50,12 @@ If you wish to use the Bard API, including various features:
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
+Due to certain dependency packages that are not compatible with 64bit windows(OS), we are releasing a lightweight alpha release of bard that only returns responses for simple requests. This release is a continuation of the pypi `0.1.18` version, which was maintained with lightweight and simple functionality. See [alpha-release github branch](https://github.com/dsdanielpark/Bard-API/tree/alpha-release) for more details.
+```
+pip install bardapi==0.1.23a
+```
+
+
 
 <br>
 
@@ -184,6 +190,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
+- [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language)
 
 <br>
 

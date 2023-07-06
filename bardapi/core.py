@@ -32,9 +32,11 @@ class Bard:
             token (str): Bard API token.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
-            conversation_id: ID to fetch conversational context
             session (requests.Session): Requests session object.
+            conversation_id: ID to fetch conversational context
+            google_translator_api_key (str): Google cloud translation API key.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
+            run_code (bool): Whether to directly execute the code included in the answer (Python only)
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         self.proxies = proxies
@@ -45,7 +47,7 @@ class Bard:
         self.choice_id = ""
         if conversation_id is not None:
             self.conversation_id = conversation_id
-        # Set session
+        # Set session or Get session
         if session is None:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
@@ -79,8 +81,9 @@ class Bard:
                     "factualityQueries": list,
                     "textQuery": str,
                     "choices": list,
-                    "links": list
-                    "imgaes": set
+                    "links": list,
+                    "imgaes": set,
+                    "code": str
                 }
         """
         params = {
@@ -134,7 +137,7 @@ class Bard:
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
 
         if not resp_dict:
-            return {"content": f"Response Error: {resp.content}."}
+            return {"content": f"Response Error: {resp.content}. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment."}
         resp_json = json.loads(resp_dict)
 
         # Gather image links (optional)
@@ -178,7 +181,7 @@ class Bard:
                 for x in parsed_answer[4]
             ]
 
-        # Get code
+        # Get code (optional)
         try:
             code = parsed_answer[4][0][1][0].split("```")[1][6:]
         except Exception:
@@ -236,7 +239,7 @@ class Bard:
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
             raise Exception(
-                "SNlM0e value not found in response. Check __Secure-1PSID value."
+                "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
             )
         return snim0e.group(1)
 

@@ -96,8 +96,8 @@ class ChatBard:
         Returns:
             None
         """
-        prompt = prompt or self.USER_PROMPT
 
+        prompt = prompt or self.USER_PROMPT
         print(
             f"{SEPARATOR_LINE}\n{Back.BLUE}          Welcome to Chatbot        {Back.RESET}\n{SEPARATOR_LINE}"
         )
@@ -108,6 +108,7 @@ class ChatBard:
             user_input = input(prompt).lower()
             if user_input in ["quit", "q", "stop"]:
                 break
+
 
             # Validate user input
             if not self._is_valid_input(user_input):
@@ -125,6 +126,8 @@ class ChatBard:
                     self._add_to_chat_history(user_input, response['content'])
             except requests.exceptions.RequestException as e:
                 print(f"{Fore.RED}Error occurred: {str(e)}{Fore.RESET}")
+
+
 
         print(
             f"{SEPARATOR_LINE}\n{Fore.RED}Chat Ended.{Fore.RESET}\n\nDanielPark's Chat Template\n{SEPARATOR_LINE}"
