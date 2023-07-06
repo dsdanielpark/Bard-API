@@ -63,7 +63,7 @@ res['images'] # Get images (set)
 <br>
     
 ### ChatBard
-Some errors in ChatBard have been fixed. However, it is recommended not to pass the value of the token through input.
+Some errors in ChatBard have been fixed. However, it is recommended not to pass the value of the token through input. See detials in [ChatBard with more features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard-with-more-features).
 
 ```python
 from bardapi import ChatBard
