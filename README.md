@@ -24,22 +24,6 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
-
-# [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
-
-
-    
-
-<br>
-
-
-
-##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
-- Helpful prompts for Google Bard
-
-<br>
-
 ## Install
 If you will not provide the language parameter (use `english`, `korean`, `japanese` only as input text):
 ```
@@ -54,8 +38,6 @@ Due to certain dependency packages that are not compatible with 64bit windows(OS
 ```
 pip install bardapi==0.1.23a
 ```
-
-
 
 <br>
 
@@ -191,6 +173,61 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language)
+
+<br>
+
+##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
+- Helpful prompts for Google Bard
+
+<br>
+
+# Google Palm API
+You can explore information about various generative AI models by Google. Although the palm2 API seems to be under preparation, you can check out demos related to palm2 on the demo page.
+## Palm API
+
+Try prompt demo at https://makersuite.google.com/app/prompts/new_text.
+```
+who are you?
+>> I am powered by PaLM 2, which stands for Pathways Language Model 2, a large language model from Google AI.
+```
+
+1. Official Library https://makersuite.google.com/app/library
+2. Get API - https://makersuite.google.com/app/apikey
+3. Quick Start Tutorial - https://developers.generativeai.google/tutorials/text_quickstart
+
+
+```
+!pip install -q google-generativeai
+```
+
+```python
+import pprint
+import google.generativeai as palm
+
+palm.configure(api_key='YOUR_API_KEY')
+
+models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+model = models[0].name
+print(model)
+
+
+prompt = "Who are you????"
+
+completion = palm.generate_text(
+    model=model,
+    prompt=prompt,
+    temperature=0,
+    # The maximum length of the response
+    max_output_tokens=800,
+)
+
+print(completion.result)
+```
+
+<br>
+
+# [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
 
 <br>
 
