@@ -191,9 +191,9 @@ who are you?
 >> I am powered by PaLM 2, which stands for Pathways Language Model 2, a large language model from Google AI.
 ```
 
-1. Official Library https://makersuite.google.com/app/library
-2. Get API - https://makersuite.google.com/app/apikey
-3. Quick Start Tutorial - https://developers.generativeai.google/tutorials/text_quickstart
+- Official Library https://makersuite.google.com/app/library
+- Get API - https://makersuite.google.com/app/apikey
+- Quick Start Tutorial - https://developers.generativeai.google/tutorials/text_quickstart
 
 
 ```
