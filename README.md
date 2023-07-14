@@ -184,7 +184,6 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 # Google PaLM API
 You can explore information about various generative AI models by Google. Although the palm2 API seems to be under preparation, you can check out demos related to palm2 on the demo page.
 ## PaLM API
-GitHub Repository: https://github.com/GoogleCloudPlatform/generative-ai
 Try demo at https://makersuite.google.com/app/prompts/new_text.
 ```
 who are you?
@@ -193,6 +192,7 @@ who are you?
 
 Google Generative AI
 - Official Page: https://blog.google/technology/ai/google-palm-2-ai-large-language-model/
+- GitHub: https://github.com/GoogleCloudPlatform/generative-ai
 - Try Demo: https://makersuite.google.com/app/prompts/new_text.
 - Official Library: https://makersuite.google.com/app/library
 - Get API Key: https://makersuite.google.com/app/apikey
