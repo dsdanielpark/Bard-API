@@ -33,25 +33,7 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
     - [Reusable session object](#reusable-session-object)
   - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
 - [More features](#more-features)
-- [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
-- [Google PaLM API](#google-palm-api)
-  - [PaLM API](#palm-api)
-    - [Quick Start](#quick-start)
-- [hf-transllm](#hf-transllm)
-  - [Example code of hf-transllm](#example-code-of-hf-transllm)
-    - [Usage](#usage-1)
-      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
-      - [For LLM that use `English`](#for-llm-that-use-english)
-- [About](#about)
-  - [Scripts](#scripts)
-  - [Contributors](#contributors)
-  - [License](#license)
-  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
-  - [Bugs and Issues](#bugs-and-issues)
-  - [Contacts](#contacts)
-  - [Reference](#reference)
-    - [Important Notice](#important-notice)
-    - [Caution](#caution)
+
 
 <br>
 
