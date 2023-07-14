@@ -159,7 +159,7 @@ bard.get_answer("What is my last prompt??")['content']
 <br>
 
 ## [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
-Please use this only for experimental purposes. Business users and high traffic volume may be subject to account restrictions according to Google's policies. Please use the official API for the following purposes. Official Google Cloud API: https://cloud.google.com/text-to-speech
+Use this only for experimental purposes. Business users and high traffic volume may be subject to account restrictions according to Google's policies. Please use the [Official Google Cloud API](https://cloud.google.com/text-to-speech) for any other purpose.
 ```python
 from bardapi import Bard
 
