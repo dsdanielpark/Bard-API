@@ -143,11 +143,11 @@ from bardapi import BardCookies
 cookie_dict = {
     "__Secure-1PSID": "xxxxxxxxx",
     "__Secure-1PSIDTS": "xxxxxxxxx",
+    "__Secure-1PSIDCC", "xxxxxxx")
     # Any cookie values you want to pass session object.
 }
 
 bard = BardCookies(cookie_dict=cookie_dict)
-
 print(bard.get_answer("こんにちは"))
 ```
 
