@@ -165,11 +165,7 @@ The user is solely responsible for all code, and it is imperative to consult Goo
 from bardapi import Bard
 
 bard = Bard(token='xxxxxxx')
-audio = bard.speech('Hello, I am Bard! How can I help you today?', lang='en-US') # Get bytes audio
-
-# Save audio object
-with open('bard_response.mp3', 'wb') as f: 
-    f.write(audio)
+audio = bard.speech('Hello, I am Bard! How can I help you today?')
 ```
 
 
