@@ -11,6 +11,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 # Contents
 - [GitHub installation required for the following features.](#github-installation-required-for-the-following-features)
 - [Contents](#contents)
+    - [Text To Speech(TTS)](#text-to-speechtts)
     - [Multi-language Bard API](#multi-language-bard-api)
     - [Get image links](#get-image-links)
     - [ChatBard](#chatbard)
@@ -19,10 +20,32 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Bard which can get Cookies](#bard-which-can-get-cookies)
     - [Fix Conversation ID (Fix Context)](#fix-conversation-id-fix-context)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
+  - [ChatBard with more features](#chatbard-with-more-features)
+    - [Usage](#usage)
+    - [Features](#features)
+    - [Handle API Errors](#handle-api-errors)
+    - [Input Validation](#input-validation)
+    - [Chat History](#chat-history)
+    - [Multilingual Support](#multilingual-support)
+    - [Improved User Experience](#improved-user-experience)
+    - [Integration with Other APIs](#integration-with-other-apis)
 
 
 
 <br>
+
+
+### Text To Speech(TTS)
+```python
+from bardapi import Bard
+
+bard = Bard(token= xxxxxxxxx )
+audio = bard.speech("Hello, I am bard! How can I assist you?", lang='en-US') # Get bytes audio object.
+
+# Save audio object.
+with open('bard_response.mp3', 'wb') as f:
+    f.write(audio)
+```
 
 ### Multi-language Bard API
 For commercial use cases, please refrain from using the unofficial Google Translate package included in bardapi for non-commercial purposes. Instead, kindly visit the official Google Cloud Translation website. Please use it responsibly, taking full responsibility for your actions, as bardapi package does not assume any implicit or explicit liability.
