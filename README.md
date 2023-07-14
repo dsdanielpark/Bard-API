@@ -156,6 +156,23 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
+<br>
+
+## [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
+Business users and high traffic volume may be subject to account restrictions according to Google's policies. Please use the [Official Google Cloud API](https://cloud.google.com/text-to-speech) for any other purpose. 
+The user is solely responsible for all code, and it is imperative to consult Google's official services and policies. Furthermore, the code in this repository is provided under the MIT license, and it disclaims any liability, including explicit or implied legal responsibilities.
+```python
+from bardapi import Bard
+
+bard = Bard(token='xxxxxxx')
+audio = bard.speech('Hello, I am Bard! How can I help you today?', lang='en-US') # Get bytes audio
+
+# Save audio object
+with open('bard_response.mp3', 'wb') as f: 
+    f.write(audio)
+```
+
+
 <br><br>
 
 # [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
