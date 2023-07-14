@@ -190,6 +190,7 @@ Starting from version `0.1.18`, the GitHub version of BardAPI will be synchroniz
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
+- [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#text-to-speechtts)
 - [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#multi-language-bard-api)
 - [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
 - [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
