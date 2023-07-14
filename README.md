@@ -7,7 +7,7 @@ Development Status :: 5 - Production/Stable
 <a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
 <!-- <a href="https://pepy.tech/project/bardapi"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a> -->
 <!-- <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a> -->
-<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>- [Google  Bard API](#google--bard-api)
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%23000000&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=BardAPI&edge_flat=false"/></a>
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 </p>
@@ -21,6 +21,34 @@ Development Status :: 5 - Production/Stable
 **Please exercise caution and use this package responsibly.**
 
 I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes.
+
+<br>
+  - [Install](#install)
+  - [Authentication](#authentication)
+  - [Usage](#usage)
+  - [Further](#further)
+    - [Behind a proxy](#behind-a-proxy)
+    - [Reusable session object](#reusable-session-object)
+  - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
+- [More features](#more-features)
+  - [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
+- [Google PaLM API](#google-palm-api)
+  - [PaLM API](#palm-api)
+    - [Quick Start](#quick-start)
+- [hf-transllm](#hf-transllm)
+- [Example code of hf-transllm](#example-code-of-hf-transllm)
+  - [Usage](#usage-1)
+    - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
+    - [For LLM that use `English`](#for-llm-that-use-english)
+  - [Scripts](#scripts)
+  - [Contributors](#contributors)
+  - [License](#license)
+  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
+  - [Bugs and Issues](#bugs-and-issues)
+  - [Contacts](#contacts)
+  - [Reference](#reference)
+    - [Important Notice](#important-notice)
+    - [Caution](#caution)
 
 <br>
 
