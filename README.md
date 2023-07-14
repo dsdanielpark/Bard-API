@@ -295,7 +295,6 @@ print(answer)
 
 <br><br>
 
-# About
 
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
@@ -351,15 +350,13 @@ Sincerely grateful for any reports on new features or bugs. Your valuable feedba
 
 ## Reference 
 [1] https://github.com/acheong08/Bard <br>
-  
-<br>
             
-### Important Notice
+> **Warning** Important Notice
   The user assumes all legal responsibilities associated with using the BardAPI package. This Python package merely facilitates easy access to Google Bard for developers. Users are solely responsible for managing data and using the package appropriately. For further information, please consult the Google Bard Official Document.
     
-### Caution
+> **Warning** Caution
 This Python package is not an official Google package or API service. It is not affiliated with Google and uses Google account cookies, which means that excessive or commercial usage may result in restrictions on your Google account. The package was created to support developers in testing functionalities due to delays in the official Google package. However, it should not be misused or abused. Please be cautious and refer to the Readme for more information.
   
-
+<br><br>
   
 *Copyright (c) 2023 MinWoo Park, South Korea*<br>
