@@ -109,7 +109,6 @@ class ChatBard:
             if user_input in ["quit", "q", "stop"]:
                 break
 
-
             # Validate user input
             if not self._is_valid_input(user_input):
                 print(f"{Fore.RED}Invalid input! Please try again.{Fore.RESET}")
@@ -123,11 +122,9 @@ class ChatBard:
                 else:
                     self._display_response(response)
                     # Add user input and chatbot response to chat history
-                    self._add_to_chat_history(user_input, response['content'])
+                    self._add_to_chat_history(user_input, response["content"])
             except requests.exceptions.RequestException as e:
                 print(f"{Fore.RED}Error occurred: {str(e)}{Fore.RESET}")
-
-
 
         print(
             f"{SEPARATOR_LINE}\n{Fore.RED}Chat Ended.{Fore.RESET}\n\nDanielPark's Chat Template\n{SEPARATOR_LINE}"
@@ -142,7 +139,9 @@ class ChatBard:
         Returns:
             None
         """
-        print(f"{SEPARATOR_LINE}\n{Back.YELLOW}          Chat History        {Back.RESET}\n{SEPARATOR_LINE}")
+        print(
+            f"{SEPARATOR_LINE}\n{Back.YELLOW}          Chat History        {Back.RESET}\n{SEPARATOR_LINE}"
+        )
 
         for entry in self.chat_history:
             print(f"{Fore.GREEN}User: {entry['User']}{Fore.RESET}")

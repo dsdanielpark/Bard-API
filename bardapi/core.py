@@ -9,6 +9,7 @@ from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 import base64
 
+
 class Bard:
     """
     Bard class for interacting with the Bard API.
@@ -137,7 +138,11 @@ class Bard:
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
 
         if not resp_dict:
-            return {"content": f"Response Error: {resp.content}. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment."}
+            return {
+                "content": f"Response Error: {resp.content}. "
+                           f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                           f"Please double-check the cookie values and verify your network environment."
+            }
         resp_json = json.loads(resp_dict)
 
         # Gather image links (optional)
@@ -216,8 +221,7 @@ class Bard:
 
         return bard_answer
 
-
-    def speech(self, input_text: str, lang = 'en-US') -> dict:
+    def speech(self, input_text: str, lang="en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
 
@@ -240,13 +244,10 @@ class Bard:
             "rt": "c",
         }
 
-        
-        data = [[
-            ['XqA3Ic', json.dumps([None, input_text, lang, None, 2])]
-        ]]
+        input_text_struct = [[["XqA3Ic", json.dumps([None, input_text, lang, None, 2])]]]
 
         data = {
-            "f.req": json.dumps(data),
+            "f.req": json.dumps(input_text_struct),
             "at": self.SNlM0e,
         }
 
@@ -258,16 +259,19 @@ class Bard:
             timeout=self.timeout,
             proxies=self.proxies,
         )
-        
+
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
         if not resp_dict:
-            return {"content": f"Response Error: {resp.content}. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment."}
+            return {
+                "content": f"Response Error: {resp.content}. "
+                           f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                           f"Please double-check the cookie values and verify your network environment."
+            }
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
         return audio_bytes
-
 
     def _get_snim0e(self) -> str:
         """
