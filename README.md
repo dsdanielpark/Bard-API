@@ -214,7 +214,7 @@ model = models[0].name
 print(model)
 
 
-prompt = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
+prompt = "Who are you?????"
 
 completion = palm.generate_text(
     model=model,
