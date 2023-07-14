@@ -33,15 +33,16 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
     - [Reusable session object](#reusable-session-object)
   - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
 - [More features](#more-features)
-  - [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
+- [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
 - [Google PaLM API](#google-palm-api)
   - [PaLM API](#palm-api)
     - [Quick Start](#quick-start)
 - [hf-transllm](#hf-transllm)
-- [Example code of hf-transllm](#example-code-of-hf-transllm)
-  - [Usage](#usage-1)
-    - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
-    - [For LLM that use `English`](#for-llm-that-use-english)
+  - [Example code of hf-transllm](#example-code-of-hf-transllm)
+    - [Usage](#usage-1)
+      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
+      - [For LLM that use `English`](#for-llm-that-use-english)
+- [About](#about)
   - [Scripts](#scripts)
   - [Contributors](#contributors)
   - [License](#license)
@@ -219,7 +220,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 
 <br>
 
-##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
+#  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
 <br>
@@ -277,16 +278,16 @@ If you want to test the open-llama model, which is `released under the Apache Li
 
 <br>
 
-# Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+## Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
 <details>
 <summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
 
 <br>
 
-## Usage
+### Usage
 For the decoder models provided by Hugging Face, you can easily use them by either following a simple approach or overriding the inference method. You can explore various open-source language models at [this link](https://huggingface.co/models). Through the ranking information from [Open LLM Leader Board Report repository](https://github.com/dsdanielpark/Open-LLM-Leaderboard-Report), you can find information about good models.
 
-### For LLM that use languages `other than English`
+#### For LLM that use languages `other than English`
 ```python
 from transllm import LLMtranslator
 
@@ -297,7 +298,7 @@ print(trnaslated_answer)
 ```
 
 
-### For LLM that use `English`
+#### For LLM that use `English`
 Refer https://github.com/openlm-research/open_llama or using like this:
 ```python
 from transllm import LLMtranslator
@@ -311,6 +312,8 @@ print(answer)
 </details>
 
 <br><br>
+
+# About
 
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
