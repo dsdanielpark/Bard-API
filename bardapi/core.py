@@ -8,7 +8,7 @@ from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 import base64
-
+import browser_cookie3
 
 class Bard:
     """
@@ -25,6 +25,7 @@ class Bard:
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
+        token_from_browser = False
     ):
         """
         Initialize the Bard instance.
@@ -40,6 +41,10 @@ class Bard:
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
         """
         self.token = token or os.getenv("_BARD_API_KEY")
+        if not self.token and token_from_browser:
+            self.token = self._extract_bard_cookie()
+            if not self.token:
+                raise Exception("\nCan't extract cookie from browsers.\nPlease sign in first at\nhttps://accounts.google.com/v3/signin/identifier?followup=https://bard.google.com/&flowName=GlifWebSignIn&flowEntry=ServiceLogin")
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -323,24 +328,33 @@ class Bard:
                     links.append(item)
         return links
 
-    # You can contribute by implementing a feature that automatically collects cookie values based on the input of the Chrome path.
-    # def auth(self): #Idea Contribution
-    #     url = 'https://bard.google.com'
-    #     driver_path = "/path/to/chromedriver"
-    #     options = uc.ChromeOptions()
-    #     options.add_argument("--ignore-certificate-error")
-    #     options.add_argument("--ignore-ssl-errors")
-    #     options.user_data_dir = "path_to _user-data-dir"
-    #     driver = uc.Chrome(options=options)
-    #     driver.get(url)
-    #     cookies = driver.get_cookies()
-    #     # Find the __Secure-1PSID cookie
-    #     for cookie in cookies:
-    #         if cookie['name'] == '__Secure-1PSID':
-    #             print("__Secure-1PSID cookie:")
-    #             print(cookie['value'])
-    #             os.environ['_BARD_API_KEY']=cookie['value']
-    #             break
-    #     else:
-    #         print("No __Secure-1PSID cookie found")
-    #     driver.quit()
+
+    def _extract_bard_cookie(self):
+        """
+        Extract token cookie from browser.
+        Supports all modern web browsers and OS
+
+
+        Returns:
+            str: __Secure-1PSID cookie value
+        """
+
+        # browser_cookie3.load is similar function but it's broken
+        # So here we manually search accross all browsers
+        browsers = [
+            browser_cookie3.chrome, 
+            browser_cookie3.chromium, 
+            browser_cookie3.opera, 
+            browser_cookie3.opera_gx, 
+            browser_cookie3.brave, 
+            browser_cookie3.edge, 
+            browser_cookie3.vivaldi, 
+            browser_cookie3.firefox, 
+            browser_cookie3.librewolf, 
+            browser_cookie3.safari
+        ]
+        for browser_fn in browsers:
+            cj = browser_fn(domain_name='.google.com')
+            for cookie in cj:
+                if cookie.name == '__Secure-1PSID' and cookie.value.endswith('.'):
+                    return cookie.value
