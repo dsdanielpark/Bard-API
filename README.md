@@ -4,7 +4,7 @@ Development Status :: 5 - Production/Stable
 # Google <a href="https://bard.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> Bard API
 
 <p align="left">
-<a><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
+<a><a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
 <!-- <a href="https://pepy.tech/project/bardapi"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a> -->
 <!-- <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a> -->
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
@@ -21,7 +21,7 @@ Development Status :: 5 - Production/Stable
 
 **Please exercise caution and use this package responsibly.**
 
-I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes.
+I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes. If you have access to official [PaLM-2 API](https://blog.google/technology/ai/google-palm-2-ai-large-language-model/), replace the provided response with the corresponding official code.
 
 <br>
 
@@ -38,13 +38,14 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 
 <br>
 
+## What is Google Bard?
+Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check for updates on Bard [here](https://bard.google.com/updates), available regions and languages on [here](https://support.google.com/bard/answer/13575153?hl=en).
+
+
 ## Install
-If you will not provide the language parameter (use `english`, `korean`, `japanese` only as input text):
 ```
 pip install bardapi
 ```
-
-If you wish to use the Bard API, including various features:
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
