@@ -11,6 +11,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 # Contents
 - [GitHub installation required for the following features.](#github-installation-required-for-the-following-features)
 - [Contents](#contents)
+    - [Auto Cookie Bard](#auto-cookie-bard)
     - [Text To Speech(TTS)](#text-to-speechtts)
     - [Multi-language Bard API](#multi-language-bard-api)
     - [Get image links](#get-image-links)
@@ -34,6 +35,18 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 
 <br>
 
+### Auto Cookie Bard
+Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extract the `__Secure-1PSID`` cookie from all browsers, and then we can use the API without passing the token. However, there are still incomplete dependency packages and various variables, so please seek assistance in the following [GitHub Issues](https://github.com/borisbabic/browser_cookie3/issues) or adjust your browser's version.
+
+```python
+from bardapi import Bard
+
+bard = Bard(token_from_browser=True)
+res = bard.get_answer("Do you like cookies?")
+print(res)
+```
+
+<br>
 
 ### Text To Speech(TTS)
 ```python

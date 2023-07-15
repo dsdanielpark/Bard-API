@@ -26,14 +26,32 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
 <br>
 
 - [Google  Bard API](#google--bard-api)
+  - [What is Google Bard?](#what-is-google-bard)
   - [Install](#install)
   - [Authentication](#authentication)
   - [Usage](#usage)
   - [Further](#further)
     - [Behind a proxy](#behind-a-proxy)
     - [Reusable session object](#reusable-session-object)
+  - [Auto Cookie Bard](#auto-cookie-bard)
   - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
 - [More features](#more-features)
+- [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
+- [Google PaLM API](#google-palm-api)
+  - [PaLM API](#palm-api)
+    - [Quick Start](#quick-start)
+- [hf-transllm](#hf-transllm)
+  - [Example code of hf-transllm](#example-code-of-hf-transllm)
+    - [Usage](#usage-1)
+      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
+      - [For LLM that use `English`](#for-llm-that-use-english)
+  - [Scripts](#scripts)
+  - [Contributors](#contributors)
+  - [License](#license)
+  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
+  - [Bugs and Issues](#bugs-and-issues)
+  - [Contacts](#contacts)
+  - [Reference](#reference)
 
 
 <br>
@@ -173,6 +191,19 @@ bard.get_answer("What is my last prompt??")['content']
 
 <br>
 
+## Auto Cookie Bard
+Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extract the `__Secure-1PSID`` cookie from all browsers, and then we can use the API without passing the token. However, there are still incomplete dependency packages and various variables, so please seek assistance in the following [GitHub Issues](https://github.com/borisbabic/browser_cookie3/issues) or adjust your browser's version.
+
+```python
+from bardapi import Bard
+
+bard = Bard(token_from_browser=True)
+res = bard.get_answer("Do you like cookies?")
+print(res)
+```
+
+<br>
+
 ## [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
 Business users and high traffic volume may be subject to account restrictions according to Google's policies. Please use the [Official Google Cloud API](https://cloud.google.com/text-to-speech) for any other purpose. 
 The user is solely responsible for all code, and it is imperative to consult Google's official services and policies. Furthermore, the code in this repository is provided under the MIT license, and it disclaims any liability, including explicit or implied legal responsibilities.
@@ -187,11 +218,13 @@ audio = bard.speech('Hello, I am Bard! How can I help you today?')
 <br><br>
 
 # [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
-Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. <br>
+Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. However, the version undergoing QA can still be used from the GitHub repository.<br>
 ```
 pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
+
+- [Auto Cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#auto-cookie-bard)
 - [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#text-to-speechtts)
 - [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#multi-language-bard-api)
 - [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
