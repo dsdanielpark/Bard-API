@@ -15,30 +15,13 @@ Development Status :: 5 - Production/Stable
 
 > The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
 
+The alpha releases of bardapi are version 0.1.18 and version 0.1.23a. This lightweight package focuses on the functionality of text generation and prevents any issues caused by the dependency packages used to add various methods.
 ![](./assets/bard_api.gif)
 
 
 **Please exercise caution and use this package responsibly.**
 
-I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes.
 
-<br>
-
-
-# [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
-
-
-    
-
-<br>
-
-
-
-##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
-- Helpful prompts for Google Bard
-
-<br>
 
 ## Install
 If you will not provide the language parameter (use `english`, `korean`, `japanese` only as input text):
@@ -108,8 +91,6 @@ input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알
 response = bardapi.core.Bard(token).get_answer(input_text)
 ```
 
-
-
 Addressing errors caused by delayed responses in environments like Google Colab and containers. If an error occurs despite following the proper procedure, utilize the timeout argument.
 ```python
 from bardapi import Bard
@@ -170,20 +151,10 @@ bard.get_answer("What is my last prompt??")['content']
 
 <br><br>
 
-# [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
-Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. <br>
-```
-pip install git+https://github.com/dsdanielpark/Bard-API.git
-```
 
-- [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#multi-language-bard-api)
-- [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
-- [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
-- [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
-- [Translation to Another Programming Language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
-- [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
-- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
-- [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
+
+# [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
 
 <br>
 
@@ -205,7 +176,6 @@ open_llama3b_kor = LLMtranslator('openlm-research/open_llama_3b', target_lang='k
 trnaslated_answer = open_llama3b_kor.generate("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
 print(trnaslated_answer)
 ```
-
 
 ### For LLM that use `English`
 Refer https://github.com/openlm-research/open_llama or using like this:
@@ -264,9 +234,6 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-## Shifting Service Policies: Bard and Google's Dynamics 
-Bard's service status and Google's API interfaces are in constant flux. *The number of replies is currently limited, but certain users,* such as those utilizing VPNs or proxy servers, have reported slightly higher message caps. Adaptability is crucial in navigating these dynamic service policies. Please note that the cookie values used in this package are not official API values.
-            
 ## Bugs and Issues
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
 
