@@ -44,14 +44,14 @@ Bard is a conversational generative artificial intelligence chatbot developed by
 
 ## Install
 ```
-pip install bardapi
+$ pip install bardapi
 ```
 ```
-pip install git+https://github.com/dsdanielpark/Bard-API.git
+$ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 Due to certain dependency packages that are not compatible with 64bit windows(OS), we are releasing a lightweight alpha release of bard that only returns responses for simple requests. This release is a continuation of the pypi `0.1.18` version, which was maintained with lightweight and simple functionality. See [alpha-release github branch](https://github.com/dsdanielpark/Bard-API/tree/alpha-release) for more details.
 ```
-pip install bardapi==0.1.23a
+$ pip install bardapi==0.1.23a
 ```
 
 <br>
@@ -229,7 +229,7 @@ Google Generative AI
 
 ### Quick Start
 ```
-!pip install -q google-generativeai
+$ pip install -q google-generativeai
 ```
 
 ```python
