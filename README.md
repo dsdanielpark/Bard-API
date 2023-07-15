@@ -21,7 +21,7 @@ Development Status :: 5 - Production/Stable
 
 **Please exercise caution and use this package responsibly.**
 
-I referred to [this github repository(github.com/acheong08/Bard)](https://github.com/acheong08/Bard) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes. If you have access to official [PaLM-2 API](https://blog.google/technology/ai/google-palm-2-ai-large-language-model/), replace the provided response with the corresponding official code.
+Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes. If you have access to official [PaLM-2 API](https://blog.google/technology/ai/google-palm-2-ai-large-language-model/), replace the provided response with the corresponding official code.
 
 <br>
 
@@ -36,22 +36,6 @@ I referred to [this github repository(github.com/acheong08/Bard)](https://github
   - [Auto Cookie Bard](#auto-cookie-bard)
   - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
   - [More features](#more-features)
-- [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
-- [Google PaLM API](#google-palm-api)
-  - [PaLM API](#palm-api)
-    - [Quick Start](#quick-start)
-- [hf-transllm](#hf-transllm)
-  - [Example code of hf-transllm](#example-code-of-hf-transllm)
-    - [Usage](#usage-1)
-      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
-      - [For LLM that use `English`](#for-llm-that-use-english)
-  - [Scripts](#scripts)
-  - [Contributors](#contributors)
-  - [License](#license)
-  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
-  - [Bugs and Issues](#bugs-and-issues)
-  - [Contacts](#contacts)
-  - [Reference](#reference)
 
 
 <br>
@@ -229,6 +213,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#multi-language-bard-api)
 - [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
 - [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
+- [Export Conversation](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#export-conversation)
 - [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 - [Translation to Another Programming Language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
