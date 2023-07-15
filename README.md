@@ -41,10 +41,7 @@ Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. 
 <br>
 
 ## What is Google Bard?
-Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check for updates on Bard [here](https://bard.google.com/updates), available regions and languages on [here](https://support.google.com/bard/answer/13575153?hl=en).
-
-
-Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
+Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
 
 ## Install
 ```
