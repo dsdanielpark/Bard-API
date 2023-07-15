@@ -278,7 +278,7 @@ class Bard:
         audio_bytes = base64.b64decode(audio_b64)
         return audio_bytes
 
-    def share_conversation(self, bard_answer, title: str = ''):
+    def export_conversation(self, bard_answer, title: str = ''):
         """
         Get Share URL for specifc answer from bard
 
@@ -286,7 +286,7 @@ class Bard:
         >>> token = 'xxxxxxxxxx'
         >>> bard = Bard(token=token)
         >>> bard_answer = bard.get_answer("hello!")
-        >>> url = bard.share_conversation(bard_answer, title="Example")
+        >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
 
         Args:
             bard_answer (dict): bard_answer returned from get_answer

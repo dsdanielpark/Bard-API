@@ -13,13 +13,13 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Contents](#contents)
     - [Auto Cookie Bard](#auto-cookie-bard)
     - [Text To Speech(TTS)](#text-to-speechtts)
-    - [Multi-language Bard API](#multi-language-bard-api)
+    - [Multi-language Bard](#multi-language-bard)
     - [Get image links](#get-image-links)
     - [ChatBard](#chatbard)
-    - [Share Chat](#share-chat)
+    - [Export Conversation](#export-conversation)
     - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
     - [Using Bard asynchronously](#using-bard-asynchronously)
-    - [Bard multiple cookie dictionary](#bard-multiple-cookie-dictionary)
+    - [Multi-cookie Bard](#multi-cookie-bard)
     - [Fix Conversation ID (Fix Context)](#fix-conversation-id-fix-context)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
   - [ChatBard with more features](#chatbard-with-more-features)
@@ -43,8 +43,8 @@ Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extrac
 from bardapi import Bard
 
 bard = Bard(token_from_browser=True)
-res = bard.get_answer("Do you like cookies?")
-print(res)
+bard_answer = bard.get_answer("Do you like cookies?")['content']
+print(bard_answer)
 ```
 
 <br>
@@ -61,7 +61,7 @@ with open('bard_response.mp3', 'wb') as f:
     f.write(audio)
 ```
 
-### Multi-language Bard API
+### Multi-language Bard
 For commercial use cases, please refrain from using the unofficial Google Translate package included in bardapi for non-commercial purposes. Instead, kindly visit the official Google Cloud Translation website. Please use it responsibly, taking full responsibility for your actions, as bardapi package does not assume any implicit or explicit liability.
 > Official Google Translation API
 - Support Languages: https://cloud.google.com/translate/docs/languages?hl=ko
@@ -139,7 +139,7 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
 
 <br>    
 
-### Share Chat
+### Export Conversation
 Bard UI offers a convenient way to share a specific answer from Bard by generating a URL. This feature enables users to easily create and share URLs for individual answers.
 ```
 from bardapi import Bard
@@ -184,7 +184,7 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
 <br>
     
 
-### Bard multiple cookie dictionary
+### Multi-cookie Bard
 ```python
 from bardapi import BardCookies
 
