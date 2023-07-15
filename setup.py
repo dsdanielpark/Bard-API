@@ -1,5 +1,6 @@
-import re
+# Copyright 2023 parkminwoo, MIT License
 
+import re
 from setuptools import find_packages
 from setuptools import setup
 
@@ -25,7 +26,7 @@ version = get_version()
 
 setup(
     name="bardapi",
-    version="0.1.25",
+    version="0.1.26",
     author="daniel park",
     author_email="parkminwoo1991@gmail.com",
     description="The python package that returns Response of Google Bard through API.",
