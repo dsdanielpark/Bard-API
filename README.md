@@ -242,8 +242,7 @@ models = [m for m in palm.list_models() if 'generateText' in m.supported_generat
 model = models[0].name
 print(model)
 
-
-prompt = "Who are you?????"
+prompt = "Who are you?"
 
 completion = palm.generate_text(
     model=model,
@@ -252,7 +251,6 @@ completion = palm.generate_text(
     # The maximum length of the response
     max_output_tokens=800,
 )
-
 print(completion.result)
 ```
 
