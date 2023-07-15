@@ -15,13 +15,15 @@ Development Status :: 5 - Production/Stable
 
 > The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
 
-The alpha releases of bardapi are version 0.1.18 and version 0.1.23a. This lightweight package focuses on the functionality of text generation and prevents any issues caused by the dependency packages used to add various methods.
+
 ![](./assets/bard_api.gif)
 
 
 **Please exercise caution and use this package responsibly.**
 
+The alpha releases of bardapi are version `0.1.18` and version `0.1.23a`. This lightweight package focuses on the functionality of text generation and prevents any issues caused by the dependency packages used to add various methods.
 
+<br>
 
 ## Install
 If you will not provide the language parameter (use `english`, `korean`, `japanese` only as input text):
