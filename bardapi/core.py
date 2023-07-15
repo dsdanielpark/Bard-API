@@ -332,7 +332,7 @@ class Bard:
 
         Args:
             input_text (str): Input text for the query.
-            image (bytes): Input image bytes for the query
+            image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
 
         Returns:
             dict: Answer from the Bard API in the following format:
