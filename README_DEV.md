@@ -16,9 +16,10 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Multi-language Bard API](#multi-language-bard-api)
     - [Get image links](#get-image-links)
     - [ChatBard](#chatbard)
+    - [Share Chat](#share-chat)
     - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
     - [Using Bard asynchronously](#using-bard-asynchronously)
-    - [Bard which can get Cookies](#bard-which-can-get-cookies)
+    - [Bard multiple cookie dictionary](#bard-multiple-cookie-dictionary)
     - [Fix Conversation ID (Fix Context)](#fix-conversation-id-fix-context)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
   - [ChatBard with more features](#chatbard-with-more-features)
@@ -138,6 +139,17 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
 
 <br>    
 
+### Share Chat
+Bard UI offers a convenient way to share a specific answer from Bard by generating a URL. This feature enables users to easily create and share URLs for individual answers.
+```
+from bardapi import Bard
+bard = Bard(token='...')
+bard_answer = bard.get_answer('How are you?')
+url = bard.export_conversation(bard_answer, title='Example Shared conversation')
+print(url)
+
+```
+
 ### Executing Python code received as a response from Bard
 ```python
 from bardapi import Bard
@@ -172,7 +184,7 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
 <br>
     
 
-### Bard which can get Cookies
+### Bard multiple cookie dictionary
 ```python
 from bardapi import BardCookies
 
