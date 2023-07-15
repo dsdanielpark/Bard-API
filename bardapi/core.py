@@ -278,6 +278,59 @@ class Bard:
         audio_bytes = base64.b64decode(audio_b64)
         return audio_bytes
 
+    def share_conversation(self, bard_answer, title: str = ''):
+        """
+        Get Share URL for specifc answer from bard
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> bard_answer = bard.get_answer("hello!")
+        >>> url = bard.share_conversation(bard_answer, title="Example")
+
+        Args:
+            bard_answer (dict): bard_answer returned from get_answer
+            title (str): Title for URL
+        Returns:
+            string: public URL you can share
+        """
+        conv_id = bard_answer['conversation_id']
+        resp_id = bard_answer['response_id']
+        choice_id = bard_answer['choices'][0]['id']
+        params = {
+            'rpcids': 'fuVx7',
+            'source-path': '/',
+            'bl': 'boq_assistant-bard-web-server_20230713.13_p0',
+            # '_reqid': str(self._reqid),
+            'rt': 'c',
+        }
+        input_data_struct = [
+            [[
+                'fuVx7',
+                json.dumps([[None, [[[conv_id, resp_id], None, None, [[], [], [], choice_id, []]]], [0, title]]]),
+                None,
+                'generic'
+            ]]
+        ]
+
+        data = {
+            "f.req": json.dumps(input_data_struct),
+            "at": self.SNlM0e,
+        }
+
+        resp = self.session.post(
+            'https://bard.google.com/_/BardChatUi/data/batchexecute',
+            params=params,
+            data=data,
+        )
+        # Post-processing of response
+        resp_dict = json.loads(resp.content.splitlines()[3])
+        url_id = json.loads(resp_dict[0][2])[2]
+        url = f'https://g.co/bard/share/{url_id}'
+        # increment request ID
+        self._reqid += 100000
+        return url
+
     def _get_snim0e(self) -> str:
         """
         Get the SNlM0e value from the Bard API response.
