@@ -75,7 +75,7 @@ class BardCookies:
                     "textQuery": str,
                     "choices": list,
                     "links": list
-                    "imgaes": set
+                    "images": set
                 }
         """
         params = {

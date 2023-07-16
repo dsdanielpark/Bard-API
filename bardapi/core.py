@@ -89,7 +89,7 @@ class Bard:
                     "textQuery": str,
                     "choices": list,
                     "links": list,
-                    "imgaes": set,
+                    "images": set,
                     "code": str
                 }
         """

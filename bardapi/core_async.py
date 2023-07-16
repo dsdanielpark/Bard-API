@@ -75,7 +75,7 @@ class BardAsync:
                     "textQuery": str,
                     "choices": list,
                     "links": list
-                    "imgaes": set
+                    "images": set
                 }
         """
         if not isinstance(self.SNlM0e, str):
