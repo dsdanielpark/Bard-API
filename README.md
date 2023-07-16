@@ -213,7 +213,7 @@ audio = bard.speech('Hello, I am Bard! How can I help you today?')
 ```
 
 
-<br><br>
+<br>
 
 ## [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
 Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. However, the version undergoing QA can still be used from the GitHub repository.<br>
@@ -236,8 +236,13 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language)
 
 <br>
+<br>
+<br>
 
-#  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
+
+
+
+##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
 <br>
