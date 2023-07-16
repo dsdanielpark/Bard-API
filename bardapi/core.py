@@ -6,7 +6,7 @@ import re
 import requests
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
+from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS, IMG_UPLOAD_HEADERS
 import base64
 import browser_cookie3
 import uuid
@@ -279,7 +279,7 @@ class Bard:
         audio_bytes = base64.b64decode(audio_b64)
         return audio_bytes
 
-    def _upload_image(self, image: bytes, filename = 'Photo.jpg'):
+    def _upload_image(self, image: bytes, filename='Photo.jpg'):
         """
         Upload image into bard bucket on Google API
 
@@ -290,20 +290,8 @@ class Bard:
         resp.raise_for_status()
         size = len(image)
 
-        headers = {
-            'authority': 'content-push.googleapis.com',
-            'accept': '*/*',
-            'accept-language': 'en-US,en;q=0.7',
-            'authorization': 'Basic c2F2ZXM6cyNMdGhlNmxzd2F2b0RsN3J1d1U=', # constant authorization key
-            'content-type': 'application/x-www-form-urlencoded;charset=UTF-8',
-            'origin': 'https://bard.google.com',
-            'push-id': 'feeds/mcudyrk2a4khkz', # constant
-            'referer': 'https://bard.google.com/',
-            'x-goog-upload-command': 'start',
-            'x-goog-upload-header-content-length': str(size),
-            'x-goog-upload-protocol': 'resumable',
-            'x-tenant-id': 'bard-storage',
-        }
+        headers = IMG_UPLOAD_HEADERS
+        headers['size'] = str(size)
 
         data = 'File name: Photo.jpg'
         resp = requests.post('https://content-push.googleapis.com/upload/', headers=headers, data=data)
@@ -320,7 +308,7 @@ class Bard:
         return resp.text
 
 
-    def analyze_image(self, input_text: str, image: bytes, lang = 'en-GB', filename = 'Photo.jpg') -> dict:
+    def ask_about_image(self, input_text: str, image: bytes, lang = 'en-GB', filename='Photo.jpg') -> dict:
         """
         Send Bard image along with question and get answer
 
