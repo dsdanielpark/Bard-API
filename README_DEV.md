@@ -89,6 +89,7 @@ print(res['content'])
 <br>
 
 ### Bard `ask_about_image` method 
+*It may not work as it is only available for certain accounts, regions, and other restrictions.*
 As an experimental feature, it is possible to ask questions with an image. However, this functionality is only available for accounts with image upload capability in Bard's web UI.
 
 ```python
@@ -153,6 +154,7 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
 <br>    
 
 ### Export Conversation
+*It may not work as it is only available for certain accounts, regions, and other restrictions.*
 Bard UI offers a convenient way to share a specific answer from Bard by generating a URL. This feature enables users to easily create and share URLs for individual answers.
 
 ```python
@@ -163,6 +165,8 @@ url = bard.export_conversation(bard_answer, title='Example Shared conversation')
 print(url)
 
 ```
+
+<br>
 
 ### Executing Python code received as a response from Bard
 ```python
