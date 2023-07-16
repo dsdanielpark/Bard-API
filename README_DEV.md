@@ -14,6 +14,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Auto Cookie Bard](#auto-cookie-bard)
     - [Text To Speech(TTS)](#text-to-speechtts)
     - [Multi-language Bard](#multi-language-bard)
+    - [Bard `ask_about_image` method](#bard-ask_about_image-method)
     - [Get image links](#get-image-links)
     - [ChatBard](#chatbard)
     - [Export Conversation](#export-conversation)
@@ -87,6 +88,18 @@ print(res['content'])
 
 <br>
 
+### Bard `ask_about_image` method 
+As an experimental feature, it is possible to ask questions with an image. However, this functionality is only available for accounts with image upload capability in Bard's web UI.
+
+```python
+from bardapi import Bard
+
+bard = Bard(token='xxxxxxx')
+image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
+bard_answer = bard.ask_about_image('What is in the image?', image)
+```
+
+
 ### Get image links
 ```python
 from bardapi import Bard
@@ -141,7 +154,8 @@ ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="ch
 
 ### Export Conversation
 Bard UI offers a convenient way to share a specific answer from Bard by generating a URL. This feature enables users to easily create and share URLs for individual answers.
-```
+
+```python
 from bardapi import Bard
 bard = Bard(token='...')
 bard_answer = bard.get_answer('How are you?')
