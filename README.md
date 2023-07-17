@@ -230,7 +230,6 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 - [Export Conversation](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#export-conversation)
 - [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
-- [Translation to Another Programming Language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
