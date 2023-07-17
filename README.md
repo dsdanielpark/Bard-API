@@ -341,7 +341,7 @@ In the scripts [folder](./scripts/), I have released a script to help you compar
 
 ## Contributors
 
-I would like to express my sincere gratitude for the contributions made by all the contributors.
+We would like to express my sincere gratitude for the contributions made by all the contributors.
 
 <a href="https://github.com/dsdanielpark/Bard_API/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard_API" />
@@ -352,7 +352,7 @@ I would like to express my sincere gratitude for the contributions made by all t
 
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
-I hold no legal responsibility; for more information, please refer to the bottom of the readme file. I just want you to give me and [them](https://github.com/acheong08/Bard) a star.
+We hold no legal responsibility; for more information, please refer to the bottom of the readme file. We just want you to give me and [them](https://github.com/acheong08/Bard) a star.
 ```
 The MIT License (MIT)
 
