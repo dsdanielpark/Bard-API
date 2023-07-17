@@ -94,7 +94,7 @@ class Bard:
                 }
         """
         params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -245,7 +245,7 @@ class Bard:
             with format of audio/ogg
         """
         params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -350,7 +350,7 @@ class Bard:
             ]
         ]
         params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
