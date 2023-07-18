@@ -525,7 +525,12 @@ class Bard:
             browser_cookie3.safari
         ]
         for browser_fn in browsers:
-            cj = browser_fn(domain_name='.google.com')
-            for cookie in cj:
-                if cookie.name == '__Secure-1PSID' and cookie.value.endswith('.'):
-                    return cookie.value
+            # if browser isn't installed browser_cookie3 raises exception
+            # hence we need to ignore it and try to find the right one
+            try: 
+                cj = browser_fn(domain_name='.google.com')
+                for cookie in cj:
+                    if cookie.name == '__Secure-1PSID' and cookie.value.endswith('.'):
+                        return cookie.value
+            except:
+                continue
