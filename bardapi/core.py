@@ -292,6 +292,7 @@ class Bard:
 
         headers = IMG_UPLOAD_HEADERS
         headers['size'] = str(size)
+        headers['x-goog-upload-command'] = 'start'
 
         data = 'File name: Photo.jpg'
         resp = requests.post('https://content-push.googleapis.com/upload/', headers=headers, data=data)
