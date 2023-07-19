@@ -351,7 +351,7 @@ class Bard:
             ]
         ]
         params = {
-            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
+            "bl": "boq_assistant-bard-web-server_20230716.16_p2",
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -363,7 +363,7 @@ class Bard:
         }
 
         resp = self.session.post(
-            'https://bard.google.com/u/1/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate',
+            'https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate',
             params=params,
             data=data,
         )
@@ -535,3 +535,4 @@ class Bard:
                         return cookie.value
             except:
                 continue
+
