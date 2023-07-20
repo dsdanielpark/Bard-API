@@ -186,7 +186,6 @@ class BardAsync:
             # TODO:
             #  handle exception using logging instead
             code = None
-            print(f"Unable to parse answer from the response: {e}")
 
         # Returned dictionary object
         bard_answer = {
