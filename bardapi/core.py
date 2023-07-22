@@ -11,6 +11,7 @@ import base64
 import browser_cookie3
 import uuid
 
+
 class Bard:
     """
     Bard class for interacting with the Bard API.
@@ -26,7 +27,7 @@ class Bard:
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
-        token_from_browser = False
+        token_from_browser=False,
     ):
         """
         Initialize the Bard instance.
@@ -45,7 +46,9 @@ class Bard:
         if not self.token and token_from_browser:
             self.token = self._extract_bard_cookie()
             if not self.token:
-                raise Exception("\nCan't extract cookie from browsers.\nPlease sign in first at\nhttps://accounts.google.com/v3/signin/identifier?followup=https://bard.google.com/&flowName=GlifWebSignIn&flowEntry=ServiceLogin")
+                raise Exception(
+                    "\nCan't extract cookie from browsers.\nPlease sign in first at\nhttps://accounts.google.com/v3/signin/identifier?followup=https://bard.google.com/&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
+                )
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -146,8 +149,8 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                           f"Please double-check the cookie values and verify your network environment."
+                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                f"Please double-check the cookie values and verify your network environment."
             }
         resp_json = json.loads(resp_dict)
 
@@ -250,7 +253,9 @@ class Bard:
             "rt": "c",
         }
 
-        input_text_struct = [[["XqA3Ic", json.dumps([None, input_text, lang, None, 2])]]]
+        input_text_struct = [
+            [["XqA3Ic", json.dumps([None, input_text, lang, None, 2])]]
+        ]
 
         data = {
             "f.req": json.dumps(input_text_struct),
@@ -271,45 +276,48 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                           f"Please double-check the cookie values and verify your network environment."
+                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                f"Please double-check the cookie values and verify your network environment."
             }
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
         return audio_bytes
 
-    def _upload_image(self, image: bytes, filename='Photo.jpg'):
+    def _upload_image(self, image: bytes, filename="Photo.jpg"):
         """
         Upload image into bard bucket on Google API
 
         Returns:
             str: relative URL of image.
         """
-        resp = requests.options('https://content-push.googleapis.com/upload/')
+        resp = requests.options("https://content-push.googleapis.com/upload/")
         resp.raise_for_status()
         size = len(image)
 
         headers = IMG_UPLOAD_HEADERS
-        headers['size'] = str(size)
-        headers['x-goog-upload-command'] = 'start'
+        headers["size"] = str(size)
+        headers["x-goog-upload-command"] = "start"
 
-        data = 'File name: Photo.jpg'
-        resp = requests.post('https://content-push.googleapis.com/upload/', headers=headers, data=data)
+        data = "File name: Photo.jpg"
+        resp = requests.post(
+            "https://content-push.googleapis.com/upload/", headers=headers, data=data
+        )
         resp.raise_for_status()
-        upload_url = resp.headers['X-Goog-Upload-Url']
+        upload_url = resp.headers["X-Goog-Upload-Url"]
         resp = requests.options(upload_url, headers=headers)
         resp.raise_for_status()
-        headers['x-goog-upload-command'] = 'upload, finalize'
+        headers["x-goog-upload-command"] = "upload, finalize"
 
         # It can be that we need to check returned offset
-        headers['X-Goog-Upload-Offset'] = '0'
+        headers["X-Goog-Upload-Offset"] = "0"
         resp = requests.post(upload_url, headers=headers, data=image)
         resp.raise_for_status()
         return resp.text
 
-
-    def ask_about_image(self, input_text: str, image: bytes, lang = 'en-GB', filename='Photo.jpg') -> dict:
+    def ask_about_image(
+        self, input_text: str, image: bytes, lang="en-GB", filename="Photo.jpg"
+    ) -> dict:
         """
         Send Bard image along with question and get answer
 
@@ -344,11 +352,17 @@ class Bard:
         input_data_struct = [
             None,
             [
-                [input_text, 0, None, [[[image_url, 1], filename]]], [lang], ['', '', ''],
-                '', # Unknown random string value (1000 characters +)
-                uuid.uuid4().hex, # should be random uuidv4 (32 characters)
-                None, [1] ,0 , [], []
-            ]
+                [input_text, 0, None, [[[image_url, 1], filename]]],
+                [lang],
+                ["", "", ""],
+                "",  # Unknown random string value (1000 characters +)
+                uuid.uuid4().hex,  # should be random uuidv4 (32 characters)
+                None,
+                [1],
+                0,
+                [],
+                [],
+            ],
         ]
         params = {
             "bl": "boq_assistant-bard-web-server_20230716.16_p2",
@@ -363,7 +377,7 @@ class Bard:
         }
 
         resp = self.session.post(
-            'https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate',
+            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
         )
@@ -372,8 +386,8 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                           f"Please double-check the cookie values and verify your network environment."
+                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                f"Please double-check the cookie values and verify your network environment."
             }
         parsed_answer = json.loads(resp_dict)
 
@@ -397,7 +411,7 @@ class Bard:
         self._reqid += 100000
         return bard_answer
 
-    def export_conversation(self, bard_answer, title: str = ''):
+    def export_conversation(self, bard_answer, title: str = ""):
         """
         Get Share URL for specifc answer from bard
 
@@ -413,23 +427,40 @@ class Bard:
         Returns:
             string: public URL you can share
         """
-        conv_id = bard_answer['conversation_id']
-        resp_id = bard_answer['response_id']
-        choice_id = bard_answer['choices'][0]['id']
+        conv_id = bard_answer["conversation_id"]
+        resp_id = bard_answer["response_id"]
+        choice_id = bard_answer["choices"][0]["id"]
         params = {
-            'rpcids': 'fuVx7',
-            'source-path': '/',
-            'bl': 'boq_assistant-bard-web-server_20230713.13_p0',
+            "rpcids": "fuVx7",
+            "source-path": "/",
+            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
             # '_reqid': str(self._reqid),
-            'rt': 'c',
+            "rt": "c",
         }
         input_data_struct = [
-            [[
-                'fuVx7',
-                json.dumps([[None, [[[conv_id, resp_id], None, None, [[], [], [], choice_id, []]]], [0, title]]]),
-                None,
-                'generic'
-            ]]
+            [
+                [
+                    "fuVx7",
+                    json.dumps(
+                        [
+                            [
+                                None,
+                                [
+                                    [
+                                        [conv_id, resp_id],
+                                        None,
+                                        None,
+                                        [[], [], [], choice_id, []],
+                                    ]
+                                ],
+                                [0, title],
+                            ]
+                        ]
+                    ),
+                    None,
+                    "generic",
+                ]
+            ]
         ]
 
         data = {
@@ -438,14 +469,14 @@ class Bard:
         }
 
         resp = self.session.post(
-            'https://bard.google.com/_/BardChatUi/data/batchexecute',
+            "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
         )
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
         url_id = json.loads(resp_dict[0][2])[2]
-        url = f'https://g.co/bard/share/{url_id}'
+        url = f"https://g.co/bard/share/{url_id}"
         # increment request ID
         self._reqid += 100000
         return url
@@ -500,7 +531,6 @@ class Bard:
                     links.append(item)
         return links
 
-
     def _extract_bard_cookie(self):
         """
         Extract token cookie from browser.
@@ -514,25 +544,24 @@ class Bard:
         # browser_cookie3.load is similar function but it's broken
         # So here we manually search accross all browsers
         browsers = [
-            browser_cookie3.chrome, 
-            browser_cookie3.chromium, 
-            browser_cookie3.opera, 
-            browser_cookie3.opera_gx, 
-            browser_cookie3.brave, 
-            browser_cookie3.edge, 
-            browser_cookie3.vivaldi, 
-            browser_cookie3.firefox, 
-            browser_cookie3.librewolf, 
-            browser_cookie3.safari
+            browser_cookie3.chrome,
+            browser_cookie3.chromium,
+            browser_cookie3.opera,
+            browser_cookie3.opera_gx,
+            browser_cookie3.brave,
+            browser_cookie3.edge,
+            browser_cookie3.vivaldi,
+            browser_cookie3.firefox,
+            browser_cookie3.librewolf,
+            browser_cookie3.safari,
         ]
         for browser_fn in browsers:
             # if browser isn't installed browser_cookie3 raises exception
             # hence we need to ignore it and try to find the right one
-            try: 
-                cj = browser_fn(domain_name='.google.com')
+            try:
+                cj = browser_fn(domain_name=".google.com")
                 for cookie in cj:
-                    if cookie.name == '__Secure-1PSID' and cookie.value.endswith('.'):
+                    if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
                         return cookie.value
             except:
                 continue
-
