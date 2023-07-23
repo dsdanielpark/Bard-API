@@ -11,6 +11,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 # Contents
 - [GitHub installation required for the following features.](#github-installation-required-for-the-following-features)
 - [Contents](#contents)
+    - [`core.py` - `Bard` class](#corepy---bard-class)
     - [Auto Cookie Bard](#auto-cookie-bard)
     - [Text To Speech(TTS)](#text-to-speechtts)
     - [Multi-language Bard](#multi-language-bard)
@@ -35,6 +36,74 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Integration with Other APIs](#integration-with-other-apis)
 
 
+
+<br>
+
+
+### `core.py` - `Bard` class
+
+<details>
+<summary> See class structure...</summary>
+```python
+class Bard:
+    def __init__(self, token: str = None, timeout: int = 20, ...):
+        """
+        Initialize the Bard instance with API token and other optional parameters.
+        """
+        # ...
+
+    def get_answer(self, input_text: str) -> dict:
+        """
+        Get an answer from the Bard API for the given input text.
+        """
+        # ...
+
+    def speech(self, input_text: str, lang="en-US") -> bytes:
+        """
+        Get speech audio from Bard API for the given input text.
+        """
+        # ...
+
+    def export_conversation(self, bard_answer, title: str = "") -> str:
+        """
+        Get a shareable URL for a specific answer from Bard.
+        """
+        # ...
+
+    def ask_about_image(self, input_text: str, image: bytes, lang="en-GB") -> dict:
+        """
+        Send Bard an image along with a question and get an answer.
+        """
+        # ...
+
+    # Private methods (not intended to be called directly)
+    def _upload_image(self, image: bytes, filename="Photo.jpg") -> str:
+        """
+        Upload an image to the Bard bucket on Google API and get the relative URL of the image.
+        """
+        # ...
+
+    def _get_snim0e(self) -> str:
+        """
+        Get the SNlM0e value from the Bard API response.
+        """
+        # ...
+
+    def _extract_links(self, data: list) -> list:
+        """
+        Extract links from the given data.
+        """
+        # ...
+
+    def _extract_bard_cookie(self) -> str:
+        """
+        Extract the Bard API token cookie from the browser (if available).
+        """
+        # ...
+
+```
+
+</details>
 
 <br>
 
