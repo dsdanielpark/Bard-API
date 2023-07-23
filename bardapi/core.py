@@ -481,6 +481,58 @@ class Bard:
         self._reqid += 100000
         return url
 
+    def export_replit(self, code: str, filename: str = "main.py", **kwargs):
+        """
+        Get Export URL to repl.it from code
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> bard_code = bard.get_answer("make python code to print hello world")['code']
+        >>> url = bard.export_replit(bard_code, filename="main.py") # python code
+
+        Args:
+            code (str): code to export
+            filename (str): filename for code language
+        Returns:
+            string: export URL to create repl
+        """
+        params = {
+            "rpcids": "qACoKe",
+            "source-path": kwargs.get("source_path", "/"),
+            "bl": "boq_assistant-bard-web-server_20230718.13_p2",
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+        input_data_struct = [
+            [
+                [
+                    "qACoKe",
+                    json.dumps(["", 5, code, [[filename, code]]]),
+                    None,
+                    "generic",
+                ]
+            ]
+        ]
+        data = {
+            "f.req": json.dumps(input_data_struct),
+            "at": self.SNlM0e,
+        }
+
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            params=params,
+            data=data,
+        )
+
+        resp_dict = json.loads(resp.content.splitlines()[3])
+        print(resp_dict)
+        url = json.loads(resp_dict[0][2])[0]
+        # increment request ID
+        self._reqid += 100000
+
+        return url
+
     def _get_snim0e(self) -> str:
         """
         Get the SNlM0e value from the Bard API response.
