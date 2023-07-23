@@ -1,3 +1,5 @@
+# Automatically generated using PDM. Do not edit manually. 
+
 requests
 deep_translator
 colorama
