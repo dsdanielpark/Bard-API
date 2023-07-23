@@ -1,6 +1,8 @@
-THIS PROJECT IS IN MAINTENANCE MODE. We accept pull requests for Bug Fixes **ONLY**. NO NEW FEATURES ACCEPTED!
+I welcome the overall code refactoring and new features. However, please make sure to conduct QA. Before making a PR, please check the entire functionality by adding it to https://github.com/dsdanielpark/Bard-API/blob/main/func_test.ipynb. Due to various reasons, I couldn't implement test mocking code. I also welcome anyone who can provide test mocking and refactoring. But please keep the existing method names and examples. While I aim to accept PRs as quickly as possible, they may be rejected if QA is not correct.
 
 <!--- Provide a general summary of your changes in the Title above -->
+# BARD-API Pull Request Template
+Please provide the necessary information as succinctly as possible. I appreciate it if you write it in an easy-to-read format as I don't have much time to dedicate to maintaining this package.
 
 ## Description
 <!--- Describe your changes in detail -->
@@ -22,3 +24,5 @@ THIS PROJECT IS IN MAINTENANCE MODE. We accept pull requests for Bug Fixes **ONL
 
 ## Screenshots (if appropriate):
 
+
+Thank you once again to all the contributors. Your efforts are greatly appreciated!
