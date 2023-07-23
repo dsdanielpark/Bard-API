@@ -11,7 +11,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 # Contents
 - [GitHub installation required for the following features.](#github-installation-required-for-the-following-features)
 - [Contents](#contents)
-    - [`core.py` - `Bard` class](#corepy---bard-class)
+    - [Structure of `core.py - Bard` class](#structure-of-corepy---bard-class)
     - [Auto Cookie Bard](#auto-cookie-bard)
     - [Text To Speech(TTS)](#text-to-speechtts)
     - [Multi-language Bard](#multi-language-bard)
@@ -25,15 +25,15 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Multi-cookie Bard](#multi-cookie-bard)
     - [Fix Conversation ID (Fix Context)](#fix-conversation-id-fix-context)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
-  - [ChatBard with more features](#chatbard-with-more-features)
-    - [Usage](#usage)
-    - [Features](#features)
-    - [Handle API Errors](#handle-api-errors)
-    - [Input Validation](#input-validation)
-    - [Chat History](#chat-history)
-    - [Multilingual Support](#multilingual-support)
-    - [Improved User Experience](#improved-user-experience)
-    - [Integration with Other APIs](#integration-with-other-apis)
+    - [ChatBard with more features](#chatbard-with-more-features)
+      - [Usage](#usage)
+      - [Features](#features)
+      - [Handle API Errors](#handle-api-errors)
+      - [Input Validation](#input-validation)
+      - [Chat History](#chat-history)
+      - [Multilingual Support](#multilingual-support)
+      - [Improved User Experience](#improved-user-experience)
+      - [Integration with Other APIs](#integration-with-other-apis)
 
 
 
@@ -132,6 +132,8 @@ with open('bard_response.mp3', 'wb') as f:
     f.write(audio)
 ```
 
+<br>
+
 ### Multi-language Bard
 For commercial use cases, please refrain from using the unofficial Google Translate package included in bardapi for non-commercial purposes. Instead, kindly visit the official Google Cloud Translation website. Please use it responsibly, taking full responsibility for your actions, as bardapi package does not assume any implicit or explicit liability.
 > Official Google Translation API
@@ -165,21 +167,21 @@ As an experimental feature, it is possible to ask questions with an image. Howev
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxx')
+bard = Bard(token='xxxxxxxx')
 image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
 bard_answer = bard.ask_about_image('What is in the image?', image)
 ```
 
+<br>
 
 ### Get image links
 ```python
 from bardapi import Bard
-bard = Bard(token='xxxxxxxxx')
+bard = Bard(token='xxxxxxxx')
 res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
 res['links'] # Get image links (list)
 res['images'] # Get images (set)
 ```
-
 
 <br>
     
@@ -189,16 +191,16 @@ Some errors in ChatBard have been fixed. However, it is recommended not to pass 
 ```python
 from bardapi import ChatBard
     
-chat = ChatBard(token=token, language='en')
+chat = ChatBard(token="xxxxxxxx", language='en')
 chat.start()
 ```
 or
 ```python
 from bardapi import ChatBard
 import os
-os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'   # Requird
-os.environ["_BARD_API_LANG"] = Arabic    # Optional, Default to English
-os.environ["_BARD_API_TIMEOUT"] = 30     # Optional, Session Timeout
+os.environ["_BARD_API_KEY"]='xxxxxxxx'   # Requird
+os.environ["_BARD_API_LANG"]="Arabic"     # Optional, Default to English
+os.environ["_BARD_API_TIMEOUT"]=30        # Optional, Session Timeout
  
 chat = ChatBard()
 chat.start()
@@ -209,7 +211,7 @@ from bardapi import Bard, SESSION_HEADERS
 import os
 import requests
 
-token='xxxxxxxxx'
+token='xxxxxxxx'
 session = requests.Session()
 session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token) 
@@ -229,7 +231,7 @@ Bard UI offers a convenient way to share a specific answer from Bard by generati
 
 ```python
 from bardapi import Bard
-bard = Bard(token='...')
+bard = Bard(token='xxxxxxxx')
 bard_answer = bard.get_answer('How are you?')
 url = bard.export_conversation(bard_answer, title='Example Shared conversation')
 print(url)
@@ -242,7 +244,7 @@ print(url)
 ```python
 from bardapi import Bard
 
-bard = Bard(token='...')
+bard = Bard(token='xxxxxxxx')
 
 bard_answer = bard.get_answer("code python to print hello world")
 # {'code': 'print("Hello World")', 'langCode': 'python'}
@@ -253,11 +255,13 @@ url = bard.export_replit(
 print(url) # https://replit.com/external/v1/claims/xxx/claim
 ```
 
+<br>
+
 ### Executing Python code received as a response from Bard
 ```python
 from bardapi import Bard
     
-bard = Bard(token="xxxxxxxxx", run_code=True)
+bard = Bard(token="xxxxxxxx", run_code=True)
 bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 'green':30, 'purple':15}")
 ```
 ![](assets/bardapi_run_code.png)
@@ -272,7 +276,7 @@ BardAsync is present in translate_to.core_async.BardAsync
 ```python
 from bardapi import BardAsync 
     
-bard = BardAsync(token="xxxxxxxxx")
+bard = BardAsync(token="xxxxxxxx")
 await bard.get_answer("What is Metaverse?")
 ```
 or
@@ -280,7 +284,7 @@ or
 import asyncio
 from bardapi import BardAsync
     
-bard = BardAsync(token="xxxxxxxxx")
+bard = BardAsync(token="xxxxxxxx")
 asyncio.run(bard.get_answer("What is Metaverse?"))
 ```
 
@@ -292,9 +296,9 @@ asyncio.run(bard.get_answer("What is Metaverse?"))
 from bardapi import BardCookies
 
 cookie_dict = {
-    "__Secure-1PSID": "xxxxxxxxx",
-    "__Secure-1PSIDTS": "xxxxxxxxx",
-    "__Secure-1PSIDCC", "xxxxxxx")
+    "__Secure-1PSID": "xxxxxxxx",
+    "__Secure-1PSIDTS": "xxxxxxxx",
+    "__Secure-1PSIDCC", "xxxxxxxx",
     # Any cookie values you want to pass session object.
 }
 
@@ -316,14 +320,14 @@ import os
 import requests
 
 # Set token
-token= 'xxxxxxxxx'
+token= 'xxxxxxxx'
 
 # Set session
 session = requests.Session()
 session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token) 
 
-# Give session and conversation id
+# Give session and conversation id. (check manually)
 bard = Bard(token=token, session=session, conversation_id="c_1f04f704a788e6e4", timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
@@ -342,10 +346,10 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 <br>
 
 
-## ChatBard with more features
+### ChatBard with more features
 ChatBard is a chatbot class powered by the Bard API. It allows users to have interactive conversations with the chatbot and retrieve responses from the Bard API.
 
-### Usage
+#### Usage
 
 ```python
 from bardapi import ChatBard
@@ -354,35 +358,35 @@ chat = ChatBard()
 chat.start()
 ```
 
-### Features
+#### Features
 Customize User Prompt
 Users can customize the prompt displayed to the user before input by providing a custom prompt message to the start() method.
 ```pythno
 chat.start(prompt="Enter your message: ")
 ```
 
-### Handle API Errors
+#### Handle API Errors
 Error handling has been implemented for API requests. If an error occurs while communicating with the Bard API, an appropriate error message will be displayed to the user.
 
-### Input Validation
+#### Input Validation
 User input is validated before sending it to the API. The input is checked for emptiness and length validation. If the input is invalid, the user is prompted to provide valid input.
 
-### Chat History
+#### Chat History
 Chat history is stored during the conversation, including the user input and the corresponding chatbot responses. The display_chat_history() method can be called to print the chat history.
 ```python
 chat.display_chat_history()
 ```
 
-### Multilingual Support
+#### Multilingual Support
 Users can select different languages for the chatbot interaction by specifying the language parameter when initializing the ChatBard object. The default language is English.
 ```python
 chat = ChatBard(language="spanish")
 ```
 
-### Improved User Experience
+#### Improved User Experience
 Chatbot responses are displayed using colors and formatting to enhance the user experience. User input is displayed in green, and chatbot responses are displayed in blue.
 
-### Integration with Other APIs
+#### Integration with Other APIs
 The ChatBard class focuses on the interaction with the Bard API. If you want to integrate additional APIs, you can extend the functionality by adding appropriate methods and making the necessary API calls within the ChatBard class.
             
             
