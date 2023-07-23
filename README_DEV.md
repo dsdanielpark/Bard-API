@@ -40,10 +40,11 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
 <br>
 
 
-### `core.py` - `Bard` class
+### Structure of `core.py - Bard` class
 
 <details>
 <summary> See class structure...</summary>
+    
 ```python
 class Bard:
     def __init__(self, token: str = None, timeout: int = 20, ...):
@@ -102,7 +103,6 @@ class Bard:
         # ...
 
 ```
-
 </details>
 
 <br>
