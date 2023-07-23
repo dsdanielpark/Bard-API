@@ -195,11 +195,12 @@ class Bard:
                 for x in parsed_answer[4]
             ]
 
-        # Get code (optional)
+        # Get langcode & code (optional)
         try:
-            code = parsed_answer[4][0][1][0].split("```")[1][6:]
+            langcode = parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+            code = parsed_answer[4][0][1][0].split("```")[1][len(langcode) :]
         except Exception:
-            code = None
+            langcode, code = None, None
 
         # Returnd dictionary object
         bard_answer = {
@@ -211,6 +212,7 @@ class Bard:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": self._extract_links(parsed_answer[4]),
             "images": images,
+            "langCode": langcode,
             "code": code,
         }
         self.conversation_id, self.response_id, self.choice_id = (
@@ -477,6 +479,96 @@ class Bard:
         resp = requests.post(upload_url, headers=headers, data=image)
         resp.raise_for_status()
         return resp.text
+
+    def export_replit(
+        self, code: str, langcode: str = None, filename: str = None, **kwargs
+    ):
+        """
+        Get Export URL to repl.it from code
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> bard_answer = bard.get_answer("code python to print hello world")
+        >>> url = bard.export_replit(bard_answer['code'], bard_answer['langCode'])
+
+        Args:
+            code (str): source code
+            langcode (str): code language
+            filename (str): filename for code language
+            **kwargs: instructions, source_path
+        Returns:
+            string: export URL to create repl
+        """
+        params = {
+            "rpcids": "qACoKe",
+            "source-path": kwargs.get("source_path", "/"),
+            "bl": "boq_assistant-bard-web-server_20230718.13_p2",
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+        # refference: https://github.com/jincheng9/markdown_supported_languages
+        support_langs = {
+            "python": "main.py",
+            "javascript": "index.js",
+            "go": "main.go",
+            "java": "Main.java",
+            "kotlin": "Main.kt",
+            "php": "index.php",
+            "c#": "main.cs",
+            "swift": "main.swift",
+            "r": "main.r",
+            "ruby": "main.rb",
+            "c": "main.c",
+            "c++": "main.cpp",
+            "matlab": "main.m",
+            "typescript": "main.ts",
+            "scala": "main.scala",
+            "sql": "main.sql",
+            "html": "index.html",
+            "css": "style.css",
+            "nosql": "main.nosql",
+            "rust": "main.rs",
+            "perl": "main.pl",
+        }
+        if langcode not in support_langs and filename is None:
+            raise Exception(
+                f"Language {langcode} not supported, please set filename manually."
+            )
+
+        filename = (
+            support_langs.get(langcode, filename) if filename is None else filename
+        )
+        input_data_struct = [
+            [
+                [
+                    "qACoKe",
+                    json.dumps(
+                        [kwargs.get("instructions", ""), 5, code, [[filename, code]]]
+                    ),
+                    None,
+                    "generic",
+                ]
+            ]
+        ]
+        data = {
+            "f.req": json.dumps(input_data_struct),
+            "at": self.SNlM0e,
+        }
+
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            params=params,
+            data=data,
+        )
+
+        resp_dict = json.loads(resp.content.splitlines()[3])
+        print(resp_dict)
+        url = json.loads(resp_dict[0][2])[0]
+        # increment request ID
+        self._reqid += 100000
+
+        return url
 
     def _get_snim0e(self) -> str:
         """

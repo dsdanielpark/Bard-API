@@ -229,6 +229,7 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
 - [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 - [Export Conversation](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#export-conversation)
+- [Export Code to Repl.it](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#export-code-to-replit)
 - [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
