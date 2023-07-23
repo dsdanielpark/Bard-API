@@ -18,7 +18,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Get image links](#get-image-links)
     - [ChatBard](#chatbard)
     - [Export Conversation](#export-conversation)
-    - [Export Code Repl.it](#export-code-replit)
+    - [Export Code to Repl.it](#export-code-to-replit)
     - [Executing Python code received as a response from Bard](#executing-python-code-received-as-a-response-from-bard)
     - [Using Bard asynchronously](#using-bard-asynchronously)
     - [Multi-cookie Bard](#multi-cookie-bard)
@@ -169,14 +169,18 @@ print(url)
 
 <br>
 
-### Export Code Repl.it
+### Export Code to Repl.it
 ```python
 from bardapi import Bard
 
 bard = Bard(token='...')
 
-bard_code = bard.get_answer('code python for print hello world')
-url = bard.export_code(bard_code) # print('Hello World!')
+bard_answer = bard.get_answer("code python to print hello world")
+# {'code': 'print("Hello World")', 'langCode': 'python'}
+url = bard.export_replit(
+    code=bard_answer['code'],
+    langcode=bard_answer['langCode'],
+)
 print(url) # https://replit.com/external/v1/claims/xxx/claim
 ```
 
