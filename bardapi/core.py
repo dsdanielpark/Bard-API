@@ -4,12 +4,13 @@ import random
 import json
 import re
 import requests
+import base64
+import uuid
+import browser_cookie3
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS, IMG_UPLOAD_HEADERS
-import base64
-import browser_cookie3
-import uuid
+
 
 
 class Bard:
@@ -149,8 +150,8 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                f"Please double-check the cookie values and verify your network environment."
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         resp_json = json.loads(resp_dict)
 
@@ -241,7 +242,7 @@ class Bard:
 
         Args:
             input_text (str): Input text for the query.
-            lang (str): Input language for the query
+            lang (str): Input language for the query.
 
         Returns:
             bytes: audio in bytes format
@@ -276,13 +277,155 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                f"Please double-check the cookie values and verify your network environment."
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
         return audio_bytes
+
+    def export_conversation(self, bard_answer, title: str = ""):
+        """
+        Get Share URL for specifc answer from bard
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> bard_answer = bard.get_answer("hello!")
+        >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
+
+        Args:
+            bard_answer (dict): bard_answer returned from get_answer
+            title (str): Title for URL
+        Returns:
+            string: public URL you can share
+        """
+        conv_id = bard_answer["conversation_id"]
+        resp_id = bard_answer["response_id"]
+        choice_id = bard_answer["choices"][0]["id"]
+        params = {
+            "rpcids": "fuVx7",
+            "source-path": "/",
+            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
+            # '_reqid': str(self._reqid),
+            "rt": "c",
+        }
+        input_data_struct = [[["fuVx7",json.dumps([[None,[[[conv_id, resp_id],None,None,[[], [], [], choice_id, []],]],[0, title],]]),None,"generic",]]]
+        data = {
+            "f.req": json.dumps(input_data_struct),
+            "at": self.SNlM0e,
+        }
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            params=params,
+            data=data,
+        )
+        # Post-processing of response
+        resp_dict = json.loads(resp.content.splitlines()[3])
+        url_id = json.loads(resp_dict[0][2])[2]
+        url = f"https://g.co/bard/share/{url_id}"
+        # Increment request ID
+        self._reqid += 100000
+        return url
+    
+
+    def ask_about_image(
+        self, input_text: str, image: bytes, lang="en-GB"
+    ) -> dict:
+        """
+        Send Bard image along with question and get answer
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> image = open('image.jpg', 'rb').read()
+        >>> bard_answer = bard.analyze_image("what is in the image?", image)
+
+        Args:
+            input_text (str): Input text for the query.
+            image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
+            lang (str): Language to use.
+
+        Returns:
+            dict: Answer from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factualityQueries": list,
+                    "textQuery": str,
+                    "choices": list,
+                    "links": list,
+                    "imgaes": set,
+                    "code": str
+                }
+        """
+
+        # Supported format: jpeg, png, webp
+        image_url = self._upload_image(image)
+
+        input_data_struct = [
+            None,
+            [
+                [input_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+                [lang],
+                ["", "", ""],
+                "",                # Unknown random string value (1000 characters +)
+                uuid.uuid4().hex,  # Should be random uuidv4 (32 characters)
+                None,
+                [1],
+                0,
+                [],
+                [],
+            ],
+        ]
+        params = {
+            "bl": "boq_assistant-bard-web-server_20230716.16_p2",
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+        input_data_struct[1] = json.dumps(input_data_struct[1])
+        data = {
+            "f.req": json.dumps(input_data_struct),
+            "at": self.SNlM0e,
+        }
+
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            params=params,
+            data=data,
+        )
+
+        # Post-processing of response
+        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
+        if not resp_dict:
+            return {
+                "content": f"Response Error: {resp.content}. "
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
+            }
+        parsed_answer = json.loads(resp_dict)
+
+        # Returnd dictionary object
+        bard_answer = {
+            "content": parsed_answer[4][0][1][0],
+            "conversation_id": parsed_answer[1][0],
+            "response_id": parsed_answer[1][1],
+            "factualityQueries": parsed_answer[3],
+            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
+            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
+            "links": self._extract_links(parsed_answer[4]),
+            "images": [""],
+            "code": "",
+        }
+        self.conversation_id, self.response_id, self.choice_id = (
+            bard_answer["conversation_id"],
+            bard_answer["response_id"],
+            bard_answer["choices"][0]["id"],
+        )
+        self._reqid += 100000
+        return bard_answer
 
     def _upload_image(self, image: bytes, filename="Photo.jpg"):
         """
@@ -314,172 +457,6 @@ class Bard:
         resp = requests.post(upload_url, headers=headers, data=image)
         resp.raise_for_status()
         return resp.text
-
-    def ask_about_image(
-        self, input_text: str, image: bytes, lang="en-GB", filename="Photo.jpg"
-    ) -> dict:
-        """
-        Send Bard image along with question and get answer
-
-        Example:
-        >>> token = 'xxxxxxxxxx'
-        >>> bard = Bard(token=token)
-        >>> image = open('image.jpg', 'rb').read()
-        >>> bard_answer = bard.analyze_image("what is in the image?", image)
-
-        Args:
-            input_text (str): Input text for the query.
-            image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
-
-        Returns:
-            dict: Answer from the Bard API in the following format:
-                {
-                    "content": str,
-                    "conversation_id": str,
-                    "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
-                    "choices": list,
-                    "links": list,
-                    "imgaes": set,
-                    "code": str
-                }
-        """
-
-        # jpeg, png, webp
-        image_url = self._upload_image(image)
-
-        input_data_struct = [
-            None,
-            [
-                [input_text, 0, None, [[[image_url, 1], filename]]],
-                [lang],
-                ["", "", ""],
-                "",  # Unknown random string value (1000 characters +)
-                uuid.uuid4().hex,  # should be random uuidv4 (32 characters)
-                None,
-                [1],
-                0,
-                [],
-                [],
-            ],
-        ]
-        params = {
-            "bl": "boq_assistant-bard-web-server_20230716.16_p2",
-            "_reqid": str(self._reqid),
-            "rt": "c",
-        }
-
-        input_data_struct[1] = json.dumps(input_data_struct[1])
-        data = {
-            "f.req": json.dumps(input_data_struct),
-            "at": self.SNlM0e,
-        }
-
-        resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
-            params=params,
-            data=data,
-        )
-        # Post-processing of response
-        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
-        if not resp_dict:
-            return {
-                "content": f"Response Error: {resp.content}. "
-                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                f"Please double-check the cookie values and verify your network environment."
-            }
-        parsed_answer = json.loads(resp_dict)
-
-        # Returnd dictionary object
-        bard_answer = {
-            "content": parsed_answer[4][0][1][0],
-            "conversation_id": parsed_answer[1][0],
-            "response_id": parsed_answer[1][1],
-            "factualityQueries": parsed_answer[3],
-            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
-            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": self._extract_links(parsed_answer[4]),
-            "images": [""],
-            "code": "",
-        }
-        self.conversation_id, self.response_id, self.choice_id = (
-            bard_answer["conversation_id"],
-            bard_answer["response_id"],
-            bard_answer["choices"][0]["id"],
-        )
-        self._reqid += 100000
-        return bard_answer
-
-    def export_conversation(self, bard_answer, title: str = ""):
-        """
-        Get Share URL for specifc answer from bard
-
-        Example:
-        >>> token = 'xxxxxxxxxx'
-        >>> bard = Bard(token=token)
-        >>> bard_answer = bard.get_answer("hello!")
-        >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
-
-        Args:
-            bard_answer (dict): bard_answer returned from get_answer
-            title (str): Title for URL
-        Returns:
-            string: public URL you can share
-        """
-        conv_id = bard_answer["conversation_id"]
-        resp_id = bard_answer["response_id"]
-        choice_id = bard_answer["choices"][0]["id"]
-        params = {
-            "rpcids": "fuVx7",
-            "source-path": "/",
-            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
-            # '_reqid': str(self._reqid),
-            "rt": "c",
-        }
-        input_data_struct = [
-            [
-                [
-                    "fuVx7",
-                    json.dumps(
-                        [
-                            [
-                                None,
-                                [
-                                    [
-                                        [conv_id, resp_id],
-                                        None,
-                                        None,
-                                        [[], [], [], choice_id, []],
-                                    ]
-                                ],
-                                [0, title],
-                            ]
-                        ]
-                    ),
-                    None,
-                    "generic",
-                ]
-            ]
-        ]
-
-        data = {
-            "f.req": json.dumps(input_data_struct),
-            "at": self.SNlM0e,
-        }
-
-        resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
-            params=params,
-            data=data,
-        )
-        # Post-processing of response
-        resp_dict = json.loads(resp.content.splitlines()[3])
-        url_id = json.loads(resp_dict[0][2])[2]
-        url = f"https://g.co/bard/share/{url_id}"
-        # increment request ID
-        self._reqid += 100000
-        return url
 
     def _get_snim0e(self) -> str:
         """
