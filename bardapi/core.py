@@ -12,7 +12,6 @@ from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS, IMG_UPLOAD_HEADERS
 
 
-
 class Bard:
     """
     Bard class for interacting with the Bard API.
@@ -311,7 +310,31 @@ class Bard:
             # '_reqid': str(self._reqid),
             "rt": "c",
         }
-        input_data_struct = [[["fuVx7",json.dumps([[None,[[[conv_id, resp_id],None,None,[[], [], [], choice_id, []],]],[0, title],]]),None,"generic",]]]
+        input_data_struct = [
+            [
+                [
+                    "fuVx7",
+                    json.dumps(
+                        [
+                            [
+                                None,
+                                [
+                                    [
+                                        [conv_id, resp_id],
+                                        None,
+                                        None,
+                                        [[], [], [], choice_id, []],
+                                    ]
+                                ],
+                                [0, title],
+                            ]
+                        ]
+                    ),
+                    None,
+                    "generic",
+                ]
+            ]
+        ]
         data = {
             "f.req": json.dumps(input_data_struct),
             "at": self.SNlM0e,
@@ -328,11 +351,8 @@ class Bard:
         # Increment request ID
         self._reqid += 100000
         return url
-    
 
-    def ask_about_image(
-        self, input_text: str, image: bytes, lang="en-GB"
-    ) -> dict:
+    def ask_about_image(self, input_text: str, image: bytes, lang="en-GB") -> dict:
         """
         Send Bard image along with question and get answer
 
@@ -371,7 +391,7 @@ class Bard:
                 [input_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
                 [lang],
                 ["", "", ""],
-                "",                # Unknown random string value (1000 characters +)
+                "",  # Unknown random string value (1000 characters +)
                 uuid.uuid4().hex,  # Should be random uuidv4 (32 characters)
                 None,
                 [1],
