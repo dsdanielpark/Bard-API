@@ -6,6 +6,7 @@ import re
 import requests
 from deep_translator import GoogleTranslator
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
+from bardapi.common import extract_links
 
 
 class BardCookies:
@@ -148,7 +149,7 @@ class BardCookies:
             "factualityQueries": parsed_answer[3],
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": self._extract_links(parsed_answer[4]),
+            "links": extract_links(parsed_answer[4]),
             "images": images,
             "code": code,
         }
@@ -191,29 +192,6 @@ class BardCookies:
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
             )
         return snim0e.group(1)
-
-    def _extract_links(self, data: list) -> list:
-        """
-        Extract links from the given data.
-
-        Args:
-            data: Data to extract links from.
-
-        Returns:
-            list: Extracted links.
-        """
-        links = []
-        if isinstance(data, list):
-            for item in data:
-                if isinstance(item, list):
-                    links.extend(self._extract_links(item))
-                elif (
-                    isinstance(item, str)
-                    and item.startswith("http")
-                    and "favicon" not in item
-                ):
-                    links.append(item)
-        return links
 
     # def auth(self): #Idea Contribution
     #     url = 'https://bard.google.com'
