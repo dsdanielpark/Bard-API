@@ -21,7 +21,7 @@ IMG_UPLOAD_HEADERS = {
     "authorization": "Basic c2F2ZXM6cyNMdGhlNmxzd2F2b0RsN3J1d1U=",  # Constant Authorization Key
     "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
     "origin": "https://bard.google.com",
-    "push-id": "feeds/mcudyrk2a4khkz",                              # Constant
+    "push-id": "feeds/mcudyrk2a4khkz",  # Constant
     "referer": "https://bard.google.com/",
     "x-goog-upload-command": "start",
     "x-goog-upload-header-content-length": "",
