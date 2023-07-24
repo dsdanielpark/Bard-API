@@ -1,5 +1,4 @@
 # Util Functions for Async and Sync Core Cookie Modes
-
 import requests
 import browser_cookie3
 from bardapi.constants import IMG_UPLOAD_HEADERS
