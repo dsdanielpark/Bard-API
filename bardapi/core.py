@@ -476,7 +476,6 @@ class Bard:
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-        # refference: https://github.com/jincheng9/markdown_supported_languages
         support_langs = {
             "python": "main.py",
             "javascript": "index.js",
@@ -500,6 +499,7 @@ class Bard:
             "rust": "main.rs",
             "perl": "main.pl",
         }
+        # Reference: https://github.com/jincheng9/markdown_supported_languages
         if langcode not in support_langs and filename is None:
             raise Exception(
                 f"Language {langcode} not supported, please set filename manually."
