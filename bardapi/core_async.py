@@ -4,11 +4,9 @@ import random
 import json
 import uuid
 from re import search
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
-from bardapi.common import extract_links, upload_image, extract_bard_cookie
 from deep_translator import GoogleTranslator
-from google.cloud import translate_v2 as translate
-from httpx import AsyncClient
+from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
+from bardapi.utils import extract_links, upload_image, extract_bard_cookie
 
 
 class BardAsync:

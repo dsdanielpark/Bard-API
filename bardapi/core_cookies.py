@@ -6,7 +6,7 @@ import re
 import requests
 from deep_translator import GoogleTranslator
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
-from bardapi.common import extract_links
+from bardapi.utils import extract_links
 
 
 class BardCookies:
