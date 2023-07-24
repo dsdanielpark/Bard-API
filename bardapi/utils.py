@@ -4,6 +4,7 @@ import requests
 import browser_cookie3
 from bardapi.constants import IMG_UPLOAD_HEADERS
 
+
 def extract_links(data: list) -> list:
     """
     Extract links from the given data.
