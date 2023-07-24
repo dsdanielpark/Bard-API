@@ -14,7 +14,6 @@ SESSION_HEADERS = {
     "Referer": "https://bard.google.com/",
 }
 
-
 IMG_UPLOAD_HEADERS = {
     "authority": "content-push.googleapis.com",
     "accept": "*/*",
