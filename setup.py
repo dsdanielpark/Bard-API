@@ -40,7 +40,7 @@ setup(
         "deep_translator",
         "colorama",
         "httpx[http2]",
-        "google-cloud-translate==2.0.1",
+        "google-cloud-translate",
         "browser_cookie3",
     ],
     keywords="Python, API, Bard, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",

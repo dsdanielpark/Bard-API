@@ -5,3 +5,4 @@ deep_translator
 colorama
 httpx[http2]
 browser-cookie3
+google-cloud-translate
