@@ -6,10 +6,10 @@ import re
 import requests
 import base64
 import uuid
-import browser_cookie3
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS, IMG_UPLOAD_HEADERS
+from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
+from bardapi.common import extract_links, upload_image, extract_bard_cookie
 
 
 class Bard:
@@ -44,7 +44,7 @@ class Bard:
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         if not self.token and token_from_browser:
-            self.token = self._extract_bard_cookie()
+            self.token = extract_bard_cookie()
             if not self.token:
                 raise Exception(
                     "\nCan't extract cookie from browsers.\nPlease sign in first at\nhttps://accounts.google.com/v3/signin/identifier?followup=https://bard.google.com/&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
@@ -210,7 +210,7 @@ class Bard:
             "factualityQueries": parsed_answer[3],
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": self._extract_links(parsed_answer[4]),
+            "links": extract_links(parsed_answer[4]),
             "images": images,
             "langCode": langcode,
             "code": code,
@@ -385,7 +385,7 @@ class Bard:
         """
 
         # Supported format: jpeg, png, webp
-        image_url = self._upload_image(image)
+        image_url = upload_image(image)
 
         input_data_struct = [
             None,
@@ -437,7 +437,7 @@ class Bard:
             "factualityQueries": parsed_answer[3],
             "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": self._extract_links(parsed_answer[4]),
+            "links": extract_links(parsed_answer[4]),
             "images": [""],
             "code": "",
         }
@@ -448,37 +448,6 @@ class Bard:
         )
         self._reqid += 100000
         return bard_answer
-
-    def _upload_image(self, image: bytes, filename="Photo.jpg"):
-        """
-        Upload image into bard bucket on Google API
-
-        Returns:
-            str: relative URL of image.
-        """
-        resp = requests.options("https://content-push.googleapis.com/upload/")
-        resp.raise_for_status()
-        size = len(image)
-
-        headers = IMG_UPLOAD_HEADERS
-        headers["size"] = str(size)
-        headers["x-goog-upload-command"] = "start"
-
-        data = "File name: Photo.jpg"
-        resp = requests.post(
-            "https://content-push.googleapis.com/upload/", headers=headers, data=data
-        )
-        resp.raise_for_status()
-        upload_url = resp.headers["X-Goog-Upload-Url"]
-        resp = requests.options(upload_url, headers=headers)
-        resp.raise_for_status()
-        headers["x-goog-upload-command"] = "upload, finalize"
-
-        # It can be that we need to check returned offset
-        headers["X-Goog-Upload-Offset"] = "0"
-        resp = requests.post(upload_url, headers=headers, data=image)
-        resp.raise_for_status()
-        return resp.text
 
     def export_replit(
         self, code: str, langcode: str = None, filename: str = None, **kwargs
@@ -596,61 +565,3 @@ class Bard:
                 "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
             )
         return snim0e.group(1)
-
-    def _extract_links(self, data: list) -> list:
-        """
-        Extract links from the given data.
-
-        Args:
-            data: Data to extract links from.
-
-        Returns:
-            list: Extracted links.
-        """
-        links = []
-        if isinstance(data, list):
-            for item in data:
-                if isinstance(item, list):
-                    links.extend(self._extract_links(item))
-                elif (
-                    isinstance(item, str)
-                    and item.startswith("http")
-                    and "favicon" not in item
-                ):
-                    links.append(item)
-        return links
-
-    def _extract_bard_cookie(self):
-        """
-        Extract token cookie from browser.
-        Supports all modern web browsers and OS
-
-
-        Returns:
-            str: __Secure-1PSID cookie value
-        """
-
-        # browser_cookie3.load is similar function but it's broken
-        # So here we manually search accross all browsers
-        browsers = [
-            browser_cookie3.chrome,
-            browser_cookie3.chromium,
-            browser_cookie3.opera,
-            browser_cookie3.opera_gx,
-            browser_cookie3.brave,
-            browser_cookie3.edge,
-            browser_cookie3.vivaldi,
-            browser_cookie3.firefox,
-            browser_cookie3.librewolf,
-            browser_cookie3.safari,
-        ]
-        for browser_fn in browsers:
-            # if browser isn't installed browser_cookie3 raises exception
-            # hence we need to ignore it and try to find the right one
-            try:
-                cj = browser_fn(domain_name=".google.com")
-                for cookie in cj:
-                    if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
-                        return cookie.value
-            except:
-                continue
