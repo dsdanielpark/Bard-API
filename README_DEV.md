@@ -237,7 +237,7 @@ print(url)
 
 <br>
 
-### Export Code to Repl.it
+### Export Code to [Repl.it](https://replit.com/)
 ```python
 from bardapi import Bard
 
