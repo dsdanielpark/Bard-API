@@ -95,3 +95,53 @@ def extract_bard_cookie():
                     return cookie.value
         except:
             continue
+
+
+def max_token(text: str, n: int):
+    """
+    Print the first 'n' tokens (words) of the given text.
+
+    Args:
+        text (str): The input text to be processed.
+        n (int): The number of tokens (words) to be printed from the beginning.
+
+    Returns:
+        None
+    """
+    word_count = 0
+    word_start = 0
+    for i, char in enumerate(text):
+        if char.isspace():
+            word_count += 1
+            if word_count == n:
+                print(text[:i])
+                break
+    else:
+        print(text)
+
+
+def max_sentence(text: str, n: int):
+    """
+    Print the first 'n' sentences of the given text.
+
+    Args:
+        text (str): The input text to be processed.
+        n (int): The number of sentences to be printed from the beginning.
+
+    Returns:
+        None
+    """
+    punctuations = set('?!.')
+
+    sentences = []
+    sentence_count = 0
+    for char in text:
+        sentences.append(char)
+        if char in punctuations:
+            sentence_count += 1
+            if sentence_count == n:
+                print(''.join(sentences).strip())
+                return
+    print(''.join(sentences).strip())
+
+
