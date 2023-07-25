@@ -200,7 +200,6 @@ image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
 bard_answer = bard.ask_about_image('What is in the image?', image)
 ```
 
-
 <br>
 
 ## [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
@@ -213,7 +212,6 @@ bard = Bard(token='xxxxxxx')
 audio = bard.speech('Hello, I am Bard! How can I help you today?')
 ```
 
-
 <br>
 
 ## [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
@@ -221,7 +219,6 @@ Starting from version `0.1.18`, the GitHub version of BardAPI will be synchroniz
 ```
 $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
-
 
 - [Auto Cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#auto-cookie-bard)
 - [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#text-to-speechtts)
@@ -234,6 +231,7 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
+- [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#max_token-max_sentence)
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language)
 
 <br>
