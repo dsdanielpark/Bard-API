@@ -131,7 +131,7 @@ def max_sentence(text: str, n: int):
     Returns:
         None
     """
-    punctuations = set('?!.')
+    punctuations = set("?!.")
 
     sentences = []
     sentence_count = 0
@@ -140,8 +140,6 @@ def max_sentence(text: str, n: int):
         if char in punctuations:
             sentence_count += 1
             if sentence_count == n:
-                print(''.join(sentences).strip())
+                print("".join(sentences).strip())
                 return
-    print(''.join(sentences).strip())
-
-
+    print("".join(sentences).strip())

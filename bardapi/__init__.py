@@ -13,7 +13,13 @@ from bardapi.constants import (
 )
 from bardapi.core_async import BardAsync
 from bardapi.core_cookies import BardCookies
-from bardapi.utils import extract_links, upload_image, extract_bard_cookie, max_token, max_sentence
+from bardapi.utils import (
+    extract_links,
+    upload_image,
+    extract_bard_cookie,
+    max_token,
+    max_sentence,
+)
 
 # Get the API key from the environment variable
 bard_api_key = environ.get("_BARD_API_KEY")
@@ -33,7 +39,7 @@ __all__ = [
     "upload_image",
     "extract_bard_cookie",
     "max_token",
-    "max_sentence"
+    "max_sentence",
 ]
 __version__ = "0.1.29"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"
