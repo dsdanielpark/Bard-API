@@ -25,6 +25,7 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     - [Multi-cookie Bard](#multi-cookie-bard)
     - [Fix Conversation ID (Fix Context)](#fix-conversation-id-fix-context)
     - [Translation to Another Programming Language](#translation-to-another-programming-language)
+    - [max\_token, max\_sentence](#max_token-max_sentence)
     - [ChatBard with more features](#chatbard-with-more-features)
       - [Usage](#usage)
       - [Features](#features)
@@ -47,61 +48,57 @@ pip install git+https://github.com/dsdanielpark/Bard-API.git
     
 ```python
 class Bard:
-    def __init__(self, token: str = None, timeout: int = 20, ...):
+    """
+    Bard class for interacting with the Bard API.
+    """
+
+    def __init__(
+        self,
+        token: str = None,
+        timeout: int = 20,
+        proxies: dict = None,
+        session: requests.Session = None,
+        conversation_id: str = None,
+        google_translator_api_key: str = None,
+        language: str = None,
+        run_code: bool = False,
+        token_from_browser: bool = False,
+    ):
         """
-        Initialize the Bard instance with API token and other optional parameters.
-        """
-        # ...
+        Initialize the Bard instance.
+        ...
 
     def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
-        """
-        # ...
+        ...
 
-    def speech(self, input_text: str, lang="en-US") -> bytes:
+    def speech(self, input_text: str, lang="en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
-        """
-        # ...
+        ...
 
-    def export_conversation(self, bard_answer, title: str = "") -> str:
+    def export_conversation(self, bard_answer, title: str = ""):
         """
-        Get a shareable URL for a specific answer from Bard.
-        """
-        # ...
+        Get Share URL for specific answer from Bard.
+        ...
 
     def ask_about_image(self, input_text: str, image: bytes, lang="en-GB") -> dict:
         """
-        Send Bard an image along with a question and get an answer.
-        """
-        # ...
+        Send Bard image along with question and get an answer.
+        ...
 
-    # Private methods (not intended to be called directly)
-    def _upload_image(self, image: bytes, filename="Photo.jpg") -> str:
+    def export_replit(
+        self, code: str, langcode: str = None, filename: str = None, **kwargs
+    ):
         """
-        Upload an image to the Bard bucket on Google API and get the relative URL of the image.
-        """
-        # ...
+        Get Export URL to repl.it from code.
+        ...
 
     def _get_snim0e(self) -> str:
         """
         Get the SNlM0e value from the Bard API response.
-        """
-        # ...
-
-    def _extract_links(self, data: list) -> list:
-        """
-        Extract links from the given data.
-        """
-        # ...
-
-    def _extract_bard_cookie(self) -> str:
-        """
-        Extract the Bard API token cookie from the browser (if available).
-        """
-        # ...
-
+        ...
 ```
 </details>
 
@@ -342,6 +339,22 @@ Please check the translation results in [this folder](https://github.com/dsdanie
 
 ![](./assets/translate.png)
 
+
+<br>
+
+### max_token, max_sentence
+Bard does not support temperature or hyperparameter adjustments, but it is possible to achieve the appearance of limiting the number of output tokens or the number of output sentences using simple algorithms, as follows:
+```python
+from bardapi import Bard, max_token, max_sentence
+
+token = 'xxxxxxx'
+bard = Bard(token=token)
+
+# max_token==30
+max_token(bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content'], 30) 
+# max_sentence==2
+max_sentence(bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content'], 2)
+```
 
 <br>
 
