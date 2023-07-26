@@ -39,3 +39,13 @@ Python:
 Bard API:
 Using proxy:
 Legion:
+
+**Code**
+```python
+code line
+```
+
+**Error**
+```
+error message
+```
