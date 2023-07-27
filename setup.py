@@ -39,7 +39,7 @@ setup(
         "requests",
         "deep_translator",
         "colorama",
-        "httpx[http2]",
+        "httpx[http2]>=0.20.0",
         "google-cloud-translate",
         "browser_cookie3",
     ],
