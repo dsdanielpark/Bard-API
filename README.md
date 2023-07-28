@@ -216,7 +216,7 @@ audio = bard.speech('Hello, I am Bard! How can I help you today?')
 
 <br>
 
-## [More features](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md)
+## [More features](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md)
 Starting from version `0.1.18`, the GitHub version of BardAPI will be synchronized with the PyPI version and released simultaneously. However, the version undergoing QA can still be used from the GitHub repository.<br>
 ```
 $ pip install git+https://github.com/dsdanielpark/Bard-API.git
@@ -333,6 +333,12 @@ print(answer)
 </details>
 
 <br><br>
+
+
+## [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md)
+Please check the FAQ and open issues for similar questions before creating a new issue. Repeated questions will be kept as open issues.
+
+<br>
 
 
 ## Scripts
