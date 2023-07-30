@@ -143,7 +143,7 @@ class BardCookies:
 
         # Returnd dictionary object
         bard_answer = {
-            "content": parsed_answer[0][0],
+            "content": parsed_answer[4][0][1][0],
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
             "factualityQueries": parsed_answer[3],
