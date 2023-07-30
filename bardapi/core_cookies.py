@@ -170,7 +170,7 @@ class BardCookies:
                 pass
 
         return bard_answer
-    
+
     def speech(self, input_text: str, lang="en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
@@ -194,7 +194,9 @@ class BardCookies:
             "rt": "c",
         }
 
-        input_text_struct = [[["XqA3Ic", json.dumps([None, input_text, lang, None, 2])]]]
+        input_text_struct = [
+            [["XqA3Ic", json.dumps([None, input_text, lang, None, 2])]]
+        ]
 
         data = {
             "f.req": json.dumps(input_text_struct),
@@ -215,8 +217,8 @@ class BardCookies:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nTemporarily unavailable due to traffic or an error in cookie values. "
-                           f"Please double-check the cookie values and verify your network environment."
+                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                f"Please double-check the cookie values and verify your network environment."
             }
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
