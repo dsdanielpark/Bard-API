@@ -417,6 +417,7 @@ class Bard:
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
+            proxies=self.proxies,
         )
 
         # Post-processing of response
