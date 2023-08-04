@@ -345,6 +345,8 @@ class Bard:
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
+            timeout=self.timeout,
+            proxies=self.proxies,
         )
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -417,6 +419,7 @@ class Bard:
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
+            timeout=self.timeout,
             proxies=self.proxies,
         )
 
@@ -530,6 +533,8 @@ class Bard:
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
+            timeout=self.timeout,
+            proxies=self.proxies,
         )
 
         resp_dict = json.loads(resp.content.splitlines()[3])
