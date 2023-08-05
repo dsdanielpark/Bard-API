@@ -233,7 +233,7 @@ class BardAsync:
                 print(f"Unable to execute the code: {e}")
 
         return bard_answer
-    
+
     async def speech(self, input_text: str, lang="en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
@@ -271,7 +271,7 @@ class BardAsync:
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
-            timeout=self.timeout
+            timeout=self.timeout,
         )
 
         # Post-processing of response

@@ -275,6 +275,7 @@ class BardCookies:
     #         print("No __Secure-1PSID cookie found")
     #     driver.quit()
 
+
 class BardAsyncCookies:
     """
     Bard class for interacting with the Bard API using httpx[http2]
@@ -287,7 +288,7 @@ class BardAsyncCookies:
         proxies: dict = None,
         google_translator_api_key: str = None,
         language: str = None,
-        run_code: bool = False
+        run_code: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -311,7 +312,7 @@ class BardAsyncCookies:
             cookies=self.cookie_dict,
             headers=SESSION_HEADERS,
             timeout=self.timeout,
-            proxies=self.proxies
+            proxies=self.proxies,
         )
         self.language = language
         self.run_code = run_code or False
@@ -549,14 +550,14 @@ class BardAsyncCookies:
         self.SNlM0e = await self._get_snim0e()
         if not isinstance(self.SNlM0e, str):
             self.SNlM0e = await self.SNlM0e
-        
+
         if self.google_translator_api_key is not None:
             google_official_translator = translate.Client(
                 api_key=self.google_translator_api_key
             )
         else:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
-        
+
         # Set language (optional)
         if (
             (self.language is not None or lang is not None)
@@ -574,13 +575,12 @@ class BardAsyncCookies:
                 input_text, target_language="en"
             )
         elif (
-            (self.language is  None or lang is None)
+            (self.language is None or lang is None)
             and self.language not in ALLOWED_LANGUAGES
             and self.google_translator_api_key is None
         ):
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             transl_text = translator_to_eng.translate(input_text)
-            
 
         # Supported format: jpeg, png, webp
         image_url = upload_image(image)
@@ -627,51 +627,37 @@ class BardAsyncCookies:
             }
         parsed_answer = json.loads(resp_dict)
         content = parsed_answer[4][0][1][0]
-        if (
-            self.language is not None
-            and self.google_translator_api_key is None
-        ):
+        if self.language is not None and self.google_translator_api_key is None:
             translator = GoogleTranslator(source="en", target=self.language)
             transl_content = translator.translate(content)
-        
-        elif (
-            lang is not None
-            and self.google_translator_api_key is None
-        ):
+
+        elif lang is not None and self.google_translator_api_key is None:
             translator = GoogleTranslator(source="en", target=lang)
             transl_content = translator.translate(content)
-            
+
         elif (
-            (lang is None and self.language is None)
-            and self.google_translator_api_key is None
-        ):
+            lang is None and self.language is None
+        ) and self.google_translator_api_key is None:
             us_lang = detect(input_text)
             translator = GoogleTranslator(source="en", target=us_lang)
             transl_content = translator.translate(content)
-        
-        elif (
-            self.language is not None
-            and self.google_translator_api_key is not None
-        ):
+
+        elif self.language is not None and self.google_translator_api_key is not None:
             transl_content = google_official_translator.translate(
                 content, target_language=self.language
             )
-        elif (
-            lang is not None
-            and self.google_translator_api_key is not None
-        ):
+        elif lang is not None and self.google_translator_api_key is not None:
             transl_content = google_official_translator.translate(
                 content, target_language=lang
             )
         elif (
-            (self.language is  None and lang is None)
-            and self.google_translator_api_key is not None
-        ):
+            self.language is None and lang is None
+        ) and self.google_translator_api_key is not None:
             us_lang = detect(input_text)
             transl_content = google_official_translator.translate(
                 content, target_language=us_lang
             )
-            
+
         # Returnd dictionary object
         bard_answer = {
             "content": transl_content,
@@ -691,7 +677,7 @@ class BardAsyncCookies:
         )
         self._reqid += 100000
         return bard_answer
-    
+
     async def speech(self, input_text: str, lang="en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
@@ -729,7 +715,7 @@ class BardAsyncCookies:
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
-            timeout=self.timeout
+            timeout=self.timeout,
         )
 
         # Post-processing of response
