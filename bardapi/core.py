@@ -62,6 +62,7 @@ class Bard:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
             self.session.cookies.set("__Secure-1PSID", self.token)
+            self.session.proxies = self.proxies
         else:
             self.session = session
         self.SNlM0e = self._get_snim0e()
@@ -140,7 +141,6 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
         )
 
         # Post-processing of response
@@ -346,7 +346,6 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
         )
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -420,7 +419,6 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
         )
 
         # Post-processing of response
