@@ -2,6 +2,7 @@ import os
 import string
 import random
 import json
+import base64
 import uuid
 from re import search
 from httpx import AsyncClient
@@ -56,7 +57,6 @@ class BardAsync:
             timeout=self.timeout,
             proxies=self.proxies,
         )
-        self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG", "en")
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
@@ -87,6 +87,7 @@ class BardAsync:
                     "images": set
                 }
         """
+        self.SNlM0e = await self._get_snim0e()
         if not isinstance(self.SNlM0e, str):
             self.SNlM0e = await self.SNlM0e
         params = {
@@ -232,6 +233,59 @@ class BardAsync:
                 print(f"Unable to execute the code: {e}")
 
         return bard_answer
+    
+    async def speech(self, input_text: str, lang="en-US") -> dict:
+        """
+        Get speech audio from Bard API for the given input text.
+
+        Example:
+        >>> token = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token)
+        >>> audio = bard.speech("hello!")
+
+        Args:
+            input_text (str): Input text for the query.
+            lang (str): Input language for the query
+
+        Returns:
+            bytes: audio in bytes format
+            with format of audio/ogg
+        """
+        params = {
+            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+
+        input_text_struct = [
+            [["XqA3Ic", json.dumps([None, input_text, lang, None, 2])]]
+        ]
+
+        data = {
+            "f.req": json.dumps(input_text_struct),
+            "at": await self._get_snim0e(),
+        }
+
+        # Get response
+        resp = await self.client.post(
+            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            params=params,
+            data=data,
+            timeout=self.timeout
+        )
+
+        # Post-processing of response
+        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
+        if not resp_dict:
+            return {
+                "content": f"Response Error: {resp.content}. "
+                f"\nTemporarily unavailable due to traffic or an error in cookie values. "
+                f"Please double-check the cookie values and verify your network environment."
+            }
+        resp_json = json.loads(resp_dict)
+        audio_b64 = resp_json[0]
+        audio_bytes = base64.b64decode(audio_b64)
+        return audio_bytes
 
     async def _get_snim0e(self):
         """
@@ -293,7 +347,7 @@ class BardAsync:
                     "code": str
                 }
         """
-
+        self.SNlM0e = await self._get_snim0e()
         if not isinstance(self.SNlM0e, str):
             self.SNlM0e = await self.SNlM0e
 
