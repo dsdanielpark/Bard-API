@@ -218,27 +218,6 @@ class BardCookies(Bard):
             )
         return snim0e.group(1)
 
-    # def auth(self): #Idea Contribution
-    #     url = 'https://bard.google.com'
-    #     driver_path = "/path/to/chromedriver"
-    #     options = uc.ChromeOptions()
-    #     options.add_argument("--ignore-certificate-error")
-    #     options.add_argument("--ignore-ssl-errors")
-    #     options.user_data_dir = "path_to _user-data-dir"
-    #     driver = uc.Chrome(options=options)
-    #     driver.get(url)
-    #     cookies = driver.get_cookies()
-    #     # Find the __Secure-1PSID cookie
-    #     for cookie in cookies:
-    #         if cookie['name'] == '__Secure-1PSID':
-    #             print("__Secure-1PSID cookie:")
-    #             print(cookie['value'])
-    #             os.environ['_BARD_API_KEY']=cookie['value']
-    #             break
-    #     else:
-    #         print("No __Secure-1PSID cookie found")
-    #     driver.quit()
-
 
 class BardAsyncCookies(BardAsync):
     """
