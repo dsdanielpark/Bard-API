@@ -318,10 +318,10 @@ class BardAsyncCookies(BardAsync):
             timeout=self.timeout,
             proxies=self.proxies,
         )
-        self.language = language 
+        self.language = language
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
-        
+
     async def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
@@ -358,7 +358,7 @@ class BardAsyncCookies(BardAsync):
                 }
         """
         return await super().get_answer(input_text)
-    
+
     async def speech(self, input_text: str, lang: str = "en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
@@ -386,11 +386,11 @@ class BardAsyncCookies(BardAsync):
             bytes: audio in bytes format
             with format of audio/ogg
         """
-        
+
         return await super().speech(input_text, lang)
-    
+
     async def ask_about_image(
-        self, input_text: str, image: bytes, lang: str =  None
+        self, input_text: str, image: bytes, lang: str = None
     ) -> dict:
         """
         Send Bard image along with question and get answer async mode
@@ -430,7 +430,7 @@ class BardAsyncCookies(BardAsync):
                 }
         """
         return await super().ask_about_image(input_text, image, lang)
-    
+
     async def export_conversation(self, bard_answer, title: str = "") -> str:
         """
         Get Share URL for specific answer from bard
@@ -457,8 +457,7 @@ class BardAsyncCookies(BardAsync):
             string: public URL you can share
         """
         return await super().export_conversation(bard_answer, title)
-    
-    
+
     async def export_replit(
         self, code: str, langcode: str = None, filename: str = None, **kwargs
     ) -> str:
@@ -488,7 +487,7 @@ class BardAsyncCookies(BardAsync):
         Returns:
             string: export URL to create repl
         """
-        
+
         return await super().export_replit(code, langcode, filename, **kwargs)
 
     async def _get_snim0e(self):
@@ -514,4 +513,4 @@ class BardAsyncCookies(BardAsync):
             raise Exception(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
             )
-        return snim0e.group(1) 
+        return snim0e.group(1)

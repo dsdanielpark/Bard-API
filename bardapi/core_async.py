@@ -199,7 +199,7 @@ class BardAsync:
         # Get code
         try:
             langcode = parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
-            code = parsed_answer[4][0][1][0].split("```")[1][len(langcode):]
+            code = parsed_answer[4][0][1][0].split("```")[1][len(langcode) :]
         except Exception:
             langcode, code = None, None
 
@@ -329,7 +329,7 @@ class BardAsync:
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
             )
         return snim0e.group(1)
-    
+
     async def export_conversation(self, bard_answer, title: str = "") -> str:
         """
         Get Share URL for specifc answer from bard
@@ -404,7 +404,7 @@ class BardAsync:
         # Increment request ID
         self._reqid += 100000
         return url
-    
+
     async def export_replit(
         self, code: str, langcode: str = None, filename: str = None, **kwargs
     ) -> str:
@@ -491,7 +491,7 @@ class BardAsync:
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
-            timeout=self.timeout
+            timeout=self.timeout,
         )
 
         resp_dict = json.loads(resp.content.splitlines()[3])
