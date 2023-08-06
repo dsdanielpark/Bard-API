@@ -69,13 +69,13 @@ class BardAsync:
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     token = 'xxxxxxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     response = await bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>>     print(response['content'])
-        >>> 
+        >>>
         >>> asyncio.run(main())
 
         Args:
@@ -247,14 +247,14 @@ class BardAsync:
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     token = 'xxxxxxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     audio = await bard.speech("Hello")
         >>>     with open("bard.ogg", "wb") as f:
-        >>>         f.write(bytes(audio))   
-        >>> 
+        >>>         f.write(bytes(audio))
+        >>>
         >>> asyncio.run(main())
 
         Args:
@@ -336,14 +336,14 @@ class BardAsync:
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     token = 'xxxxxxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     bard_answer = await bard.get_answer("hello!")
         >>>     url = await bard.export_conversation(bard_answer, title="Export Conversation")
         >>>     print(url)
-        >>> 
+        >>>
         >>> asyncio.run(main())
 
         Args:
@@ -413,7 +413,7 @@ class BardAsync:
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     token = 'xxxxxxxxxx'
         >>>     bard = BardAsync(token=token)
@@ -508,14 +508,14 @@ class BardAsync:
         Send Bard image along with question and get answer async mode
 
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     token = 'xxxxxxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     image = open('image.jpg', 'rb').read()
         >>>     bard_answer = await bard.ask_about_image("what is in the image?", image)
         >>>     print(bard_answer)
-        >>> 
+        >>>
         >>> asyncio.run(main())
 
         Args:

@@ -328,16 +328,16 @@ class BardAsyncCookies(BardAsync):
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     cookies = {
-        >>>             "__Secure-1PSID": "", 
+        >>>             "__Secure-1PSID": "",
         >>>             "__Secure-1PSIDTS": ""
         >>>         }
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     response = await bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>>     print(response['content'])
-        >>> 
+        >>>
         >>> asyncio.run(main())
 
 
@@ -365,19 +365,19 @@ class BardAsyncCookies(BardAsync):
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     cookies = {
-        >>>             "__Secure-1PSID": "", 
+        >>>             "__Secure-1PSID": "",
         >>>             "__Secure-1PSIDTS": ""
         >>>         }
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     audio = await bard.speech("Hello")
         >>>     with open("bard.ogg", "wb") as f:
-        >>>         f.write(bytes(audio))  
-        >>> 
+        >>>         f.write(bytes(audio))
+        >>>
         >>> asyncio.run(main())
-        
+
         Args:
             input_text (str): Input text for the query.
             lang (str): Input language for the query
@@ -397,17 +397,17 @@ class BardAsyncCookies(BardAsync):
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     cookies = {
-        >>>             "__Secure-1PSID": "", 
+        >>>             "__Secure-1PSID": "",
         >>>             "__Secure-1PSIDTS": ""
         >>>         }
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     image = open('image.jpg', 'rb').read()
         >>>     bard_answer = await bard.ask_about_image("what is in the image?", image)
         >>>     print(bard_answer)
-        >>> 
+        >>>
         >>> asyncio.run(main())
 
         Args:
@@ -437,17 +437,17 @@ class BardAsyncCookies(BardAsync):
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     cookies = {
-        >>>             "__Secure-1PSID": "", 
+        >>>             "__Secure-1PSID": "",
         >>>             "__Secure-1PSIDTS": ""
         >>>         }
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     bard_answer = await bard.get_answer("hello!")
         >>>     url = await bard.export_conversation(bard_answer, title="Export Conversation")
         >>>     print(url)
-        >>> 
+        >>>
         >>> asyncio.run(main())
 
         Args:
@@ -466,10 +466,10 @@ class BardAsyncCookies(BardAsync):
 
         Example:
         >>> import asyncio
-        >>> 
+        >>>
         >>> async def main():
         >>>     cookies = {
-        >>>             "__Secure-1PSID": "", 
+        >>>             "__Secure-1PSID": "",
         >>>             "__Secure-1PSIDTS": ""
         >>>         }
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
