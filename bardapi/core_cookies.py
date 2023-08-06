@@ -123,7 +123,7 @@ class BardCookies(Bard):
         >>> }
         >>> bard = BardCookies(cookie_dict=cookies)
         >>> image = open('image.jpg', 'rb').read()
-        >>> bard_answer = bard.ask_about_image("what is in the image?", image)
+        >>> bard_answer = bard.ask_about_image("what is in the image?", image)['content']
         >>> print(bard_answer)
 
         Args:
@@ -141,7 +141,7 @@ class BardCookies(Bard):
                     "textQuery": str,
                     "choices": list,
                     "links": list,
-                    "imgaes": set,
+                    "images": set,
                     "code": str
                 }
         """
@@ -259,9 +259,9 @@ class BardAsyncCookies(BardAsync):
             cookie_dict (dict): Bard cookies.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
-            session (requests.Session): Requests session object.
             google_translator_api_key (str): Google cloud translation API key.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
+            run_code (bool): Whether to directly execute the code included in the answer (Python only)
         """
         self.cookie_dict = cookie_dict
         self.timeout = timeout
@@ -366,7 +366,7 @@ class BardAsyncCookies(BardAsync):
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     image = open('image.jpg', 'rb').read()
         >>>     bard_answer = await bard.ask_about_image("what is in the image?", image)
-        >>>     print(bard_answer)
+        >>>     print(bard_answer['content'])
         >>>
         >>> asyncio.run(main())
 

@@ -42,6 +42,7 @@ class Bard:
             google_translator_api_key (str): Google cloud translation API key.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
+            token_from_browser (bool): Gets a token from the browser
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         if not self.token and token_from_browser:
@@ -366,7 +367,7 @@ class Bard:
         >>> token = 'xxxxxxxxxx'
         >>> bard = Bard(token=token)
         >>> image = open('image.jpg', 'rb').read()
-        >>> bard_answer = bard.ask_about_image("what is in the image?", image)
+        >>> bard_answer = bard.ask_about_image("what is in the image?", image)['content']
 
         Args:
             input_text (str): Input text for the query.
@@ -383,7 +384,7 @@ class Bard:
                     "textQuery": str,
                     "choices": list,
                     "links": list,
-                    "imgaes": set,
+                    "images": set,
                     "code": str
                 }
         """
