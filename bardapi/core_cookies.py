@@ -57,7 +57,7 @@ class BardCookies(Bard):
         self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
-        
+
     def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
@@ -89,7 +89,7 @@ class BardCookies(Bard):
                 }
         """
         return super().get_answer(input_text)
-    
+
     def speech(self, input_text: str, lang="en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
@@ -113,7 +113,7 @@ class BardCookies(Bard):
             with format of audio/ogg
         """
         return super().speech(input_text, lang)
-    
+
     def ask_about_image(self, input_text: str, image: bytes, lang: str = None) -> dict:
         """
         Example:
@@ -146,7 +146,7 @@ class BardCookies(Bard):
                 }
         """
         return super().ask_about_image(input_text, image, lang)
-    
+
     def export_conversation(self, bard_answer, title: str = ""):
         """
         Get Share URL for specific answer from bard
@@ -168,8 +168,10 @@ class BardCookies(Bard):
             string: public URL you can share
         """
         return super().export_conversation(bard_answer, title)
-    
-    def export_replit(self, code: str, langcode: str = None, filename: str = None, **kwargs):
+
+    def export_replit(
+        self, code: str, langcode: str = None, filename: str = None, **kwargs
+    ):
         """
         Get Export URL to repl.it from code
 

@@ -224,7 +224,7 @@ class Bard:
         )
         self._reqid += 100000
 
-        # Excute Code
+        # Execute Code
         if self.run_code and bard_answer["code"] is not None:
             try:
                 print(bard_answer["code"])
@@ -418,7 +418,7 @@ class Bard:
         ):
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             transl_text = translator_to_eng.translate(input_text)
-        
+
         # Supported format: jpeg, png, webp
         image_url = upload_image(image)
 
