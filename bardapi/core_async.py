@@ -35,7 +35,10 @@ class BardAsync:
             token (str): Bard API token.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
+            google_translator_api_key (str): Google cloud translation API key.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
+            run_code (bool): Whether to directly execute the code included in the answer (Python only)
+            token_from_browser (bool): Gets a token from the browser
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         if not self.token and token_from_browser:
@@ -514,7 +517,7 @@ class BardAsync:
         >>>     bard = BardAsync(token=token)
         >>>     image = open('image.jpg', 'rb').read()
         >>>     bard_answer = await bard.ask_about_image("what is in the image?", image)
-        >>>     print(bard_answer)
+        >>>     print(bard_answer['content'])
         >>>
         >>> asyncio.run(main())
 
@@ -533,7 +536,7 @@ class BardAsync:
                     "textQuery": str,
                     "choices": list,
                     "links": list,
-                    "imgaes": set,
+                    "images": set,
                     "code": str
                 }
         """

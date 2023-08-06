@@ -2,6 +2,7 @@ import os
 import string
 import random
 import json
+from langdetect import detect
 import re
 import requests
 import base64
@@ -41,6 +42,7 @@ class Bard:
             google_translator_api_key (str): Google cloud translation API key.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
+            token_from_browser (bool): Gets a token from the browser
         """
         self.token = token or os.getenv("_BARD_API_KEY")
         if not self.token and token_from_browser:
@@ -222,7 +224,7 @@ class Bard:
         )
         self._reqid += 100000
 
-        # Excute Code
+        # Execute Code
         if self.run_code and bard_answer["code"] is not None:
             try:
                 print(bard_answer["code"])
@@ -240,6 +242,8 @@ class Bard:
         >>> token = 'xxxxxxxxxx'
         >>> bard = Bard(token=token)
         >>> audio = bard.speech("hello!")
+        >>> with open("bard.ogg", "wb") as f:
+        >>>     f.write(bytes(audio))
 
         Args:
             input_text (str): Input text for the query.
@@ -288,7 +292,7 @@ class Bard:
 
     def export_conversation(self, bard_answer, title: str = ""):
         """
-        Get Share URL for specifc answer from bard
+        Get Share URL for specific answer from bard
 
         Example:
         >>> token = 'xxxxxxxxxx'
@@ -355,7 +359,7 @@ class Bard:
         self._reqid += 100000
         return url
 
-    def ask_about_image(self, input_text: str, image: bytes, lang="en-GB") -> dict:
+    def ask_about_image(self, input_text: str, image: bytes, lang: str = None) -> dict:
         """
         Send Bard image along with question and get answer
 
@@ -363,7 +367,7 @@ class Bard:
         >>> token = 'xxxxxxxxxx'
         >>> bard = Bard(token=token)
         >>> image = open('image.jpg', 'rb').read()
-        >>> bard_answer = bard.analyze_image("what is in the image?", image)
+        >>> bard_answer = bard.ask_about_image("what is in the image?", image)['content']
 
         Args:
             input_text (str): Input text for the query.
@@ -380,10 +384,40 @@ class Bard:
                     "textQuery": str,
                     "choices": list,
                     "links": list,
-                    "imgaes": set,
+                    "images": set,
                     "code": str
                 }
         """
+        if self.google_translator_api_key is not None:
+            google_official_translator = translate.Client(
+                api_key=self.google_translator_api_key
+            )
+        else:
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+
+        # Set language (optional)
+        if (
+            (self.language is not None or lang is not None)
+            and self.language not in ALLOWED_LANGUAGES
+            and self.google_translator_api_key is None
+        ):
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+            transl_text = translator_to_eng.translate(input_text)
+        elif (
+            (self.language is not None or lang is not None)
+            and self.language not in ALLOWED_LANGUAGES
+            and self.google_translator_api_key is not None
+        ):
+            transl_text = google_official_translator.translate(
+                input_text, target_language="en"
+            )
+        elif (
+            (self.language is None or lang is None)
+            and self.language not in ALLOWED_LANGUAGES
+            and self.google_translator_api_key is None
+        ):
+            translator_to_eng = GoogleTranslator(source="auto", target="en")
+            transl_text = translator_to_eng.translate(input_text)
 
         # Supported format: jpeg, png, webp
         image_url = upload_image(image)
@@ -391,8 +425,8 @@ class Bard:
         input_data_struct = [
             None,
             [
-                [input_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
-                [lang],
+                [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+                [lang if lang is not None else self.language],
                 ["", "", ""],
                 "",  # Unknown random string value (1000 characters +)
                 uuid.uuid4().hex,  # Should be random uuidv4 (32 characters)
@@ -430,10 +464,41 @@ class Bard:
                 f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         parsed_answer = json.loads(resp_dict)
+        content = parsed_answer[4][0][1][0]
+        if self.language is not None and self.google_translator_api_key is None:
+            translator = GoogleTranslator(source="en", target=self.language)
+            transl_content = translator.translate(content)
 
-        # Returnd dictionary object
+        elif lang is not None and self.google_translator_api_key is None:
+            translator = GoogleTranslator(source="en", target=lang)
+            transl_content = translator.translate(content)
+
+        elif (
+            lang is None and self.language is None
+        ) and self.google_translator_api_key is None:
+            us_lang = detect(input_text)
+            translator = GoogleTranslator(source="en", target=us_lang)
+            transl_content = translator.translate(content)
+
+        elif self.language is not None and self.google_translator_api_key is not None:
+            transl_content = google_official_translator.translate(
+                content, target_language=self.language
+            )
+        elif lang is not None and self.google_translator_api_key is not None:
+            transl_content = google_official_translator.translate(
+                content, target_language=lang
+            )
+        elif (
+            self.language is None and lang is None
+        ) and self.google_translator_api_key is not None:
+            us_lang = detect(input_text)
+            transl_content = google_official_translator.translate(
+                content, target_language=us_lang
+            )
+
+        # Returned dictionary object
         bard_answer = {
-            "content": parsed_answer[4][0][1][0],
+            "content": transl_content,
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
             "factualityQueries": parsed_answer[3],
