@@ -623,44 +623,44 @@ class BardAsync:
         try:
             if self.language is not None and self.google_translator_api_key is None:
                 translator = GoogleTranslator(source="en", target=self.language)
-                transl_content = translator.translate(content)
+                translated_content = translator.translate(content)
 
             elif lang is not None and self.google_translator_api_key is None:
                 translator = GoogleTranslator(source="en", target=lang)
-                transl_content = translator.translate(content)
+                translated_content = translator.translate(content)
 
             elif (
                 lang is None and self.language is None
             ) and self.google_translator_api_key is None:
                 us_lang = detect(input_text)
                 translator = GoogleTranslator(source="en", target=us_lang)
-                transl_content = translator.translate(content)
+                translated_content = translator.translate(content)
 
             elif (
                 self.language is not None and self.google_translator_api_key is not None
             ):
-                transl_content = google_official_translator.translate(
+                translated_content = google_official_translator.translate(
                     content, target_language=self.language
                 )
             elif lang is not None and self.google_translator_api_key is not None:
-                transl_content = google_official_translator.translate(
+                translated_content = google_official_translator.translate(
                     content, target_language=lang
                 )
             elif (
                 self.language is None and lang is None
             ) and self.google_translator_api_key is not None:
                 us_lang = detect(input_text)
-                transl_content = google_official_translator.translate(
+                translated_content = google_official_translator.translate(
                     content, target_language=us_lang
                 )
         except exceptions.LanguageNotSupportedException as e:
             # TODO Log exception instead of print
             print(e)
-            transl_content = content
+            translated_content = content
 
         # Returnd dictionary object
         bard_answer = {
-            "content": transl_content,
+            "content": translated_content,
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
             "factualityQueries": parsed_answer[3],
