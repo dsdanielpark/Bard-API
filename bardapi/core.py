@@ -7,7 +7,7 @@ import string
 import random
 import requests
 from langdetect import detect
-from deep_translator import GoogleTranslator, exceptions
+from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 from bardapi.utils import extract_links, upload_image, extract_bard_cookie
