@@ -7,7 +7,7 @@ import uuid
 from langdetect import detect
 from re import search
 from httpx import AsyncClient
-from deep_translator import GoogleTranslator, exceptions
+from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
 from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
 from bardapi.utils import extract_links, upload_image, extract_bard_cookie
@@ -653,7 +653,7 @@ class BardAsync:
                 translated_content = google_official_translator.translate(
                     content, target_language=us_lang
                 )
-        except exceptions.LanguageNotSupportedException as e:
+        except Exception as e:
             # TODO Log exception instead of print
             print(e)
             translated_content = content

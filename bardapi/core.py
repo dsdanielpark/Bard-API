@@ -498,7 +498,7 @@ class Bard:
                 translated_content = google_official_translator.translate(
                     content, target_language=us_lang
                 )
-        except exceptions.LanguageNotSupportedException as e:
+        except Exception as e:
             # TODO Log exception instead of print
             print(e)
             translated_content = content
