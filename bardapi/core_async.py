@@ -3,8 +3,8 @@ import string
 import random
 import json
 import base64
-from langdetect import detect
 import uuid
+from langdetect import detect
 from re import search
 from httpx import AsyncClient
 from deep_translator import GoogleTranslator, exceptions
