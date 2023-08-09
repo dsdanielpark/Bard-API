@@ -40,7 +40,7 @@ class Bard:
             session (requests.Session): Requests session object.
             conversation_id: ID to fetch conversational context
             google_translator_api_key (str): Google cloud translation API key.
-            language (str): Language code for translation (e.g., "en", "ko", "ja").
+            language (str): Natural language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
             token_from_browser (bool): Gets a token from the browser
         """
@@ -91,12 +91,12 @@ class Bard:
                     "content": str,
                     "conversation_id": str,
                     "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
+                    "factuality_queries": list,
+                    "text_query": str,
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "langCode": str,
+                    "program_lang": str,
                     "code": str,
                     "status_code": int
                 }
@@ -111,7 +111,7 @@ class Bard:
                 api_key=self.google_translator_api_key
             )
 
-        # Set language (optional)
+        # [Optional] Set language 
         if (
             self.language is not None
             and self.language not in ALLOWED_LANGUAGES
@@ -158,7 +158,7 @@ class Bard:
             }
         resp_json = json.loads(resp_dict)
 
-        # Gather image links (optional)
+        # [Optional] gather image links 
         images = set()
         try:
             if len(resp_json) >= 3:
@@ -171,8 +171,8 @@ class Bard:
         # Parsed Answer Object
         parsed_answer = json.loads(resp_dict)
 
-        # Translated by Google Translator (optional)
-        # Unofficial for testing
+        # [Optional] translated by google translator 
+        # Unofficial
         if (
             self.language is not None
             and self.language not in ALLOWED_LANGUAGES
@@ -183,7 +183,8 @@ class Bard:
                 [x[0], [translator_to_lang.translate(x[1][0])] + x[1][1:], x[2]]
                 for x in parsed_answer[4]
             ]
-        # Official Google Cloud Translation API
+
+        # Official google cloud translation API
         elif (
             self.language is not None
             and self.language not in ALLOWED_LANGUAGES
@@ -199,24 +200,24 @@ class Bard:
                 for x in parsed_answer[4]
             ]
 
-        # Get langcode & code (optional)
+        # [Optional] get program_lang & code 
         try:
-            langcode = parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
-            code = parsed_answer[4][0][1][0].split("```")[1][len(langcode) :]
+            program_lang = parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
         except Exception:
-            langcode, code = None, None
+            program_lang, code = None, None
 
         # Returnd dictionary object
         bard_answer = {
             "content": parsed_answer[4][0][1][0],
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
-            "factualityQueries": parsed_answer[3],
-            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
+            "factuality_queries": parsed_answer[3],
+            "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": extract_links(parsed_answer[4]),
             "images": images,
-            "langCode": langcode,
+            "program_lang": program_lang,
             "code": code,
             "status_code": resp.status_code,
         }
@@ -227,7 +228,7 @@ class Bard:
         )
         self._reqid += 100000
 
-        # Execute Code
+        # Execute code
         if self.run_code and bard_answer["code"] is not None:
             try:
                 print(bard_answer["code"])
@@ -391,12 +392,12 @@ class Bard:
                     "content": str,
                     "conversation_id": str,
                     "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
+                    "factuality_queries": list,
+                    "text_query": str,
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "langCode": str,
+                    "program_lang": str,
                     "code": str,
                     "status_code": int
                 }
@@ -408,7 +409,7 @@ class Bard:
         else:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
 
-        # Set language (optional)
+        # [Optional] Set language 
         if (
             (self.language is not None or lang is not None)
             and self.language not in ALLOWED_LANGUAGES
@@ -520,12 +521,12 @@ class Bard:
             "content": translated_content,
             "conversation_id": parsed_answer[1][0],
             "response_id": parsed_answer[1][1],
-            "factualityQueries": parsed_answer[3],
-            "textQuery": parsed_answer[2][0] if parsed_answer[2] else "",
+            "factuality_queries": parsed_answer[3],
+            "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": extract_links(parsed_answer[4]),
             "images": [""],
-            "langCode": "",
+            "program_lang": "",
             "code": "",
             "status_code": resp.status_code,
         }
@@ -538,22 +539,22 @@ class Bard:
         return bard_answer
 
     def export_replit(
-        self, code: str, langcode: str = None, filename: str = None, **kwargs
+        self, code: str, program_lang: str = None, filename: str = None, **kwargs
     ):
         """
-        Get Export URL to repl.it from code
+        Get export URL to repl.it from code
 
         Example:
         >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
-        >>> bard_answer = bard.get_answer("code python to print hello world")
-        >>> url = bard.export_replit(bard_answer['code'], bard_answer['langCode'])
+        >>> bard_answer = bard.get_answer("Give me python code to print hello world")
+        >>> url = bard.export_replit(bard_answer['code'], bard_answer['program_lang'])
         >>> print(url['url'])
 
         Args:
             code (str): source code
-            langcode (str): code language
-            filename (str): filename for code language
+            program_lang (str): programming language
+            filename (str): filename
             **kwargs: instructions, source_path
         Returns:
         dict: Answer from the Bard API in the following format:
@@ -592,14 +593,15 @@ class Bard:
             "rust": "main.rs",
             "perl": "main.pl",
         }
+
         # Reference: https://github.com/jincheng9/markdown_supported_languages
-        if langcode not in support_langs and filename is None:
+        if program_lang not in support_langs and filename is None:
             raise Exception(
-                f"Language {langcode} not supported, please set filename manually."
+                f"Language {program_lang} not supported, please set filename manually."
             )
 
         filename = (
-            support_langs.get(langcode, filename) if filename is None else filename
+            support_langs.get(program_lang, filename) if filename is None else filename
         )
         input_data_struct = [
             [
@@ -625,11 +627,10 @@ class Bard:
             timeout=self.timeout,
             proxies=self.proxies,
         )
-
         resp_dict = json.loads(resp.content.splitlines()[3])
         print(resp_dict)
         url = json.loads(resp_dict[0][2])[0]
-        # increment request ID
+        # Increment request ID
         self._reqid += 100000
 
         return {"url": url, "status_code": resp.status_code}
@@ -652,7 +653,7 @@ class Bard:
         )
         if resp.status_code != 200:
             raise Exception(
-                f"Response code not 200. Response Status is {resp.status_code}"
+                f"Response status code is not 200. Response Status is {resp.status_code}"
             )
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
