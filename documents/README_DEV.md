@@ -126,7 +126,7 @@ audio = bard.speech("Hello, I am bard! How can I assist you?", lang='en-US') # G
 
 # Save audio object.
 with open('bard_response.mp3', 'wb') as f:
-    f.write(audio)
+    f.write(audio['audio'])
 ```
 
 <br>
@@ -167,6 +167,7 @@ from bardapi import Bard
 bard = Bard(token='xxxxxxxx')
 image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
 bard_answer = bard.ask_about_image('What is in the image?', image)
+print(bard_answer['content'])
 ```
 
 <br>
@@ -231,7 +232,7 @@ from bardapi import Bard
 bard = Bard(token='xxxxxxxx')
 bard_answer = bard.get_answer('How are you?')
 url = bard.export_conversation(bard_answer, title='Example Shared conversation')
-print(url)
+print(url['url'])
 
 ```
 
@@ -249,7 +250,7 @@ url = bard.export_replit(
     code=bard_answer['code'],
     langcode=bard_answer['langCode'],
 )
-print(url) # https://replit.com/external/v1/claims/xxx/claim
+print(url['url']) # https://replit.com/external/v1/claims/xxx/claim
 ```
 
 <br>
@@ -300,7 +301,7 @@ cookie_dict = {
 }
 
 bard = BardCookies(cookie_dict=cookie_dict)
-print(bard.get_answer("こんにちは"))
+print(bard.get_answer("こんにちは")['content'])
 ```
 
 <br>
@@ -374,7 +375,7 @@ chat.start()
 #### Features
 Customize User Prompt
 Users can customize the prompt displayed to the user before input by providing a custom prompt message to the start() method.
-```pythno
+```python
 chat.start(prompt="Enter your message: ")
 ```
 
