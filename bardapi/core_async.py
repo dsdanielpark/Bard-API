@@ -113,7 +113,7 @@ class BardAsync:
                 api_key=self.google_translator_api_key
             )
 
-        # [Optional] Set language 
+        # [Optional] Set language
         if (
             self.language is not None
             and self.language not in ALLOWED_LANGUAGES
@@ -158,7 +158,7 @@ class BardAsync:
             return {"content": f"Response Error: {resp.content}."}
         resp_json = json.loads(resp_dict)
 
-        # [Optional] Gather image links 
+        # [Optional] Gather image links
         try:
             images = set()
             if len(resp_json) >= 3:
@@ -174,7 +174,7 @@ class BardAsync:
             pass
         parsed_answer = json.loads(resp_dict)
 
-        # [Optional] Translated by google translator 
+        # [Optional] Translated by google translator
         ## Unofficial for testing
         if (
             self.language is not None
@@ -204,7 +204,9 @@ class BardAsync:
 
         # Get code
         try:
-            program_lang = parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+            program_lang = (
+                parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+            )
             code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
         except Exception:
             program_lang, code = None, None
@@ -571,7 +573,7 @@ class BardAsync:
         else:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
 
-        # [Optional] Set language 
+        # [Optional] Set language
         if (
             (self.language is not None or lang is not None)
             and self.language not in ALLOWED_LANGUAGES

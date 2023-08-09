@@ -111,7 +111,7 @@ class Bard:
                 api_key=self.google_translator_api_key
             )
 
-        # [Optional] Set language 
+        # [Optional] Set language
         if (
             self.language is not None
             and self.language not in ALLOWED_LANGUAGES
@@ -158,7 +158,7 @@ class Bard:
             }
         resp_json = json.loads(resp_dict)
 
-        # [Optional] gather image links 
+        # [Optional] gather image links
         images = set()
         try:
             if len(resp_json) >= 3:
@@ -171,7 +171,7 @@ class Bard:
         # Parsed Answer Object
         parsed_answer = json.loads(resp_dict)
 
-        # [Optional] translated by google translator 
+        # [Optional] translated by google translator
         # Unofficial
         if (
             self.language is not None
@@ -200,9 +200,11 @@ class Bard:
                 for x in parsed_answer[4]
             ]
 
-        # [Optional] get program_lang & code 
+        # [Optional] get program_lang & code
         try:
-            program_lang = parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+            program_lang = (
+                parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+            )
             code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
         except Exception:
             program_lang, code = None, None
@@ -409,7 +411,7 @@ class Bard:
         else:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
 
-        # [Optional] Set language 
+        # [Optional] Set language
         if (
             (self.language is not None or lang is not None)
             and self.language not in ALLOWED_LANGUAGES
