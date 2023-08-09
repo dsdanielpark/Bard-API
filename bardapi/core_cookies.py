@@ -85,7 +85,9 @@ class BardCookies(Bard):
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "code": str
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         return super().get_answer(input_text)
@@ -102,15 +104,18 @@ class BardCookies(Bard):
         >>> bard = BardCookies(cookie_dict=cookies)
         >>> audio = bard.speech("hello!")
         >>> with open("bard.ogg", "wb") as f:
-        >>>     f.write(bytes(audio))
+        >>>     f.write(bytes(audio['audio']))
 
         Args:
             input_text (str): Input text for the query.
             lang (str): Input language for the query.
 
         Returns:
-            bytes: audio in bytes format
-            with format of audio/ogg
+            dict: Answer from the Bard API in the following format:
+            {
+                "audio": bytes,
+                "status_code": int
+            }
         """
         return super().speech(input_text, lang)
 
@@ -142,7 +147,9 @@ class BardCookies(Bard):
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "code": str
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         return super().ask_about_image(input_text, image, lang)
@@ -159,13 +166,17 @@ class BardCookies(Bard):
         >>> bard = BardCookies(cookie_dict=cookies)
         >>> bard_answer = bard.get_answer("hello!")
         >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
-        >>> print(url)
+        >>> print(url['url'])
 
         Args:
             bard_answer (dict): bard_answer returned from get_answer
             title (str): Title for URL
         Returns:
-            string: public URL you can share
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
         return super().export_conversation(bard_answer, title)
 
@@ -183,7 +194,7 @@ class BardCookies(Bard):
         >>> bard = BardCookies(cookie_dict=cookies)
         >>> bard_answer = bard.get_answer("code python to print hello world")
         >>> url = bard.export_replit(bard_answer['code'], bard_answer['langCode'])
-        >>> print(url)
+        >>> print(url['url'])
 
         Args:
             code (str): source code
@@ -191,7 +202,11 @@ class BardCookies(Bard):
             filename (str): filename for code language
             **kwargs: instructions, source_path
         Returns:
-            string: export URL to create repl
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
         return super().export_replit(code, langcode, filename, **kwargs)
 
@@ -295,7 +310,10 @@ class BardAsyncCookies(BardAsync):
                     "textQuery": str,
                     "choices": list,
                     "links": list
-                    "images": set
+                    "images": set,
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         return await super().get_answer(input_text)
@@ -315,7 +333,7 @@ class BardAsyncCookies(BardAsync):
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     audio = await bard.speech("Hello")
         >>>     with open("bard.ogg", "wb") as f:
-        >>>         f.write(bytes(audio))
+        >>>         f.write(bytes(audio['audio']))
         >>>
         >>> asyncio.run(main())
 
@@ -324,8 +342,11 @@ class BardAsyncCookies(BardAsync):
             lang (str): Input language for the query
 
         Returns:
-            bytes: audio in bytes format
-            with format of audio/ogg
+            dict: Answer from the Bard API in the following format:
+            {
+                "audio": bytes,
+                "status_code": int
+            }
         """
 
         return await super().speech(input_text, lang)
@@ -367,7 +388,9 @@ class BardAsyncCookies(BardAsync):
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "code": str
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         return await super().ask_about_image(input_text, image, lang)
@@ -387,7 +410,7 @@ class BardAsyncCookies(BardAsync):
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     bard_answer = await bard.get_answer("hello!")
         >>>     url = await bard.export_conversation(bard_answer, title="Export Conversation")
-        >>>     print(url)
+        >>>     print(url['url'])
         >>>
         >>> asyncio.run(main())
 
@@ -395,7 +418,11 @@ class BardAsyncCookies(BardAsync):
             bard_answer (dict): bard_answer returned from get_answer
             title (str): Title for URL
         Returns:
-            string: public URL you can share
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
         return await super().export_conversation(bard_answer, title)
 
@@ -416,7 +443,7 @@ class BardAsyncCookies(BardAsync):
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     bard_answer = await bard.get_answer("code python to print hello world")
         >>>     url = await bard.export_replit(bard_answer['code'], bard_answer['langCode'])
-        >>>     print(url)
+        >>>     print(url['url'])
         >>>
         >>> asyncio.run(main())
 
@@ -426,7 +453,11 @@ class BardAsyncCookies(BardAsync):
             filename (str): filename for code language
             **kwargs: instructions, source_path
         Returns:
-            string: export URL to create repl
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
 
         return await super().export_replit(code, langcode, filename, **kwargs)

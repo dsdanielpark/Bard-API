@@ -12,7 +12,7 @@ from bardapi.constants import (
     IMG_UPLOAD_HEADERS,
 )
 from bardapi.core_async import BardAsync
-from bardapi.core_cookies import BardCookies
+from bardapi.core_cookies import BardCookies, BardAsyncCookies
 from bardapi.utils import (
     extract_links,
     upload_image,
@@ -29,6 +29,7 @@ __all__ = [
     "ChatBard",
     "BardAsync",
     "BardCookies",
+    "BardAsyncCookies",
     "SESSION_HEADERS",
     "ALLOWED_LANGUAGES",
     "DEFAULT_LANGUAGE",
