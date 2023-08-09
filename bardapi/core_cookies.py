@@ -1,9 +1,8 @@
 import os
+import re
 import string
 import random
-import re
 import requests
-from bardapi.constants import SESSION_HEADERS
 from httpx import AsyncClient
 from bardapi.core import Bard
 from bardapi.core_async import BardAsync
@@ -34,7 +33,7 @@ class BardCookies(Bard):
             proxies (dict): Proxy configuration for requests.
             session (requests.Session): Requests session object.
             google_translator_api_key (str): Google cloud translation API key.
-            language (str): Language code for translation (e.g., "en", "ko", "ja").
+            language (str): Natural language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
         """
         self.cookie_dict = cookie_dict
@@ -80,12 +79,12 @@ class BardCookies(Bard):
                     "content": str,
                     "conversation_id": str,
                     "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
+                    "factuality_queries": list,
+                    "text_query": str,
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "langCode": str,
+                    "program_lang": str,
                     "code": str,
                     "status_code": int
                 }
@@ -142,12 +141,12 @@ class BardCookies(Bard):
                     "content": str,
                     "conversation_id": str,
                     "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
+                    "factuality_queries": list,
+                    "text_query": str,
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "langCode": str,
+                    "program_lang": str,
                     "code": str,
                     "status_code": int
                 }
@@ -181,10 +180,10 @@ class BardCookies(Bard):
         return super().export_conversation(bard_answer, title)
 
     def export_replit(
-        self, code: str, langcode: str = None, filename: str = None, **kwargs
+        self, code: str, program_lang: str = None, filename: str = None, **kwargs
     ):
         """
-        Get Export URL to repl.it from code
+        Get export URL to repl.it from code
 
         Example:
         >>> cookies = {
@@ -193,13 +192,13 @@ class BardCookies(Bard):
         >>> }
         >>> bard = BardCookies(cookie_dict=cookies)
         >>> bard_answer = bard.get_answer("code python to print hello world")
-        >>> url = bard.export_replit(bard_answer['code'], bard_answer['langCode'])
+        >>> url = bard.export_replit(bard_answer['code'], bard_answer['program_lang'])
         >>> print(url['url'])
 
         Args:
             code (str): source code
-            langcode (str): code language
-            filename (str): filename for code language
+            program_lang (str): programming language
+            filename (str): filename for code
             **kwargs: instructions, source_path
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -208,7 +207,7 @@ class BardCookies(Bard):
                 "status_code": int
             }
         """
-        return super().export_replit(code, langcode, filename, **kwargs)
+        return super().export_replit(code, program_lang, filename, **kwargs)
 
     def _get_snim0e(self) -> str:
         """
@@ -224,7 +223,7 @@ class BardCookies(Bard):
         )
         if resp.status_code != 200:
             raise Exception(
-                f"Response code not 200. Response Status is {resp.status_code}"
+                f"Response status code is not 200. Response Status is {resp.status_code}"
             )
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
@@ -256,7 +255,7 @@ class BardAsyncCookies(BardAsync):
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
             google_translator_api_key (str): Google cloud translation API key.
-            language (str): Language code for translation (e.g., "en", "ko", "ja").
+            language (str): Natural language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
         """
         self.cookie_dict = cookie_dict
@@ -266,7 +265,7 @@ class BardAsyncCookies(BardAsync):
         self.conversation_id = ""
         self.response_id = ""
         self.choice_id = ""
-        # Making Httpx Async Client that will be used for all API calls
+        # Making httpx async client that will be used for all API calls
         self.client = AsyncClient(
             http2=True,
             cookies=self.cookie_dict,
@@ -306,12 +305,12 @@ class BardAsyncCookies(BardAsync):
                     "content": str,
                     "conversation_id": str,
                     "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
+                    "factuality_queries": list,
+                    "text_query": str,
                     "choices": list,
                     "links": list
                     "images": set,
-                    "langCode": str,
+                    "program_lang": str,
                     "code": str,
                     "status_code": int
                 }
@@ -383,12 +382,12 @@ class BardAsyncCookies(BardAsync):
                     "content": str,
                     "conversation_id": str,
                     "response_id": str,
-                    "factualityQueries": list,
-                    "textQuery": str,
+                    "factuality_queries": list,
+                    "text_query": str,
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "langCode": str,
+                    "program_lang": str,
                     "code": str,
                     "status_code": int
                 }
@@ -427,10 +426,10 @@ class BardAsyncCookies(BardAsync):
         return await super().export_conversation(bard_answer, title)
 
     async def export_replit(
-        self, code: str, langcode: str = None, filename: str = None, **kwargs
+        self, code: str, program_lang: str = None, filename: str = None, **kwargs
     ) -> str:
         """
-        Get Export URL to repl.it from code
+        Get export URL to repl.it from code
 
         Example:
         >>> import asyncio
@@ -442,15 +441,15 @@ class BardAsyncCookies(BardAsync):
         >>>         }
         >>>     bard = BardAsyncCookies(cookie_dict=cookies)
         >>>     bard_answer = await bard.get_answer("code python to print hello world")
-        >>>     url = await bard.export_replit(bard_answer['code'], bard_answer['langCode'])
+        >>>     url = await bard.export_replit(bard_answer['code'], bard_answer['program_lang'])
         >>>     print(url['url'])
         >>>
         >>> asyncio.run(main())
 
         Args:
             code (str): source code
-            langcode (str): code language
-            filename (str): filename for code language
+            program_lang (str): programming language
+            filename (str): filename
             **kwargs: instructions, source_path
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -460,7 +459,7 @@ class BardAsyncCookies(BardAsync):
             }
         """
 
-        return await super().export_replit(code, langcode, filename, **kwargs)
+        return await super().export_replit(code, program_lang, filename, **kwargs)
 
     async def _get_snim0e(self):
         """
@@ -478,7 +477,7 @@ class BardAsyncCookies(BardAsync):
         )
         if resp.status_code != 200:
             raise Exception(
-                f"Response code not 200. Response Status is {resp.status_code}"
+                f"Response status code is not 200. Response Status is {resp.status_code}"
             )
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
