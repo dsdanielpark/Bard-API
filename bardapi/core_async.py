@@ -96,7 +96,7 @@ class BardAsync:
                     "links": list
                     "images": set,
                     "langCode": str,
-                    "code": str, 
+                    "code": str,
                     "status_code": int
                 }
         """
@@ -221,7 +221,7 @@ class BardAsync:
             "images": images,
             "langCode": langcode,
             "code": code,
-            "status_code": resp.status_code
+            "status_code": resp.status_code,
         }
 
         self.conversation_id, self.response_id, self.choice_id = (
@@ -308,10 +308,7 @@ class BardAsync:
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
-        return {
-            "audio": audio_bytes,
-            "status_code": resp.status_code
-        }
+        return {"audio": audio_bytes, "status_code": resp.status_code}
 
     async def _get_snim0e(self):
         """
@@ -453,7 +450,7 @@ class BardAsync:
                 "url": str,
                 "status_code": int
             }
-            
+
         """
         params = {
             "rpcids": "qACoKe",
@@ -523,10 +520,7 @@ class BardAsync:
         # increment request ID
         self._reqid += 100000
 
-        return {
-            "url": url,
-            "status_code": resp.status_code
-        }
+        return {"url": url, "status_code": resp.status_code}
 
     async def ask_about_image(
         self, input_text: str, image: bytes, lang: str = None
@@ -695,7 +689,7 @@ class BardAsync:
             "images": [""],
             "langCode": "",
             "code": "",
-            "status_code": resp.status_code
+            "status_code": resp.status_code,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],

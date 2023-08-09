@@ -218,7 +218,7 @@ class Bard:
             "images": images,
             "langCode": langcode,
             "code": code,
-            "status_code": resp.status_code
+            "status_code": resp.status_code,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -294,10 +294,7 @@ class Bard:
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
-        return {
-            "audio": audio_bytes,
-            "status_code": resp.status_code
-        }
+        return {"audio": audio_bytes, "status_code": resp.status_code}
 
     def export_conversation(self, bard_answer, title: str = ""):
         """
@@ -371,11 +368,7 @@ class Bard:
         url = f"https://g.co/bard/share/{url_id}"
         # Increment request ID
         self._reqid += 100000
-        return {
-            "url": url,
-            "status_code": resp.status_code
-        }
-        
+        return {"url": url, "status_code": resp.status_code}
 
     def ask_about_image(self, input_text: str, image: bytes, lang: str = None) -> dict:
         """
@@ -534,7 +527,7 @@ class Bard:
             "images": [""],
             "langCode": "",
             "code": "",
-            "status_code": resp.status_code
+            "status_code": resp.status_code,
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -639,10 +632,7 @@ class Bard:
         # increment request ID
         self._reqid += 100000
 
-        return {
-            "url": url,
-            "status_code": resp.status_code
-        }
+        return {"url": url, "status_code": resp.status_code}
 
     def _get_snim0e(self) -> str:
         """
