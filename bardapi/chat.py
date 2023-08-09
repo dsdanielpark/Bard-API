@@ -5,7 +5,7 @@ from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
 
 
-class ChatBard:
+class ChatBard(Bard):
     """
     A class representing a chatbot powered by the Bard API.
 
@@ -27,64 +27,47 @@ class ChatBard:
         token: str = None,
         timeout: int = 20,
         proxies: dict = None,
-        google_translator_api_key: str = None,
         session: requests.Session = None,
+        google_translator_api_key: str = None,
         language: str = None,
+        token_from_browser=False,
     ):
-        """
-        Initialize the ChatBard object.
-
-        Parameters:
-            token (str): The Bard API token.
-            timeout (int): The timeout value for API requests.
-            proxies (dict): Dictionary of proxies to use for API requests.
-            session (requests.Session): Optional pre-initialized requests session.
-            language (str): The language for Bard API interactions.
-
-        Returns:
-            None
-        """
-        if session is None:
-            self.session = requests.Session()
-            self.session.headers = SESSION_HEADERS
-            self.session.cookies.set("__Secure-1PSID", token)
-        else:
-            self.session = session
-        self.language = (
-            language
-            or os.getenv(
-                "_BARD_API_LANG",
-                input("Enter the language (Just press enter to use English): "),
-            )
-            or "english"
-        )
-        self.timeout = int(
-            timeout
-            or os.getenv("_BARD_API_TIMEOUT")
-            or input("Enter the timeout value (Just press enter to set 30 sec): ")
-            or 30
-        )
-        self.token = (
-            token
-            or os.getenv("_BARD_API_KEY")
-            or input("Enter the Bard API Key(__Secure-1PSID): ")
-            or print("Bard API(__Secure-1PSID) Key must be entered.")
-        )
+        self.session = session or self._init_session(token)
+        self.language = language or os.getenv("_BARD_API_LANG") or "english"
+        self.timeout = int(timeout or os.getenv("_BARD_API_TIMEOUT") or 30)
+        self.token = token or os.getenv("_BARD_API_KEY") or self._get_api_key()
+        self.token_from_browser = token_from_browser
         self.proxies = proxies
         self.google_translator_api_key = google_translator_api_key
 
-        # Set Bard object
-        self.bard = Bard(
+        self.bard = self._init_bard()
+
+        # Chat history
+        self.chat_history = []
+
+    def _init_session(self, token):
+        session = requests.Session()
+        session.headers = SESSION_HEADERS
+        session.cookies.set("__Secure-1PSID", token)
+        return session
+
+    def _get_api_key(self):
+        key = input("Enter the Bard API Key(__Secure-1PSID): ")
+        if not key:
+            print("Bard API(__Secure-1PSID) Key must be entered.")
+            exit(1)
+        return key
+
+    def _init_bard(self):
+        return Bard(
             token=self.token,
             session=self.session,
             google_translator_api_key=self.google_translator_api_key,
             timeout=self.timeout,
             language=self.language,
             proxies=self.proxies,
+            token_from_browser=self.token_from_browser,
         )
-
-        # Chat history
-        self.chat_history = []
 
     def start(self, prompt: str = None) -> None:
         """

@@ -44,33 +44,87 @@ class Bard:
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
             token_from_browser (bool): Gets a token from the browser
         """
-        self.token = token or os.getenv("_BARD_API_KEY")
-        if not self.token and token_from_browser:
-            self.token = extract_bard_cookie()
-            if not self.token:
-                raise Exception(
-                    "\nCan't extract cookie from browsers.\nPlease sign in first at\nhttps://accounts.google.com/v3/signin/identifier?followup=https://bard.google.com/&flowName=GlifWebSignIn&flowEntry=ServiceLogin"
-                )
+        self.token = self._get_token(token, token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
-        self.conversation_id = ""
+        self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-        if conversation_id is not None:
-            self.conversation_id = conversation_id
-        # Set session or Get session
-        if session is None:
-            self.session = requests.Session()
-            self.session.headers = SESSION_HEADERS
-            self.session.cookies.set("__Secure-1PSID", self.token)
-            self.session.proxies = self.proxies
-        else:
-            self.session = session
+        self.session = self._get_session(session)
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
-        self.run_code = run_code or False
+        self.run_code = run_code
         self.google_translator_api_key = google_translator_api_key
+
+    def _get_token(self, token, token_from_browser):
+        """
+        Get the Bard API token either from the provided token or from the browser cookie.
+
+        Args:
+            token (str): Bard API token.
+            token_from_browser (bool): Whether to extract the token from the browser cookie.
+
+        Returns:
+            str: The Bard API token.
+        Raises:
+            Exception: If the token is not provided and can't be extracted from the browser.
+        """
+        if token:
+            return token
+        elif token_from_browser:
+            extracted_token = extract_bard_cookie()
+            if not extracted_token:
+                raise Exception("Failed to extract cookie from browsers.")
+            return extracted_token
+        else:
+            raise Exception("Bard API Key must be provided or extracted from browser.")
+
+    def _get_session(self, session):
+        """
+        Get the requests Session object.
+
+        Args:
+            session (requests.Session): Requests session object.
+
+        Returns:
+            requests.Session: The Session object.
+        """
+        if session is None:
+            new_session = requests.Session()
+            new_session.headers = SESSION_HEADERS
+            new_session.cookies.set("__Secure-1PSID", self.token)
+            new_session.proxies = self.proxies
+            return new_session
+        else:
+            return session
+
+    def _get_snim0e(self) -> str:
+        """
+        Get the SNlM0e value from the Bard API response.
+
+        Returns:
+            str: SNlM0e value.
+        Raises:
+            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
+        """
+        if not self.token or self.token[-1] != ".":
+            raise Exception(
+                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+            )
+        resp = self.session.get(
+            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
+        if resp.status_code != 200:
+            raise Exception(
+                f"Response status code is not 200. Response Status is {resp.status_code}"
+            )
+        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        if not snim0e:
+            raise Exception(
+                "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
+            )
+        return snim0e.group(1)
 
     def get_answer(self, input_text: str) -> dict:
         """
@@ -636,30 +690,3 @@ class Bard:
         self._reqid += 100000
 
         return {"url": url, "status_code": resp.status_code}
-
-    def _get_snim0e(self) -> str:
-        """
-        Get the SNlM0e value from the Bard API response.
-
-        Returns:
-            str: SNlM0e value.
-        Raises:
-            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
-        """
-        if not self.token or self.token[-1] != ".":
-            raise Exception(
-                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
-            )
-        resp = self.session.get(
-            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
-        )
-        if resp.status_code != 200:
-            raise Exception(
-                f"Response status code is not 200. Response Status is {resp.status_code}"
-            )
-        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
-        if not snim0e:
-            raise Exception(
-                "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
-            )
-        return snim0e.group(1)
