@@ -654,8 +654,7 @@ class BardAsync:
                     content, target_language=us_lang
                 )
         except Exception as e:
-            # TODO Log exception instead of print
-            print(e)
+            print(f"Translation failed, and the original text has been returned. \n{e}")
             translated_content = content
 
         # Returnd dictionary object

@@ -223,19 +223,19 @@ Starting from version `0.1.18`, the GitHub version of BardAPI will be synchroniz
 $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
-- [Auto Cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#auto-cookie-bard)
-- [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#text-to-speechtts)
-- [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#multi-language-bard-api)
-- [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#get-image-links)
-- [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
-- [Export Conversation](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#export-conversation)
-- [Export Code to Repl.it](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#export-code-to-replit)
-- [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#chatbard)
-- [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#using-bard-asynchronously)
-- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#bard-which-can-get-cookies)
-- [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#fix-conversation-id-fix-context)
-- [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#max_token-max_sentence)
-- [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/README_DEV.md#translation-to-another-programming-language)
+- [Auto Cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#auto-cookie-bard)
+- [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#text-to-speechtts)
+- [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-language-bard-api)
+- [Get image links](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#get-image-links)
+- [ChatBard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#chatbard)
+- [Export Conversation](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#export-conversation)
+- [Export Code to Repl.it](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#export-code-to-replit)
+- [Executing Python code received as a response from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#chatbard)
+- [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#using-bard-asynchronously)
+- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#bard-which-can-get-cookies)
+- [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#fix-conversation-id-fix-context)
+- [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
+- [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#translation-to-another-programming-language)
 
 <br>
 <br>
