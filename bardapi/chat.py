@@ -27,6 +27,7 @@ class ChatBard:
         token: str = None,
         timeout: int = 20,
         proxies: dict = None,
+        google_translator_api_key: str = None,
         session: requests.Session = None,
         language: str = None,
     ):
@@ -70,11 +71,13 @@ class ChatBard:
             or print("Bard API(__Secure-1PSID) Key must be entered.")
         )
         self.proxies = proxies
+        self.google_translator_api_key = google_translator_api_key
 
         # Set Bard object
         self.bard = Bard(
             token=self.token,
             session=self.session,
+            google_translator_api_key=self.google_translator_api_key,
             timeout=self.timeout,
             language=self.language,
             proxies=self.proxies,
