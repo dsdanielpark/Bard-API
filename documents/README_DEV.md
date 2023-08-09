@@ -245,10 +245,10 @@ from bardapi import Bard
 bard = Bard(token='xxxxxxxx')
 
 bard_answer = bard.get_answer("code python to print hello world")
-# {'code': 'print("Hello World")', 'langCode': 'python'}
+# {'code': 'print("Hello World")', 'program_lang': 'python'}
 url = bard.export_replit(
     code=bard_answer['code'],
-    langcode=bard_answer['langCode'],
+    program_lang=bard_answer['program_lang'],
 )
 print(url['url']) # https://replit.com/external/v1/claims/xxx/claim
 ```
