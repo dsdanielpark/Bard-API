@@ -96,7 +96,9 @@ class Bard:
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "code": str
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         params = {
@@ -216,6 +218,7 @@ class Bard:
             "images": images,
             "langCode": langcode,
             "code": code,
+            "status_code": resp.status_code
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -243,15 +246,18 @@ class Bard:
         >>> bard = Bard(token=token)
         >>> audio = bard.speech("hello!")
         >>> with open("bard.ogg", "wb") as f:
-        >>>     f.write(bytes(audio))
+        >>>     f.write(bytes(audio['audio']))
 
         Args:
             input_text (str): Input text for the query.
             lang (str): Input language for the query.
 
         Returns:
-            bytes: audio in bytes format
-            with format of audio/ogg
+            dict: Answer from the Bard API in the following format:
+            {
+                "audio": bytes,
+                "status_code": int
+            }
         """
         params = {
             "bl": "boq_assistant-bard-web-server_20230713.13_p0",
@@ -288,7 +294,10 @@ class Bard:
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
-        return audio_bytes
+        return {
+            "audio": audio_bytes,
+            "status_code": resp.status_code
+        }
 
     def export_conversation(self, bard_answer, title: str = ""):
         """
@@ -299,12 +308,17 @@ class Bard:
         >>> bard = Bard(token=token)
         >>> bard_answer = bard.get_answer("hello!")
         >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
+        >>> print(url['url'])
 
         Args:
             bard_answer (dict): bard_answer returned from get_answer
             title (str): Title for URL
         Returns:
-            string: public URL you can share
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
         conv_id = bard_answer["conversation_id"]
         resp_id = bard_answer["response_id"]
@@ -357,7 +371,11 @@ class Bard:
         url = f"https://g.co/bard/share/{url_id}"
         # Increment request ID
         self._reqid += 100000
-        return url
+        return {
+            "url": url,
+            "status_code": resp.status_code
+        }
+        
 
     def ask_about_image(self, input_text: str, image: bytes, lang: str = None) -> dict:
         """
@@ -385,7 +403,9 @@ class Bard:
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "code": str
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         if self.google_translator_api_key is not None:
@@ -512,7 +532,9 @@ class Bard:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": extract_links(parsed_answer[4]),
             "images": [""],
+            "langCode": "",
             "code": "",
+            "status_code": resp.status_code
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
@@ -533,6 +555,7 @@ class Bard:
         >>> bard = Bard(token=token)
         >>> bard_answer = bard.get_answer("code python to print hello world")
         >>> url = bard.export_replit(bard_answer['code'], bard_answer['langCode'])
+        >>> print(url['url'])
 
         Args:
             code (str): source code
@@ -540,7 +563,11 @@ class Bard:
             filename (str): filename for code language
             **kwargs: instructions, source_path
         Returns:
-            string: export URL to create repl
+        dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
         params = {
             "rpcids": "qACoKe",
@@ -612,7 +639,10 @@ class Bard:
         # increment request ID
         self._reqid += 100000
 
-        return url
+        return {
+            "url": url,
+            "status_code": resp.status_code
+        }
 
     def _get_snim0e(self) -> str:
         """

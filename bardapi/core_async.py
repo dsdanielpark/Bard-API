@@ -74,7 +74,7 @@ class BardAsync:
         >>> import asyncio
         >>>
         >>> async def main():
-        >>>     token = 'xxxxxxxxxx'
+        >>>     token = 'xxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     response = await bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>>     print(response['content'])
@@ -94,7 +94,10 @@ class BardAsync:
                     "textQuery": str,
                     "choices": list,
                     "links": list
-                    "images": set
+                    "images": set,
+                    "langCode": str,
+                    "code": str, 
+                    "status_code": int
                 }
         """
         self.SNlM0e = await self._get_snim0e()
@@ -218,7 +221,7 @@ class BardAsync:
             "images": images,
             "langCode": langcode,
             "code": code,
-            "status_code": resp.status_code,
+            "status_code": resp.status_code
         }
 
         self.conversation_id, self.response_id, self.choice_id = (
@@ -252,11 +255,11 @@ class BardAsync:
         >>> import asyncio
         >>>
         >>> async def main():
-        >>>     token = 'xxxxxxxxxx'
+        >>>     token = 'xxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     audio = await bard.speech("Hello")
         >>>     with open("bard.ogg", "wb") as f:
-        >>>         f.write(bytes(audio))
+        >>>         f.write(bytes(audio['audio']))
         >>>
         >>> asyncio.run(main())
 
@@ -265,8 +268,11 @@ class BardAsync:
             lang (str): Input language for the query
 
         Returns:
-            bytes: audio in bytes format
-            with format of audio/ogg
+            dict: Answer from the Bard API in the following format:
+            {
+                "audio": bytes,
+                "status_code": int
+            }
         """
         params = {
             "bl": "boq_assistant-bard-web-server_20230419.00_p1",
@@ -302,7 +308,10 @@ class BardAsync:
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
         audio_bytes = base64.b64decode(audio_b64)
-        return audio_bytes
+        return {
+            "audio": audio_bytes,
+            "status_code": resp.status_code
+        }
 
     async def _get_snim0e(self):
         """
@@ -341,11 +350,11 @@ class BardAsync:
         >>> import asyncio
         >>>
         >>> async def main():
-        >>>     token = 'xxxxxxxxxx'
+        >>>     token = 'xxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     bard_answer = await bard.get_answer("hello!")
         >>>     url = await bard.export_conversation(bard_answer, title="Export Conversation")
-        >>>     print(url)
+        >>>     print(url['url'])
         >>>
         >>> asyncio.run(main())
 
@@ -353,7 +362,11 @@ class BardAsync:
             bard_answer (dict): bard_answer returned from get_answer
             title (str): Title for URL
         Returns:
-            string: public URL you can share
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
         """
         conv_id = bard_answer["conversation_id"]
         resp_id = bard_answer["response_id"]
@@ -406,7 +419,10 @@ class BardAsync:
         url = f"https://g.co/bard/share/{url_id}"
         # Increment request ID
         self._reqid += 100000
-        return url
+        return {
+            "url": url,
+            "status_code": resp.status_code,
+        }
 
     async def export_replit(
         self, code: str, langcode: str = None, filename: str = None, **kwargs
@@ -418,11 +434,11 @@ class BardAsync:
         >>> import asyncio
         >>>
         >>> async def main():
-        >>>     token = 'xxxxxxxxxx'
+        >>>     token = 'xxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     bard_answer = await bard.get_answer("code python to print hello world")
         >>>     url = await bard.export_replit(bard_answer['code'], bard_answer['langCode'])
-        >>>     print(url)
+        >>>     print(url['url'])
         >>>
         >>> asyncio.run(main())
 
@@ -432,7 +448,12 @@ class BardAsync:
             filename (str): filename for code language
             **kwargs: instructions, source_path
         Returns:
-            string: export URL to create repl
+            dict: Answer from the Bard API in the following format:
+            {
+                "url": str,
+                "status_code": int
+            }
+            
         """
         params = {
             "rpcids": "qACoKe",
@@ -502,7 +523,10 @@ class BardAsync:
         # increment request ID
         self._reqid += 100000
 
-        return url
+        return {
+            "url": url,
+            "status_code": resp.status_code
+        }
 
     async def ask_about_image(
         self, input_text: str, image: bytes, lang: str = None
@@ -513,7 +537,7 @@ class BardAsync:
         >>> import asyncio
         >>>
         >>> async def main():
-        >>>     token = 'xxxxxxxxxx'
+        >>>     token = 'xxxxxx'
         >>>     bard = BardAsync(token=token)
         >>>     image = open('image.jpg', 'rb').read()
         >>>     bard_answer = await bard.ask_about_image("what is in the image?", image)
@@ -537,7 +561,9 @@ class BardAsync:
                     "choices": list,
                     "links": list,
                     "images": set,
-                    "code": str
+                    "langCode": str,
+                    "code": str,
+                    "status_code": int
                 }
         """
         self.SNlM0e = await self._get_snim0e()
@@ -667,7 +693,9 @@ class BardAsync:
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
             "links": extract_links(parsed_answer[4]),
             "images": [""],
+            "langCode": "",
             "code": "",
+            "status_code": resp.status_code
         }
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
