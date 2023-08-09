@@ -77,7 +77,7 @@ class Bard:
         Get an answer from the Bard API for the given input text.
 
         Example:
-        >>> token = 'xxxxxxxxxx'
+        >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
         >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>> print(response['content'])
@@ -239,7 +239,7 @@ class Bard:
         Get speech audio from Bard API for the given input text.
 
         Example:
-        >>> token = 'xxxxxxxxxx'
+        >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
         >>> audio = bard.speech("hello!")
         >>> with open("bard.ogg", "wb") as f:
@@ -295,7 +295,7 @@ class Bard:
         Get Share URL for specific answer from bard
 
         Example:
-        >>> token = 'xxxxxxxxxx'
+        >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
         >>> bard_answer = bard.get_answer("hello!")
         >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
@@ -364,7 +364,7 @@ class Bard:
         Send Bard image along with question and get answer
 
         Example:
-        >>> token = 'xxxxxxxxxx'
+        >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
         >>> image = open('image.jpg', 'rb').read()
         >>> bard_answer = bard.ask_about_image("what is in the image?", image)['content']
@@ -529,7 +529,7 @@ class Bard:
         Get Export URL to repl.it from code
 
         Example:
-        >>> token = 'xxxxxxxxxx'
+        >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
         >>> bard_answer = bard.get_answer("code python to print hello world")
         >>> url = bard.export_replit(bard_answer['code'], bard_answer['langCode'])
