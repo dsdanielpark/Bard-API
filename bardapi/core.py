@@ -465,39 +465,43 @@ class Bard:
             }
         parsed_answer = json.loads(resp_dict)
         content = parsed_answer[4][0][1][0]
-        if self.language is not None and self.google_translator_api_key is None:
-            translator = GoogleTranslator(source="en", target=self.language)
-            translated_content = translator.translate(content)
+        try:
+            if self.language is not None and self.google_translator_api_key is None:
+                translator = GoogleTranslator(source="en", target=self.language)
+                translated_content = translator.translate(content)
 
-        elif lang is not None and self.google_translator_api_key is None:
-            translator = GoogleTranslator(source="en", target=lang)
-            translated_content = translator.translate(content)
+            elif lang is not None and self.google_translator_api_key is None:
+                translator = GoogleTranslator(source="en", target=lang)
+                translated_content = translator.translate(content)
 
-        elif (
-            lang is None and self.language is None
-        ) and self.google_translator_api_key is None:
-            us_lang = detect(input_text)
-            translator = GoogleTranslator(source="en", target=us_lang)
-            translated_content = translator.translate(content)
+            elif (
+                lang is None and self.language is None
+            ) and self.google_translator_api_key is None:
+                us_lang = detect(input_text)
+                translator = GoogleTranslator(source="en", target=us_lang)
+                translated_content = translator.translate(content)
 
-        elif self.language is not None and self.google_translator_api_key is not None:
-            translated_content = google_official_translator.translate(
-                content, target_language=self.language
-            )
-        elif lang is not None and self.google_translator_api_key is not None:
-            translated_content = google_official_translator.translate(
-                content, target_language=lang
-            )
-        elif (
-            self.language is None and lang is None
-        ) and self.google_translator_api_key is not None:
-            try:
+            elif (
+                self.language is not None and self.google_translator_api_key is not None
+            ):
+                translated_content = google_official_translator.translate(
+                    content, target_language=self.language
+                )
+            elif lang is not None and self.google_translator_api_key is not None:
+                translated_content = google_official_translator.translate(
+                    content, target_language=lang
+                )
+            elif (
+                self.language is None and lang is None
+            ) and self.google_translator_api_key is not None:
                 us_lang = detect(input_text)
                 translated_content = google_official_translator.translate(
                     content, target_language=us_lang
                 )
-            except Exception:
-                translated_content = input_text
+        except Exception as e:
+            # TODO Log exception instead of print
+            print(e)
+            translated_content = content
 
         # Returned dictionary object
         bard_answer = {
