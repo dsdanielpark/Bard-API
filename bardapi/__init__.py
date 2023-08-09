@@ -41,5 +41,5 @@ __all__ = [
     "max_token",
     "max_sentence",
 ]
-__version__ = "0.1.30"
+__version__ = "0.1.31"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"
