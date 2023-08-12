@@ -72,13 +72,15 @@ class Bard:
         """
         if token:
             return token
+        elif os.getenv("_BARD_API_KEY"):
+            return os.getenv("_BARD_API_KEY")
         elif token_from_browser:
             extracted_token = extract_bard_cookie()
             if not extracted_token:
                 raise Exception("Failed to extract cookie from browsers.")
             return extracted_token
         else:
-            raise Exception("Bard API Key must be provided or extracted from browser.")
+            raise Exception("Bard API Key must be provided as token argument or extracted from browser.")
 
     def _get_session(self, session):
         """
