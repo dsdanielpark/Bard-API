@@ -84,7 +84,7 @@ class BardAsync:
             "rt": "c",
         }
 
-        # [Optional] set language 
+        # [Optional] set language
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             input_text = translator_to_eng.translate(input_text)
@@ -130,7 +130,7 @@ class BardAsync:
                         print(f"Unable to parse image from the response: {e}")
         parsed_answer = json.loads(resp_dict)
 
-        # [Optional] translated by google translator 
+        # [Optional] translated by google translator
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)
             parsed_answer[0][0] = translator_to_lang.translate(parsed_answer[0][0])

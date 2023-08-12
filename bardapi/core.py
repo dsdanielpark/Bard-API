@@ -80,7 +80,9 @@ class Bard:
                 raise Exception("Failed to extract cookie from browsers.")
             return extracted_token
         else:
-            raise Exception("Bard API Key must be provided as token argument or extracted from browser.")
+            raise Exception(
+                "Bard API Key must be provided as token argument or extracted from browser."
+            )
 
     def _get_session(self, session):
         """
@@ -130,32 +132,32 @@ class Bard:
 
     def get_answer(self, input_text: str) -> dict:
         """
-        Get an answer from the Bard API for the given input text.
+                Get an answer from the Bard API for the given input text.
 
-        Example:
-        >>> token = 'xxxxxx'
-        >>> bard = Bard(token=token)
-        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-        >>> print(response['content'])
+                Example:
+                >>> token = 'xxxxxx'
+                >>> bard = Bard(token=token)
+                >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+                >>> print(response['content'])
 
-        Args:
-            input_text (str): Input text for the query.
-
-        Returns:
-            dict: Answer from the Bard API in the following format:
-                {
-                    "content": str,
-                    "conversation_id": str,
-                    "response_id": str,
-                    "factuality_queries": list,
-                    "text_query": str,
-                    "choices": list,
-                    "links": list,
-                    "images": set,
-                    "program_lang": str,
-                    "code": str,
-                    "status_code": int
-                }
+                Args:
+                    input_text (str): Input text for the query.
+        blac
+                Returns:
+                    dict: Answer from the Bard API in the following format:
+                        {
+                            "content": str,
+                            "conversation_id": str,
+                            "response_id": str,
+                            "factuality_queries": list,
+                            "text_query": str,
+                            "choices": list,
+                            "links": list,
+                            "images": set,
+                            "program_lang": str,
+                            "code": str,
+                            "status_code": int
+                        }
         """
         params = {
             "bl": "boq_assistant-bard-web-server_20230713.13_p0",
