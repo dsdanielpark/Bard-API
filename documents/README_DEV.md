@@ -304,6 +304,30 @@ bard = BardCookies(cookie_dict=cookie_dict)
 print(bard.get_answer("こんにちは")['content'])
 ```
 
+Bard with reusable session which contain mutiple cookie value
+```python
+import requests
+from bardapi import Bard, SESSION_HEADERS
+
+session = requests.Session()
+session.cookies.set("__Secure-1PSID", "bard __Secure-1PSID token")
+session.cookies.set( "__Secure-1PSIDCC", "bard __Secure-1PSIDCC token")
+session.cookies.set("__Secure-1PSIDTS", "bard __Secure-1PSIDTS token")
+session.headers = SESSION_HEADERS
+
+bard = Bard(session=session)
+bard.get_answer("How is the weather today in seoul?")
+```
+
+
+Multi-cookie Bard with auto cookies from browser
+```python
+from bardapi import Bard
+
+bard = BardCookies(token_from_browser=True)
+bard.get_answer("How is the weather today in seoul?")
+```
+
 <br>
 
 ### Fix Conversation ID (Fix Context)
