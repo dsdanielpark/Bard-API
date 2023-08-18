@@ -9,9 +9,10 @@ from bardapi.core_async import BardAsync
 from bardapi.constants import SESSION_HEADERS
 from bardapi.utils import extract_bard_cookie
 
+
 class BardCookies(Bard):
     """
-    Bard class for interacting with the Bard API.
+    Bard class for interacting with the Bard API using cookies for authentication.
     """
 
     def __init__(
@@ -24,19 +25,21 @@ class BardCookies(Bard):
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
-        token_from_browser = False,
+        token_from_browser: bool = False,
     ):
         """
-        Initialize the Bard instance.
+        Initialize the BardCookies instance.
 
         Args:
-            cookie_dict (dict): Bard cookies.
-            timeout (int): Request timeout in seconds.
-            proxies (dict): Proxy configuration for requests.
-            session (requests.Session): Requests session object.
-            google_translator_api_key (str): Google cloud translation API key.
-            language (str): Natural language code for translation (e.g., "en", "ko", "ja").
-            run_code (bool): Whether to directly execute the code included in the answer (Python only)
+            cookie_dict (dict, optional): Dictionary containing Bard cookies.
+            timeout (int, optional): Request timeout in seconds.
+            proxies (dict, optional): Proxy configuration for requests.
+            session (requests.Session, optional): Requests session object.
+            conversation_id (str, optional): Conversation ID.
+            google_translator_api_key (str, optional): Google Cloud Translation API key.
+            language (str, optional): Natural language code for translation.
+            run_code (bool, optional): Whether to execute code included in the answer (Python only).
+            token_from_browser (bool, optional): Whether to extract the token from browser cookies.
         """
         self.cookie_dict = cookie_dict or self._get_token("", token_from_browser)
         self.proxies = proxies
@@ -45,7 +48,7 @@ class BardCookies(Bard):
         self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-        # Set session
+
         if session is None:
             self.session = requests.Session()
             self.session.headers = SESSION_HEADERS
@@ -58,7 +61,7 @@ class BardCookies(Bard):
         self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
-    
+
     def _get_token(self, _, token_from_browser):
         """
         Get the Bard API token either from the provided token or from the browser cookie.
@@ -81,39 +84,16 @@ class BardCookies(Bard):
             raise Exception(
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
-        
 
     def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
 
-        Example:
-        >>> cookies = {
-        >>>   "__Secure-1PSID": "",
-        >>>   "__Secure-1PSIDTS": ""
-        >>> }
-        >>> bard = BardCookies(cookie_dict=cookies)
-        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-        >>> print(response['content'])
-
         Args:
             input_text (str): Input text for the query.
 
         Returns:
-            dict: Answer from the Bard API in the following format:
-                {
-                    "content": str,
-                    "conversation_id": str,
-                    "response_id": str,
-                    "factuality_queries": list,
-                    "text_query": str,
-                    "choices": list,
-                    "links": list,
-                    "images": set,
-                    "program_lang": str,
-                    "code": str,
-                    "status_code": int
-                }
+            dict: Answer from the Bard API.
         """
         return super().get_answer(input_text)
 

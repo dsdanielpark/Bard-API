@@ -61,18 +61,25 @@ def upload_image(image: bytes, filename="Photo.jpg"):
     return resp.text
 
 
-def extract_bard_cookie(cookies: bool) -> dict:
+def extract_bard_cookie(cookies: bool = False) -> dict:
     """
-    Extract token cookie from browser.
-    Supports all modern web browsers and OS
+    Extracts the specified Bard cookie(s) from the browser's cookies.
+
+    This function searches for the specified Bard cookies in various web browsers
+    installed on the system. It supports modern web browsers and operating systems.
+
+    Args:
+        cookies (bool, optional): If True, extracts only '__Secure-1PSID' cookie.
+            If False, extracts '__Secure-1PSID', '__Secure-1PSIDTS', and '__Secure-1PSIDCC' cookies.
+            Defaults to False.
 
     Returns:
-        dict: cookie_dict
-    """
+        dict: A dictionary containing the extracted Bard cookies.
 
-    # browser_cookie3.load is similar function but it's broken
-    # So here we manually search accross all browsers
-    browsers = [
+    Raises:
+        Exception: If no supported browser is found or if there's an issue with cookie extraction.
+    """
+    supported_browsers = [
         browser_cookie3.chrome,
         browser_cookie3.chromium,
         browser_cookie3.opera,
@@ -84,28 +91,30 @@ def extract_bard_cookie(cookies: bool) -> dict:
         browser_cookie3.librewolf,
         browser_cookie3.safari,
     ]
-    for browser_fn in browsers:
-        # if browser isn't installed browser_cookie3 raises exception
-        # hence we need to ignore it and try to find the right one
-        cookie_dict = {}
+
+    cookie_dict = {}
+
+    for browser_fn in supported_browsers:
         try:
             cj = browser_fn(domain_name=".google.com")
-            if cookies:
-                for cookie in cj:
-                    if cookie.name == '__Secure-1PSID' and cookie.value.endswith("."):
-                        cookie_dict['__Secure-1PSID'] = cookie.value
+
+            for cookie in cj:
+                if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
+                    cookie_dict["__Secure-1PSID"] = cookie.value
+                    if not cookies:
+                        cookie_dict["__Secure-1PSIDTS"] = cookie.value
+                        cookie_dict["__Secure-1PSIDCC"] = cookie.value
+                    if cookies or not cookies:
                         return cookie_dict
-            else:
-                for cookie in cj:
-                    if cookie.name == '__Secure-1PSID' and cookie.value.endswith("."):
-                        cookie_dict['__Secure-1PSID'] = cookie.value
-                    elif cookie.name == '__Secure-1PSIDTS':
-                        cookie_dict['__Secure-1PSIDTS'] = cookie.value
-                    elif cookie.name == '__Secure-1PSIDCC':
-                        cookie_dict['__Secure-1PSIDCC'] = cookie.value
-                        return cookie_dict
-        except:
+
+        except Exception as e:
+            # Ignore exceptions and try the next browser function
             continue
+
+    if not cookie_dict:
+        raise Exception("No supported browser found or issue with cookie extraction")
+
+    return cookie_dict
 
 
 def max_token(text: str, n: int):
