@@ -61,14 +61,13 @@ def upload_image(image: bytes, filename="Photo.jpg"):
     return resp.text
 
 
-def extract_bard_cookie():
+def extract_bard_cookie(cookies: bool) -> dict:
     """
     Extract token cookie from browser.
     Supports all modern web browsers and OS
 
-
     Returns:
-        str: __Secure-1PSID cookie value
+        dict: cookie_dict
     """
 
     # browser_cookie3.load is similar function but it's broken
@@ -88,11 +87,23 @@ def extract_bard_cookie():
     for browser_fn in browsers:
         # if browser isn't installed browser_cookie3 raises exception
         # hence we need to ignore it and try to find the right one
+        cookie_dict = {}
         try:
             cj = browser_fn(domain_name=".google.com")
-            for cookie in cj:
-                if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
-                    return cookie.value
+            if cookies:
+                for cookie in cj:
+                    if cookie.name == '__Secure-1PSID' and cookie.value.endswith("."):
+                        cookie_dict['__Secure-1PSID'] = cookie.value
+                        return cookie_dict
+            else:
+                for cookie in cj:
+                    if cookie.name == '__Secure-1PSID' and cookie.value.endswith("."):
+                        cookie_dict['__Secure-1PSID'] = cookie.value
+                    elif cookie.name == '__Secure-1PSIDTS':
+                        cookie_dict['__Secure-1PSIDTS'] = cookie.value
+                    elif cookie.name == '__Secure-1PSIDCC':
+                        cookie_dict['__Secure-1PSIDCC'] = cookie.value
+                        return cookie_dict
         except:
             continue
 

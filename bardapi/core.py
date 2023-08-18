@@ -28,7 +28,7 @@ class Bard:
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
-        token_from_browser=False,
+        token_from_browser = False,
     ):
         """
         Initialize the Bard instance.
@@ -75,10 +75,10 @@ class Bard:
         elif os.getenv("_BARD_API_KEY"):
             return os.getenv("_BARD_API_KEY")
         elif token_from_browser:
-            extracted_token = extract_bard_cookie()
-            if not extracted_token:
+            extracted_cookie_dict = extract_bard_cookie(cookies=False)
+            if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
-            return extracted_token
+            return extracted_cookie_dict['__Secure-1PSID']
         else:
             raise Exception(
                 "Bard API Key must be provided as token argument or extracted from browser."

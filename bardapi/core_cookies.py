@@ -7,7 +7,7 @@ from httpx import AsyncClient
 from bardapi.core import Bard
 from bardapi.core_async import BardAsync
 from bardapi.constants import SESSION_HEADERS
-
+from bardapi.utils import extract_bard_cookie
 
 class BardCookies(Bard):
     """
@@ -24,7 +24,7 @@ class BardCookies(Bard):
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
-        token_from_browser=False,
+        token_from_browser = False,
     ):
         """
         Initialize the Bard instance.
@@ -38,7 +38,7 @@ class BardCookies(Bard):
             language (str): Natural language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
         """
-        self.cookie_dict = cookie_dict
+        self.cookie_dict = cookie_dict or self._get_token("", token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -58,6 +58,30 @@ class BardCookies(Bard):
         self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
+    
+    def _get_token(self, _, token_from_browser):
+        """
+        Get the Bard API token either from the provided token or from the browser cookie.
+
+        Args:
+            token (str): Bard API token.
+            token_from_browser (bool): Whether to extract the token from the browser cookie.
+
+        Returns:
+            str: The Bard API token.
+        Raises:
+            Exception: If the token is not provided and can't be extracted from the browser.
+        """
+        if token_from_browser:
+            extracted_cookie_dict = extract_bard_cookie(cookies=True)
+            if not extracted_cookie_dict:
+                raise Exception("Failed to extract cookie from browsers.")
+            return extracted_cookie_dict
+        else:
+            raise Exception(
+                "Bard API Key must be provided as token argument or extracted from browser."
+            )
+        
 
     def get_answer(self, input_text: str) -> dict:
         """
