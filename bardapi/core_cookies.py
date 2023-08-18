@@ -20,9 +20,11 @@ class BardCookies(Bard):
         timeout: int = 20,
         proxies: dict = None,
         session: requests.Session = None,
+        conversation_id: str = None,
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
+        token_from_browser=False,
     ):
         """
         Initialize the Bard instance.
@@ -40,7 +42,7 @@ class BardCookies(Bard):
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
-        self.conversation_id = ""
+        self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
         # Set session
