@@ -146,6 +146,7 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
             follow_redirects=True,
             headers=SESSION_HEADERS,
             cookies=self.cookie_dict,
@@ -297,6 +298,7 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
         )
 
         # Post-processing of response
@@ -411,6 +413,7 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
         )
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -515,6 +518,7 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
         )
 
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -630,6 +634,7 @@ class BardAsync:
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
+            proxies=self.proxies,
         )
 
         # Post-processing of response

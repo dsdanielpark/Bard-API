@@ -203,6 +203,7 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
         )
 
         # Post-processing of response
@@ -422,6 +423,7 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
         )
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -527,6 +529,7 @@ class Bard:
             params=params,
             data=data,
             timeout=self.timeout,
+            proxies=self.proxies,
         )
 
         # Post-processing of response
