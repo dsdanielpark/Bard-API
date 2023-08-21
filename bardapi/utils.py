@@ -99,22 +99,19 @@ def extract_bard_cookie(cookies: bool = False) -> dict:
             cj = browser_fn(domain_name=".google.com")
 
             for cookie in cj:
-                if not cookies:
-                    if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
-                        cookie_dict["__Secure-1PSID"] = cookie.value
-                        return cookie_dict
-                else:
-                    if cookie.name == "__Secure-1PSIDTS" and cookie.value.endswith("."):
+                print(cookie.name)
+                if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
+                    cookie_dict["__Secure-1PSID"] = cookie.value
+                if cookies:
+                    if cookie.name == "__Secure-1PSIDTS":
                         cookie_dict["__Secure-1PSIDTS"] = cookie.value
-                    elif cookie.name == "__Secure-1PSIDTS" and cookie.value.endswith(
-                        "."
-                    ):
+                    elif cookie.name == "__Secure-1PSIDCC":
                         cookie_dict["__Secure-1PSIDCC"] = cookie.value
+                if len(cookie_dict) == 3:
+                    return cookie_dict
         except Exception as e:
             # Ignore exceptions and try the next browser function
             continue
-
-        return cookie_dict
 
     if not cookie_dict:
         raise Exception("No supported browser found or issue with cookie extraction")
