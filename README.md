@@ -9,7 +9,7 @@ Development Status :: 5 - Production/Stable
 <!-- <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a> -->
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%23000000&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=BardAPI&edge_flat=false"/></a>
-<a href="https://github.com/LianjiaTech/BELLE/stargazers"><img src="https://img.shields.io/github/stars/dsdanielpark/Bard-API?style=social")</a>
+<a href="https://github.com/dsdanielpark/Bard-API/stargazers"><img src="https://img.shields.io/github/stars/dsdanielpark/Bard-API?style=social"></a>
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
 
 </p>
