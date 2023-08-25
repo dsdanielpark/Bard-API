@@ -6,6 +6,7 @@ import base64
 import string
 import random
 import requests
+from typing import Optional
 from langdetect import detect
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
@@ -20,29 +21,29 @@ class Bard:
 
     def __init__(
         self,
-        token: str = None,
+        token: Optional[str] = None,
         timeout: int = 20,
-        proxies: dict = None,
-        session: requests.Session = None,
-        conversation_id: str = None,
-        google_translator_api_key: str = None,
-        language: str = None,
+        proxies: Optional[dict] = None,
+        session: Optional[requests.Session] = None,
+        conversation_id: Optional[str] = None,
+        google_translator_api_key: Optional[str] = None,
+        language: Optional[str] = None,
         run_code: bool = False,
-        token_from_browser=False,
+        token_from_browser: bool = False,
     ):
         """
         Initialize the Bard instance.
 
         Args:
-            token (str): Bard API token.
-            timeout (int): Request timeout in seconds.
-            proxies (dict): Proxy configuration for requests.
-            session (requests.Session): Requests session object.
-            conversation_id: ID to fetch conversational context
-            google_translator_api_key (str): Google cloud translation API key.
-            language (str): Natural language code for translation (e.g., "en", "ko", "ja").
-            run_code (bool): Whether to directly execute the code included in the answer (Python only)
-            token_from_browser (bool): Gets a token from the browser
+            token (str, optional): Bard API token.
+            timeout (int, optional, default = 20): Request timeout in seconds.
+            proxies (dict, optional): Proxy configuration for requests.
+            session (requests.Session, optional): Requests session object.
+            conversation_id (str, optional): ID to fetch conversational context
+            google_translator_api_key (str, optional): Google cloud translation API key.
+            language (str, optional): Natural language code for translation (e.g., "en", "ko", "ja").
+            run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
+            token_from_browser (bool, optional, default = False): Gets a token from the browser
         """
         self.token = self._get_token(token, token_from_browser)
         self.proxies = proxies
@@ -57,7 +58,7 @@ class Bard:
         self.run_code = run_code
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, token, token_from_browser):
+    def _get_token(self, token: str, token_from_browser: bool):
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -84,7 +85,7 @@ class Bard:
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
 
-    def _get_session(self, session):
+    def _get_session(self, session: Optional[requests.Session]) -> requests.Session:
         """
         Get the requests Session object.
 
@@ -132,32 +133,32 @@ class Bard:
 
     def get_answer(self, input_text: str) -> dict:
         """
-                Get an answer from the Bard API for the given input text.
+        Get an answer from the Bard API for the given input text.
 
-                Example:
-                >>> token = 'xxxxxx'
-                >>> bard = Bard(token=token)
-                >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-                >>> print(response['content'])
+        Example:
+        >>> token = 'xxxxxx'
+        >>> bard = Bard(token=token)
+        >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+        >>> print(response['content'])
 
-                Args:
-                    input_text (str): Input text for the query.
-        blac
-                Returns:
-                    dict: Answer from the Bard API in the following format:
-                        {
-                            "content": str,
-                            "conversation_id": str,
-                            "response_id": str,
-                            "factuality_queries": list,
-                            "text_query": str,
-                            "choices": list,
-                            "links": list,
-                            "images": set,
-                            "program_lang": str,
-                            "code": str,
-                            "status_code": int
-                        }
+        Args:
+            input_text (str): Input text for the query.
+
+        Returns:
+            dict: Answer from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factuality_queries": list,
+                    "text_query": str,
+                    "choices": list,
+                    "links": list,
+                    "images": set,
+                    "program_lang": str,
+                    "code": str,
+                    "status_code": int
+                }
         """
         params = {
             "bl": "boq_assistant-bard-web-server_20230713.13_p0",
@@ -299,7 +300,7 @@ class Bard:
 
         return bard_answer
 
-    def speech(self, input_text: str, lang="en-US") -> dict:
+    def speech(self, input_text: str, lang: str = "en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
 
@@ -312,7 +313,7 @@ class Bard:
 
         Args:
             input_text (str): Input text for the query.
-            lang (str): Input language for the query.
+            lang (str, optional, default = "en-US"): Input language for the query.
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -371,7 +372,7 @@ class Bard:
 
         Args:
             bard_answer (dict): bard_answer returned from get_answer
-            title (str): Title for URL
+            title (str, optional, default = ""): Title for URL
         Returns:
             dict: Answer from the Bard API in the following format:
             {
@@ -433,7 +434,9 @@ class Bard:
         self._reqid += 100000
         return {"url": url, "status_code": resp.status_code}
 
-    def ask_about_image(self, input_text: str, image: bytes, lang: str = None) -> dict:
+    def ask_about_image(
+        self, input_text: str, image: bytes, lang: Optional[str] = None
+    ) -> dict:
         """
         Send Bard image along with question and get answer
 
@@ -446,7 +449,7 @@ class Bard:
         Args:
             input_text (str): Input text for the query.
             image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
-            lang (str): Language to use.
+            lang (str, optional): Language to use.
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -602,7 +605,11 @@ class Bard:
         return bard_answer
 
     def export_replit(
-        self, code: str, program_lang: str = None, filename: str = None, **kwargs
+        self,
+        code: str,
+        program_lang: Optional[str] = None,
+        filename: Optional[str] = None,
+        **kwargs,
     ):
         """
         Get export URL to repl.it from code
@@ -616,8 +623,8 @@ class Bard:
 
         Args:
             code (str): source code
-            program_lang (str): programming language
-            filename (str): filename
+            program_lang (str, optional): programming language
+            filename (str, optional): filename
             **kwargs: instructions, source_path
         Returns:
         dict: Answer from the Bard API in the following format:

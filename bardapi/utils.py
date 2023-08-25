@@ -29,7 +29,7 @@ def extract_links(data: list) -> list:
     return links
 
 
-def upload_image(image: bytes, filename="Photo.jpg"):
+def upload_image(image: bytes, filename: str = "Photo.jpg"):
     """
     Upload image into bard bucket on Google API, do not need session.
 
@@ -104,8 +104,10 @@ def extract_bard_cookie(cookies: bool = False) -> dict:
                     cookie_dict["__Secure-1PSID"] = cookie.value
                 if cookies:
                     if cookie.name == "__Secure-1PSIDTS":
+                        print(cookie.value)
                         cookie_dict["__Secure-1PSIDTS"] = cookie.value
                     elif cookie.name == "__Secure-1PSIDCC":
+                        print(cookie.value)
                         cookie_dict["__Secure-1PSIDCC"] = cookie.value
                 if len(cookie_dict) == 3:
                     return cookie_dict
@@ -116,6 +118,7 @@ def extract_bard_cookie(cookies: bool = False) -> dict:
     if not cookie_dict:
         raise Exception("No supported browser found or issue with cookie extraction")
 
+    print(cookie_dict)
     return cookie_dict
 
 
@@ -131,7 +134,6 @@ def max_token(text: str, n: int):
         None
     """
     word_count = 0
-    word_start = 0
     for i, char in enumerate(text):
         if char.isspace():
             word_count += 1
