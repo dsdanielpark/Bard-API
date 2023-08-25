@@ -64,7 +64,7 @@ class BardAsync:
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, token_from_browser: bool):
+    def _get_token(self, token_from_browser: bool) -> dict:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -72,7 +72,7 @@ class BardAsync:
             token_from_browser (bool): Whether to extract the token from the browser cookie.
 
         Returns:
-            str: The Bard API token.
+            dict: The Bard API tokens.
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
@@ -86,7 +86,7 @@ class BardAsync:
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
 
-    async def _get_snim0e(self):
+    async def _get_snim0e(self) -> str:
         """
         The _get_snim0e function is used to get the SNlM0e value from the Bard website.
 
@@ -94,7 +94,7 @@ class BardAsync:
         If it finds it, then it returns that value.
 
         :param self: Represent the instance of the class
-        :return: (`str`) The snlm0e value
+        :return: (`str`) The SNlM0e value
         """
         if not self.token or self.token[-1] != ".":
             raise Exception(
@@ -363,7 +363,7 @@ class BardAsync:
         audio_bytes = base64.b64decode(audio_b64)
         return {"audio": audio_bytes, "status_code": resp.status_code}
 
-    async def export_conversation(self, bard_answer, title: str = "") -> str:
+    async def export_conversation(self, bard_answer, title: str = "") -> dict:
         """
         Get Share URL for specifc answer from bard
 
@@ -452,7 +452,7 @@ class BardAsync:
         program_lang: Optional[str] = None,
         filename: Optional[str] = None,
         **kwargs,
-    ) -> str:
+    ) -> dict:
         """
         Get export URL to repl.it from code
 
