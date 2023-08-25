@@ -129,7 +129,20 @@ class BardCookies(Bard):
             input_text (str): Input text for the query.
 
         Returns:
-            dict: Answer from the Bard API.
+            dict: Answer from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factuality_queries": list,
+                    "text_query": str,
+                    "choices": list,
+                    "links": list
+                    "images": set,
+                    "program_lang": str,
+                    "code": str,
+                    "status_code": int
+                }
         """
         return super().get_answer(input_text)
 
