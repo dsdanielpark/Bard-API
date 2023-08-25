@@ -29,7 +29,7 @@ def extract_links(data: list) -> list:
     return links
 
 
-def upload_image(image: bytes, filename="Photo.jpg"):
+def upload_image(image: bytes, filename: str = "Photo.jpg"):
     """
     Upload image into bard bucket on Google API, do not need session.
 
@@ -134,7 +134,6 @@ def max_token(text: str, n: int):
         None
     """
     word_count = 0
-    word_start = 0
     for i, char in enumerate(text):
         if char.isspace():
             word_count += 1

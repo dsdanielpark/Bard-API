@@ -1,5 +1,6 @@
 import os
 import requests
+from typing import Optional
 from bardapi import Bard
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
@@ -24,14 +25,27 @@ class ChatBard(Bard):
 
     def __init__(
         self,
-        token: str = None,
+        token: Optional[str] = None,
         timeout: int = 20,
-        proxies: dict = None,
-        session: requests.Session = None,
-        google_translator_api_key: str = None,
-        language: str = None,
-        token_from_browser=False,
+        proxies: Optional[dict] = None,
+        session: Optional[requests.Session] = None,
+        google_translator_api_key: Optional[str] = None,
+        language: Optional[str] = None,
+        token_from_browser: bool = False,
     ):
+        """
+        Initialize the Chat Bard.
+
+        Args:
+            token (str, optional): Bard API token.
+            timeout (int, optional, default = 20): Request timeout in seconds.
+            proxies (dict, optional): Proxy configuration for requests.
+            session (requests.Session, optional): Requests session object.
+            google_translator_api_key (str, optional): Google cloud translation API key.
+            language (str, optional): Chat Bard language.
+            token_from_browser (bool, optional, default = False): Gets a token from the browser
+        """
+
         self.session = session or self._init_session(token)
         self.language = language or os.getenv("_BARD_API_LANG") or "english"
         self.timeout = int(timeout or os.getenv("_BARD_API_TIMEOUT") or 30)
@@ -69,7 +83,7 @@ class ChatBard(Bard):
             token_from_browser=self.token_from_browser,
         )
 
-    def start(self, prompt: str = None) -> None:
+    def start(self, prompt: Optional[str] = None) -> None:
         """
         Starts the chatbot interaction.
 
@@ -77,7 +91,7 @@ class ChatBard(Bard):
         Prints the chatbot's response, including image links if available.
 
         Parameters:
-            prompt (str): Custom prompt message for user input. If not provided, defaults to the class constant USER_PROMPT.
+            prompt (str, optional): Custom prompt message for user input. If not provided, defaults to the class constant USER_PROMPT.
 
         Returns:
             None

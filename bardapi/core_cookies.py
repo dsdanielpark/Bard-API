@@ -4,6 +4,7 @@ import string
 import random
 import requests
 from httpx import AsyncClient
+from typing import Optional
 from bardapi.core import Bard
 from bardapi.core_async import BardAsync
 from bardapi.constants import SESSION_HEADERS
@@ -17,13 +18,13 @@ class BardCookies(Bard):
 
     def __init__(
         self,
-        cookie_dict: dict = None,
+        cookie_dict: Optional[dict] = None,
         timeout: int = 20,
-        proxies: dict = None,
-        session: requests.Session = None,
-        conversation_id: str = None,
+        proxies: Optional[dict] = None,
+        session: Optional[requests.Session] = None,
+        conversation_id: Optional[str] = None,
         google_translator_api_key: str = None,
-        language: str = None,
+        language: Optional[str] = None,
         run_code: bool = False,
         token_from_browser: bool = False,
     ):
@@ -32,14 +33,14 @@ class BardCookies(Bard):
 
         Args:
             cookie_dict (dict, optional): Dictionary containing Bard cookies.
-            timeout (int, optional): Request timeout in seconds.
+            timeout (int, optional, default = 20): Request timeout in seconds.
             proxies (dict, optional): Proxy configuration for requests.
             session (requests.Session, optional): Requests session object.
             conversation_id (str, optional): Conversation ID.
             google_translator_api_key (str, optional): Google Cloud Translation API key.
             language (str, optional): Natural language code for translation.
-            run_code (bool, optional): Whether to execute code included in the answer (Python only).
-            token_from_browser (bool, optional): Whether to extract the token from browser cookies.
+            run_code (bool, optional, default = False): Whether to execute code included in the answer (Python only).
+            token_from_browser (bool, optional, default = False): Whether to extract the token from browser cookies.
         """
         self.cookie_dict = cookie_dict or self._get_token(token_from_browser)
         self.proxies = proxies
@@ -48,21 +49,13 @@ class BardCookies(Bard):
         self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-
-        if session is None:
-            self.session = requests.Session()
-            self.session.headers = SESSION_HEADERS
-
-            for k, v in self.cookie_dict.items():
-                self.session.cookies.set(k, v)
-        else:
-            self.session = session
+        self.session = self._get_session(session)
         self.SNlM0e = self._get_snim0e()
         self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, token_from_browser):
+    def _get_token(self, token_from_browser: bool):
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -84,6 +77,50 @@ class BardCookies(Bard):
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
 
+    def _get_session(self, session: Optional[requests.Session]) -> requests.Session:
+        """
+        Get the requests Session object.
+
+        Args:
+            session (requests.Session): Requests session object.
+
+        Returns:
+            requests.Session: The Session object.
+        """
+
+        if session is None:
+            new_session = requests.Session()
+            new_session.headers = SESSION_HEADERS
+
+            for k, v in self.cookie_dict.items():
+                new_session.cookies.set(k, v)
+            return new_session
+        else:
+            return session
+
+    def _get_snim0e(self) -> str:
+        """
+        Get the SNlM0e value from the Bard API response.
+
+        Returns:
+            str: SNlM0e value.
+        Raises:
+            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
+        """
+        resp = self.session.get(
+            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+        )
+        if resp.status_code != 200:
+            raise Exception(
+                f"Response status code is not 200. Response Status is {resp.status_code}"
+            )
+        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        if not snim0e:
+            raise Exception(
+                "SNlM0e value not found in response. Check __Secure-1PSID value."
+            )
+        return snim0e.group(1)
+
     def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
@@ -96,7 +133,7 @@ class BardCookies(Bard):
         """
         return super().get_answer(input_text)
 
-    def speech(self, input_text: str, lang="en-US") -> dict:
+    def speech(self, input_text: str, lang: str = "en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
 
@@ -112,7 +149,7 @@ class BardCookies(Bard):
 
         Args:
             input_text (str): Input text for the query.
-            lang (str): Input language for the query.
+            lang (str, optional, default = "en-US"): Input language for the query.
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -123,7 +160,9 @@ class BardCookies(Bard):
         """
         return super().speech(input_text, lang)
 
-    def ask_about_image(self, input_text: str, image: bytes, lang: str = None) -> dict:
+    def ask_about_image(
+        self, input_text: str, image: bytes, lang: Optional[str] = None
+    ) -> dict:
         """
         Example:
         >>> cookies = {
@@ -138,7 +177,7 @@ class BardCookies(Bard):
         Args:
             input_text (str): Input text for the query.
             image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
-            lang (str): Language to use.
+            lang (str, optional): Language to use.
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -174,7 +213,7 @@ class BardCookies(Bard):
 
         Args:
             bard_answer (dict): bard_answer returned from get_answer
-            title (str): Title for URL
+            title (str, optional, default = ""): Title for URL
         Returns:
             dict: Answer from the Bard API in the following format:
             {
@@ -185,7 +224,11 @@ class BardCookies(Bard):
         return super().export_conversation(bard_answer, title)
 
     def export_replit(
-        self, code: str, program_lang: str = None, filename: str = None, **kwargs
+        self,
+        code: str,
+        program_lang: Optional[str] = None,
+        filename: Optional[str] = None,
+        **kwargs,
     ):
         """
         Get export URL to repl.it from code
@@ -202,8 +245,8 @@ class BardCookies(Bard):
 
         Args:
             code (str): source code
-            program_lang (str): programming language
-            filename (str): filename for code
+            program_lang (str, optional): programming language
+            filename (str, optional): filename for code
             **kwargs: instructions, source_path
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -214,29 +257,6 @@ class BardCookies(Bard):
         """
         return super().export_replit(code, program_lang, filename, **kwargs)
 
-    def _get_snim0e(self) -> str:
-        """
-        Get the SNlM0e value from the Bard API response.
-
-        Returns:
-            str: SNlM0e value.
-        Raises:
-            Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
-        """
-        resp = self.session.get(
-            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
-        )
-        if resp.status_code != 200:
-            raise Exception(
-                f"Response status code is not 200. Response Status is {resp.status_code}"
-            )
-        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
-        if not snim0e:
-            raise Exception(
-                "SNlM0e value not found in response. Check __Secure-1PSID value."
-            )
-        return snim0e.group(1)
-
 
 class BardAsyncCookies(BardAsync):
     """
@@ -245,12 +265,12 @@ class BardAsyncCookies(BardAsync):
 
     def __init__(
         self,
-        cookie_dict: dict = None,
+        cookie_dict: Optional[dict] = None,
         timeout: int = 20,
-        proxies: dict = None,
-        conversation_id: str = None,
-        google_translator_api_key: str = None,
-        language: str = None,
+        proxies: Optional[dict] = None,
+        conversation_id: Optional[str] = None,
+        google_translator_api_key: Optional[str] = None,
+        language: Optional[str] = None,
         run_code: bool = False,
         token_from_browser: bool = False,
     ):
@@ -258,14 +278,14 @@ class BardAsyncCookies(BardAsync):
         Initialize the Bard instance.
 
         Args:
-            cookie_dict (dict): Bard cookies.
-            timeout (int): Request timeout in seconds.
-            proxies (dict): Proxy configuration for requests.
+            cookie_dict (dict, optional): Bard cookies.
+            timeout (int, optional, default = 20): Request timeout in seconds.
+            proxies (dict, optional): Proxy configuration for requests.
             conversation_id (str, optional): Conversation ID.
-            google_translator_api_key (str): Google cloud translation API key.
-            language (str): Natural language code for translation (e.g., "en", "ko", "ja").
-            run_code (bool): Whether to directly execute the code included in the answer (Python only)
-            token_from_browser (bool, optional): Whether to extract the token from browser cookies.
+            google_translator_api_key (str, optional): Google cloud translation API key.
+            language (str, optional): Natural language code for translation (e.g., "en", "ko", "ja").
+            run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
+            token_from_browser (bool, optional, default = False): Whether to extract the token from browser cookies.
         """
         self.cookie_dict = cookie_dict or self._get_token(token_from_browser)
         self.timeout = timeout
@@ -285,7 +305,7 @@ class BardAsyncCookies(BardAsync):
         self.language = language
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
-        
+
     def _get_token(self, token_from_browser):
         """
         Get the Bard API token either from the provided token or from the browser cookie.
@@ -307,6 +327,31 @@ class BardAsyncCookies(BardAsync):
             raise Exception(
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
+
+    async def _get_snim0e(self):
+        """
+        The _get_snim0e function is used to get the SNlM0e value from the Bard website.
+
+        The function uses a regular expression to search for the SNlM0e value in the response text.
+        If it finds it, then it returns that value.
+
+        :param self: Represent the instance of the class
+        :return: (`str`) The snlm0e value
+        """
+
+        resp = await self.client.get(
+            "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
+        )
+        if resp.status_code != 200:
+            raise Exception(
+                f"Response status code is not 200. Response Status is {resp.status_code}"
+            )
+        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        if not snim0e:
+            raise Exception(
+                "SNlM0e value not found in response. Check __Secure-1PSID value."
+            )
+        return snim0e.group(1)
 
     async def get_answer(self, input_text: str) -> dict:
         """
@@ -369,7 +414,7 @@ class BardAsyncCookies(BardAsync):
 
         Args:
             input_text (str): Input text for the query.
-            lang (str): Input language for the query
+            lang (str, optional, default = "en-US"): Input language for the query
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -382,7 +427,7 @@ class BardAsyncCookies(BardAsync):
         return await super().speech(input_text, lang)
 
     async def ask_about_image(
-        self, input_text: str, image: bytes, lang: str = None
+        self, input_text: str, image: bytes, lang: Optional[str] = None
     ) -> dict:
         """
         Send Bard image along with question and get answer async mode
@@ -405,7 +450,7 @@ class BardAsyncCookies(BardAsync):
         Args:
             input_text (str): Input text for the query.
             image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
-            lang (str): Language to use.
+            lang (str, optional): Language to use.
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -446,7 +491,7 @@ class BardAsyncCookies(BardAsync):
 
         Args:
             bard_answer (dict): bard_answer returned from get_answer
-            title (str): Title for URL
+            title (str, optional, default = ""): Title for URL
         Returns:
             dict: Answer from the Bard API in the following format:
             {
@@ -457,7 +502,11 @@ class BardAsyncCookies(BardAsync):
         return await super().export_conversation(bard_answer, title)
 
     async def export_replit(
-        self, code: str, program_lang: str = None, filename: str = None, **kwargs
+        self,
+        code: str,
+        program_lang: Optional[str] = None,
+        filename: Optional[str] = None,
+        **kwargs,
     ) -> str:
         """
         Get export URL to repl.it from code
@@ -479,8 +528,8 @@ class BardAsyncCookies(BardAsync):
 
         Args:
             code (str): source code
-            program_lang (str): programming language
-            filename (str): filename
+            program_lang (str, optional): programming language
+            filename (str, optional): filename
             **kwargs: instructions, source_path
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -491,28 +540,3 @@ class BardAsyncCookies(BardAsync):
         """
 
         return await super().export_replit(code, program_lang, filename, **kwargs)
-
-    async def _get_snim0e(self):
-        """
-        The _get_snim0e function is used to get the SNlM0e value from the Bard website.
-
-        The function uses a regular expression to search for the SNlM0e value in the response text.
-        If it finds it, then it returns that value.
-
-        :param self: Represent the instance of the class
-        :return: (`str`) The snlm0e value
-        """
-
-        resp = await self.client.get(
-            "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
-        )
-        if resp.status_code != 200:
-            raise Exception(
-                f"Response status code is not 200. Response Status is {resp.status_code}"
-            )
-        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
-        if not snim0e:
-            raise Exception(
-                "SNlM0e value not found in response. Check __Secure-1PSID value."
-            )
-        return snim0e.group(1)
