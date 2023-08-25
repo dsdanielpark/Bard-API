@@ -58,7 +58,7 @@ class Bard:
         self.run_code = run_code
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, token: str, token_from_browser: bool):
+    def _get_token(self, token: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -359,7 +359,7 @@ class Bard:
         audio_bytes = base64.b64decode(audio_b64)
         return {"audio": audio_bytes, "status_code": resp.status_code}
 
-    def export_conversation(self, bard_answer, title: str = ""):
+    def export_conversation(self, bard_answer, title: str = "") -> dict:
         """
         Get Share URL for specific answer from bard
 
@@ -610,7 +610,7 @@ class Bard:
         program_lang: Optional[str] = None,
         filename: Optional[str] = None,
         **kwargs,
-    ):
+    ) -> dict:
         """
         Get export URL to repl.it from code
 

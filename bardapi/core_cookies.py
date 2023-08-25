@@ -55,7 +55,7 @@ class BardCookies(Bard):
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, token_from_browser: bool):
+    def _get_token(self, token_from_browser: bool) -> dict:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -63,7 +63,7 @@ class BardCookies(Bard):
             token_from_browser (bool): Whether to extract the token from the browser cookie.
 
         Returns:
-            str: The Bard API token.
+            dict: The Bard API tokens.
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
@@ -129,7 +129,20 @@ class BardCookies(Bard):
             input_text (str): Input text for the query.
 
         Returns:
-            dict: Answer from the Bard API.
+            dict: Answer from the Bard API in the following format:
+                {
+                    "content": str,
+                    "conversation_id": str,
+                    "response_id": str,
+                    "factuality_queries": list,
+                    "text_query": str,
+                    "choices": list,
+                    "links": list
+                    "images": set,
+                    "program_lang": str,
+                    "code": str,
+                    "status_code": int
+                }
         """
         return super().get_answer(input_text)
 
@@ -197,7 +210,7 @@ class BardCookies(Bard):
         """
         return super().ask_about_image(input_text, image, lang)
 
-    def export_conversation(self, bard_answer, title: str = ""):
+    def export_conversation(self, bard_answer, title: str = "") -> dict:
         """
         Get Share URL for specific answer from bard
 
@@ -229,7 +242,7 @@ class BardCookies(Bard):
         program_lang: Optional[str] = None,
         filename: Optional[str] = None,
         **kwargs,
-    ):
+    ) -> dict:
         """
         Get export URL to repl.it from code
 
@@ -306,7 +319,7 @@ class BardAsyncCookies(BardAsync):
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, token_from_browser):
+    def _get_token(self, token_from_browser: bool) -> dict:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -314,7 +327,7 @@ class BardAsyncCookies(BardAsync):
             token_from_browser (bool): Whether to extract the token from the browser cookie.
 
         Returns:
-            str: The Bard API token.
+            str: The Bard API tokens.
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
@@ -328,7 +341,7 @@ class BardAsyncCookies(BardAsync):
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
 
-    async def _get_snim0e(self):
+    async def _get_snim0e(self) -> str:
         """
         The _get_snim0e function is used to get the SNlM0e value from the Bard website.
 
@@ -336,7 +349,7 @@ class BardAsyncCookies(BardAsync):
         If it finds it, then it returns that value.
 
         :param self: Represent the instance of the class
-        :return: (`str`) The snlm0e value
+        :return: (`str`) The SNlM0e value
         """
 
         resp = await self.client.get(
@@ -470,7 +483,7 @@ class BardAsyncCookies(BardAsync):
         """
         return await super().ask_about_image(input_text, image, lang)
 
-    async def export_conversation(self, bard_answer, title: str = "") -> str:
+    async def export_conversation(self, bard_answer, title: str = "") -> dict:
         """
         Get Share URL for specific answer from bard
 
@@ -507,7 +520,7 @@ class BardAsyncCookies(BardAsync):
         program_lang: Optional[str] = None,
         filename: Optional[str] = None,
         **kwargs,
-    ) -> str:
+    ) -> dict:
         """
         Get export URL to repl.it from code
 
