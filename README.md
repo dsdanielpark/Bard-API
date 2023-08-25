@@ -186,7 +186,7 @@ from bardapi import Bard
 
 bard = Bard(token_from_browser=True)
 res = bard.get_answer("Do you like cookies?")
-print(res)
+print(res['content'])
 ```
 
 <br>
@@ -201,6 +201,7 @@ from bardapi import Bard
 bard = Bard(token='xxxxxxx')
 image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
 bard_answer = bard.ask_about_image('What is in the image?', image)
+print(bard_answer['content'])
 ```
 
 <br>
@@ -213,6 +214,8 @@ from bardapi import Bard
 
 bard = Bard(token='xxxxxxx')
 audio = bard.speech('Hello, I am Bard! How can I help you today?')
+with open("speech.ogg", "wb") as f:
+  f.write(bytes(audio['audio']))
 ```
 
 <br>

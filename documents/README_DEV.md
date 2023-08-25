@@ -54,51 +54,68 @@ class Bard:
 
     def __init__(
         self,
-        token: str = None,
+        token: Optional[str] = None,
         timeout: int = 20,
-        proxies: dict = None,
-        session: requests.Session = None,
-        conversation_id: str = None,
-        google_translator_api_key: str = None,
-        language: str = None,
+        proxies: Optional[dict] = None,
+        session: Optional[requests.Session] = None,
+        conversation_id: Optional[str] = None,
+        google_translator_api_key: Optional[str] = None,
+        language: Optional[str] = None,
         run_code: bool = False,
         token_from_browser: bool = False,
     ):
         """
         Initialize the Bard instance.
         ...
+        """
 
     def get_answer(self, input_text: str) -> dict:
         """
         Get an answer from the Bard API for the given input text.
         ...
+        """
 
-    def speech(self, input_text: str, lang="en-US") -> dict:
+    def speech(self, input_text: str, lang: str = "en-US") -> dict:
         """
         Get speech audio from Bard API for the given input text.
         ...
+        """
 
-    def export_conversation(self, bard_answer, title: str = ""):
+    def export_conversation(self, bard_answer, title: str = "") -> dict:
         """
         Get Share URL for specific answer from Bard.
         ...
+        """
 
-    def ask_about_image(self, input_text: str, image: bytes, lang="en-GB") -> dict:
+    def ask_about_image(self, input_text: str, image: bytes, lang: Optional[str] = None) -> dict:
         """
         Send Bard image along with question and get an answer.
         ...
+        """
 
     def export_replit(
-        self, code: str, langcode: str = None, filename: str = None, **kwargs
-    ):
+        self, code: str, langcode: Optional[str] = None, filename: Optional[str] = None, **kwargs
+    ) -> dict:
         """
         Get Export URL to repl.it from code.
         ...
+        """
 
     def _get_snim0e(self) -> str:
         """
         Get the SNlM0e value from the Bard API response.
         ...
+        """
+
+    def _get_session(self, session: Optional[requests.Session]) -> requests.Session:
+        """
+        Get the requests Session object.
+        """
+
+    def _get_token(self, token: str, token_from_browser: bool) -> str:
+        """
+        Get the Bard API token either from the provided token or from the browser cookie.
+        """ 
 ```
 </details>
 
