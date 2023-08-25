@@ -28,7 +28,7 @@ class BardAsync:
         google_translator_api_key: Optional[str] = None,
         language: Optional[str] = None,
         run_code: bool = False,
-        token_from_browser=False,
+        token_from_browser: bool = False,
     ):
         """
         Initialize the Bard instance.
