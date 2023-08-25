@@ -41,7 +41,7 @@ class BardCookies(Bard):
             run_code (bool, optional): Whether to execute code included in the answer (Python only).
             token_from_browser (bool, optional): Whether to extract the token from browser cookies.
         """
-        self.cookie_dict = cookie_dict or self._get_token("", token_from_browser)
+        self.cookie_dict = cookie_dict or self._get_token(token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -62,12 +62,11 @@ class BardCookies(Bard):
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
 
-    def _get_token(self, _, token_from_browser):
+    def _get_token(self, token_from_browser):
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
         Args:
-            token (str): Bard API token.
             token_from_browser (bool): Whether to extract the token from the browser cookie.
 
         Returns:
@@ -249,9 +248,11 @@ class BardAsyncCookies(BardAsync):
         cookie_dict: dict = None,
         timeout: int = 20,
         proxies: dict = None,
+        conversation_id: str = None,
         google_translator_api_key: str = None,
         language: str = None,
         run_code: bool = False,
+        token_from_browser: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -260,15 +261,17 @@ class BardAsyncCookies(BardAsync):
             cookie_dict (dict): Bard cookies.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
+            conversation_id (str, optional): Conversation ID.
             google_translator_api_key (str): Google cloud translation API key.
             language (str): Natural language code for translation (e.g., "en", "ko", "ja").
             run_code (bool): Whether to directly execute the code included in the answer (Python only)
+            token_from_browser (bool, optional): Whether to extract the token from browser cookies.
         """
-        self.cookie_dict = cookie_dict
+        self.cookie_dict = cookie_dict or self._get_token(token_from_browser)
         self.timeout = timeout
         self.proxies = proxies
         self._reqid = int("".join(random.choices(string.digits, k=4)))
-        self.conversation_id = ""
+        self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
         # Making httpx async client that will be used for all API calls
@@ -282,6 +285,28 @@ class BardAsyncCookies(BardAsync):
         self.language = language
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
+        
+    def _get_token(self, token_from_browser):
+        """
+        Get the Bard API token either from the provided token or from the browser cookie.
+
+        Args:
+            token_from_browser (bool): Whether to extract the token from the browser cookie.
+
+        Returns:
+            str: The Bard API token.
+        Raises:
+            Exception: If the token is not provided and can't be extracted from the browser.
+        """
+        if token_from_browser:
+            extracted_cookie_dict = extract_bard_cookie(cookies=True)
+            if not extracted_cookie_dict:
+                raise Exception("Failed to extract cookie from browsers.")
+            return extracted_cookie_dict
+        else:
+            raise Exception(
+                "Bard API Key must be provided as token argument or extracted from browser."
+            )
 
     async def get_answer(self, input_text: str) -> dict:
         """
