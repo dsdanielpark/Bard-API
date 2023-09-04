@@ -195,7 +195,7 @@ from bardapi import Bard
 bard = Bard(token='xxxxxxxx')
 res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
 res['links'] # Get image links (list)
-res['images'] # Get images (set)
+res['images'] # Get images (list)
 ```
 
 <br>

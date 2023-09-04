@@ -118,12 +118,12 @@ class BardAsync:
         resp_json = json.loads(resp_dict)
 
         # Gather image links
-        images = set()
+        images = list()
         if len(resp_json) >= 3:
             if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
                 for img in resp_json[4][0][4]:
                     try:
-                        images.add(img[0][0][0])
+                        images.append(img[0][0][0])
                     except Exception as e:
                         # TODO:
                         #  handle exception using logging instead
