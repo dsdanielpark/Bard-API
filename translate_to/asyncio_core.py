@@ -153,11 +153,11 @@ class Bard:
         if not resp_dict:
             return {"content": f"Response Error: {resp_text}."}
         resp_json = json.loads(resp_dict)
-        images = set()
+        images = list()
         if len(resp_json) >= 3:
             if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
                 for img in resp_json[4][0][4]:
-                    images.add(img[0][0][0])
+                    images.append(img[0][0][0])
         parsed_answer = json.loads(resp_dict)
         if self.language is not None and self.language not in ALLOWED_LANGUAGES:
             translator_to_lang = GoogleTranslator(source="auto", target=self.language)

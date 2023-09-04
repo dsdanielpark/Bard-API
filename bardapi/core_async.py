@@ -143,7 +143,7 @@ class BardAsync:
                     "text_query": str,
                     "choices": list,
                     "links": list
-                    "images": set,
+                    "images": list,
                     "program_lang": str,
                     "code": str,
                     "status_code": int
@@ -210,12 +210,12 @@ class BardAsync:
 
         # [Optional] Gather image links
         try:
-            images = set()
+            images = list()
             if len(resp_json) >= 3:
                 if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
                     for img in resp_json[4][0][4]:
                         try:
-                            images.add(img[0][0][0])
+                            images.append(img[0][0][0])
                         except Exception as e:
                             # TODO:
                             #  handle exception using logging instead
@@ -584,7 +584,7 @@ class BardAsync:
                     "text_query": str,
                     "choices": list,
                     "links": list,
-                    "images": set,
+                    "images": list,
                     "program_lang": str,
                     "code": str,
                     "status_code": int

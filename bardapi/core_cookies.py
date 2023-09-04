@@ -138,7 +138,7 @@ class BardCookies(Bard):
                     "text_query": str,
                     "choices": list,
                     "links": list
-                    "images": set,
+                    "images": list,
                     "program_lang": str,
                     "code": str,
                     "status_code": int
@@ -202,7 +202,7 @@ class BardCookies(Bard):
                     "text_query": str,
                     "choices": list,
                     "links": list,
-                    "images": set,
+                    "images": list,
                     "program_lang": str,
                     "code": str,
                     "status_code": int
@@ -398,7 +398,7 @@ class BardAsyncCookies(BardAsync):
                     "text_query": str,
                     "choices": list,
                     "links": list
-                    "images": set,
+                    "images": list,
                     "program_lang": str,
                     "code": str,
                     "status_code": int
@@ -475,7 +475,7 @@ class BardAsyncCookies(BardAsync):
                     "text_query": str,
                     "choices": list,
                     "links": list,
-                    "images": set,
+                    "images": list,
                     "program_lang": str,
                     "code": str,
                     "status_code": int
