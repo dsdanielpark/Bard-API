@@ -10,6 +10,11 @@ from bardapi.core_async import BardAsync
 from bardapi.constants import SESSION_HEADERS
 from bardapi.utils import extract_bard_cookie
 
+class BardCookiesError(Exception):
+    def __init__(self,message,status_code=None):
+        super().__init__(message)
+        self.error_code=status_code
+
 
 class BardCookies(Bard):
     """
@@ -356,12 +361,12 @@ class BardAsyncCookies(BardAsync):
             "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
         )
         if resp.status_code != 200:
-            raise Exception(
+            raise BardCookiesError(
                 f"Response status code is not 200. Response Status is {resp.status_code}"
             )
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
-            raise Exception(
+            raise BardCookiesError(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
             )
         return snim0e.group(1)
