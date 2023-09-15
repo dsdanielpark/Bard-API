@@ -161,7 +161,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 
 For applications that are not natively compatible with HTTP/S-based APIs, such as our [Crawling API](https://crawlbase.com/docs/crawling-api/try-crawling-api/), we provide an advanced rotating proxy service. This service seamlessly forwards your requests to the Crawling API, thereby operating as a conventional proxy within your existing infrastructure. 
 
-For a comprehensive understanding of this feature, please view our [documentation](https://crawlbase.com/docs/smart-proxy). You get 5000 free credits for Smart Proxy when you [sign up](https://crawlbase.com/signup).
+For a comprehensive understanding of this feature, please view our [documentation](https://crawlbase.com/docs/smart-proxy). You get `5,000 free credits` for Smart Proxy when you [sign up](https://crawlbase.com/signup).
 
 <br>
 
