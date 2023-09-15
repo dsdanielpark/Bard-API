@@ -43,7 +43,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
-# Sponsor: [CrawlBase](https://crawlbase.com/)
+# Sponsor: [Crawlbase](https://crawlbase.com/)
 
 <a href="https://crawlbase.com/crawling-api-avoid-captchas-blocks"><img src="./assets/sponsor-ad-1.png"/></a>
 
