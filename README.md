@@ -163,6 +163,8 @@ For applications that are not natively compatible with HTTP/S-based APIs, such a
 
 For a comprehensive understanding of this feature, please view our [documentation](https://crawlbase.com/docs/smart-proxy). You get 5000 free credits for Smart Proxy when you [sign up](https://crawlbase.com/signup).
 
+<br>
+
 ### Reusable session object
 You can continue the conversation using a reusable session.
 ```python
