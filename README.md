@@ -43,11 +43,13 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
-## Sponsor
+# Sponsor
 
 <a href="https://crawlbase.com/crawling-api-avoid-captchas-blocks"><img src="./assets/sponsor-ad-1.png"/></a>
 
 Unlock limitless opportunities with Crawlbase: Your one-stop solution for Web Scraping, Real-time Monitoring, Analytics, Cyber Security, Leads API, and Proxies. Empowering developers and businesses to harness the full potential of internet data. [Sign up](https://crawlbase.com/signup) to get `10,000 free requests`.
+
+<br>
 
 ## What is Google Bard?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
