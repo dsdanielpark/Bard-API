@@ -10,8 +10,22 @@ from langdetect import detect
 from httpx import AsyncClient
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
-from bardapi.utils import extract_links, upload_image, extract_bard_cookie
+from bardapi.constants import (
+    ALLOWED_LANGUAGES,
+    SESSION_HEADERS,
+    TEXT_GENERATION_WEB_SERVER_PARAM,
+)
+from bardapi.utils import (
+    extract_links,
+    build_input_replit_data_struct,
+    build_image_bard_answer,
+    build_export_data_structure,
+    build_bard_answer,
+    upload_image,
+    extract_bard_cookie,
+    build_input_text_struct,
+    build_input_image_struct,
+)
 
 
 class BardAsync:
@@ -153,7 +167,7 @@ class BardAsync:
         if not isinstance(self.SNlM0e, str):
             self.SNlM0e = await self.SNlM0e
         params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -327,7 +341,7 @@ class BardAsync:
             }
         """
         params = {
-            "bl": "boq_assistant-bard-web-server_20230419.00_p1",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -395,7 +409,7 @@ class BardAsync:
         params = {
             "rpcids": "fuVx7",
             "source-path": "/",
-            "bl": "boq_assistant-bard-web-server_20230912.07_p1",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             # '_reqid': str(self._reqid),
             "rt": "c",
         }
@@ -484,7 +498,7 @@ class BardAsync:
         params = {
             "rpcids": "qACoKe",
             "source-path": kwargs.get("source_path", "/"),
-            "bl": "boq_assistant-bard-web-server_20230718.13_p2",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -644,7 +658,7 @@ class BardAsync:
             ],
         ]
         params = {
-            "bl": "boq_assistant-bard-web-server_20230716.16_p2",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }

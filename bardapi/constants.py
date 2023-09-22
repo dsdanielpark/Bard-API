@@ -7,8 +7,6 @@ USER_PROMPT = Fore.BLUE + "You: " + Fore.RESET
 TEXT_GENERATION_WEB_SERVER_PARAM = "boq_assistant-bard-web-server_20230912.07_p1"
 
 
-
-
 SESSION_HEADERS = {
     "Host": "bard.google.com",
     "X-Same-Domain": "1",
@@ -31,4 +29,28 @@ IMG_UPLOAD_HEADERS = {
     "x-goog-upload-header-content-length": "",
     "x-goog-upload-protocol": "resumable",
     "x-tenant-id": "bard-storage",
+}
+
+REPLIT_SUPPORT_PROGRAM_LANGUAGES = {
+    "python": "main.py",
+    "javascript": "index.js",
+    "go": "main.go",
+    "java": "Main.java",
+    "kotlin": "Main.kt",
+    "php": "index.php",
+    "c#": "main.cs",
+    "swift": "main.swift",
+    "r": "main.r",
+    "ruby": "main.rb",
+    "c": "main.c",
+    "c++": "main.cpp",
+    "matlab": "main.m",
+    "typescript": "main.ts",
+    "scala": "main.scala",
+    "sql": "main.sql",
+    "html": "index.html",
+    "css": "style.css",
+    "nosql": "main.nosql",
+    "rust": "main.rs",
+    "perl": "main.pl",
 }

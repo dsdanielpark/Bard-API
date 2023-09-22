@@ -1,4 +1,6 @@
 # Util Functions for Async and Sync Core Cookie Modes
+import uuid
+import json
 import requests
 import browser_cookie3
 from bardapi.constants import IMG_UPLOAD_HEADERS
@@ -169,7 +171,9 @@ def max_sentence(text: str, n: int):
     print("".join(sentences).strip())
 
 
-def create_input_text_struct(input_text, conversation_id, response_id, choice_id):
+def build_input_text_struct(
+    input_text: str, conversation_id: int, response_id: int, choice_id: int
+) -> dict:
     return [
         [input_text, 0, None, [], None, None, 0],
         ["en"],
@@ -182,5 +186,118 @@ def create_input_text_struct(input_text, conversation_id, response_id, choice_id
         [],
         [],
         1,
-        1
+        1,
     ]
+
+
+def build_input_image_struct(
+    transl_text: str, image_url: int, lang: str = None, default_language: str = "en"
+) -> dict:
+    return [
+        None,
+        [
+            [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+            [lang if lang is not None else default_language],
+            ["", "", ""],
+            "",  # Unknown random string value (1000 characters +) - If needed, can replace with a random string generator
+            uuid.uuid4().hex,  # Random uuidv4 (32 characters)
+            None,
+            [1],
+            0,
+            [],
+            [],
+        ],
+    ]
+
+
+def build_input_replit_data_struct(instructions: str, code: str, filename: str) -> dict:
+    """
+    Creates and returns the input_image_data_struct based on provided parameters.
+
+    :param instructions: The instruction text.
+    :param code: The code.
+    :param filename: The filename.
+
+    :return: The input_image_data_struct.
+    """
+    return [
+        [
+            [
+                "qACoKe",
+                json.dumps([instructions, 5, code, [[filename, code]]]),
+                None,
+                "generic",
+            ]
+        ]
+    ]
+
+
+def build_bard_answer(
+    parsed_answer: list, images: str, program_lang: str, code: str, resp: dict
+) -> dict:
+    return {
+        "content": parsed_answer[4][0][1][0],
+        "conversation_id": parsed_answer[1][0],
+        "response_id": parsed_answer[1][1],
+        "factuality_queries": parsed_answer[3],
+        "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
+        "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
+        "links": extract_links(parsed_answer[4]),
+        "images": images,
+        "program_lang": program_lang,
+        "code": code,
+        "status_code": resp.status_code,
+    }
+
+
+def build_export_data_structure(
+    conv_id: int, resp_id: int, choice_id: int, title: str
+) -> dict:
+    return [
+        [
+            [
+                "fuVx7",
+                json.dumps(
+                    [
+                        [
+                            None,
+                            [
+                                [
+                                    [conv_id, resp_id],
+                                    None,
+                                    None,
+                                    [[], [], [], choice_id, []],
+                                ]
+                            ],
+                            [0, title],
+                        ]
+                    ]
+                ),
+                None,
+                "generic",
+            ]
+        ]
+    ]
+
+
+def build_image_bard_answer(
+    translated_content: str, parsed_answer: list, resp: dict
+) -> dict:
+    """
+    For the image bard, unlike build_bard_answer which translates all choices,
+    this function is simplified since it only translates a single sentence.
+    """
+
+    return {
+        "content": translated_content,
+        "conversation_id": parsed_answer[1][0],
+        "response_id": parsed_answer[1][1],
+        "factuality_queries": parsed_answer[3],
+        "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
+        "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
+        "links": extract_links(parsed_answer[4]),
+        "images": [""],
+        "program_lang": "",
+        "code": "",
+        "status_code": resp.status_code,
+    }
