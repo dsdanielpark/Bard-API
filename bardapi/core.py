@@ -10,8 +10,8 @@ from typing import Optional
 from langdetect import detect
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS
-from bardapi.utils import extract_links, upload_image, extract_bard_cookie
+from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS, TEXT_GENERATION_WEB_SERVER_PARAM
+from bardapi.utils import extract_links, upload_image, extract_bard_cookie, create_input_text_struct
 
 
 class Bard:
@@ -161,7 +161,7 @@ class Bard:
                 }
         """
         params = {
-            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -186,13 +186,10 @@ class Bard:
             input_text = google_official_translator.translate(
                 input_text, target_language="en"
             )
-
+        
         # Make post data structure and insert prompt
-        input_text_struct = [
-            [input_text],
-            None,
-            [self.conversation_id, self.response_id, self.choice_id],
-        ]
+        input_text_struct = create_input_text_struct(input_text, self.conversation_id, self.response_id, self.choice_id)
+        
         data = {
             "f.req": json.dumps([None, json.dumps(input_text_struct)]),
             "at": self.SNlM0e,
@@ -323,7 +320,7 @@ class Bard:
             }
         """
         params = {
-            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
@@ -386,7 +383,7 @@ class Bard:
         params = {
             "rpcids": "fuVx7",
             "source-path": "/",
-            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             # '_reqid': str(self._reqid),
             "rt": "c",
         }

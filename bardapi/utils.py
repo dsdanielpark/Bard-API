@@ -167,3 +167,20 @@ def max_sentence(text: str, n: int):
                 print("".join(sentences).strip())
                 return
     print("".join(sentences).strip())
+
+
+def create_input_text_struct(input_text, conversation_id, response_id, choice_id):
+    return [
+        [input_text, 0, None, [], None, None, 0],
+        ["en"],
+        [conversation_id, response_id, choice_id, None, None, []],
+        None,
+        None,
+        None,
+        [0],
+        0,
+        [],
+        [],
+        1,
+        1
+    ]

@@ -395,7 +395,7 @@ class BardAsync:
         params = {
             "rpcids": "fuVx7",
             "source-path": "/",
-            "bl": "boq_assistant-bard-web-server_20230713.13_p0",
+            "bl": "boq_assistant-bard-web-server_20230912.07_p1",
             # '_reqid': str(self._reqid),
             "rt": "c",
         }

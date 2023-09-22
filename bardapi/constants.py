@@ -4,6 +4,10 @@ ALLOWED_LANGUAGES = {"en", "ko", "ja", "english", "korean", "japanese"}
 DEFAULT_LANGUAGE = "en"
 SEPARATOR_LINE = "=" * 36
 USER_PROMPT = Fore.BLUE + "You: " + Fore.RESET
+TEXT_GENERATION_WEB_SERVER_PARAM = "boq_assistant-bard-web-server_20230912.07_p1"
+
+
+
 
 SESSION_HEADERS = {
     "Host": "bard.google.com",
