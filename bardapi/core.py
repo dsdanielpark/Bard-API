@@ -10,13 +10,27 @@ from typing import Optional
 from langdetect import detect
 from deep_translator import GoogleTranslator
 from google.cloud import translate_v2 as translate
-from bardapi.constants import ALLOWED_LANGUAGES, SESSION_HEADERS, TEXT_GENERATION_WEB_SERVER_PARAM
-from bardapi.utils import extract_links, upload_image, extract_bard_cookie, create_input_text_struct
+from bardapi.constants import (
+    ALLOWED_LANGUAGES,
+    SESSION_HEADERS,
+    REPLIT_SUPPORT_PROGRAM_LANGUAGES,
+    TEXT_GENERATION_WEB_SERVER_PARAM,
+)
+from bardapi.utils import (
+    build_input_replit_data_struct,
+    build_image_bard_answer,
+    build_export_data_structure,
+    build_bard_answer,
+    upload_image,
+    extract_bard_cookie,
+    build_input_text_struct,
+    build_input_image_struct,
+)
 
 
 class Bard:
     """
-    Bard class for interacting with the Bard API.
+    Bard class for interacting with the Google Bard.
     """
 
     def __init__(
@@ -170,7 +184,7 @@ class Bard:
                 api_key=self.google_translator_api_key
             )
 
-        # [Optional] Set language
+        # [Optional] Language translation
         if (
             self.language is not None
             and self.language not in ALLOWED_LANGUAGES
@@ -186,10 +200,12 @@ class Bard:
             input_text = google_official_translator.translate(
                 input_text, target_language="en"
             )
-        
+
         # Make post data structure and insert prompt
-        input_text_struct = create_input_text_struct(input_text, self.conversation_id, self.response_id, self.choice_id)
-        
+        input_text_struct = build_input_text_struct(
+            input_text, self.conversation_id, self.response_id, self.choice_id
+        )
+
         data = {
             "f.req": json.dumps([None, json.dumps(input_text_struct)]),
             "at": self.SNlM0e,
@@ -215,7 +231,7 @@ class Bard:
             }
         resp_json = json.loads(resp_dict)
 
-        # [Optional] gather image links
+        # [Optional] Gather image links
         images = list()
         try:
             if len(resp_json) >= 3:
@@ -228,36 +244,26 @@ class Bard:
         # Parsed Answer Object
         parsed_answer = json.loads(resp_dict)
 
-        # [Optional] translated by google translator
+        # [Optional] Translated by google translator
         # Unofficial
-        if (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
+        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+            if self.google_translator_api_key is None:
+                translator_func = GoogleTranslator(
+                    source="auto", target=self.language
+                ).translate
+            else:
+
+                def translator_func(text):
+                    return google_official_translator(
+                        text, target_language=self.language
+                    )
+
             parsed_answer[4] = [
-                [x[0], [translator_to_lang.translate(x[1][0])] + x[1][1:], x[2]]
+                [x[0], [translator_func(x[1][0])] + x[1][1:], x[2]]
                 for x in parsed_answer[4]
             ]
 
-        # Official google cloud translation API
-        elif (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
-        ):
-            parsed_answer[4] = [
-                [
-                    x[0],
-                    [google_official_translator(x[1][0], target_language=self.language)]
-                    + x[1][1:],
-                    x[2],
-                ]
-                for x in parsed_answer[4]
-            ]
-
-        # [Optional] get program_lang & code
+        # [Optional] Get program_lang & code
         try:
             program_lang = (
                 parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
@@ -267,19 +273,9 @@ class Bard:
             program_lang, code = None, None
 
         # Returnd dictionary object
-        bard_answer = {
-            "content": parsed_answer[4][0][1][0],
-            "conversation_id": parsed_answer[1][0],
-            "response_id": parsed_answer[1][1],
-            "factuality_queries": parsed_answer[3],
-            "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
-            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": extract_links(parsed_answer[4]),
-            "images": images,
-            "program_lang": program_lang,
-            "code": code,
-            "status_code": resp.status_code,
-        }
+        bard_answer = build_bard_answer(parsed_answer, images, program_lang, code, resp)
+
+        # Update params
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
             bard_answer["response_id"],
@@ -287,7 +283,7 @@ class Bard:
         )
         self._reqid += 100000
 
-        # Execute code
+        # [Optional] Execute code
         if self.run_code and bard_answer["code"] is not None:
             try:
                 print(bard_answer["code"])
@@ -384,36 +380,16 @@ class Bard:
             "rpcids": "fuVx7",
             "source-path": "/",
             "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
-            # '_reqid': str(self._reqid),
             "rt": "c",
         }
-        input_data_struct = [
-            [
-                [
-                    "fuVx7",
-                    json.dumps(
-                        [
-                            [
-                                None,
-                                [
-                                    [
-                                        [conv_id, resp_id],
-                                        None,
-                                        None,
-                                        [[], [], [], choice_id, []],
-                                    ]
-                                ],
-                                [0, title],
-                            ]
-                        ]
-                    ),
-                    None,
-                    "generic",
-                ]
-            ]
-        ]
+
+        # Build data structure
+        export_data_structure = build_export_data_structure(
+            conv_id, resp_id, choice_id, title
+        )
+
         data = {
-            "f.req": json.dumps(input_data_struct),
+            "f.req": json.dumps(export_data_structure),
             "at": self.SNlM0e,
         }
         resp = self.session.post(
@@ -423,10 +399,12 @@ class Bard:
             timeout=self.timeout,
             proxies=self.proxies,
         )
+
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
         url_id = json.loads(resp_dict[0][2])[2]
         url = f"https://g.co/bard/share/{url_id}"
+
         # Increment request ID
         self._reqid += 100000
         return {"url": url, "status_code": resp.status_code}
@@ -472,55 +450,42 @@ class Bard:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
 
         # [Optional] Set language
-        if (
-            (self.language is not None or lang is not None)
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_eng = GoogleTranslator(source="auto", target="en")
-            transl_text = translator_to_eng.translate(input_text)
-        elif (
-            (self.language is not None or lang is not None)
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
-        ):
-            transl_text = google_official_translator.translate(
-                input_text, target_language="en"
-            )
-        elif (
-            (self.language is None or lang is None)
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_eng = GoogleTranslator(source="auto", target="en")
-            transl_text = translator_to_eng.translate(input_text)
+        language_exists = self.language is not None or lang is not None
+        language_not_allowed = self.language not in ALLOWED_LANGUAGES
 
-        # Supported format: jpeg, png, webp
+        if language_not_allowed:
+            translator_to_use = None
+
+            # Choose translator
+            if language_exists and self.google_translator_api_key is None:
+                translator_to_use = GoogleTranslator(source="auto", target="en")
+            elif language_exists and self.google_translator_api_key is not None:
+                transl_text = google_official_translator.translate(
+                    input_text, target_language="en"
+                )
+            elif not language_exists and self.google_translator_api_key is None:
+                translator_to_use = GoogleTranslator(source="auto", target="en")
+
+            # Using GoogleTranslator
+            if translator_to_use:
+                transl_text = translator_to_use.translate(input_text)
+
+        # Supported format: jpg, jpeg, png, webp
         image_url = upload_image(image)
 
-        input_data_struct = [
-            None,
-            [
-                [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
-                [lang if lang is not None else self.language],
-                ["", "", ""],
-                "",  # Unknown random string value (1000 characters +)
-                uuid.uuid4().hex,  # Should be random uuidv4 (32 characters)
-                None,
-                [1],
-                0,
-                [],
-                [],
-            ],
-        ]
+        # Create input data struct
+        input_image_data_struct = build_input_image_struct(
+            transl_text, image_url, lang=language_exists, default_language="en"
+        )
+
         params = {
-            "bl": "boq_assistant-bard-web-server_20230716.16_p2",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-        input_data_struct[1] = json.dumps(input_data_struct[1])
+        input_image_data_struct[1] = json.dumps(input_image_data_struct[1])
         data = {
-            "f.req": json.dumps(input_data_struct),
+            "f.req": json.dumps(input_image_data_struct),
             "at": self.SNlM0e,
         }
 
@@ -542,57 +507,33 @@ class Bard:
             }
         parsed_answer = json.loads(resp_dict)
         content = parsed_answer[4][0][1][0]
+
+        # [Optional] Translation
         try:
-            if self.language is not None and self.google_translator_api_key is None:
-                translator = GoogleTranslator(source="en", target=self.language)
-                translated_content = translator.translate(content)
+            target_language = (
+                self.language or lang
+            )  # Default to self.language, else use lang
+            use_google_api = self.google_translator_api_key is not None
 
-            elif lang is not None and self.google_translator_api_key is None:
-                translator = GoogleTranslator(source="en", target=lang)
-                translated_content = translator.translate(content)
+            # Determine target language if none is provided
+            if not target_language:
+                target_language = detect(input_text)
 
-            elif (
-                lang is None and self.language is None
-            ) and self.google_translator_api_key is None:
-                us_lang = detect(input_text)
-                translator = GoogleTranslator(source="en", target=us_lang)
+            # Translate using the appropriate method
+            if use_google_api:
+                translated_content = google_official_translator.translate(
+                    content, target_language=target_language
+                )
+            else:
+                translator = GoogleTranslator(source="en", target=target_language)
                 translated_content = translator.translate(content)
-
-            elif (
-                self.language is not None and self.google_translator_api_key is not None
-            ):
-                translated_content = google_official_translator.translate(
-                    content, target_language=self.language
-                )
-            elif lang is not None and self.google_translator_api_key is not None:
-                translated_content = google_official_translator.translate(
-                    content, target_language=lang
-                )
-            elif (
-                self.language is None and lang is None
-            ) and self.google_translator_api_key is not None:
-                us_lang = detect(input_text)
-                translated_content = google_official_translator.translate(
-                    content, target_language=us_lang
-                )
         except Exception as e:
             print(f"Translation failed, and the original text has been returned. \n{e}")
             translated_content = content
 
         # Returned dictionary object
-        bard_answer = {
-            "content": translated_content,
-            "conversation_id": parsed_answer[1][0],
-            "response_id": parsed_answer[1][1],
-            "factuality_queries": parsed_answer[3],
-            "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
-            "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": extract_links(parsed_answer[4]),
-            "images": [""],
-            "program_lang": "",
-            "code": "",
-            "status_code": resp.status_code,
-        }
+        bard_answer = build_image_bard_answer(translated_content, parsed_answer, resp)
+
         self.conversation_id, self.response_id, self.choice_id = (
             bard_answer["conversation_id"],
             bard_answer["response_id"],
@@ -633,60 +574,32 @@ class Bard:
         params = {
             "rpcids": "qACoKe",
             "source-path": kwargs.get("source_path", "/"),
-            "bl": "boq_assistant-bard-web-server_20230718.13_p2",
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
             "rt": "c",
         }
-        support_langs = {
-            "python": "main.py",
-            "javascript": "index.js",
-            "go": "main.go",
-            "java": "Main.java",
-            "kotlin": "Main.kt",
-            "php": "index.php",
-            "c#": "main.cs",
-            "swift": "main.swift",
-            "r": "main.r",
-            "ruby": "main.rb",
-            "c": "main.c",
-            "c++": "main.cpp",
-            "matlab": "main.m",
-            "typescript": "main.ts",
-            "scala": "main.scala",
-            "sql": "main.sql",
-            "html": "index.html",
-            "css": "style.css",
-            "nosql": "main.nosql",
-            "rust": "main.rs",
-            "perl": "main.pl",
-        }
 
         # Reference: https://github.com/jincheng9/markdown_supported_languages
-        if program_lang not in support_langs and filename is None:
+        if program_lang not in REPLIT_SUPPORT_PROGRAM_LANGUAGES and filename is None:
             raise Exception(
                 f"Language {program_lang} not supported, please set filename manually."
             )
 
         filename = (
-            support_langs.get(program_lang, filename) if filename is None else filename
+            REPLIT_SUPPORT_PROGRAM_LANGUAGES.get(program_lang, filename)
+            if filename is None
+            else filename
         )
-        input_data_struct = [
-            [
-                [
-                    "qACoKe",
-                    json.dumps(
-                        [kwargs.get("instructions", ""), 5, code, [[filename, code]]]
-                    ),
-                    None,
-                    "generic",
-                ]
-            ]
-        ]
+        input_replit_data_struct = build_input_replit_data_struct(
+            kwargs.get("instructions", ""), code, filename
+        )
+
         data = {
-            "f.req": json.dumps(input_data_struct),
+            "f.req": json.dumps(input_replit_data_struct),
             "at": self.SNlM0e,
         }
 
+        # Get response
         resp = self.session.post(
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
             params=params,
@@ -694,9 +607,12 @@ class Bard:
             timeout=self.timeout,
             proxies=self.proxies,
         )
+
         resp_dict = json.loads(resp.content.splitlines()[3])
-        print(resp_dict)
+        print(f"Response: {resp_dict}")
+
         url = json.loads(resp_dict[0][2])[0]
+
         # Increment request ID
         self._reqid += 100000
 
