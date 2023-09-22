@@ -341,7 +341,7 @@ print(answer)
 
 
 ## [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md)
-Please check the FAQ and open issues for similar questions before creating a new issue. Repeated questions will be kept as open issues.
+Please check the FAQ and open issues for similar questions before creating a new issue. Repeated questions will be kept as open issues. Too many requests can trigger a temporary account block (HTTP 429). Maintain proper intervals, using functions like sleep to avoid rate limits. Policies may vary by country and language, so all users could face temporary or permanent errors via the API.
 
 ## Scripts
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
