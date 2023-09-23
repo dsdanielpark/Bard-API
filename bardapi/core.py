@@ -474,10 +474,25 @@ class Bard:
         image_url = upload_image(image)
 
         # Create input data struct
-        input_image_data_struct = build_input_image_struct(
-            transl_text, image_url, lang=language_exists, default_language="en"
-        )
+        # input_image_data_struct = build_input_image_struct(
+        #     transl_text, image_url, lang=language_exists, default_language="en"
+        # )
 
+        input_image_data_struct = [
+            None,
+            [
+                [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+                [lang if lang is not None else self.language],
+                ["", "", ""],
+                "",  # Unknown random string value (1000 characters +)
+                uuid.uuid4().hex,  # Should be random uuidv4 (32 characters)
+                None,
+                [1],
+                0,
+                [],
+                [],
+            ],
+        ]
         params = {
             "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
