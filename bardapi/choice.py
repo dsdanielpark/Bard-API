@@ -1,4 +1,11 @@
+from abc import abstractmethod, ABC
 from typing import Optional
+
+
+class UserContent(ABC):
+    @abstractmethod
+    def key(self) -> str:
+        pass
 
 
 class BardImage:
@@ -110,13 +117,14 @@ class BardMapsPoint:
         return f'{self.title[0]}, {self.rating}*({self.rating_count}) - {self.kind}'
 
 
-class BardMapContent:
+class BardMapContent(UserContent):
+    """http://googleusercontent.com/map_content/0"""
+
     def __init__(self, input_list: list):
         self._input_list = input_list
 
     @property
-    def id(self) -> str:
-        # map_content/0
+    def key(self) -> str:
         return self._input_list[2][0]
 
     @property
@@ -161,6 +169,9 @@ class BardGDocsContent:
     def date(self) -> str:
         return self._input_list[4]
 
+    def __str__(self) -> str:
+        return self.title
+
 
 class BardYoutubeVideo:
     def __init__(self, input_list: list):
@@ -194,13 +205,14 @@ class BardYoutubeVideo:
         return self.title
 
 
-class BardYoutubeContent:
+class BardYoutubeContent(UserContent):
+    """http://googleusercontent.com/youtube_content/5"""
+
     def __init__(self, input_list: list):
         self._input_list = input_list
 
     @property
     def key(self) -> str:
-        # http://googleusercontent.com/youtube_content/5
         return self._input_list[0][0]
 
     @property
@@ -225,7 +237,7 @@ class BardYoutubeContent:
         return self.search_query
 
 
-class BardLink:
+class BardLink(UserContent):
     def __init__(self, input_list: list):
         self._input_list = input_list
 
@@ -241,13 +253,14 @@ class BardLink:
         return self.url
 
 
-class BardToolDeclaimer:
+class BardToolDeclaimer(UserContent):
+    """ http://googleusercontent.com/tool_disclaimer_content/1 """
+
     def __init__(self, input_list: list):
         self._input_list = input_list
 
     @property
-    def id(self) -> str:
-        # 'http://googleusercontent.com/tool_disclaimer_content/1'
+    def key(self) -> str:
         return self._input_list[0][0]
 
     @property
@@ -306,13 +319,14 @@ class BardFlight:
         return f'{",".join(self.airlines)} - {self.from_airport} to {self.to_airport} - {self.from_time} to {self.to_time} - {self.price}'
 
 
-class BardFlightContent:
+class BardFlightContent(UserContent):
     """http://googleusercontent.com/flight_content/0"""
+
     def __init__(self, input_list: list):
         self._input_list = input_list
 
     @property
-    def id(self) -> str:
+    def key(self) -> str:
         return self._input_list[3][0]
 
     @property
@@ -383,7 +397,7 @@ class BardChoice:
         return self._input_list[12]
 
     @property
-    def map_points(self) -> list[BardMapContent]:
+    def map_content(self) -> list[BardMapContent]:
         return [BardMapContent(a) for a in self._attachments[3]] if self._attachments[3] else []
 
     @property
@@ -400,11 +414,23 @@ class BardChoice:
 
     @property
     def tool_disclaimers(self) -> list[BardToolDeclaimer]:
+        if len(self._attachments) < 23:
+            return []
+
         return [BardToolDeclaimer(a) for a in self._attachments[22]] if self._attachments[22] else []
 
     @property
     def flights(self) -> list[BardFlightContent]:
         return [BardFlightContent(a) for a in self._attachments[16]] if self._attachments[16] else []
+
+    @property
+    def user_content(self) -> dict[str, UserContent]:
+        d = {v.key: v for v in self.youtube}
+        d.update({v.key: v for v in self.map_content})
+        # d.update({v.key:v for v in self.gdocs})
+        d.update({v.key: v for v in self.flights})
+        d.update({v.key: v for v in self.links})
+        return d
 
     def __str__(self) -> str:
         return self.text
