@@ -176,7 +176,7 @@ def max_sentence(text: str, n: int):
 def build_input_text_struct(
         input_text: str, conversation_id: Optional[str], response_id: Optional[str], choice_id: Optional[str],
         image_url: str = None, image_name: str = None,
-        tools: list = None
+        tools: list[list[str]] = None
 ) -> list:
     image_arr = []
     if image_url is not None:
@@ -184,8 +184,6 @@ def build_input_text_struct(
 
     if tools is None:
         tools = []
-    # tools = [["workspace_tool", "Gmail"|"Google Docs"|"Google Drive"]]
-    # tools = "youtube_tool", "google_flights_tool", "google_map_tool"
 
     return [
         [input_text, 0, None, image_arr, None, None, 0],

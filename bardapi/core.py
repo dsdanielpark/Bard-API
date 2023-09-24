@@ -18,6 +18,7 @@ from bardapi.constants import (
     SESSION_HEADERS,
     REPLIT_SUPPORT_PROGRAM_LANGUAGES,
     TEXT_GENERATION_WEB_SERVER_PARAM,
+    Tool
 )
 from bardapi.utils import (
     build_input_replit_data_struct,
@@ -151,21 +152,25 @@ class Bard:
 
     def get_answer(self, input_text: str,
                    image: Optional[bytes] = None, image_name: Optional[str] = None,
-                   tool: Optional[list] = None) -> dict:
+                   tool: Optional[Tool] = None) -> dict:
         """
         Get an answer from the Bard API for the given input text.
 
         Example:
         >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
+
         >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+        >>> print(response['content'])
+
+        >>> response = bard.get_answer("Show me grocery stores close to the entrance to Grand Teton National Park and give me ideas for good snacks to bring hiking", tool=Tool.GOOGLE_MAPS)
         >>> print(response['content'])
 
         Args:
             input_text (str): Input text for the query.
             image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
             image_name (str): Short file name
-            tool : tool to use can be one of Gmail,
+            tool : tool to use can be one of Gmail, Google Docs, Google Drive, Google Flights, Google Hotels, Google Maps, Youtube
 
 
         Returns:
@@ -220,7 +225,7 @@ class Bard:
         input_text_struct = build_input_text_struct(
             input_text, self.conversation_id, self.response_id, self.choice_id,
             image_url, image_name,
-            tools=None
+            tools=[tool.value] if tool is not None else None
         )
 
         data = {
