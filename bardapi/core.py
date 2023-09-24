@@ -1,15 +1,18 @@
 import os
 import re
 import json
-import uuid
 import base64
 import string
 import random
 import requests
 from typing import Optional
-from langdetect import detect
-from deep_translator import GoogleTranslator
-from google.cloud import translate_v2 as translate
+
+try:
+    from deep_translator import GoogleTranslator
+    from google.cloud import translate_v2 as translate
+except ImportError:
+    pass
+
 from bardapi.constants import (
     ALLOWED_LANGUAGES,
     SESSION_HEADERS,
@@ -18,13 +21,11 @@ from bardapi.constants import (
 )
 from bardapi.utils import (
     build_input_replit_data_struct,
-    build_image_bard_answer,
     build_export_data_structure,
     build_bard_answer,
     upload_image,
     extract_bard_cookie,
-    build_input_text_struct,
-    build_input_image_struct,
+    build_input_text_struct
 )
 
 
@@ -34,16 +35,16 @@ class Bard:
     """
 
     def __init__(
-        self,
-        token: Optional[str] = None,
-        timeout: int = 20,
-        proxies: Optional[dict] = None,
-        session: Optional[requests.Session] = None,
-        conversation_id: Optional[str] = None,
-        google_translator_api_key: Optional[str] = None,
-        language: Optional[str] = None,
-        run_code: bool = False,
-        token_from_browser: bool = False,
+            self,
+            token: Optional[str] = None,
+            timeout: int = 20,
+            proxies: Optional[dict] = None,
+            session: Optional[requests.Session] = None,
+            conversation_id: Optional[str] = None,
+            google_translator_api_key: Optional[str] = None,
+            language: Optional[str] = None,
+            run_code: bool = False,
+            token_from_browser: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -71,6 +72,9 @@ class Bard:
         self.language = language or os.getenv("_BARD_API_LANG")
         self.run_code = run_code
         self.google_translator_api_key = google_translator_api_key
+
+        if google_translator_api_key:
+            assert translate
 
     def _get_token(self, token: str, token_from_browser: bool) -> str:
         """
@@ -145,7 +149,9 @@ class Bard:
             )
         return snim0e.group(1)
 
-    def get_answer(self, input_text: str) -> dict:
+    def get_answer(self, input_text: str,
+                   image: Optional[bytes] = None, image_name: Optional[str] = None,
+                   tool: Optional[list] = None) -> dict:
         """
         Get an answer from the Bard API for the given input text.
 
@@ -157,6 +163,10 @@ class Bard:
 
         Args:
             input_text (str): Input text for the query.
+            image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
+            image_name (str): Short file name
+            tool : tool to use can be one of Gmail,
+
 
         Returns:
             dict: Answer from the Bard API in the following format:
@@ -186,24 +196,31 @@ class Bard:
 
         # [Optional] Language translation
         if (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
+                self.language is not None
+                and self.language not in ALLOWED_LANGUAGES
+                and self.google_translator_api_key is None
         ):
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             input_text = translator_to_eng.translate(input_text)
         elif (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
+                self.language is not None
+                and self.language not in ALLOWED_LANGUAGES
+                and self.google_translator_api_key is not None
         ):
             input_text = google_official_translator.translate(
                 input_text, target_language="en"
             )
 
+        if image is not None:
+            image_url = upload_image(image)
+        else:
+            image_url = None
+
         # Make post data structure and insert prompt
         input_text_struct = build_input_text_struct(
-            input_text, self.conversation_id, self.response_id, self.choice_id
+            input_text, self.conversation_id, self.response_id, self.choice_id,
+            image_url, image_name,
+            tools=None
         )
 
         data = {
@@ -221,15 +238,18 @@ class Bard:
         )
 
         # Post-processing of response
-        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
+        resp_dict = json.loads(resp.content.splitlines()[-5])[0][2]
 
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                f"\nUnable to get response."
-                f"\nPlease double-check the cookie values and verify your network environment or google account."
+                           f"\nUnable to get response."
+                           f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         resp_json = json.loads(resp_dict)
+        if resp_json[4] is None:
+            resp_dict = json.loads(resp.content.splitlines()[-7])[0][2]
+            resp_json = json.loads(resp_dict)
 
         # [Optional] Gather image links
         images = list()
@@ -268,12 +288,12 @@ class Bard:
             program_lang = (
                 parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
             )
-            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
+            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang):]
         except Exception:
             program_lang, code = None, None
 
-        # Returnd dictionary object
-        bard_answer = build_bard_answer(parsed_answer, images, program_lang, code, resp)
+        # Returns dictionary object
+        bard_answer = build_bard_answer(parsed_answer, images, program_lang, code, resp.status_code)
 
         # Update params
         self.conversation_id, self.response_id, self.choice_id = (
@@ -344,8 +364,8 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                f"\nUnable to get response."
-                f"\nPlease double-check the cookie values and verify your network environment or google account."
+                           f"\nUnable to get response."
+                           f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
@@ -410,7 +430,7 @@ class Bard:
         return {"url": url, "status_code": resp.status_code}
 
     def ask_about_image(
-        self, input_text: str, image: bytes, lang: Optional[str] = None
+            self, input_text: str, image: bytes, image_name: str, lang: Optional[str] = None
     ) -> dict:
         """
         Send Bard image along with question and get answer
@@ -419,11 +439,12 @@ class Bard:
         >>> token = 'xxxxxx'
         >>> bard = Bard(token=token)
         >>> image = open('image.jpg', 'rb').read()
-        >>> bard_answer = bard.ask_about_image("what is in the image?", image)['content']
+        >>> bard_answer = bard.ask_about_image("what is in the image?", image, 'image.jpg')['content']
 
         Args:
             input_text (str): Input text for the query.
             image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
+            image_name (str): Short file name
             lang (str, optional): Language to use.
 
         Returns:
@@ -442,127 +463,14 @@ class Bard:
                     "status_code": int
                 }
         """
-        if self.google_translator_api_key is not None:
-            google_official_translator = translate.Client(
-                api_key=self.google_translator_api_key
-            )
-        else:
-            translator_to_eng = GoogleTranslator(source="auto", target="en")
-
-        # [Optional] Set language
-        language_exists = self.language is not None or lang is not None
-        language_not_allowed = self.language not in ALLOWED_LANGUAGES
-
-        if language_not_allowed:
-            translator_to_use = None
-
-            # Choose translator
-            if language_exists and self.google_translator_api_key is None:
-                translator_to_use = GoogleTranslator(source="auto", target="en")
-            elif language_exists and self.google_translator_api_key is not None:
-                transl_text = google_official_translator.translate(
-                    input_text, target_language="en"
-                )
-            elif not language_exists and self.google_translator_api_key is None:
-                translator_to_use = GoogleTranslator(source="auto", target="en")
-
-            # Using GoogleTranslator
-            if translator_to_use:
-                transl_text = translator_to_use.translate(input_text)
-
-        # Supported format: jpg, jpeg, png, webp
-        image_url = upload_image(image)
-
-        # Create input data struct
-        # input_image_data_struct = build_input_image_struct(
-        #     transl_text, image_url, lang=language_exists, default_language="en"
-        # )
-
-        input_image_data_struct = [
-            None,
-            [
-                [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
-                [lang if lang is not None else self.language],
-                ["", "", ""],
-                "",  # Unknown random string value (1000 characters +)
-                uuid.uuid4().hex,  # Should be random uuidv4 (32 characters)
-                None,
-                [1],
-                0,
-                [],
-                [],
-            ],
-        ]
-        params = {
-            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
-            "_reqid": str(self._reqid),
-            "rt": "c",
-        }
-        input_image_data_struct[1] = json.dumps(input_image_data_struct[1])
-        data = {
-            "f.req": json.dumps(input_image_data_struct),
-            "at": self.SNlM0e,
-        }
-
-        resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
-            params=params,
-            data=data,
-            timeout=self.timeout,
-            proxies=self.proxies,
-        )
-
-        # Post-processing of response
-        resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
-        if not resp_dict:
-            return {
-                "content": f"Response Error: {resp.content}. "
-                f"\nUnable to get response."
-                f"\nPlease double-check the cookie values and verify your network environment or google account."
-            }
-        parsed_answer = json.loads(resp_dict)
-        content = parsed_answer[4][0][1][0]
-
-        # [Optional] Translation
-        try:
-            target_language = (
-                self.language or lang
-            )  # Default to self.language, else use lang
-            use_google_api = self.google_translator_api_key is not None
-
-            # Determine target language if none is provided
-            if not target_language:
-                target_language = detect(input_text)
-
-            # Translate using the appropriate method
-            if use_google_api:
-                translated_content = google_official_translator.translate(
-                    content, target_language=target_language
-                )
-            else:
-                translator = GoogleTranslator(source="en", target=target_language)
-                translated_content = translator.translate(content)
-        except Exception as e:
-            print(f"Translation failed, and the original text has been returned. \n{e}")
-            translated_content = content
-
-        # Returned dictionary object
-        bard_answer = build_image_bard_answer(translated_content, parsed_answer, resp)
-
-        self.conversation_id, self.response_id, self.choice_id = (
-            bard_answer["conversation_id"],
-            bard_answer["response_id"],
-            bard_answer["choices"][0]["id"],
-        )
-        self._reqid += 100000
-        return bard_answer
+        return self.get_answer(input_text, image, image_name)
 
     def export_replit(
-        self,
-        code: str,
-        program_lang: Optional[str] = None,
-        filename: Optional[str] = None,
-        **kwargs,
+            self,
+            code: str,
+            program_lang: Optional[str] = None,
+            filename: Optional[str] = None,
+            **kwargs,
     ) -> dict:
         """
         Get export URL to repl.it from code

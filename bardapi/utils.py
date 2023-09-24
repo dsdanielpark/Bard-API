@@ -1,8 +1,8 @@
 # Util Functions for Async and Sync Core Cookie Modes
-import uuid
 import json
+from typing import Optional
+
 import requests
-import browser_cookie3
 from bardapi.constants import IMG_UPLOAD_HEADERS
 
 
@@ -23,9 +23,9 @@ def extract_links(data: list) -> list:
                 # recursive
                 links.extend(extract_links(item))
             elif (
-                isinstance(item, str)
-                and item.startswith("http")
-                and "favicon" not in item
+                    isinstance(item, str)
+                    and item.startswith("http")
+                    and "favicon" not in item
             ):
                 links.append(item)
     return links
@@ -81,6 +81,8 @@ def extract_bard_cookie(cookies: bool = False) -> dict:
     Raises:
         Exception: If no supported browser is found or if there's an issue with cookie extraction.
     """
+    import browser_cookie3
+
     supported_browsers = [
         browser_cookie3.chrome,
         browser_cookie3.chromium,
@@ -172,45 +174,36 @@ def max_sentence(text: str, n: int):
 
 
 def build_input_text_struct(
-    input_text: str, conversation_id: int, response_id: int, choice_id: int
-) -> dict:
+        input_text: str, conversation_id: Optional[str], response_id: Optional[str], choice_id: Optional[str],
+        image_url: str = None, image_name: str = None,
+        tools: list = None
+) -> list:
+    image_arr = []
+    if image_url is not None:
+        image_arr = [[[image_url, 1], image_name]]
+
+    if tools is None:
+        tools = []
+    # tools = [["workspace_tool", "Gmail"|"Google Docs"|"Google Drive"]]
+    # tools = "youtube_tool", "google_flights_tool", "google_map_tool"
+
     return [
-        [input_text, 0, None, [], None, None, 0],
+        [input_text, 0, None, image_arr, None, None, 0],
         ["en"],
         [conversation_id, response_id, choice_id, None, None, []],
+        None,  # Unknown random string value (1000 characters +) - If needed, can replace with a random string generator
+        None,  # Random uuidv4 (32 characters)
         None,
-        None,
-        None,
-        [0],
+        [1],
         0,
         [],
-        [],
+        tools,
         1,
-        1,
+        0,
     ]
 
 
-def build_input_image_struct(
-    transl_text: str, image_url: int, lang: str = None, default_language: str = "en"
-) -> dict:
-    return [
-        None,
-        [
-            [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
-            [lang if lang is not None else default_language],
-            ["", "", ""],
-            "",  # Unknown random string value (1000 characters +) - If needed, can replace with a random string generator
-            uuid.uuid4().hex,  # Random uuidv4 (32 characters)
-            None,
-            [1],
-            0,
-            [],
-            [],
-        ],
-    ]
-
-
-def build_input_replit_data_struct(instructions: str, code: str, filename: str) -> dict:
+def build_input_replit_data_struct(instructions: str, code: str, filename: str) -> list:
     """
     Creates and returns the input_image_data_struct based on provided parameters.
 
@@ -233,7 +226,7 @@ def build_input_replit_data_struct(instructions: str, code: str, filename: str) 
 
 
 def build_bard_answer(
-    parsed_answer: list, images: str, program_lang: str, code: str, resp: dict
+        parsed_answer: list, images: list[str], program_lang: str, code: str, status_code: int
 ) -> dict:
     return {
         "content": parsed_answer[4][0][1][0],
@@ -246,13 +239,13 @@ def build_bard_answer(
         "images": images,
         "program_lang": program_lang,
         "code": code,
-        "status_code": resp.status_code,
+        "status_code": status_code,
     }
 
 
 def build_export_data_structure(
-    conv_id: int, resp_id: int, choice_id: int, title: str
-) -> dict:
+        conv_id: int, resp_id: int, choice_id: int, title: str
+) -> list:
     return [
         [
             [
@@ -278,26 +271,3 @@ def build_export_data_structure(
             ]
         ]
     ]
-
-
-def build_image_bard_answer(
-    translated_content: str, parsed_answer: list, resp: dict
-) -> dict:
-    """
-    For the image bard, unlike build_bard_answer which translates all choices,
-    this function is simplified since it only translates a single sentence.
-    """
-
-    return {
-        "content": translated_content,
-        "conversation_id": parsed_answer[1][0],
-        "response_id": parsed_answer[1][1],
-        "factuality_queries": parsed_answer[3],
-        "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
-        "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-        "links": extract_links(parsed_answer[4]),
-        "images": [""],
-        "program_lang": "",
-        "code": "",
-        "status_code": resp.status_code,
-    }
