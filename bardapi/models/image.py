@@ -7,7 +7,7 @@ class BardImage:
         self.urls = input_list[0]
         self.width = input_list[2]
         self.height = input_list[3]
-        self.alt: Optional[str] = input_list[4]
+        self.alt: Optional[str] = input_list[4] if len(input_list) > 4 else None
 
     def __str__(self) -> str:
         return f"{self.urls[0]} ({self.width}x{self.height})"
@@ -44,4 +44,4 @@ class BardImageContent:
         return self.markdown[2]
 
     def __str__(self) -> str:
-        return f"[{self.alt}]({self.original['urls'][0]})"
+        return f"[{self.alt}]({self.original.urls[0]})"
