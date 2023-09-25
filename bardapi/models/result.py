@@ -1,33 +1,7 @@
 from typing import Optional
 
-from bardapi.choice import BardChoice
-
-
-class BardTool:
-    def __init__(self, input_list: list):
-        self._input_list = input_list
-
-    @property
-    def step(self) -> Optional[str]:
-        # Finding your documents
-        return self._input_list[0]
-
-    @property
-    def name(self) -> str:
-        # google_map_tool
-        return self._input_list[1][0]
-
-    @property
-    def human_name(self) -> str:
-        # Google Maps
-        return self._input_list[1][1][2]
-
-    @property
-    def logo(self) -> str:
-        return self._input_list[1][1][3]
-
-    def __str__(self) -> str:
-        return f'{self.human_name} - {self.step or ""}'
+from bardapi.models.draft import BardDraft
+from bardapi.models.tools.tool import BardTool
 
 
 class BardUserLocation:
@@ -57,17 +31,11 @@ class BardUserLocation:
 class BardResult:
     def __init__(self, input_list: list):
         self._input_list = input_list
+        self.conversation_id = self._input_list[1][0]
+        self.response_id = self._input_list[1][1]
 
     @property
-    def conversation_id(self) -> str:
-        return self._input_list[1][0]
-
-    @property
-    def response_id(self) -> str:
-        return self._input_list[1][1]
-
-    @property
-    def search_query(self) -> list[str, int]:
+    def search_queries(self) -> list[str, int]:
         return self._input_list[2]
 
     @property
@@ -75,8 +43,8 @@ class BardResult:
         return self._input_list[3]
 
     @property
-    def choices(self) -> list[BardChoice]:
-        return [BardChoice(c) for c in self._input_list[4]] if self._input_list[4] else []
+    def drafts(self) -> list[BardDraft]:
+        return [BardDraft(c) for c in self._input_list[4]] if self._input_list[4] else []
 
     @property
     def location(self) -> BardUserLocation:

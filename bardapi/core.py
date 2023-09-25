@@ -7,6 +7,8 @@ import random
 import requests
 from typing import Optional
 
+from bardapi.models.result import BardResult
+
 try:
     from deep_translator import GoogleTranslator
     from google.cloud import translate_v2 as translate
@@ -149,6 +151,67 @@ class Bard:
                 "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
             )
         return snim0e.group(1)
+
+    def ask(self, text: str,
+            image: Optional[bytes] = None, image_name: Optional[str] = None,
+            tool: Optional[Tool] = None) -> BardResult:
+
+        if image is not None:
+            image_url = upload_image(image)
+        else:
+            image_url = None
+
+        # Make post data structure and insert prompt
+        input_text_struct = build_input_text_struct(
+            text, self.conversation_id, self.response_id, self.choice_id,
+            image_url, image_name,
+            tools=[tool.value] if tool is not None else None
+        )
+
+        # Get response
+        resp = self.session.post(
+            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            params={
+                "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
+                "_reqid": str(self._reqid),
+                "rt": "c",
+            },
+            data={
+                "f.req": json.dumps([None, json.dumps(input_text_struct)]),
+                "at": self.SNlM0e,
+            },
+            timeout=self.timeout,
+            proxies=self.proxies,
+        )
+
+        if resp.status_code != 200:
+            raise Exception(f"Response status code is not 200. Response Status is {resp.status_code}")
+
+        lines = [line for line in resp.content.splitlines() if line.startswith(b'[["wrb.fr')]
+        jsons = [json.loads(json.loads(line)[0][2]) for line in lines]
+        # Post-processing of response
+        resp_json = jsons[-1]
+
+        if not resp_json:
+            raise {
+                "content": f"Response Error: {resp.content}. "
+                           f"\nUnable to get response."
+                           f"\nPlease double-check the cookie values and verify your network environment or google account."
+            }
+
+        res = BardResult(resp_json)
+        if not res.drafts:
+            res = BardResult(jsons[-2])
+
+        # Update params
+        self.conversation_id, self.response_id, self.choice_id = (
+            res.conversation_id,
+            res.response_id,
+            res.drafts[0].id
+        )
+        self._reqid += 100000
+
+        return res
 
     def get_answer(self, input_text: str,
                    image: Optional[bytes] = None, image_name: Optional[str] = None,
