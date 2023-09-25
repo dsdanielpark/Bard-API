@@ -58,7 +58,7 @@ class BardDraft:
         #
         # The code snippet is the same for all drafts!
 
-        return [CodeContent(a) for a in self._attachments[5]] if self._attachments[5] else []
+        return [CodeContent(a) for a in self._attachments[5]] if self._attachments[5] and self._attachments[5][0][3] else []
 
     @property
     def links(self) -> list[BardLink]:

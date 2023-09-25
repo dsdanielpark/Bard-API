@@ -1,7 +1,7 @@
 import unittest
 
 from bardapi.models.result import BardResult
-from data import t1, t2, t3, t4, t5, t6, t7, t8
+from data import t1, t2, t3, t4, t5, t6, t7, t8, t9
 
 
 class TestBardResult(unittest.TestCase):
@@ -28,8 +28,14 @@ class TestBardResult(unittest.TestCase):
 
     def test_map_content(self):
         maps4 = BardResult(t3[4])
-        self.assertEqual(maps4.drafts[0].map_content[0].key, 'http://googleusercontent.com/map_content/0')
-        self.assertEqual(len(maps4.drafts[0].map_content[0].points[4].images), 10)
+        self.assertEqual('http://googleusercontent.com/map_content/0', maps4.drafts[0].map_content[0].key)
+        self.assertEqual(10, len(maps4.drafts[0].map_content[0].points[4].images))
+
+        maps9 = BardResult(t9)
+        self.assertEqual("Rv52", maps9.drafts[0].map_content[1].directions.road_name )
+        self.assertTrue(maps9.drafts[0].map_content[1].directions.url.startswith("https://www.google.com/maps/dir/"))
+        self.assertEqual(2, len(maps9.drafts[0].map_content[1].directions.sections))
+        self.assertFalse(maps9.drafts[0].python_code)
 
     def test_gdocs(self):
         drive4 = BardResult(t4[4])

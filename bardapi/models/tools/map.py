@@ -76,6 +76,72 @@ class BardMapsPoint:
         return f'{self.title[0]}, {self.rating}*({self.rating_count}) - {self.place_type}'
 
 
+class BardMapsRoadSection:
+    def __init__(self, input_list: list):
+        self._input_list = input_list
+
+    @property
+    def distance(self) -> [int, str]:
+        # [313054, '313 km']
+        return self._input_list[2]
+
+    @property
+    def duration(self) -> [int, str]:
+        # [16873, '4 hours 41 mins']
+        return self._input_list[1]
+
+    @property
+    def instructions(self) -> list:
+        return self._input_list[0]
+
+    @property
+    def source_geo(self) -> [float, float]:
+        return self._input_list[5]
+
+    @property
+    def destination_geo(self) -> [float, float]:
+        return self._input_list[6]
+
+    @property
+    def source(self) -> str:
+        return self._input_list[7]
+
+    @property
+    def destination(self) -> str:
+        return self._input_list[8]
+
+    def __str__(self):
+        return f'{self.source} to {self.destination} - {self.duration[1]}({self.distance[1]})'
+
+
+class BardMapsDirections:
+    def __init__(self, input_list: list):
+        self._input_list = input_list
+
+    @property
+    def _map(self) -> list:
+        return self._input_list[0][1][0]
+
+    @property
+    def url(self) -> str:
+        return self._input_list[1]
+
+    @property
+    def road_name(self) -> str:
+        return self._map[0]
+
+    @property
+    def sections(self) -> list[BardMapsRoadSection]:
+        return [BardMapsRoadSection(s) for s in self._map[1]]
+
+    @property
+    def geo_position(self) -> [[float, float], [float, float]]:
+        return self._map[6]
+
+    def __str__(self):
+        return "via " + self.road_name
+
+
 class BardMapContent(UserContent):
     """http://googleusercontent.com/map_content/0"""
 
@@ -98,13 +164,11 @@ class BardMapContent(UserContent):
 
     @property
     def points(self) -> list[BardMapsPoint]:
-        return [BardMapsPoint(point) for point in self._input_list[0][1]] if self._input_list[0][1] else []
+        return [BardMapsPoint(point) for point in self._input_list[0][1]] if self._input_list[0] else []
 
-    def __getitem__(self, item) -> BardMapsPoint:
-        return self.points[item]
-
-    def __len__(self):
-        return len(self.points)
+    @property
+    def directions(self) -> Optional[BardMapsDirections]:
+        return BardMapsDirections(self._input_list[1]) if self._input_list[1] else None
 
     def __str__(self) -> str:
         return self.title
