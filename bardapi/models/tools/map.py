@@ -7,6 +7,10 @@ class BardMapsPoint:
     def __init__(self, input_list: list):
         self._input_list = input_list
 
+        self.geo_position = self._input_list[11]
+        self.lat: float = self.geo_position[0]
+        self.lng: float = self.geo_position[1]
+
     @property
     def id(self) -> str:
         return self._input_list[1]
@@ -20,10 +24,6 @@ class BardMapsPoint:
     def address_short(self) -> str:
         # 'Dornans, 12170 Dornans Rd, Moose'
         return self._input_list[50]
-
-    @property
-    def geo_position(self) -> list:
-        return self._input_list[11]
 
     @property
     def geo_position_rect(self) -> list:
@@ -57,14 +57,14 @@ class BardMapsPoint:
     @property
     def title(self) -> tuple[str, str]:
         # Albertsons, "en"
-        return self._input_list[30]  # same [30], "en"
+        return self._input_list[30]
 
     def description(self) -> Optional[tuple[str, str]]:
         # ['Gourmet groceries, cheeses & baked goods are available at this casual deli in a resort setting.', 'en']
         return self._input_list[51]
 
     @property
-    def kind(self) -> str:
+    def place_type(self) -> str:
         # supermarket
         return self._input_list[49]  # same [31], "en"
 
@@ -73,7 +73,7 @@ class BardMapsPoint:
         return [{"url": img[0], "author": img[3]} for img in self._input_list[53]] if self._input_list[53] else []
 
     def __str__(self) -> str:
-        return f'{self.title[0]}, {self.rating}*({self.rating_count}) - {self.kind}'
+        return f'{self.title[0]}, {self.rating}*({self.rating_count}) - {self.place_type}'
 
 
 class BardMapContent(UserContent):
