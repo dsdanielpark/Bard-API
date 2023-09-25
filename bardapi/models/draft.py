@@ -1,3 +1,5 @@
+from typing import Optional
+
 from bardapi.models.citation import DraftCitation
 from bardapi.models.tools.code import CodeContent
 from bardapi.models.tools.flight import BardFlightContent
@@ -35,19 +37,25 @@ class BardDraft:
         return self._input_list[9]
 
     @property
-    def _attachments(self) -> list:
+    def _attachments(self) -> Optional[list]:
         return self._input_list[12]
 
     @property
     def map_content(self) -> list[BardMapContent]:
+        if not self._attachments:
+            return []
         return [BardMapContent(a) for a in self._attachments[3]] if self._attachments[3] else []
 
     @property
     def gdocs(self) -> list[BardGDocsContent]:
+        if not self._attachments:
+            return []
         return [BardGDocsContent(a) for a in self._attachments[12][0][2]] if self._attachments[12] else []
 
     @property
     def youtube(self) -> list[BardYoutubeContent]:
+        if not self._attachments:
+            return []
         return [BardYoutubeContent(a) for a in self._attachments[4]] if self._attachments[4] else []
 
     @property
@@ -57,20 +65,25 @@ class BardDraft:
         # including answers in other languages.
         #
         # The code snippet is the same for all drafts!
-
+        if not self._attachments:
+            return []
         return [CodeContent(a) for a in self._attachments[5]] if self._attachments[5] and self._attachments[5][0][3] else []
 
     @property
     def links(self) -> list[BardLink]:
+        if not self._attachments:
+            return []
         return [BardLink(a) for a in self._attachments[8]] if self._attachments[8] else []
 
     @property
     def flights(self) -> list[BardFlightContent]:
+        if not self._attachments:
+            return []
         return [BardFlightContent(a) for a in self._attachments[16]] if self._attachments[16] else []
 
     @property
     def tool_disclaimers(self) -> list[BardToolDeclaimer]:
-        if len(self._attachments) < 23:
+        if not self._attachments or len(self._attachments) < 23:
             return []
 
         return [BardToolDeclaimer(a) for a in self._attachments[22]] if self._attachments[22] else []
