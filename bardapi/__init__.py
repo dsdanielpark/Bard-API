@@ -12,6 +12,7 @@ from bardapi.constants import (
     SEPARATOR_LINE,
     USER_PROMPT,
     IMG_UPLOAD_HEADERS,
+    Tool
 )
 from bardapi.utils import (
     extract_links,
@@ -41,6 +42,7 @@ __all__ = [
     "extract_bard_cookie",
     "max_token",
     "max_sentence",
+    "Tool",
 ]
 __version__ = "0.1.34"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"

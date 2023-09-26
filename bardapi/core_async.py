@@ -1,4 +1,3 @@
-import os
 import json
 import uuid
 import string
@@ -6,10 +5,14 @@ import random
 import base64
 from typing import Optional
 from re import search
-from langdetect import detect
 from httpx import AsyncClient
-from deep_translator import GoogleTranslator
-from google.cloud import translate_v2 as translate
+
+try:
+    from deep_translator import GoogleTranslator
+    from google.cloud import translate_v2 as translate
+except ImportError:
+    pass
+
 from bardapi.constants import (
     ALLOWED_LANGUAGES,
     SESSION_HEADERS,
@@ -18,13 +21,11 @@ from bardapi.constants import (
 from bardapi.utils import (
     extract_links,
     build_input_replit_data_struct,
-    build_image_bard_answer,
     build_export_data_structure,
     build_bard_answer,
     upload_image,
     extract_bard_cookie,
-    build_input_text_struct,
-    build_input_image_struct,
+    build_input_text_struct
 )
 
 
@@ -77,6 +78,12 @@ class BardAsync:
         self.cookie_dict = {"__Secure-1PSID": self.token}
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
+
+        if self.google_translator_api_key is not None:
+            from langdetect import detect
+            from deep_translator import GoogleTranslator
+            from google.cloud import translate_v2 as translate
+
 
     def _get_token(self, token_from_browser: bool) -> dict:
         """

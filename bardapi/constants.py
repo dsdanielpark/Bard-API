@@ -1,3 +1,5 @@
+from enum import Enum
+
 from colorama import Fore
 
 ALLOWED_LANGUAGES = {"en", "ko", "ja", "english", "korean", "japanese"}
@@ -5,7 +7,6 @@ DEFAULT_LANGUAGE = "en"
 SEPARATOR_LINE = "=" * 36
 USER_PROMPT = Fore.BLUE + "You: " + Fore.RESET
 TEXT_GENERATION_WEB_SERVER_PARAM = "boq_assistant-bard-web-server_20230912.07_p1"
-
 
 SESSION_HEADERS = {
     "Host": "bard.google.com",
@@ -54,3 +55,13 @@ REPLIT_SUPPORT_PROGRAM_LANGUAGES = {
     "rust": "main.rs",
     "perl": "main.pl",
 }
+
+
+class Tool(Enum):
+    GMAIL = ["workspace_tool", "Gmail"]
+    GOOGLE_DOCS = ["workspace_tool", "Google Docs"]
+    GOOGLE_DRIVE = ["workspace_tool", "Google Drive"]
+    GOOGLE_FLIGHTS = ["google_flights_tool"]
+    GOOGLE_HOTELS = ["google_hotels_tool"]
+    GOOGLE_MAPS = ["google_map_tool"]
+    YOUTUBE = ["youtube_tool"]
