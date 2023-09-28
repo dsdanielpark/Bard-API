@@ -20,7 +20,7 @@ from bardapi.constants import (
     SESSION_HEADERS,
     REPLIT_SUPPORT_PROGRAM_LANGUAGES,
     TEXT_GENERATION_WEB_SERVER_PARAM,
-    Tool
+    Tool,
 )
 from bardapi.utils import (
     build_input_replit_data_struct,
@@ -28,7 +28,7 @@ from bardapi.utils import (
     build_bard_answer,
     upload_image,
     extract_bard_cookie,
-    build_input_text_struct
+    build_input_text_struct,
 )
 
 
@@ -38,16 +38,16 @@ class Bard:
     """
 
     def __init__(
-            self,
-            token: Optional[str] = None,
-            timeout: int = 20,
-            proxies: Optional[dict] = None,
-            session: Optional[requests.Session] = None,
-            conversation_id: Optional[str] = None,
-            google_translator_api_key: Optional[str] = None,
-            language: Optional[str] = None,
-            run_code: bool = False,
-            token_from_browser: bool = False,
+        self,
+        token: Optional[str] = None,
+        timeout: int = 20,
+        proxies: Optional[dict] = None,
+        session: Optional[requests.Session] = None,
+        conversation_id: Optional[str] = None,
+        google_translator_api_key: Optional[str] = None,
+        language: Optional[str] = None,
+        run_code: bool = False,
+        token_from_browser: bool = False,
     ):
         """
         Initialize the Bard instance.
@@ -152,9 +152,13 @@ class Bard:
             )
         return snim0e.group(1)
 
-    def ask(self, text: str,
-            image: Optional[bytes] = None, image_name: Optional[str] = None,
-            tool: Optional[Tool] = None) -> BardResult:
+    def ask(
+        self,
+        text: str,
+        image: Optional[bytes] = None,
+        image_name: Optional[str] = None,
+        tool: Optional[Tool] = None,
+    ) -> BardResult:
 
         if image is not None:
             image_url = upload_image(image)
@@ -163,9 +167,13 @@ class Bard:
 
         # Make post data structure and insert prompt
         input_text_struct = build_input_text_struct(
-            text, self.conversation_id, self.response_id, self.choice_id,
-            image_url, image_name,
-            tools=[tool.value] if tool is not None else None
+            text,
+            self.conversation_id,
+            self.response_id,
+            self.choice_id,
+            image_url,
+            image_name,
+            tools=[tool.value] if tool is not None else None,
         )
 
         # Get response
@@ -185,9 +193,13 @@ class Bard:
         )
 
         if resp.status_code != 200:
-            raise Exception(f"Response status code is not 200. Response Status is {resp.status_code}")
+            raise Exception(
+                f"Response status code is not 200. Response Status is {resp.status_code}"
+            )
 
-        lines = [line for line in resp.content.splitlines() if line.startswith(b'[["wrb.fr')]
+        lines = [
+            line for line in resp.content.splitlines() if line.startswith(b'[["wrb.fr')
+        ]
         jsons = [json.loads(json.loads(line)[0][2]) for line in lines]
         # Post-processing of response
         resp_json = jsons[-1]
@@ -195,8 +207,8 @@ class Bard:
         if not resp_json:
             raise {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nUnable to get response."
-                           f"\nPlease double-check the cookie values and verify your network environment or google account."
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
 
         res = BardResult(resp_json)
@@ -207,15 +219,19 @@ class Bard:
         self.conversation_id, self.response_id, self.choice_id = (
             res.conversation_id,
             res.response_id,
-            res.drafts[0].id
+            res.drafts[0].id,
         )
         self._reqid += 100000
 
         return res
 
-    def get_answer(self, input_text: str,
-                   image: Optional[bytes] = None, image_name: Optional[str] = None,
-                   tool: Optional[Tool] = None) -> dict:
+    def get_answer(
+        self,
+        input_text: str,
+        image: Optional[bytes] = None,
+        image_name: Optional[str] = None,
+        tool: Optional[Tool] = None,
+    ) -> dict:
         """
         Get an answer from the Bard API for the given input text.
 
@@ -264,16 +280,16 @@ class Bard:
 
         # [Optional] Language translation
         if (
-                self.language is not None
-                and self.language not in ALLOWED_LANGUAGES
-                and self.google_translator_api_key is None
+            self.language is not None
+            and self.language not in ALLOWED_LANGUAGES
+            and self.google_translator_api_key is None
         ):
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             input_text = translator_to_eng.translate(input_text)
         elif (
-                self.language is not None
-                and self.language not in ALLOWED_LANGUAGES
-                and self.google_translator_api_key is not None
+            self.language is not None
+            and self.language not in ALLOWED_LANGUAGES
+            and self.google_translator_api_key is not None
         ):
             input_text = google_official_translator.translate(
                 input_text, target_language="en"
@@ -286,9 +302,13 @@ class Bard:
 
         # Make post data structure and insert prompt
         input_text_struct = build_input_text_struct(
-            input_text, self.conversation_id, self.response_id, self.choice_id,
-            image_url, image_name,
-            tools=[tool.value] if tool is not None else None
+            input_text,
+            self.conversation_id,
+            self.response_id,
+            self.choice_id,
+            image_url,
+            image_name,
+            tools=[tool.value] if tool is not None else None,
         )
 
         data = {
@@ -311,8 +331,8 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nUnable to get response."
-                           f"\nPlease double-check the cookie values and verify your network environment or google account."
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         resp_json = json.loads(resp_dict)
         if resp_json[4] is None:
@@ -356,12 +376,14 @@ class Bard:
             program_lang = (
                 parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
             )
-            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang):]
+            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
         except Exception:
             program_lang, code = None, None
 
         # Returns dictionary object
-        bard_answer = build_bard_answer(parsed_answer, images, program_lang, code, resp.status_code)
+        bard_answer = build_bard_answer(
+            parsed_answer, images, program_lang, code, resp.status_code
+        )
 
         # Update params
         self.conversation_id, self.response_id, self.choice_id = (
@@ -432,8 +454,8 @@ class Bard:
         if not resp_dict:
             return {
                 "content": f"Response Error: {resp.content}. "
-                           f"\nUnable to get response."
-                           f"\nPlease double-check the cookie values and verify your network environment or google account."
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
             }
         resp_json = json.loads(resp_dict)
         audio_b64 = resp_json[0]
@@ -498,7 +520,7 @@ class Bard:
         return {"url": url, "status_code": resp.status_code}
 
     def ask_about_image(
-            self, input_text: str, image: bytes, image_name: str, lang: Optional[str] = None
+        self, input_text: str, image: bytes, image_name: str, lang: Optional[str] = None
     ) -> dict:
         """
         Send Bard image along with question and get answer
@@ -534,11 +556,11 @@ class Bard:
         return self.get_answer(input_text, image, image_name)
 
     def export_replit(
-            self,
-            code: str,
-            program_lang: Optional[str] = None,
-            filename: Optional[str] = None,
-            **kwargs,
+        self,
+        code: str,
+        program_lang: Optional[str] = None,
+        filename: Optional[str] = None,
+        **kwargs,
     ) -> dict:
         """
         Get export URL to repl.it from code

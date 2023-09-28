@@ -12,7 +12,7 @@ from bardapi.constants import (
     SEPARATOR_LINE,
     USER_PROMPT,
     IMG_UPLOAD_HEADERS,
-    Tool
+    Tool,
 )
 from bardapi.utils import (
     extract_links,

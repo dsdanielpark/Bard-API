@@ -25,7 +25,7 @@ from bardapi.utils import (
     build_bard_answer,
     upload_image,
     extract_bard_cookie,
-    build_input_text_struct
+    build_input_text_struct,
 )
 
 
@@ -83,7 +83,6 @@ class BardAsync:
             from langdetect import detect
             from deep_translator import GoogleTranslator
             from google.cloud import translate_v2 as translate
-
 
     def _get_token(self, token_from_browser: bool) -> dict:
         """

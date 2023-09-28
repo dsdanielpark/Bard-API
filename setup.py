@@ -34,16 +34,15 @@ setup(
     url="https://github.com/dsdanielpark/Bard-API",
     packages=find_packages(exclude=[]),
     python_requires=">=3.6",
-    install_requires=[
-        "httpx[http2]>=0.20.0",
-        "requests"
-    ],
+    install_requires=["httpx[http2]>=0.20.0", "requests"],
     extras_require={
-        'full': ["deep_translator",
-                 "colorama",
-                 "google-cloud-translate",
-                 "browser_cookie3",
-                 "langdetect"]
+        "full": [
+            "deep_translator",
+            "colorama",
+            "google-cloud-translate",
+            "browser_cookie3",
+            "langdetect",
+        ]
     },
     keywords="Python, API, Bard, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",
     classifiers=[

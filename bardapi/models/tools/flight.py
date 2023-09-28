@@ -69,7 +69,11 @@ class BardFlightContent(UserContent):
 
     @property
     def flights(self) -> list[BardFlight]:
-        return [BardFlight(flight) for flight in self._input_list[1]] if self._input_list[1] else []
+        return (
+            [BardFlight(flight) for flight in self._input_list[1]]
+            if self._input_list[1]
+            else []
+        )
 
     @property
     def from_airport(self) -> str:
@@ -106,5 +110,6 @@ class BardFlightContent(UserContent):
         return self.title
 
     def markdown_text(self) -> str:
-        return f'## {self.title}\n\n' + '\n\n'.join([str(flight) for flight in self.flights])
-
+        return f"## {self.title}\n\n" + "\n\n".join(
+            [str(flight) for flight in self.flights]
+        )

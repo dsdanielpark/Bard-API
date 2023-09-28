@@ -61,10 +61,18 @@ class BardYoutubeContent(UserContent):
 
     @property
     def videos(self) -> list[BardYoutubeVideo]:
-        return [BardYoutubeVideo(video) for video in self._input_list[4][0]] if self._input_list[4] else []
+        return (
+            [BardYoutubeVideo(video) for video in self._input_list[4][0]]
+            if self._input_list[4]
+            else []
+        )
 
     def __str__(self) -> str:
         return self.search_query
 
     def markdown_text(self) -> str:
-        return self.search_query + "\n" + "\n".join([f"- {video.title}" for video in self.videos])
+        return (
+            self.search_query
+            + "\n"
+            + "\n".join([f"- {video.title}" for video in self.videos])
+        )

@@ -44,7 +44,9 @@ class BardResult:
 
     @property
     def drafts(self) -> list[BardDraft]:
-        return [BardDraft(c) for c in self._input_list[4]] if self._input_list[4] else []
+        return (
+            [BardDraft(c) for c in self._input_list[4]] if self._input_list[4] else []
+        )
 
     @property
     def location(self) -> BardUserLocation:
@@ -68,4 +70,8 @@ class BardResult:
     def tools_applied(self) -> list[BardTool]:
         if len(self._input_list) < 12:
             return []
-        return [BardTool(tool) for tool in self._input_list[11]] if self._input_list[11] else []
+        return (
+            [BardTool(tool) for tool in self._input_list[11]]
+            if self._input_list[11]
+            else []
+        )

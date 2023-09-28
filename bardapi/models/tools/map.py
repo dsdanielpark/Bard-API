@@ -70,10 +70,16 @@ class BardMapsPoint:
 
     @property
     def images(self) -> list:
-        return [{"url": img[0], "author": img[3]} for img in self._input_list[53]] if self._input_list[53] else []
+        return (
+            [{"url": img[0], "author": img[3]} for img in self._input_list[53]]
+            if self._input_list[53]
+            else []
+        )
 
     def __str__(self) -> str:
-        return f'{self.title[0]}, {self.rating}*({self.rating_count}) - {self.place_type}'
+        return (
+            f"{self.title[0]}, {self.rating}*({self.rating_count}) - {self.place_type}"
+        )
 
 
 class BardMapsRoadSection:
@@ -111,7 +117,7 @@ class BardMapsRoadSection:
         return self._input_list[8]
 
     def __str__(self):
-        return f'{self.source} to {self.destination} - {self.duration[1]}({self.distance[1]})'
+        return f"{self.source} to {self.destination} - {self.duration[1]}({self.distance[1]})"
 
 
 class BardMapsDirections:
@@ -164,7 +170,11 @@ class BardMapContent(UserContent):
 
     @property
     def points(self) -> list[BardMapsPoint]:
-        return [BardMapsPoint(point) for point in self._input_list[0][1]] if self._input_list[0] else []
+        return (
+            [BardMapsPoint(point) for point in self._input_list[0][1]]
+            if self._input_list[0]
+            else []
+        )
 
     @property
     def directions(self) -> Optional[BardMapsDirections]:
@@ -174,4 +184,6 @@ class BardMapContent(UserContent):
         return self.title
 
     def markdown_text(self) -> str:
-        return f'# {self.title}\n\n' + '\n\n'.join([f'## {p.title[0]}\n\n{p.description()[0]}' for p in self.points])
+        return f"# {self.title}\n\n" + "\n\n".join(
+            [f"## {p.title[0]}\n\n{p.description()[0]}" for p in self.points]
+        )

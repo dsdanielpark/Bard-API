@@ -23,9 +23,9 @@ def extract_links(data: list) -> list:
                 # recursive
                 links.extend(extract_links(item))
             elif (
-                    isinstance(item, str)
-                    and item.startswith("http")
-                    and "favicon" not in item
+                isinstance(item, str)
+                and item.startswith("http")
+                and "favicon" not in item
             ):
                 links.append(item)
     return links
@@ -174,9 +174,13 @@ def max_sentence(text: str, n: int):
 
 
 def build_input_text_struct(
-        input_text: str, conversation_id: Optional[str], response_id: Optional[str], choice_id: Optional[str],
-        image_url: str = None, image_name: str = None,
-        tools: list[list[str]] = None
+    input_text: str,
+    conversation_id: Optional[str],
+    response_id: Optional[str],
+    choice_id: Optional[str],
+    image_url: str = None,
+    image_name: str = None,
+    tools: list[list[str]] = None,
 ) -> list:
     image_arr = []
     if image_url is not None:
@@ -224,7 +228,11 @@ def build_input_replit_data_struct(instructions: str, code: str, filename: str) 
 
 
 def build_bard_answer(
-        parsed_answer: list, images: list[str], program_lang: str, code: str, status_code: int
+    parsed_answer: list,
+    images: list[str],
+    program_lang: str,
+    code: str,
+    status_code: int,
 ) -> dict:
     return {
         "content": parsed_answer[4][0][1][0],
@@ -242,7 +250,7 @@ def build_bard_answer(
 
 
 def build_export_data_structure(
-        conv_id: int, resp_id: int, choice_id: int, title: str
+    conv_id: int, resp_id: int, choice_id: int, title: str
 ) -> list:
     return [
         [
