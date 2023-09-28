@@ -55,11 +55,11 @@ class BardMapsPoint:
         }
 
     @property
-    def title(self) -> tuple[str, str]:
+    def title(self) -> Tuple[str, str]:
         # Albertsons, "en"
         return self._input_list[30]
 
-    def description(self) -> Optional[tuple[str, str]]:
+    def description(self) -> Optional[Tuple[str, str]]:
         # ['Gourmet groceries, cheeses & baked goods are available at this casual deli in a resort setting.', 'en']
         return self._input_list[51]
 
@@ -137,7 +137,7 @@ class BardMapsDirections:
         return self._map[0]
 
     @property
-    def sections(self) -> list[BardMapsRoadSection]:
+    def sections(self) -> List[BardMapsRoadSection]:
         return [BardMapsRoadSection(s) for s in self._map[1]]
 
     @property
@@ -169,7 +169,7 @@ class BardMapContent(UserContent):
         return self._input_list[2][6][0]
 
     @property
-    def points(self) -> list[BardMapsPoint]:
+    def points(self) -> List[BardMapsPoint]:
         return (
             [BardMapsPoint(point) for point in self._input_list[0][1]]
             if self._input_list[0]
