@@ -2,7 +2,7 @@ from bardapi.models.user_content import UserContent
 
 
 class BardToolDeclaimer(UserContent):
-    """ http://googleusercontent.com/tool_disclaimer_content/1 """
+    """http://googleusercontent.com/tool_disclaimer_content/1"""
 
     def __init__(self, input_list: list):
         self._input_list = input_list

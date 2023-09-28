@@ -159,7 +159,6 @@ class Bard:
         image_name: Optional[str] = None,
         tool: Optional[Tool] = None,
     ) -> BardResult:
-
         if image is not None:
             image_url = upload_image(image)
         else:

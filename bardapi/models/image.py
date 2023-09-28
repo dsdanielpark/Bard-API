@@ -28,7 +28,7 @@ class BardImageContent:
 
     @property
     def key(self) -> str:
-        """ use this to replace the image in the markdown, several images can have the same key """
+        """use this to replace the image in the markdown, several images can have the same key"""
         return self._input_list[2]
 
     @property
