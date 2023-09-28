@@ -2,10 +2,11 @@ from bardapi.models.user_content import UserContent
 
 
 class BardToolDeclaimer(UserContent):
-    """ http://googleusercontent.com/tool_disclaimer_content/1 """
+    """http://googleusercontent.com/tool_disclaimer_content/"""
 
     def __init__(self, input_list: list):
         self._input_list = input_list
+        self.text = self._input_list[1]
 
     @property
     def key(self) -> str:
@@ -13,7 +14,7 @@ class BardToolDeclaimer(UserContent):
 
     @property
     def markdown_text(self) -> str:
-        return self._input_list[1]
+        return "\n".join(["> " + line for line in self.text.split("\n")])
 
     def __str__(self) -> str:
-        return self.markdown_text
+        return self.text[:20]

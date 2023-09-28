@@ -28,15 +28,15 @@ class BardYoutubeVideo:
         return self._input_list[4]
 
     @property
-    def text(self) -> Optional[list[str]]:
-        return self._input_list[5]
+    def text(self) -> str:
+        return self._input_list[5][0] if self._input_list[5] else ""
 
     def __str__(self) -> str:
         return self.title
 
 
 class BardYoutubeContent(UserContent):
-    """http://googleusercontent.com/youtube_content/5"""
+    """http://googleusercontent.com/youtube_content/"""
 
     def __init__(self, input_list: list):
         self._input_list = input_list
@@ -66,5 +66,13 @@ class BardYoutubeContent(UserContent):
     def __str__(self) -> str:
         return self.search_query
 
+    @property
     def markdown_text(self) -> str:
-        return self.search_query + "\n" + "\n".join([f"- {video.title}" for video in self.videos])
+        videos = [
+            f"1. [{video.title}]({video.url}) by {video.author}\n\n   - {video.text}" if video.text else
+            f"1. [{video.title}]({video.url}) by {video.author}"
+            for video in self.videos]
+
+        return (f"#### {self.search_query}\n\n"
+                + "\n".join(videos) +
+                f"\n\n _View related videos on_ [YouTube]({self.search_url})")
