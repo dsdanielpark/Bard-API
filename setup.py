@@ -23,7 +23,6 @@ def get_long_description():
 
 version = get_version()
 
-
 setup(
     name="bardapi",
     version="0.1.34",
@@ -36,14 +35,16 @@ setup(
     packages=find_packages(exclude=[]),
     python_requires=">=3.6",
     install_requires=[
-        "requests",
-        "deep_translator",
-        "colorama",
         "httpx[http2]>=0.20.0",
-        "google-cloud-translate",
-        "browser_cookie3",
-        "langdetect",
+        "requests"
     ],
+    extras_require={
+        'full': ["deep_translator",
+                 "colorama",
+                 "google-cloud-translate",
+                 "browser_cookie3",
+                 "langdetect"]
+    },
     keywords="Python, API, Bard, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",
     classifiers=[
         "Development Status :: 5 - Production/Stable",

@@ -59,13 +59,15 @@ class ChatBard(Bard):
         # Chat history
         self.chat_history = []
 
-    def _init_session(self, token):
+    @staticmethod
+    def _init_session(token):
         session = requests.Session()
         session.headers = SESSION_HEADERS
         session.cookies.set("__Secure-1PSID", token)
         return session
 
-    def _get_api_key(self):
+    @staticmethod
+    def _get_api_key():
         key = input("Enter the Bard API Key(__Secure-1PSID): ")
         if not key:
             print("Bard API(__Secure-1PSID) Key must be entered.")
@@ -149,7 +151,8 @@ class ChatBard(Bard):
 
         print(SEPARATOR_LINE)
 
-    def _is_valid_input(self, user_input: str) -> bool:
+    @staticmethod
+    def _is_valid_input(user_input: str) -> bool:
         """
         Checks if the user input is valid.
 
@@ -167,7 +170,8 @@ class ChatBard(Bard):
             return False
         return True
 
-    def _display_response(self, response: dict) -> None:
+    @staticmethod
+    def _display_response(response: dict) -> None:
         """
         Displays the chatbot's response.
 
