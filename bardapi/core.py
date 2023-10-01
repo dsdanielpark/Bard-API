@@ -6,6 +6,7 @@ import random
 import re
 import string
 import uuid
+import requests
 
 # Third-party imports
 from langdetect import detect
