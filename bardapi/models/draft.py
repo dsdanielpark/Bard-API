@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Union, Dict, Tuple
 
 from bardapi.models.citation import DraftCitation
 from bardapi.models.tools.code import CodeContent
@@ -22,7 +22,7 @@ class BardDraft:
         return self._input_list[1][0]
 
     @property
-    def citations(self) -> list[DraftCitation]:
+    def citations(self) -> List[DraftCitation]:
         text = self.text
         return (
             [DraftCitation(c, text) for c in self._input_list[2][0]]
@@ -31,7 +31,7 @@ class BardDraft:
         )
 
     @property
-    def images(self) -> list[BardImageContent]:
+    def images(self) -> List[BardImageContent]:
         # also in self._attachments[1]
         return (
             [BardImageContent(img) for img in self._input_list[4]]
@@ -49,7 +49,7 @@ class BardDraft:
         return self._input_list[12]
 
     @property
-    def map_content(self) -> list[BardMapContent]:
+    def map_content(self) -> List[BardMapContent]:
         if not self._attachments:
             return []
         return (
@@ -59,7 +59,7 @@ class BardDraft:
         )
 
     @property
-    def gdocs(self) -> list[BardGDocsContent]:
+    def gdocs(self) -> List[BardGDocsContent]:
         if not self._attachments:
             return []
         return (
@@ -69,7 +69,7 @@ class BardDraft:
         )
 
     @property
-    def youtube(self) -> list[BardYoutubeContent]:
+    def youtube(self) -> List[BardYoutubeContent]:
         if not self._attachments:
             return []
         return (
@@ -79,7 +79,7 @@ class BardDraft:
         )
 
     @property
-    def python_code(self) -> list[CodeContent]:
+    def python_code(self) -> List[CodeContent]:
         # Google has a dedicated Python model that can also run code.
         # The text model uses the output of the Python model to generate answers,
         # including answers in other languages.
@@ -94,7 +94,7 @@ class BardDraft:
         )
 
     @property
-    def links(self) -> list[BardLink]:
+    def links(self) -> List[BardLink]:
         if not self._attachments:
             return []
         return (
@@ -102,7 +102,7 @@ class BardDraft:
         )
 
     @property
-    def flights(self) -> list[BardFlightContent]:
+    def flights(self) -> List[BardFlightContent]:
         if not self._attachments:
             return []
         return (
@@ -112,7 +112,7 @@ class BardDraft:
         )
 
     @property
-    def tool_disclaimers(self) -> list[BardToolDeclaimer]:
+    def tool_disclaimers(self) -> List[BardToolDeclaimer]:
         if not self._attachments or len(self._attachments) < 23:
             return []
 
@@ -123,7 +123,7 @@ class BardDraft:
         )
 
     @property
-    def user_content(self) -> dict[str, UserContent]:
+    def user_content(self) -> Dict[str, UserContent]:
         d = {v.key: v for v in self.youtube}
         d.update({v.key: v for v in self.map_content})
         d.update({v.key: v for v in self.flights})
