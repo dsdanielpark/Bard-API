@@ -1,4 +1,4 @@
-from typing import List, Optional, Union, Dict, Tuple
+from typing import list, Optional, Union, Dict, Tuple
 
 from bardapi.models.user_content import UserContent
 
@@ -28,7 +28,7 @@ class BardYoutubeVideo:
         return self._input_list[4]
 
     @property
-    def text(self) -> Optional[List[str]]:
+    def text(self) -> Optional[list[str]]:
         return self._input_list[5]
 
     def __str__(self) -> str:
@@ -60,7 +60,7 @@ class BardYoutubeContent(UserContent):
         return len(self._input_list[4][0])
 
     @property
-    def videos(self) -> List[BardYoutubeVideo]:
+    def videos(self) -> list[BardYoutubeVideo]:
         return (
             [BardYoutubeVideo(video) for video in self._input_list[4][0]]
             if self._input_list[4]

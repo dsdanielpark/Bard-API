@@ -35,7 +35,7 @@ class BardResult:
         self.response_id = self._input_list[1][1]
 
     @property
-    def search_queries(self) -> List[str, int]:
+    def search_queries(self) -> list[str, int]:
         return self._input_list[2]
 
     @property
@@ -43,7 +43,7 @@ class BardResult:
         return self._input_list[3]
 
     @property
-    def drafts(self) -> List[BardDraft]:
+    def drafts(self) -> list[BardDraft]:
         return (
             [BardDraft(c) for c in self._input_list[4]] if self._input_list[4] else []
         )
@@ -67,7 +67,7 @@ class BardResult:
         return self._input_list[10][0]
 
     @property
-    def tools_applied(self) -> List[BardTool]:
+    def tools_applied(self) -> list[BardTool]:
         if len(self._input_list) < 12:
             return []
         return (
