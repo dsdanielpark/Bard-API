@@ -1,4 +1,4 @@
-from typing import list, Optional, Union, Dict, Tuple
+from typing import List, Optional, Union, Dict, Tuple
 
 from bardapi.models.user_content import UserContent
 

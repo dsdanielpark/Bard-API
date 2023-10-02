@@ -1,4 +1,4 @@
-from typing import list, Optional, Union, Dict, Tuple
+from typing import List, Optional, Union, Dict, Tuple
 
 from bardapi.models.citation import DraftCitation
 from bardapi.models.tools.code import CodeContent
