@@ -6,11 +6,11 @@ import random
 import re
 import string
 import uuid
+import requests
 
 # Third-party imports
 from langdetect import detect
 from typing import Optional
-
 try:
     from deep_translator import GoogleTranslator
     from google.cloud import translate_v2 as translate
