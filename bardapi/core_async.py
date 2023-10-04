@@ -4,6 +4,7 @@ import string
 import random
 import base64
 from typing import Optional
+from langdetect import detect
 from re import search
 from httpx import AsyncClient
 
