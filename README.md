@@ -43,7 +43,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 ### Before using the Bard API:
-- The API token for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your ID, so never expose it.
+- The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
 - This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
 - Sending the same question multiple times in requests can also temporarily prevent obtaining normal response results.
 - Some regions may require additional cookie values besides __Secure-1PSID; refer to the issue page.
