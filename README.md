@@ -49,7 +49,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 - Some regions may require additional cookie values besides __Secure-1PSID; refer to the issue page.
 - The __Secure-1PSID cookie value may change frequently. Logout, restart your web browser, and enter the new __Secure-1PSID cookie value.
 - Using this package for real-world applications is highly inappropriate. Due to rate limiting and variable API policies, it will only function temporarily.
-- If the time interval between requests is very short, the computer process may interpret it as performing a large number of requests and may not return normal responses.
+- If the time interval between requests is very short, the Google API process may interpret it as performing a large number of requests and may not return normal responses.
 - All these policies are subject to change, and the interface is also variable.
 
 
