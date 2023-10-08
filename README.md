@@ -43,6 +43,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 ## Before using the Bard API:
+- Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. (It cannot be resolved at the package level.)
 - The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
 - This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
 - Sending the same question multiple times in requests can also temporarily prevent obtaining normal response results.
