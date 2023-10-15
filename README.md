@@ -35,9 +35,9 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [Further](#further)
     - [Behind a proxy](#behind-a-proxy)
     - [Reusable session object](#reusable-session-object)
-  - [Auto Cookie Bard](#auto-cookie-bard)
-  - [Bard `ask_about_image` method](#bard-ask_about_image-method)
-  - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
+    - [Auto Cookie Bard](#auto-cookie-bard)
+    - [Bard `ask_about_image` method](#bard-ask_about_image-method)
+    - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
   - [More features](#more-features)
   - [Before using the Bard API](#before-using-the-bard-api)
 
