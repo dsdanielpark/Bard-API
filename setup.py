@@ -37,12 +37,16 @@ setup(
     install_requires=[
         "httpx[http2]>=0.20.0",
         "requests",
-        "deep_translator",
         "colorama",
-        "google-cloud-translate",
-        "browser_cookie3",
-        "langdetect",
     ],
+    extras_require={
+        "translate": [
+            "browser_cookie3",
+            "deep_translator",
+            "google-cloud-translate",
+            "langdetect",
+        ]
+    },
     keywords="Python, API, Bard, Google Bard, Large Language Model, Chatbot API, Google API, Chatbot",
     classifiers=[
         "Development Status :: 5 - Production/Stable",
