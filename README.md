@@ -28,6 +28,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 - [Google  Bard API](#google--bard-api)
+  - [Before using the Bard API](#before-using-the-bard-api)
   - [What is Google Bard?](#what-is-google-bard)
   - [Install](#install)
   - [Authentication](#authentication)
@@ -42,7 +43,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
-## Before using the Bard API:
+## Before using the Bard API
 - Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., CAPTCHA or HTTP 429 error)
 - The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
 - This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
