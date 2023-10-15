@@ -28,7 +28,6 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 - [Google  Bard API](#google--bard-api)
-  - [Before using the Bard API](#before-using-the-bard-api)
   - [What is Google Bard?](#what-is-google-bard)
   - [Install](#install)
   - [Authentication](#authentication)
@@ -40,20 +39,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [Bard `ask_about_image` method](#bard-ask_about_image-method)
   - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
   - [More features](#more-features)
-
-<br>
-
-## Before using the Bard API
-- Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., CAPTCHA or HTTP 429 error)
-- The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
-- This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
-- Sending the same question multiple times in requests can also temporarily prevent obtaining normal response results.
-- Some regions may require additional cookie values besides __Secure-1PSID; refer to the issue page.
-- The __Secure-1PSID cookie value may change frequently. Logout, restart your web browser, and enter the new __Secure-1PSID cookie value.
-- Using this package for real-world applications is highly inappropriate. Due to rate limiting and variable API policies, it will only function temporarily.
-- If the time interval between requests is very short, the Google API process may interpret it as performing a large number of requests and may not return normal responses.
-- All these policies are subject to change, and the interface is also variable.
-
+  - [Before using the Bard API](#before-using-the-bard-api)
 
 
 
@@ -257,20 +243,72 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#translation-to-another-programming-language)
 
-<br>
-<br>
-<br>
 
 
+
+## Before using the Bard API
+- Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., CAPTCHA or HTTP 429 error)
+- The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
+- This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
+- Sending the same question multiple times in requests can also temporarily prevent obtaining normal response results.
+- Some regions may require additional cookie values besides __Secure-1PSID; refer to the issue page.
+- The __Secure-1PSID cookie value may change frequently. Logout, restart your web browser, and enter the new __Secure-1PSID cookie value.
+- Using this package for real-world applications is highly inappropriate. Due to rate limiting and variable API policies, it will only function temporarily.
+- If the time interval between requests is very short, the Google API process may interpret it as performing a large number of requests and may not return normal responses.
+- All these policies are subject to change, and the interface is also variable.
+
+
+
+<br>
+<br>
 
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
+
+## [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
+
+## Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+<details>
+<summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
+
+<br>
+
+### Usage
+For the decoder models provided by Hugging Face, you can easily use them by either following a simple approach or overriding the inference method. You can explore various open-source language models at [this link](https://huggingface.co/models). Through the ranking information from [Open LLM Leader Board Report repository](https://github.com/dsdanielpark/Open-LLM-Leaderboard-Report), you can find information about good models.
+
+#### For LLM that use languages `other than English`
+```python
+from transllm import LLMtranslator
+
+open_llama3b_kor = LLMtranslator('openlm-research/open_llama_3b', target_lang='ko', translator='google') # Korean
+
+trnaslated_answer = open_llama3b_kor.generate("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+print(trnaslated_answer)
+```
+
+#### For LLM that use `English`
+Refer https://github.com/openlm-research/open_llama or using like this:
+```python
+from transllm import LLMtranslator
+
+open_llama3b = LLMtranslator('openlm-research/open_llama_3b) 
+
+answer = open_llama3b.generate("Tell me about the Korean girl group Newjeans.")
+print(answer)
+```
+
+</details>
+
+
+
 <br>
 
 # Google PaLM API
 You can explore information about various generative AI models by Google. Although the palm2 API seems to be under preparation, you can check out demos related to palm2 on the demo page.
+
 ## PaLM API
 Try demo at https://makersuite.google.com/app/prompts/new_text.
 ```
@@ -314,44 +352,6 @@ print(completion.result)
 ```
 
 <br>
-
-# [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
-
-<br>
-
-## Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-<details>
-<summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
-
-<br>
-
-### Usage
-For the decoder models provided by Hugging Face, you can easily use them by either following a simple approach or overriding the inference method. You can explore various open-source language models at [this link](https://huggingface.co/models). Through the ranking information from [Open LLM Leader Board Report repository](https://github.com/dsdanielpark/Open-LLM-Leaderboard-Report), you can find information about good models.
-
-#### For LLM that use languages `other than English`
-```python
-from transllm import LLMtranslator
-
-open_llama3b_kor = LLMtranslator('openlm-research/open_llama_3b', target_lang='ko', translator='google') # Korean
-
-trnaslated_answer = open_llama3b_kor.generate("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-print(trnaslated_answer)
-```
-
-
-#### For LLM that use `English`
-Refer https://github.com/openlm-research/open_llama or using like this:
-```python
-from transllm import LLMtranslator
-
-open_llama3b = LLMtranslator('openlm-research/open_llama_3b) 
-
-answer = open_llama3b.generate("Tell me about the Korean girl group Newjeans.")
-print(answer)
-```
-
-</details>
 
 <br><br>
 
