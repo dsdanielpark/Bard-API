@@ -68,8 +68,8 @@ class TestBardResult(unittest.TestCase):
 
     def test_flights_and_hotel(self):
         res = BardResult(t11)
-        self.assertEqual(len(res.drafts[0].flights[0].flights), 5)
-        self.assertEqual(len(res.drafts[0].hotels[0].hotels), 1)
+        self.assertEqual(5, len(res.drafts[0].flights[0].flights))
+        self.assertEqual(5, len(res.drafts[0].hotels[0].hotels))
 
     def test_python(self):
         python = BardResult(t7[0])
