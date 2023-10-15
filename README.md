@@ -178,9 +178,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
-<br>
-
-## Auto Cookie Bard
+### Auto Cookie Bard
 Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extract the `__Secure-1PSID` cookie from all browsers, and then we can use the API without passing the token. However, there are still incomplete dependency packages and various variables, so please seek assistance in the following [GitHub Issues](https://github.com/borisbabic/browser_cookie3/issues) or adjust your browser's version.
 - Visit https://bard.google.com/ in your browser and execute the following command while in the chat-enabled state. Refer to browser_cookie3 for details on how it works. If any issues arise, please restart the browser or log in to your Google account again. 
 *Recommended to keep the browser open.*
@@ -192,9 +190,7 @@ res = bard.get_answer("Do you like cookies?")
 print(res['content'])
 ```
 
-<br>
-
-## Bard `ask_about_image` method 
+### Bard `ask_about_image` method 
 *It may not work as it is only available for certain accounts, regions, and other restrictions.*
 As an experimental feature, it is possible to ask questions with an image. However, this functionality is only available for accounts with image upload capability in Bard's web UI. 
 
@@ -207,9 +203,7 @@ bard_answer = bard.ask_about_image('What is in the image?', image)
 print(bard_answer['content'])
 ```
 
-<br>
-
-## [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
+### [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
 Business users and high traffic volume may be subject to account restrictions according to Google's policies. Please use the [Official Google Cloud API](https://cloud.google.com/text-to-speech) for any other purpose. 
 The user is solely responsible for all code, and it is imperative to consult Google's official services and policies. Furthermore, the code in this repository is provided under the MIT license, and it disclaims any liability, including explicit or implied legal responsibilities.
 ```python
@@ -244,7 +238,7 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#translation-to-another-programming-language)
 
 
-
+<br>
 
 ## Before using the Bard API
 - Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., CAPTCHA or HTTP 429 error)
@@ -258,8 +252,6 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - All these policies are subject to change, and the interface is also variable.
 
 
-
-<br>
 <br>
 
 
