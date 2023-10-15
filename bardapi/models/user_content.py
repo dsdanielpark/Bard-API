@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod, abstractproperty
 
 
 class UserContent(ABC):
+    @property
     @abstractmethod
     def key(self) -> str:
         pass

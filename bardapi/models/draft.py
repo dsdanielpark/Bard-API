@@ -3,8 +3,10 @@ from typing import List, Optional, Union, Dict, Tuple
 from bardapi.models.citation import DraftCitation
 from bardapi.models.tools.code import CodeContent
 from bardapi.models.tools.flight import BardFlightContent
-from bardapi.models.tools.gdocs import BardGDocsContent
+from bardapi.models.tools.gworkspace import GoogleWorkspaceContent
 from bardapi.models.image import BardImageContent
+from bardapi.models.tools.hotel import BardHotelContent
+from bardapi.models.tools.json import JsonContent
 from bardapi.models.tools.link import BardLink
 from bardapi.models.tools.map import BardMapContent
 from bardapi.models.tools.tool_declaimer import BardToolDeclaimer
@@ -20,6 +22,15 @@ class BardDraft:
     @property
     def text(self) -> str:
         return self._input_list[1][0]
+
+    @property
+    def text_with_user_content(self) -> str:
+        text = self.text
+        for uc in self.user_content.values():
+            key = uc.key
+            mk = uc.markdown_text
+            text = text.replace(key, "\n" + mk)
+        return text
 
     @property
     def citations(self) -> list[DraftCitation]:
@@ -59,14 +70,16 @@ class BardDraft:
         )
 
     @property
-    def gdocs(self) -> list[BardGDocsContent]:
+    def json_content(self) -> list[JsonContent]:
         if not self._attachments:
             return []
-        return (
-            [BardGDocsContent(a) for a in self._attachments[12][0][2]]
-            if self._attachments[12]
-            else []
-        )
+        return [JsonContent(a) for a in self._attachments[10]] if self._attachments[10] else []
+
+    @property
+    def gworkspace(self) -> list[GoogleWorkspaceContent]:
+        if not self._attachments or len(self._attachments) < 13:
+            return []
+        return [GoogleWorkspaceContent(a) for a in self._attachments[12][0][2]] if self._attachments[12] else []
 
     @property
     def youtube(self) -> list[BardYoutubeContent]:
@@ -87,11 +100,8 @@ class BardDraft:
         # The code snippet is the same for all drafts!
         if not self._attachments:
             return []
-        return (
-            [CodeContent(a) for a in self._attachments[5]]
-            if self._attachments[5] and self._attachments[5][0][3]
-            else []
-        )
+        return [CodeContent(a) for a in self._attachments[5]] if self._attachments[5] and self._attachments[5][0][
+            3] else []
 
     @property
     def links(self) -> list[BardLink]:
@@ -103,13 +113,19 @@ class BardDraft:
 
     @property
     def flights(self) -> list[BardFlightContent]:
-        if not self._attachments:
+        if not self._attachments or len(self._attachments) < 17:
             return []
         return (
             [BardFlightContent(a) for a in self._attachments[16]]
             if self._attachments[16]
             else []
         )
+
+    @property
+    def hotels(self) -> list[BardHotelContent]:
+        if not self._attachments or len(self._attachments) < 19:
+            return []
+        return [BardHotelContent(a) for a in self._attachments[17]] if self._attachments[17] else []
 
     @property
     def tool_disclaimers(self) -> list[BardToolDeclaimer]:
@@ -129,6 +145,8 @@ class BardDraft:
         d.update({v.key: v for v in self.flights})
         d.update({v.key: v for v in self.links})
         d.update({v.key: v for v in self.tool_disclaimers})
+        d.update({v.key: v for v in self.json_content})
+        d.update({v.key: v for v in self.hotels})
         return d
 
     def __str__(self) -> str:

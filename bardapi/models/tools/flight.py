@@ -22,19 +22,19 @@ class BardFlight:
         return self._input_list[0][1]
 
     @property
-    def from_airport(self) -> str:
+    def departure_airport(self) -> str:
         return self._input_list[0][2]
 
     @property
-    def to_airport(self) -> str:
+    def arrival_airport(self) -> str:
         return self._input_list[0][3]
 
     @property
-    def from_time(self) -> str:
+    def departure_time(self) -> str:
         return self._input_list[0][7]
 
     @property
-    def to_time(self) -> str:
+    def arrival_time(self) -> str:
         return self._input_list[0][8]
 
     @property
@@ -46,11 +46,11 @@ class BardFlight:
         return self._input_list[0][6]
 
     def __str__(self) -> str:
-        return f'{",".join(self.airlines)} - {self.from_airport} to {self.to_airport} - {self.from_time} to {self.to_time} - {self.price}'
+        return f'{",".join(self.airlines)} - {self.departure_airport} to {self.arrival_airport} - {self.departure_time} to {self.arrival_time} - {self.price}'
 
 
 class BardFlightContent(UserContent):
-    """http://googleusercontent.com/flight_content/0"""
+    """http://googleusercontent.com/flight_content/"""
 
     def __init__(self, input_list: list):
         self._input_list = input_list
@@ -109,7 +109,6 @@ class BardFlightContent(UserContent):
     def __str__(self) -> str:
         return self.title
 
+    @property
     def markdown_text(self) -> str:
-        return f"## {self.title}\n\n" + "\n\n".join(
-            [str(flight) for flight in self.flights]
-        )
+        return f'#### {self.title}\n\n' + '\n'.join([" * " + str(flight) for flight in self.flights])

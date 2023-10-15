@@ -1,8 +1,4 @@
 # Automatically generated using PDM. Do not edit manually. 
 requests
-deep_translator
 colorama
 httpx[http2]>=0.20.0
-browser-cookie3
-google-cloud-translate
-langdetect
