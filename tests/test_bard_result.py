@@ -45,12 +45,20 @@ class TestBardResult(unittest.TestCase):
 
         maps9 = BardResult(t9)
         self.assertEqual("Rv52", maps9.drafts[0].map_content[1].directions.road_name)
-        self.assertTrue(maps9.drafts[0].map_content[1].directions.url.startswith("https://www.google.com/maps/dir/"))
+        self.assertTrue(
+            maps9.drafts[0]
+            .map_content[1]
+            .directions.url.startswith("https://www.google.com/maps/dir/")
+        )
         self.assertEqual(2, len(maps9.drafts[0].map_content[1].directions.sections))
         self.assertFalse(maps9.drafts[0].python_code)
 
-        self.assertFalse("http://googleusercontent.com/" in maps4.drafts[0].text_with_user_content)
-        self.assertFalse("http://googleusercontent.com/" in maps9.drafts[0].text_with_user_content)
+        self.assertFalse(
+            "http://googleusercontent.com/" in maps4.drafts[0].text_with_user_content
+        )
+        self.assertFalse(
+            "http://googleusercontent.com/" in maps9.drafts[0].text_with_user_content
+        )
 
     def test_google_workspace(self):
         drive4 = BardResult(t4[4])
@@ -59,7 +67,9 @@ class TestBardResult(unittest.TestCase):
     def test_youtube(self):
         video4 = BardResult(t5[4])
         self.assertEqual(len(video4.drafts[0].youtube[0]), 5)
-        self.assertFalse("http://googleusercontent.com/" in video4.drafts[0].text_with_user_content)
+        self.assertFalse(
+            "http://googleusercontent.com/" in video4.drafts[0].text_with_user_content
+        )
 
     def test_flights(self):
         flights4 = BardResult(t6[4])
@@ -79,7 +89,10 @@ class TestBardResult(unittest.TestCase):
     def test_citations(self):
         citations = BardResult(t8[0])
         self.assertEqual(len(citations.drafts[0].citations), 2)
-        self.assertFalse("http://googleusercontent.com/" in citations.drafts[0].text_with_user_content)
+        self.assertFalse(
+            "http://googleusercontent.com/"
+            in citations.drafts[0].text_with_user_content
+        )
 
     def test_summary(self):
         summary = BardResult(t10)

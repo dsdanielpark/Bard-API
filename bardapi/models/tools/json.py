@@ -25,5 +25,3 @@ class JsonContent(UserContent):
 
     def __str__(self) -> str:
         return self.json_text[:20]
-
-

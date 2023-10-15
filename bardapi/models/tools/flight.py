@@ -111,4 +111,6 @@ class BardFlightContent(UserContent):
 
     @property
     def markdown_text(self) -> str:
-        return f'#### {self.title}\n\n' + '\n'.join([" * " + str(flight) for flight in self.flights])
+        return f"#### {self.title}\n\n" + "\n".join(
+            [" * " + str(flight) for flight in self.flights]
+        )

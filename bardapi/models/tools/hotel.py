@@ -41,8 +41,10 @@ class BardHotel:
         return f"{self.name} {self.stars}★({self.rating_count})\n{self.description} {self.price}"
 
     def markdown_text(self):
-        return (f'**{self.name}** {self.stars}★({self.rating_count}) - {self.price}\n   - ![]({self.images[0]})'
-                f'\n   - {self.description}')
+        return (
+            f"**{self.name}** {self.stars}★({self.rating_count}) - {self.price}\n   - ![]({self.images[0]})"
+            f"\n   - {self.description}"
+        )
 
 
 class BardHotelContent(UserContent):
@@ -51,7 +53,10 @@ class BardHotelContent(UserContent):
 
     @property
     def hotels(self) -> list[BardHotel]:
-        return [BardHotel(h) for h in self._input_list[0]] if self._input_list[0] else []
+        return (
+            [BardHotel(h) for h in self._input_list[0]] if self._input_list[0] else []
+        )
+
     @property
     def key(self) -> str:
         return self._input_list[2][0]
@@ -85,4 +90,6 @@ class BardHotelContent(UserContent):
 
     @property
     def markdown_text(self) -> str:
-        return f'#### {self.full_title}\n\n' + '\n'.join(["1. " + flight.markdown_text() for flight in self.hotels])
+        return f"#### {self.full_title}\n\n" + "\n".join(
+            ["1. " + flight.markdown_text() for flight in self.hotels]
+        )

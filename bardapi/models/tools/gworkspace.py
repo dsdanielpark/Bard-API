@@ -23,7 +23,11 @@ class GoogleWorkspaceContent:
 
     @property
     def kind(self) -> GoogleWorkspaceContentKind:
-        return GoogleWorkspaceContentKind(self._input_list[0][0]) if self._input_list[0]<5 else GoogleWorkspaceContentKind.UNKNOWN
+        return (
+            GoogleWorkspaceContentKind(self._input_list[0][0])
+            if self._input_list[0] < 5
+            else GoogleWorkspaceContentKind.UNKNOWN
+        )
 
     def icon(self) -> str:
         di = {

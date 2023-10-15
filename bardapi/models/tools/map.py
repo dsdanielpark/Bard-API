@@ -88,7 +88,7 @@ class BardMapsPoint:
             place_type = " - " + place_type[0]
         else:
             place_type = ""
-        return f'{self.title[0]}{place_type}'
+        return f"{self.title[0]}{place_type}"
 
     def markdown(self) -> str:
         description = self.description()
@@ -102,7 +102,7 @@ class BardMapsPoint:
             place_type = place_type[0]
         else:
             place_type = ""
-        return f'{self.title[0]}\n{place_type} {self.rating}★({self.rating_count}){description}'
+        return f"{self.title[0]}\n{place_type} {self.rating}★({self.rating_count}){description}"
 
 
 class TravelMode(Enum):
@@ -148,7 +148,7 @@ class BardMapsRoadSection:
         return self._input_list[8]
 
     def __str__(self):
-        return f'{self.start_location} to {self.end_location} - {self.duration[1]}({self.distance[1]})'
+        return f"{self.start_location} to {self.end_location} - {self.duration[1]}({self.distance[1]})"
 
 
 class BardMapsDirections:
@@ -216,11 +216,11 @@ class BardMapContent(UserContent):
 
     @property
     def markdown_text(self) -> str:
-        res = f'# {self.title}\n\n'
+        res = f"# {self.title}\n\n"
         if self.directions:
-            res += f'## {self.directions}\n\n'
+            res += f"## {self.directions}\n\n"
 
         if self.points:
-            res += '\n\n'.join([f'## {p.markdown()}' for p in self.points])
+            res += "\n\n".join([f"## {p.markdown()}" for p in self.points])
 
         return res

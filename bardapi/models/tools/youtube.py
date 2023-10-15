@@ -73,10 +73,14 @@ class BardYoutubeContent(UserContent):
     @property
     def markdown_text(self) -> str:
         videos = [
-            f"1. [{video.title}]({video.url}) by {video.author}\n\n   - {video.text}" if video.text else
-            f"1. [{video.title}]({video.url}) by {video.author}"
-            for video in self.videos]
+            f"1. [{video.title}]({video.url}) by {video.author}\n\n   - {video.text}"
+            if video.text
+            else f"1. [{video.title}]({video.url}) by {video.author}"
+            for video in self.videos
+        ]
 
-        return (f"#### {self.search_query}\n\n"
-                + "\n".join(videos) +
-                f"\n\n _View related videos on_ [YouTube]({self.search_url})")
+        return (
+            f"#### {self.search_query}\n\n"
+            + "\n".join(videos)
+            + f"\n\n _View related videos on_ [YouTube]({self.search_url})"
+        )

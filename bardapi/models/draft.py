@@ -73,13 +73,21 @@ class BardDraft:
     def json_content(self) -> list[JsonContent]:
         if not self._attachments:
             return []
-        return [JsonContent(a) for a in self._attachments[10]] if self._attachments[10] else []
+        return (
+            [JsonContent(a) for a in self._attachments[10]]
+            if self._attachments[10]
+            else []
+        )
 
     @property
     def gworkspace(self) -> list[GoogleWorkspaceContent]:
         if not self._attachments or len(self._attachments) < 13:
             return []
-        return [GoogleWorkspaceContent(a) for a in self._attachments[12][0][2]] if self._attachments[12] else []
+        return (
+            [GoogleWorkspaceContent(a) for a in self._attachments[12][0][2]]
+            if self._attachments[12]
+            else []
+        )
 
     @property
     def youtube(self) -> list[BardYoutubeContent]:
@@ -100,8 +108,11 @@ class BardDraft:
         # The code snippet is the same for all drafts!
         if not self._attachments:
             return []
-        return [CodeContent(a) for a in self._attachments[5]] if self._attachments[5] and self._attachments[5][0][
-            3] else []
+        return (
+            [CodeContent(a) for a in self._attachments[5]]
+            if self._attachments[5] and self._attachments[5][0][3]
+            else []
+        )
 
     @property
     def links(self) -> list[BardLink]:
@@ -125,7 +136,11 @@ class BardDraft:
     def hotels(self) -> list[BardHotelContent]:
         if not self._attachments or len(self._attachments) < 19:
             return []
-        return [BardHotelContent(a) for a in self._attachments[17]] if self._attachments[17] else []
+        return (
+            [BardHotelContent(a) for a in self._attachments[17]]
+            if self._attachments[17]
+            else []
+        )
 
     @property
     def tool_disclaimers(self) -> list[BardToolDeclaimer]:
