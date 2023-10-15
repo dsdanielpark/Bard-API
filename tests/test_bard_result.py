@@ -11,24 +11,36 @@ class TestBardResult(unittest.TestCase):
 
     def test_topic(self):
         img1 = BardResult(t1[1])
-        self.assertEqual(img1.topic, 'Orcas in the wild')
+        self.assertEqual(img1.topic, "Orcas in the wild")
 
     def test_2images(self):
         img2 = BardResult(t2)
-        self.assertEqual(img2.search_queries, [['2 pictures of orcas', 1],
-                                               ['Why is orca called Killer?', 4],
-                                               ['What do orcas look like?', 4]])
+        self.assertEqual(
+            img2.search_queries,
+            [
+                ["2 pictures of orcas", 1],
+                ["Why is orca called Killer?", 4],
+                ["What do orcas look like?", 4],
+            ],
+        )
 
         # images can be separated by key
-        self.assertEqual('[Image of Two orcas breaching the water]', img2.drafts[0].images[0].key)
-        self.assertEqual('[Image of Two orcas swimming together]', img2.drafts[0].images[1].key)
+        self.assertEqual(
+            "[Image of Two orcas breaching the water]", img2.drafts[0].images[0].key
+        )
+        self.assertEqual(
+            "[Image of Two orcas swimming together]", img2.drafts[0].images[1].key
+        )
         # or merged on an album
-        self.assertEqual('[2 Images of orcas]', img2.drafts[1].images[0].key)
-        self.assertEqual('[2 Images of orcas]', img2.drafts[1].images[1].key)
+        self.assertEqual("[2 Images of orcas]", img2.drafts[1].images[0].key)
+        self.assertEqual("[2 Images of orcas]", img2.drafts[1].images[1].key)
 
     def test_map_content(self):
         maps4 = BardResult(t3[4])
-        self.assertEqual('http://googleusercontent.com/map_content/0', maps4.drafts[0].map_content[0].key)
+        self.assertEqual(
+            "http://googleusercontent.com/map_content/0",
+            maps4.drafts[0].map_content[0].key,
+        )
         self.assertEqual(10, len(maps4.drafts[0].map_content[0].points[4].images))
 
         maps9 = BardResult(t9)

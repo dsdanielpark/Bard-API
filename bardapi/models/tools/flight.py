@@ -69,7 +69,11 @@ class BardFlightContent(UserContent):
 
     @property
     def flights(self) -> list[BardFlight]:
-        return [BardFlight(flight) for flight in self._input_list[1]] if self._input_list[1] else []
+        return (
+            [BardFlight(flight) for flight in self._input_list[1]]
+            if self._input_list[1]
+            else []
+        )
 
     @property
     def from_airport(self) -> str:

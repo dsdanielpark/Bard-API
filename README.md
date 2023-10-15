@@ -11,9 +11,9 @@ Development Status :: 5 - Production/Stable
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%23000000&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=BardAPI&edge_flat=false"/></a>
 <a href="https://github.com/dsdanielpark/Bard-API/stargazers"><img src="https://img.shields.io/github/stars/dsdanielpark/Bard-API?style=social"></a>
 <a href="https://pypi.org/project/bardapi/"><img alt="PyPI" src="https://img.shields.io/pypi/v/bardapi"></a>
-
+<a href="https://www.buymeacoffee.com/parkminwoo"><img src="https://cdn.buymeacoffee.com/buttons/v2/arial-orange.png" height="20px"></a>
+  
 </p>
-
 
 
 > The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
@@ -35,10 +35,12 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [Further](#further)
     - [Behind a proxy](#behind-a-proxy)
     - [Reusable session object](#reusable-session-object)
-  - [Auto Cookie Bard](#auto-cookie-bard)
-  - [Bard `ask_about_image` method](#bard-ask_about_image-method)
-  - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
+    - [Auto Cookie Bard](#auto-cookie-bard)
+    - [Bard `ask_about_image` method](#bard-ask_about_image-method)
+    - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
   - [More features](#more-features)
+  - [Before using the Bard API](#before-using-the-bard-api)
+
 
 
 <br>
@@ -73,7 +75,7 @@ Cookie value subject to frequent changes. Verify the value again if an error occ
 
 If you need to set multiple Cookie values
 
-- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/bardapi/core_cookies.py) - After confirming that multiple cookie values are required to receive responses reliably in certain countries, I will deploy it for testing purposes. Please debug and create a pull request
+- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-cookie-bard) - After confirming that multiple cookie values are required to receive responses reliably in certain countries, I will deploy it for testing purposes. Please debug and create a pull request
 
 
 <br>
@@ -176,9 +178,7 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 bard.get_answer("What is my last prompt??")['content']
 ```
 
-<br>
-
-## Auto Cookie Bard
+### Auto Cookie Bard
 Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extract the `__Secure-1PSID` cookie from all browsers, and then we can use the API without passing the token. However, there are still incomplete dependency packages and various variables, so please seek assistance in the following [GitHub Issues](https://github.com/borisbabic/browser_cookie3/issues) or adjust your browser's version.
 - Visit https://bard.google.com/ in your browser and execute the following command while in the chat-enabled state. Refer to browser_cookie3 for details on how it works. If any issues arise, please restart the browser or log in to your Google account again. 
 *Recommended to keep the browser open.*
@@ -190,9 +190,7 @@ res = bard.get_answer("Do you like cookies?")
 print(res['content'])
 ```
 
-<br>
-
-## Bard `ask_about_image` method 
+### Bard `ask_about_image` method 
 *It may not work as it is only available for certain accounts, regions, and other restrictions.*
 As an experimental feature, it is possible to ask questions with an image. However, this functionality is only available for accounts with image upload capability in Bard's web UI. 
 
@@ -205,9 +203,7 @@ bard_answer = bard.ask_about_image('What is in the image?', image)
 print(bard_answer['content'])
 ```
 
-<br>
-
-## [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
+### [Text To Speech(TTS)](https://cloud.google.com/text-to-speech?hl=ko) from Bard
 Business users and high traffic volume may be subject to account restrictions according to Google's policies. Please use the [Official Google Cloud API](https://cloud.google.com/text-to-speech) for any other purpose. 
 The user is solely responsible for all code, and it is imperative to consult Google's official services and policies. Furthermore, the code in this repository is provided under the MIT license, and it disclaims any liability, including explicit or implied legal responsibilities.
 ```python
@@ -241,20 +237,70 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#translation-to-another-programming-language)
 
-<br>
-<br>
+
 <br>
 
+## Before using the Bard API
+- Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., CAPTCHA or HTTP 429 error)
+- The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
+- This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
+- Sending the same question multiple times in requests can also temporarily prevent obtaining normal response results.
+- Some regions may require additional cookie values besides __Secure-1PSID; refer to the issue page.
+- The __Secure-1PSID cookie value may change frequently. Logout, restart your web browser, and enter the new __Secure-1PSID cookie value.
+- Using this package for real-world applications is highly inappropriate. Due to rate limiting and variable API policies, it will only function temporarily.
+- If the time interval between requests is very short, the Google API process may interpret it as performing a large number of requests and may not return normal responses.
+- All these policies are subject to change, and the interface is also variable.
 
+
+<br>
 
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
+
+## [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
+
+## Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+<details>
+<summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
+
+<br>
+
+### Usage
+For the decoder models provided by Hugging Face, you can easily use them by either following a simple approach or overriding the inference method. You can explore various open-source language models at [this link](https://huggingface.co/models). Through the ranking information from [Open LLM Leader Board Report repository](https://github.com/dsdanielpark/Open-LLM-Leaderboard-Report), you can find information about good models.
+
+#### For LLM that use languages `other than English`
+```python
+from transllm import LLMtranslator
+
+open_llama3b_kor = LLMtranslator('openlm-research/open_llama_3b', target_lang='ko', translator='google') # Korean
+
+trnaslated_answer = open_llama3b_kor.generate("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+print(trnaslated_answer)
+```
+
+#### For LLM that use `English`
+Refer https://github.com/openlm-research/open_llama or using like this:
+```python
+from transllm import LLMtranslator
+
+open_llama3b = LLMtranslator('openlm-research/open_llama_3b) 
+
+answer = open_llama3b.generate("Tell me about the Korean girl group Newjeans.")
+print(answer)
+```
+
+</details>
+
+
+
 <br>
 
 # Google PaLM API
 You can explore information about various generative AI models by Google. Although the palm2 API seems to be under preparation, you can check out demos related to palm2 on the demo page.
+
 ## PaLM API
 Try demo at https://makersuite.google.com/app/prompts/new_text.
 ```
@@ -298,44 +344,6 @@ print(completion.result)
 ```
 
 <br>
-
-# [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
-
-<br>
-
-## Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-<details>
-<summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
-
-<br>
-
-### Usage
-For the decoder models provided by Hugging Face, you can easily use them by either following a simple approach or overriding the inference method. You can explore various open-source language models at [this link](https://huggingface.co/models). Through the ranking information from [Open LLM Leader Board Report repository](https://github.com/dsdanielpark/Open-LLM-Leaderboard-Report), you can find information about good models.
-
-#### For LLM that use languages `other than English`
-```python
-from transllm import LLMtranslator
-
-open_llama3b_kor = LLMtranslator('openlm-research/open_llama_3b', target_lang='ko', translator='google') # Korean
-
-trnaslated_answer = open_llama3b_kor.generate("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-print(trnaslated_answer)
-```
-
-
-#### For LLM that use `English`
-Refer https://github.com/openlm-research/open_llama or using like this:
-```python
-from transllm import LLMtranslator
-
-open_llama3b = LLMtranslator('openlm-research/open_llama_3b) 
-
-answer = open_llama3b.generate("Tell me about the Korean girl group Newjeans.")
-print(answer)
-```
-
-</details>
 
 <br><br>
 

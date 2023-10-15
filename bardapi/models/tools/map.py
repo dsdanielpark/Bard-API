@@ -1,5 +1,5 @@
 from enum import Enum
-from typing import Optional
+from typing import List, Optional, Union, Dict, Tuple
 
 from bardapi.models.user_content import UserContent
 
@@ -56,12 +56,12 @@ class BardMapsPoint:
         }
 
     @property
-    def title(self) -> tuple[str, str]:
+    def title(self) -> Tuple[str, str]:
         # Albertsons, "en"
         return self._input_list[30]
 
     @property
-    def place_type_and_lang(self) -> Optional[tuple[str, str]]:
+    def place_type_and_lang(self) -> Optional[Tuple[str, str]]:
         # ['Grocery store', 'en']
         return self._input_list[31]
 
@@ -70,13 +70,17 @@ class BardMapsPoint:
         # grocery_store
         return self._input_list[49]  # same [31], "en"
 
-    def description(self) -> Optional[tuple[str, str]]:
+    def description(self) -> Optional[Tuple[str, str]]:
         # ['Gourmet groceries, cheeses & baked goods are available at this casual deli in a resort setting.', 'en']
         return self._input_list[51]
 
     @property
     def images(self) -> list:
-        return [{"url": img[0], "author": img[3]} for img in self._input_list[53]] if self._input_list[53] else []
+        return (
+            [{"url": img[0], "author": img[3]} for img in self._input_list[53]]
+            if self._input_list[53]
+            else []
+        )
 
     def __str__(self) -> str:
         place_type = self.place_type_and_lang
@@ -164,7 +168,7 @@ class BardMapsDirections:
         return self._map[0]
 
     @property
-    def sections(self) -> list[BardMapsRoadSection]:
+    def sections(self) -> List[BardMapsRoadSection]:
         return [BardMapsRoadSection(s) for s in self._map[1]]
 
     @property
@@ -196,8 +200,12 @@ class BardMapContent(UserContent):
         return self._input_list[2][6][0]
 
     @property
-    def points(self) -> list[BardMapsPoint]:
-        return [BardMapsPoint(point) for point in self._input_list[0][1]] if self._input_list[0] else []
+    def points(self) -> List[BardMapsPoint]:
+        return (
+            [BardMapsPoint(point) for point in self._input_list[0][1]]
+            if self._input_list[0]
+            else []
+        )
 
     @property
     def directions(self) -> Optional[BardMapsDirections]:

@@ -2,7 +2,6 @@ from bardapi.models.user_content import UserContent
 
 
 class BardLink(UserContent):
-
     def __init__(self, input_list: list):
         self._input_list = input_list
 
@@ -19,4 +18,4 @@ class BardLink(UserContent):
 
     @property
     def markdown_text(self) -> str:
-        return f'[{self.url}]({self.url})'
+        return f"[{self.url}]({self.url})"

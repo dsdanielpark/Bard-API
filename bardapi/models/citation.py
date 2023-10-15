@@ -1,5 +1,5 @@
 class DraftCitation:
-    """ Github source
+    """Github source
     [[909, 1095, ['', 'edelahoz/Introduction-to-Python                 ', '', '', '', None, None, '', False, '', '', '', '', '', '',   ''], 1, 100, None, [1]],
     [940, 1139,  ['', 'Engr-Asad-Hussain/oop                           ', '', '', '', None, None, '', False, '', '', '', '', '', '',   ''], 1, 100, None, [1]],
     [953, 1166,  ['', 'TeknikhogskolanGothenburg/PGBPYH21_Programmering', '', '', '', None, None, '', False, '', '', '', '', '', '',   ''], 1, 100, None, [1]]]
@@ -17,7 +17,7 @@ class DraftCitation:
         if self.span[0] is None or self.span[1] is None:
             self.text = ""
         else:
-            self.text: str = text[self.span[0]:self.span[1]]
+            self.text: str = text[self.span[0] : self.span[1]]
 
     @property
     def source_path(self) -> str:

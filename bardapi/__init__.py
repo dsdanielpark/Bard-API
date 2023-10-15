@@ -12,7 +12,7 @@ from bardapi.constants import (
     SEPARATOR_LINE,
     USER_PROMPT,
     IMG_UPLOAD_HEADERS,
-    Tool
+    Tool,
 )
 from bardapi.utils import (
     extract_links,
@@ -44,5 +44,5 @@ __all__ = [
     "max_sentence",
     "Tool",
 ]
-__version__ = "0.1.34"
+__version__ = "0.1.38"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"

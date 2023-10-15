@@ -1,4 +1,4 @@
-from typing import Optional
+from typing import List, Optional, Union, Dict, Tuple
 
 from bardapi.models.citation import DraftCitation
 from bardapi.models.tools.code import CodeContent
@@ -35,16 +35,20 @@ class BardDraft:
     @property
     def citations(self) -> list[DraftCitation]:
         text = self.text
-        return [DraftCitation(c, text) for c in self._input_list[2][0]] if self._input_list[2] else []
+        return (
+            [DraftCitation(c, text) for c in self._input_list[2][0]]
+            if self._input_list[2]
+            else []
+        )
 
     @property
     def images(self) -> list[BardImageContent]:
         # also in self._attachments[1]
-        # hc in test.js
-        return [BardImageContent(img) for img in self._input_list[4]] if self._input_list[4] else []
-
-    # shopping = BN
-    #
+        return (
+            [BardImageContent(img) for img in self._input_list[4]]
+            if self._input_list[4]
+            else []
+        )
 
     @property
     def language(self) -> str:
@@ -53,14 +57,17 @@ class BardDraft:
 
     @property
     def _attachments(self) -> Optional[list]:
-        # Kb in test.js
         return self._input_list[12]
 
     @property
     def map_content(self) -> list[BardMapContent]:
         if not self._attachments:
             return []
-        return [BardMapContent(a) for a in self._attachments[3]] if self._attachments[3] else []
+        return (
+            [BardMapContent(a) for a in self._attachments[3]]
+            if self._attachments[3]
+            else []
+        )
 
     @property
     def json_content(self) -> list[JsonContent]:
@@ -76,10 +83,13 @@ class BardDraft:
 
     @property
     def youtube(self) -> list[BardYoutubeContent]:
-        # an in test.js
         if not self._attachments:
             return []
-        return [BardYoutubeContent(a) for a in self._attachments[4]] if self._attachments[4] else []
+        return (
+            [BardYoutubeContent(a) for a in self._attachments[4]]
+            if self._attachments[4]
+            else []
+        )
 
     @property
     def python_code(self) -> list[CodeContent]:
@@ -97,13 +107,19 @@ class BardDraft:
     def links(self) -> list[BardLink]:
         if not self._attachments:
             return []
-        return [BardLink(a) for a in self._attachments[8]] if self._attachments[8] else []
+        return (
+            [BardLink(a) for a in self._attachments[8]] if self._attachments[8] else []
+        )
 
     @property
     def flights(self) -> list[BardFlightContent]:
         if not self._attachments or len(self._attachments) < 17:
             return []
-        return [BardFlightContent(a) for a in self._attachments[16]] if self._attachments[16] else []
+        return (
+            [BardFlightContent(a) for a in self._attachments[16]]
+            if self._attachments[16]
+            else []
+        )
 
     @property
     def hotels(self) -> list[BardHotelContent]:
@@ -113,14 +129,17 @@ class BardDraft:
 
     @property
     def tool_disclaimers(self) -> list[BardToolDeclaimer]:
-        # nY in test.js
         if not self._attachments or len(self._attachments) < 23:
             return []
 
-        return [BardToolDeclaimer(a) for a in self._attachments[22]] if self._attachments[22] else []
+        return (
+            [BardToolDeclaimer(a) for a in self._attachments[22]]
+            if self._attachments[22]
+            else []
+        )
 
     @property
-    def user_content(self) -> dict[str, UserContent]:
+    def user_content(self) -> Dict[str, UserContent]:
         d = {v.key: v for v in self.youtube}
         d.update({v.key: v for v in self.map_content})
         d.update({v.key: v for v in self.flights})

@@ -4,6 +4,7 @@ import string
 import random
 import base64
 from typing import Optional
+from langdetect import detect
 from re import search
 from httpx import AsyncClient
 
@@ -25,7 +26,7 @@ from bardapi.utils import (
     build_bard_answer,
     upload_image,
     extract_bard_cookie,
-    build_input_text_struct
+    build_input_text_struct,
 )
 
 
@@ -83,7 +84,6 @@ class BardAsync:
             from langdetect import detect
             from deep_translator import GoogleTranslator
             from google.cloud import translate_v2 as translate
-
 
     def _get_token(self, token_from_browser: bool) -> dict:
         """
@@ -216,7 +216,6 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
             follow_redirects=True,
             headers=SESSION_HEADERS,
             cookies=self.cookie_dict,
@@ -368,7 +367,6 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
         )
 
         # Post-processing of response
@@ -454,7 +452,6 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
         )
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -563,7 +560,6 @@ class BardAsync:
             params=params,
             data=data,
             timeout=self.timeout,
-            proxies=self.proxies,
         )
 
         resp_dict = json.loads(resp.content.splitlines()[3])
@@ -679,7 +675,6 @@ class BardAsync:
             "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
-            proxies=self.proxies,
         )
 
         # Post-processing of response
