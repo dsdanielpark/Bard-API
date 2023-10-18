@@ -23,7 +23,7 @@ Development Status :: 5 - Production/Stable
 
 **Please exercise caution and use this package responsibly.**
 
-I referred to this github repository([github.com/acheong08/Bard](https://github.com/acheong08/Bard)) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. This package is designed for application to the Python package [ExceptNotifier](https://github.com/dsdanielpark/ExceptNotifier) and [Co-Coder](https://github.com/dsdanielpark/Co-Coder). Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes. If you have access to official [PaLM-2 API](https://blog.google/technology/ai/google-palm-2-ai-large-language-model/), replace the provided response with the corresponding official code.
+I referred to this github repository([github.com/acheong08/Bard](https://github.com/acheong08/Bard)) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes. If you have access to official [PaLM-2 API](https://blog.google/technology/ai/google-palm-2-ai-large-language-model/), replace the provided response with the corresponding official code.
 
 <br>
 
@@ -259,19 +259,6 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 
 <br>
 
-## Before using the Bard API
-- Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., CAPTCHA or HTTP 429 error)
-- The API token(__Secure-1PSID cookie value) for this service is unofficial. Additionally, exposing it can allow others to easily use the Bard service with your Google ID, so never expose it.
-- This service has very limited and variable call limits per unit of time, and exceeding rate limiting temporarily prevents obtaining normal response results.
-- Sending the same question multiple times in requests can also temporarily prevent obtaining normal response results.
-- Some regions may require additional cookie values besides __Secure-1PSID; refer to the issue page.
-- The __Secure-1PSID cookie value may change frequently. Logout, restart your web browser, and enter the new __Secure-1PSID cookie value.
-- Using this package for real-world applications is highly inappropriate. Due to rate limiting and variable API policies, it will only function temporarily.
-- If the time interval between requests is very short, the Google API process may interpret it as performing a large number of requests and may not return normal responses.
-- All these policies are subject to change, and the interface is also variable.
-
-
-<br>
 
 
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
