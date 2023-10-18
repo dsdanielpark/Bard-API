@@ -39,7 +39,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
     - [Bard `ask_about_image` method](#bard-ask_about_image-method)
     - [Text To Speech(TTS) from Bard](#text-to-speechtts-from-bard)
   - [More features](#more-features)
-  - [Before using the Bard API](#before-using-the-bard-api)
+  - [Before using the Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md#before-using-the-bard-api)
 
 
 
