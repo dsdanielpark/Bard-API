@@ -45,6 +45,22 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
+## Sponsor
+
+<a href="https://crawlbase.com/?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api"><img src="./assets/sponsor_ad.png"></a>
+ 
+**Use data scraping to train your AI models.** 
+
+- Easy to use **API to crawl and scrape** millions of websites
+- Use crawlbase for efficient [data extraction](https://crawlbase.com/generative-ai-data?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api) for your **LLMs**
+- Average **success rate: 98%**
+- Uptime guarantee: **99.9%**
+- [Simple docs](https://crawlbase.com/docs?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api) to get started in minutes
+- **Asynchronous** Crawling **API** if you need massive amounts of data
+- **GDPR** and **CCPA** compliant
+
+Used by **70k+** developers. 
+
 ## What is Google Bard?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
 
@@ -149,6 +165,9 @@ bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
+## Use rotating proxies
+
+If you want to **avoid blocked requests** and bans, then use [Smart Proxy by Crawlbase](https://crawlbase.com/docs/smart-proxy/?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api). It forwards your connection requests to a **randomly rotating IP address** in a pool of proxies before reaching the target website. The combination of AI and ML make it more effective to **avoid CAPTCHAs and blocks**.
 
 ### Reusable session object
 You can continue the conversation using a reusable session.
