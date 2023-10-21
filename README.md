@@ -61,6 +61,8 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 Used by **70k+** developers. 
 
+<br>
+
 ## What is Google Bard?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
 
