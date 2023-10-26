@@ -18,6 +18,7 @@ Development Status :: 5 - Production/Stable
 
 ## Troubleshooting Google Account-Related Issues with Bard API
 
+### 1 Response Error
 ```python
 Response Error: b')]}\\'\\n\\n38\\n[[\"wrb.fr\",null,null,null,null,[8]]]\\n54\\n[[\"di\",59],
 [\"af.httprm\",59,\"4239016509367430469\",0]]\\n25\\n[[\"e\",4,null,null,129]]\\n'. 
@@ -34,4 +35,28 @@ The error you're experiencing isn't originating from the package itself; it's re
 
 Please let me know if you need further assistance.
 
+### 2 Response Status is 429
 
+```
+Traceback (most recent call last):
+  File "/Users/arielolin/IAPP-server/server.py", line 20, in <module>
+    bard = Bard(token=BARD_TOKEN, session=bard_session)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/bardapi/core.py", line 78, in __init__
+    self.SNlM0e = self._get_snim0e()
+                  ^^^^^^^^^^^^^^^^^^
+  File "/Library/Frameworks/Python.framework/Versions/3.11/lib/python3.11/site-packages/bardapi/core.py", line 149, in _get_snim0e
+    raise Exception(
+Exception: Response status code is not 200. Response Status is 429
+```
+
+Both are not package-related issues and are unsolvable problems. It is recommended to work around them as much as possible. This is a problem at the level of Google's API, and while it would take a long time to develop software to work around it, even assuming that it could be developed, it is not worth developing because it is easily blocked. There are no plans to update it further. There is no package-level solution to prevent captcha or HTTP 429 errors other than efforts such as bypassing readme and proxy, and creating a time interval between requests to avoid rate limiting.
+- `CAPTCHA`: a program or system intended to distinguish human from machine input, typically as a way of [thwarting](https://www.google.com/search?sca_esv=573532060&sxsrf=AM9HkKmd5Faz1q0x4sLsgIG3VgVR9V18iA:1697335053753&q=thwarting&si=ALGXSlbSiMNWMsv5Y0U_0sBS8EWzwSlNZdPczeDdDqrhgxYO86hMDzIqBVTJp6ZKxKdXeVsCSihVIJAH_MROqwPM7RtQB0OoEA%3D%3D&expnd=1) spam and automated extraction of data from websites.
+- `The HTTP 429`: Too Many Requests response status code indicates the user has sent too many requests in a given amount of time ("rate limiting")
+
+
+### 3 Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'. #155
+- https://github.com/dsdanielpark/Bard-API/issues/155
+
+### 4 Response Error: b')]}\\'\\n\\n38\\n[[\"wrb.fr\",null,null,null,null,[8]]]\\n54\\n[[\"di\",59],[\"af.httprm\",59,\"4239016509367430469\",0]]\\n25\\n[[\"e\",4,null,null,129]]\\n'. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment. #128
+- https://github.com/dsdanielpark/Bard-API/issues/128
