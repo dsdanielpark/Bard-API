@@ -2,3 +2,7 @@
 requests
 colorama
 httpx[http2]>=0.20.0
+langdetect
+deep_translator
+google-cloud-translate
+browser_cookie3

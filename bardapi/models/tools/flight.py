@@ -1,21 +1,30 @@
 from bardapi.models.user_content import UserContent
-
+from typing import List
 
 class BardFlight:
-    def __init__(self, input_list: list):
+    def __init__(self, input_list: List):
         self._input_list = input_list
 
     @property
     def url(self) -> str:
-        return self._input_list[2]
+        if len(self._input_list) > 2:
+            return self._input_list[2]
+        else:
+            return ""
 
     @property
     def price(self) -> str:
-        return self._input_list[3]
+        if len(self._input_list) > 3:
+            return self._input_list[3]
+        else:
+            return ""
 
     @property
-    def airlines(self) -> list[str]:
-        return self._input_list[0][0]
+    def airlines(self) -> List[str]:
+        if len(self._input_list) > 0 and isinstance(self._input_list[0], list):
+            return self._input_list[0]
+        else:
+            return []
 
     @property
     def airline_logo(self) -> str:
@@ -68,7 +77,7 @@ class BardFlightContent(UserContent):
         return self._input_list[2]
 
     @property
-    def flights(self) -> list[BardFlight]:
+    def flights(self) -> List[BardFlight]:
         return (
             [BardFlight(flight) for flight in self._input_list[1]]
             if self._input_list[1]

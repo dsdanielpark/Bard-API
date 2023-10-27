@@ -1,5 +1,5 @@
 from bardapi.models.user_content import UserContent
-
+from typing import List
 
 class BardHotel:
     def __init__(self, input_list: list):
@@ -10,7 +10,7 @@ class BardHotel:
         return self._input_list[0]
 
     @property
-    def images(self) -> list[str]:
+    def images(self) -> List[str]:
         return self._input_list[1]
 
     @property
@@ -52,7 +52,7 @@ class BardHotelContent(UserContent):
         self._input_list = input_list
 
     @property
-    def hotels(self) -> list[BardHotel]:
+    def hotels(self) -> List[BardHotel]:
         return (
             [BardHotel(h) for h in self._input_list[0]] if self._input_list[0] else []
         )
