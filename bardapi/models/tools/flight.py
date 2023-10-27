@@ -1,6 +1,7 @@
 from bardapi.models.user_content import UserContent
 from typing import List
 
+
 class BardFlight:
     def __init__(self, input_list: List):
         self._input_list = input_list
