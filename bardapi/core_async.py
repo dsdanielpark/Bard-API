@@ -18,7 +18,9 @@ from bardapi.constants import (
     ALLOWED_LANGUAGES,
     SESSION_HEADERS,
     TEXT_GENERATION_WEB_SERVER_PARAM,
+    Tool,
 )
+from bardapi.models.result import BardResult
 from bardapi.utils import (
     extract_links,
     build_input_replit_data_struct,
@@ -79,6 +81,7 @@ class BardAsync:
         self.cookie_dict = {"__Secure-1PSID": self.token}
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
+        self.SNlM0e = None
 
         if self.google_translator_api_key is not None:
             from langdetect import detect
@@ -117,6 +120,9 @@ class BardAsync:
         :param self: Represent the instance of the class
         :return: (`str`) The SNlM0e value
         """
+        if isinstance(self.SNlM0e, str):
+            return self.SNlM0e
+
         if not self.token or self.token[-1] != ".":
             raise Exception(
                 "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
@@ -745,3 +751,78 @@ class BardAsync:
         )
         self._reqid += 100000
         return bard_answer
+
+    async def ask(
+        self,
+        text: str,
+        image: Optional[bytes] = None,
+        image_name: Optional[str] = None,
+        tool: Optional[Tool] = None,
+    ) -> BardResult:
+        self.SNlM0e = await self._get_snim0e()
+        if not isinstance(self.SNlM0e, str):
+            self.SNlM0e = await self.SNlM0e
+
+        if image is not None:
+            image_url = upload_image(image)
+        else:
+            image_url = None
+
+        # Make post data structure and insert prompt
+        input_text_struct = build_input_text_struct(
+            text,
+            self.conversation_id,
+            self.response_id,
+            self.choice_id,
+            image_url,
+            image_name,
+            tools=[tool.value] if tool is not None else None,
+        )
+
+        # Get response
+        resp = await self.client.post(
+            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            params={
+                "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
+                "_reqid": str(self._reqid),
+                "rt": "c",
+            },
+            data={
+                "f.req": json.dumps([None, json.dumps(input_text_struct)]),
+                "at": self.SNlM0e,
+            },
+            timeout=self.timeout,
+        )
+
+        if resp.status_code != 200:
+            raise Exception(
+                f"Response status code is not 200. Response Status is {resp.status_code}"
+            )
+
+        lines = [
+            line for line in resp.content.splitlines() if line.startswith(b'[["wrb.fr')
+        ]
+        jsons = [json.loads(json.loads(line)[0][2]) for line in lines]
+        # Post-processing of response
+        resp_json = jsons[-1]
+
+        if not resp_json:
+            raise {
+                "content": f"Response Error: {resp.content}. "
+                f"\nUnable to get response."
+                f"\nPlease double-check the cookie values and verify your network environment or google account."
+            }
+
+        res = BardResult(resp_json)
+        if not res.drafts:
+            res = BardResult(jsons[-2])
+
+        # Update params
+        self.conversation_id, self.response_id, self.choice_id = (
+            res.conversation_id,
+            res.response_id,
+            res.drafts[0].id,
+        )
+        self._reqid += 100000
+
+        return res
