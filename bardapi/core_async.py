@@ -4,13 +4,13 @@ import string
 import random
 import base64
 from typing import Optional
-from langdetect import detect
 from re import search
 from httpx import AsyncClient
 
 try:
     from deep_translator import GoogleTranslator
     from google.cloud import translate_v2 as translate
+    from langdetect import detect
 except ImportError:
     pass
 
