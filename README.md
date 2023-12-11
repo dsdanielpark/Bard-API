@@ -49,14 +49,14 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 [Gemini](https://deepmind.google/technologies/gemini/#introduction) is an advanced, multimodal AI model by [Google DeepMind](https://deepmind.google/), capable of understanding and integrating various information types like text, code, audio, images, and video.
 
 ### Access to Gemini Pro in Bard
-The Bard API is simply an unofficial REST API for[ Google Bard's web UI](https://bard.google.com/chat). Therefore, if you can receive answers from Gemini on the web UI, you can also receive them through the Bard API in the same way.
+The Bard API, sourcing responses from [Google Bard's official website](https://bard.google.com/chat), allows you to receive the same responses as the website. So, if Gemini answers are available on the website, you can also accessed through the Bard API.
 - Gemini Pro access via Bard API is inconsistent and only available in English.
 - There is no official Bard API or early access/waiting list for Gemini, although the [PaLM2 API](https://github.com/dsdanielpark/Bard-API#google-palm-api) is available.
   - Google's PaLM2 API differs from Bard, with some aspects of Bard being superior.
-- Bard API might indirectly provide Gemini Pro responses, but not consistently.
+  - It's speculated that after expert review of Gemini, next year's Bard Advanced lineup will likely provide an official API.
 - Gemini and previous generative AI model responses are provided simultaneously.
-- BardAPI has extensions, but with limited functionality.
-- Region, account differences, and proxy use require separate handling.
+- The Bard API, with its imperfect image and code features, occasionally demonstrates Gemini's capabilities.
+- This behavior may vary by region, language, or Google account.
 - More information in the [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md).
 
 For more on Gemini:
