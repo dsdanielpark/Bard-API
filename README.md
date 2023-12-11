@@ -54,7 +54,7 @@ The Bard API, sourcing responses from [Google Bard's official website](https://b
 - There is no official Bard API or early access/waiting list for Gemini, although the [PaLM2 API](https://github.com/dsdanielpark/Bard-API#google-palm-api) is available.
   - Google's PaLM2 API differs from Bard, with some aspects of Bard being superior.
   - It's speculated that after expert review of Gemini, next year's Bard Advanced lineup will likely provide an official API.
-- Gemini and previous generative AI model responses are provided simultaneously.
+- Gemini and previous generative AI model responses are provided randomly.
 - The Bard API, with its imperfect image and code features, occasionally demonstrates Gemini's capabilities.
 - This behavior may vary by region, language, or Google account.
 - More information in the [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md).
