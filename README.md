@@ -60,7 +60,6 @@ The Bard API is simply an unofficial REST API for[ Google Bard's web UI](https:/
 - More information in the [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md).
 
 For more on Gemini:
-- [Gemini Introduction](https://deepmind.google/technologies/gemini/#introduction)
 - [Introducing Gemini: our largest and most capable AI model](https://blog.google/technology/ai/google-gemini-ai/)
 - [How it's made: multimodal prompting](https://developers.googleblog.com/2023/12/how-its-made-gemini-multimodal-prompting.html)
 - [YouTube Demo](https://www.youtube.com/watch?v=UIZAiXYceBI)
