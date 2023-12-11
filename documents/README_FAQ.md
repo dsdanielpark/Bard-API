@@ -12,6 +12,30 @@ Development Status :: 5 - Production/Stable
 - Using this package for real-world applications is highly inappropriate. Due to rate limiting and variable API policies, it will only function temporarily.
 - If the time interval between requests is very short, the Google API process may interpret it as performing a large number of requests and may not return normal responses.
 - All these policies are subject to change, and the interface is also variable.
+- The reason this Bard API's method names do not follow the typical inference format of general LLMs is to prevent confusion with the official API. This Python package merely serves as an unofficial API to fetch responses from Bard's website, so please do not be mistaken.
+- The official API format for Bard will likely be as follows.
+  <details>
+  <summary>Click to view the text generative AI model API code template</summary>
+  
+  ```python
+  bard.configure(api_key='YOUR_API_KEY')
+  
+  models = [m for m in palm.list_models() if 'generateText' in m.supported_generation_methods]
+  model = models[0].name
+  print(model)
+  
+  prompt = "Who are you?"
+  
+  completion = bard.generate_text(
+      model=model,
+      prompt=prompt,
+      temperature=0,
+      # The maximum length of the response
+      max_output_tokens=800,
+  )
+  ```
+  </details>
+
 
 
 <br>
@@ -60,8 +84,9 @@ Both are not package-related issues and are unsolvable problems. It is recommend
 
 <br>
 
-### 3. Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'. #155
+### 3. Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'. #155, #99
 - https://github.com/dsdanielpark/Bard-API/issues/155
+- https://github.com/dsdanielpark/Bard-API/issues/99
 
 <br>
 
