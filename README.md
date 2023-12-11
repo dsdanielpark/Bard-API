@@ -21,7 +21,7 @@ Development Status :: 5 - Production/Stable
 ![](./assets/bard_api.gif)
 
 
-**Please exercise caution and use this package responsibly.**
+**Please exercise caution and use this package responsibly. This python package is _UN-OFFICIAL_ API.**
 
 I referred to this github repository([github.com/acheong08/Bard](https://github.com/acheong08/Bard)) where inference process of Bard was reverse engineered. Using `__Secure-1PSID`, you can ask questions and get answers from Google Bard. Please note that the bardapi is not a free service, but rather a tool provided to assist developers with testing certain functionalities due to the delayed development and release of Google Bard's API. It has been designed with a lightweight structure that can easily adapt to the emergence of an official API. Therefore, I strongly discourage using it for any other purposes. If you have access to official [PaLM-2 API](https://blog.google/technology/ai/google-palm-2-ai-large-language-model/), replace the provided response with the corresponding official code.
 
@@ -45,28 +45,31 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
-## Sponsor
+## What is Google [Gemini](https://deepmind.google/technologies/gemini/#introduction)?
+[Gemini](https://deepmind.google/technologies/gemini/#introduction) is an advanced, multimodal AI model by [Google DeepMind](https://deepmind.google/), capable of understanding and integrating various information types like text, code, audio, images, and video.
 
-<a href="https://crawlbase.com/?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api"><img src="./assets/sponsor_ad.png"></a>
- 
-**Use data scraping to train your AI models.** 
+### Access to Gemini Pro in Bard
+The Bard API is simply an unofficial REST API for[ Google Bard's web UI](https://bard.google.com/chat). Therefore, if you can receive answers from Gemini on the web UI, you can also receive them through the Bard API in the same way.
+- Gemini Pro access via Bard API is inconsistent and only available in English.
+- There is no official Bard API or early access/waiting list for Gemini, although the [PaLM2 API](https://github.com/dsdanielpark/Bard-API#google-palm-api) is available.
+  - Google's PaLM2 API differs from Bard, with some aspects of Bard being superior.
+- Bard API might indirectly provide Gemini Pro responses, but not consistently.
+- Gemini and previous generative AI model responses are provided simultaneously.
+- BardAPI has extensions, but with limited functionality.
+- Region, account differences, and proxy use require separate handling.
+- More information in the [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md).
 
-- Easy to use **API to crawl and scrape** millions of websites
-- Use crawlbase for efficient [data extraction](https://crawlbase.com/generative-ai-data?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api) for your **LLMs**
-- Average **success rate: 98%**
-- Uptime guarantee: **99.9%**
-- [Simple docs](https://crawlbase.com/docs?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api) to get started in minutes
-- **Asynchronous** Crawling **API** if you need massive amounts of data
-- **GDPR** and **CCPA** compliant
-
-Used by **70k+** developers. 
+For more on Gemini:
+- [Gemini Introduction](https://deepmind.google/technologies/gemini/#introduction)
+- [Introducing Gemini: our largest and most capable AI model](https://blog.google/technology/ai/google-gemini-ai/)
+- [How it's made: multimodal prompting](https://developers.googleblog.com/2023/12/how-its-made-gemini-multimodal-prompting.html)
+- [YouTube Demo](https://www.youtube.com/watch?v=UIZAiXYceBI)
 
 <br>
 
 ## What is Google Bard?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
 
-<br>
 
 ## Install
 ```
@@ -280,11 +283,12 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ##  [Amazing Bard Prompts](https://github.com/dsdanielpark/amazing-bard-prompts) Is All You Need!
 - Helpful prompts for Google Bard
 
+<br>
 
-## [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
-If you want to test the open-llama model, which is `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
+## [The Python package hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+If you want to comfortably use the open-source LLM models in your native language, which are `released under the Apache License (allowing free commercial use)` in `various languages`, you can try using the [hf-transllm](https://github.com/dsdanielpark/hf-transllm) package. hf-transllm also supports multilingual inference for various LLMs stored in hugging face repository.
 
-## Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
+### Example code of [hf-transllm](https://github.com/dsdanielpark/hf-transllm)
 <details>
 <summary>In case the Google package is no longer available due to policy restrictions, here's a simple example code for using open-source language models (LLMs) in both English and multiple languages.</summary>
 
@@ -367,7 +371,23 @@ print(completion.result)
 
 <br>
 
-<br><br>
+<br>
+
+## Sponsor
+
+<a href="https://crawlbase.com/?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api"><img src="./assets/sponsor_ad.png"></a>
+ 
+**Use data scraping to train your AI models.** 
+
+- Easy to use **API to crawl and scrape** millions of websites
+- Use crawlbase for efficient [data extraction](https://crawlbase.com/generative-ai-data?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api) for your **LLMs**
+- Average **success rate: 98%**
+- Uptime guarantee: **99.9%**
+- [Simple docs](https://crawlbase.com/docs?utm_source=github_ad&utm_medium=social&utm_campaign=bard_api) to get started in minutes
+- **Asynchronous** Crawling **API** if you need massive amounts of data
+- **GDPR** and **CCPA** compliant
+
+Used by **70k+** developers. 
 
 
 ## [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md)
