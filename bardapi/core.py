@@ -669,7 +669,7 @@ class Bard:
             google_official_translator = translate.Client(
                 api_key=self.google_translator_api_key
             )
-        else:
+        elif self.language is not None or lang is not None:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
 
         # [Optional] Set language
