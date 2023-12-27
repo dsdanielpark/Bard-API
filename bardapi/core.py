@@ -674,19 +674,21 @@ class Bard:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
 
         # [Optional] Set language
-        if (
+        if self.language is None and lang is None:
+            translated_input_text = input_text
+        elif (
             (self.language is not None or lang is not None)
             and self.language not in ALLOWED_LANGUAGES
             and self.google_translator_api_key is None
         ):
             translator_to_eng = GoogleTranslator(source="auto", target="en")
-            transl_text = translator_to_eng.translate(input_text)
+            translated_input_text = translator_to_eng.translate(input_text)
         elif (
             (self.language is not None or lang is not None)
             and self.language not in ALLOWED_LANGUAGES
             and self.google_translator_api_key is not None
         ):
-            transl_text = google_official_translator.translate(
+            translated_input_text = google_official_translator.translate(
                 input_text, target_language="en"
             )
         elif (
@@ -695,7 +697,8 @@ class Bard:
             and self.google_translator_api_key is None
         ):
             translator_to_eng = GoogleTranslator(source="auto", target="en")
-            transl_text = translator_to_eng.translate(input_text)
+            translated_input_text = translator_to_eng.translate(input_text)
+
 
         # Supported format: jpeg, png, webp
         image_url = upload_image(image)
@@ -703,7 +706,7 @@ class Bard:
         input_data_struct = [
             None,
             [
-                [transl_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+                [translated_input_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
                 [lang if lang is not None else self.language],
                 ["", "", ""],
                 "",  # Unknown random string value (1000 characters +)
