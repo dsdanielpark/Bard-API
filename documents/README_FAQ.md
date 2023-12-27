@@ -44,7 +44,7 @@ Development Status :: 5 - Production/Stable
 
 <br>
 
-### 1. Response Error
+### #01. Response Error
 ```python
 Response Error: b')]}\\'\\n\\n38\\n[[\"wrb.fr\",null,null,null,null,[8]]]\\n54\\n[[\"di\",59],
 [\"af.httprm\",59,\"4239016509367430469\",0]]\\n25\\n[[\"e\",4,null,null,129]]\\n'. 
@@ -63,7 +63,7 @@ Please let me know if you need further assistance.
 
 <br>
 
-### 2. Response Status is 429
+### #02. Response Status is 429
 
 ```
 Traceback (most recent call last):
@@ -84,18 +84,18 @@ Both are not package-related issues and are unsolvable problems. It is recommend
 
 <br>
 
-### 3. Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'. #155, #99
+### #03. Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'. #155, #99
 - https://github.com/dsdanielpark/Bard-API/issues/155
 - https://github.com/dsdanielpark/Bard-API/issues/99
 
 <br>
 
-### 4. Response Error: b')]}\\'\\n\\n38\\n[[\"wrb.fr\",null,null,null,null,[8]]]\\n54\\n[[\"di\",59],[\"af.httprm\",59,\"4239016509367430469\",0]]\\n25\\n[[\"e\",4,null,null,129]]\\n'. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment. #128
+### #04. Response Error: b')]}\\'\\n\\n38\\n[[\"wrb.fr\",null,null,null,null,[8]]]\\n54\\n[[\"di\",59],[\"af.httprm\",59,\"4239016509367430469\",0]]\\n25\\n[[\"e\",4,null,null,129]]\\n'. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment. #128
 - https://github.com/dsdanielpark/Bard-API/issues/128
 
 <br>
 
-### 5. Using Proxy
+### #05. Using Proxy
 If you cannot receive a normal response in your area, try making the request through [Crawlbase](https://crawlbase.com/)'s anonymous [smart proxy service.](https://crawlbase.com/docs/smart-proxy/get/) (Still, be mindful of Google's rate limiting, so adjust the time between requests and avoid requesting duplicate responses.)
 
 ```
@@ -113,3 +113,37 @@ proxies = {"http": proxy_url, "https": proxy_url}
 bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
+
+
+### #06. How to output results sequentially without delay like ChatGPT?
+
+- Short answer: Bard is currently not supported.
+
+OpenAI provides immediate asynchronous returns of some generated text results (tokens) at the inference stage of the model. However, Bard does not yet support this feature. Bard returns the results to the user once the model has completed generating all text (tokens). There may be various reasons for this, but ultimately, the speed difference between the two is dependent on resources and may be challenging for users to address. In conclusion, consider exploring other ways to reduce perceived delays for users.
+
+Note that for Hugging Face's Open LLM models, you can implement this using TextStreamer as follows.
+
+
+```python
+from transformers import AutoModelForCausalLM, AutoTokenizer, TextStreamer
+
+model_name = "meta-llama/Llama-2-70b-chat-hf"
+tokenizer = AutoTokenizer.from_pretrained(model_name)
+model = AutoModelForCausalLM.from_pretrained(model_name)
+streamer = TextStreamer(tokenizer, skip_prompt=True, skip_special_tokens=True)
+
+output = model.generate(**inputs, streamer=streamer, use_cache=True)
+```
+
+Furthermore, since this package is an unofficial Python package that intercepts values returned by the web UI of Google Bard's official website, there is nothing more we can support at this package level.
+
+### #07. The conversation keeps starting anew. Can this be resolved?
+
+- Short answer: It seems unlikely. It might be possible, but it requires experimentation. If you find a solution, anyone can contribute through a pull request.
+You can attempt to fix the session by referring to the contents of a reusable session or try to lock the returned values with a context ID. However, fundamentally, users need an option to fix the seed value, as seen in OpenAI's ChatGPT, to address this issue. Currently, Bard offers limited options to users, even temperature and basic settings, so it may take some time. To make the conversation memorable, you can 1) code to summarize and store the conversation in a database, ensuring the queue changes approximately every 3-5 turns, and 2) transmit the summarized conversation and response to Bard along with a new question. Other models like ChatGPT also remember conversations through similar methods (with more diverse solutions).
+
+In conclusion, users cannot adjust the seed option in model inference, and some additional coding work is needed to remember the conversation.
+
+If anyone has made progress on this, they are welcome to contribute.
+
+Thank you. We always welcome your contributions.
