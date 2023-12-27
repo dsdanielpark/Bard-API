@@ -474,6 +474,7 @@ class Bard:
                     source="auto", target=self.language
                 ).translate
             else:
+
                 def translator_func(text):
                     return google_official_translator(
                         text, target_language=self.language
@@ -698,14 +699,18 @@ class Bard:
             translator_to_eng = GoogleTranslator(source="auto", target="en")
             translated_input_text = translator_to_eng.translate(input_text)
 
-
         # Supported format: jpeg, png, webp
         image_url = upload_image(image)
 
         input_data_struct = [
             None,
             [
-                [translated_input_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+                [
+                    translated_input_text,
+                    0,
+                    None,
+                    [[[image_url, 1], "uploaded_photo.jpg"]],
+                ],
                 [lang if lang is not None else self.language],
                 ["", "", ""],
                 "",  # Unknown random string value (1000 characters +)
