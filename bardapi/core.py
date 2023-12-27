@@ -474,7 +474,6 @@ class Bard:
                     source="auto", target=self.language
                 ).translate
             else:
-
                 def translator_func(text):
                     return google_official_translator(
                         text, target_language=self.language
@@ -748,7 +747,9 @@ class Bard:
         parsed_answer = json.loads(resp_dict)
         content = parsed_answer[4][0][1][0]
         try:
-            if self.language is not None and self.google_translator_api_key is None:
+            if self.language is None and self.google_translator_api_key is None:
+                translated_content = content
+            elif self.language is not None and self.google_translator_api_key is None:
                 translator = GoogleTranslator(source="en", target=self.language)
                 translated_content = translator.translate(content)
 
