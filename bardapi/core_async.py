@@ -72,7 +72,9 @@ class BardAsync:
         self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-        self.client = self._get_client(session) # Creating an httpx async client for asynchronous core code
+        self.client = self._get_client(
+            session
+        )  # Creating an httpx async client for asynchronous core code
         self.language = language
         self.cookie_dict = {"__Secure-1PSID": self.token}
         self.run_code = run_code or False
@@ -157,17 +159,16 @@ class BardAsync:
         """
         if session is None:
             async_client = AsyncClient(
-            http2=True,
-            headers=SESSION_HEADERS,
-            cookies={"__Secure-1PSID": self.token},
-            timeout=self.timeout,
-            proxies=self.proxies,
+                http2=True,
+                headers=SESSION_HEADERS,
+                cookies={"__Secure-1PSID": self.token},
+                timeout=self.timeout,
+                proxies=self.proxies,
             )
             return async_client
         else:
-            assert type(session)==AsyncClient 
+            assert type(session) == AsyncClient
             return session
-
 
     async def get_answer(self, input_text: str) -> dict:
         """
