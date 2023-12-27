@@ -1,3 +1,5 @@
+import os
+import re
 import json
 import uuid
 import string
@@ -42,6 +44,7 @@ class BardAsync:
         token: Optional[str] = None,
         timeout: int = 20,
         proxies: Optional[dict] = None,
+        session: Optional[AsyncClient] = None,
         conversation_id: Optional[str] = None,
         google_translator_api_key: Optional[str] = None,
         language: Optional[str] = None,
@@ -62,33 +65,61 @@ class BardAsync:
             token_from_browser (bool, optional, default = False): Gets a token from the browser
         """
 
-        self.token = token or self._get_token(token_from_browser)
+        self.token = self._get_token(token, token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
         self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-        # Making httpx async client that will be used for all API calls
-        self.client = AsyncClient(
-            http2=True,
-            headers=SESSION_HEADERS,
-            cookies={"__Secure-1PSID": self.token},
-            timeout=self.timeout,
-            proxies=self.proxies,
-        )
+        self.client = self._get_client(session) # Creating an httpx async client for asynchronous core code
         self.language = language
         self.cookie_dict = {"__Secure-1PSID": self.token}
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
-        self.SNlM0e = None
+        self.SNlM0e = self._get_snim0e()
 
         if self.google_translator_api_key is not None:
             from langdetect import detect
             from deep_translator import GoogleTranslator
             from google.cloud import translate_v2 as translate
 
-    def _get_token(self, token_from_browser: bool) -> dict:
+    def _get_snim0e(self):
+        """
+        Asynchronously retrieves the SNlM0e value from a specified URL.
+
+        It checks if the SNlM0e value is already a string and returns it.
+        Otherwise, it makes an HTTP GET request to retrieve the SNlM0e value.
+        The method raises an exception if the token format is incorrect or
+        if the SNlM0e value is not found in the response.
+
+        :return: The SNlM0e value as a string.
+        """
+        if isinstance(self.SNlM0e, str):
+            return self.SNlM0e
+
+        if not self.token or self.token[-1] != ".":
+            raise Exception(
+                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+            )
+
+        resp = self.client.get(
+            "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
+        )
+        if resp.status_code != 200:
+            raise Exception(
+                f"Response status code is not 200. Response Status is {resp.status_code}"
+            )
+        snim0e_match = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        if not snim0e_match:
+            raise Exception(
+                "SNlM0e value not found in response. Check __Secure-1PSID value."
+            )
+
+        self.SNlM0e = snim0e_match.group(1)
+        return self.SNlM0e
+
+    def _get_token(self, token: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -100,17 +131,21 @@ class BardAsync:
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
-        if token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=True)
+        if token:
+            return token
+        elif os.getenv("_BARD_API_KEY"):
+            return os.getenv("_BARD_API_KEY")
+        elif token_from_browser:
+            extracted_cookie_dict = extract_bard_cookie(cookies=False)
             if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
-            return extracted_cookie_dict
+            return extracted_cookie_dict["__Secure-1PSID"]
         else:
             raise Exception(
                 "Bard API Key must be provided as token argument or extracted from browser."
             )
 
-    async def _get_snim0e(self) -> str:
+    async def _get_client(self, session: Optional[AsyncClient]) -> AsyncClient:
         """
         The _get_snim0e function is used to get the SNlM0e value from the Bard website.
 
@@ -120,27 +155,19 @@ class BardAsync:
         :param self: Represent the instance of the class
         :return: (`str`) The SNlM0e value
         """
-        if isinstance(self.SNlM0e, str):
-            return self.SNlM0e
+        if session is None:
+            async_client = AsyncClient(
+            http2=True,
+            headers=SESSION_HEADERS,
+            cookies={"__Secure-1PSID": self.token},
+            timeout=self.timeout,
+            proxies=self.proxies,
+            )
+            return async_client
+        else:
+            assert type(session)==AsyncClient 
+            return session
 
-        if not self.token or self.token[-1] != ".":
-            raise Exception(
-                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
-            )
-
-        resp = await self.client.get(
-            "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
-        )
-        if resp.status_code != 200:
-            raise Exception(
-                f"Response status code is not 200. Response Status is {resp.status_code}"
-            )
-        snim0e = search(r"SNlM0e\":\"(.*?)\"", resp.text)
-        if not snim0e:
-            raise Exception(
-                "SNlM0e value not found in response. Check __Secure-1PSID value."
-            )
-        return snim0e.group(1)
 
     async def get_answer(self, input_text: str) -> dict:
         """
@@ -176,9 +203,6 @@ class BardAsync:
                     "status_code": int
                 }
         """
-        self.SNlM0e = await self._get_snim0e()
-        if not isinstance(self.SNlM0e, str):
-            self.SNlM0e = await self.SNlM0e
         params = {
             "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
             "_reqid": str(self._reqid),
@@ -364,7 +388,7 @@ class BardAsync:
 
         data = {
             "f.req": json.dumps(input_text_struct),
-            "at": await self._get_snim0e(),
+            "at": self.SNlM0e,
         }
 
         # Get response
@@ -451,7 +475,7 @@ class BardAsync:
         ]
         data = {
             "f.req": json.dumps(input_data_struct),
-            "at": await self._get_snim0e(),
+            "at": self.SNlM0e,
         }
         resp = await self.client.post(
             "https://bard.google.com/_/BardChatUi/data/batchexecute",
@@ -558,7 +582,7 @@ class BardAsync:
         ]
         data = {
             "f.req": json.dumps(input_data_struct),
-            "at": await self._get_snim0e(),
+            "at": self.SNlM0e,
         }
 
         resp = await self.client.post(
@@ -613,7 +637,6 @@ class BardAsync:
                     "status_code": int
                 }
         """
-        self.SNlM0e = await self._get_snim0e()
         if not isinstance(self.SNlM0e, str):
             self.SNlM0e = await self.SNlM0e
 
@@ -759,7 +782,6 @@ class BardAsync:
         image_name: Optional[str] = None,
         tool: Optional[Tool] = None,
     ) -> BardResult:
-        self.SNlM0e = await self._get_snim0e()
         if not isinstance(self.SNlM0e, str):
             self.SNlM0e = await self.SNlM0e
 
