@@ -38,11 +38,11 @@ Development Status :: 5 - Production/Stable
 
 
 
-<br>
+<br><br>
 
-## Troubleshooting Google Account-Related Issues with Bard API
 
-<br>
+
+***
 
 ### #01. Response Error
 ```python
@@ -61,7 +61,7 @@ The error you're experiencing isn't originating from the package itself; it's re
 
 Please let me know if you need further assistance.
 
-<br>
+***
 
 ### #02. Response Status is 429
 
@@ -82,18 +82,18 @@ Both are not package-related issues and are unsolvable problems. It is recommend
 - `CAPTCHA`: a program or system intended to distinguish human from machine input, typically as a way of [thwarting](https://www.google.com/search?sca_esv=573532060&sxsrf=AM9HkKmd5Faz1q0x4sLsgIG3VgVR9V18iA:1697335053753&q=thwarting&si=ALGXSlbSiMNWMsv5Y0U_0sBS8EWzwSlNZdPczeDdDqrhgxYO86hMDzIqBVTJp6ZKxKdXeVsCSihVIJAH_MROqwPM7RtQB0OoEA%3D%3D&expnd=1) spam and automated extraction of data from websites.
 - `The HTTP 429`: Too Many Requests response status code indicates the user has sent too many requests in a given amount of time ("rate limiting")
 
-<br>
+***
 
 ### #03. Exception: SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'. #155, #99
 - https://github.com/dsdanielpark/Bard-API/issues/155
 - https://github.com/dsdanielpark/Bard-API/issues/99
 
-<br>
+***
 
 ### #04. Response Error: b')]}\\'\\n\\n38\\n[[\"wrb.fr\",null,null,null,null,[8]]]\\n54\\n[[\"di\",59],[\"af.httprm\",59,\"4239016509367430469\",0]]\\n25\\n[[\"e\",4,null,null,129]]\\n'. \nTemporarily unavailable due to traffic or an error in cookie values. Please double-check the cookie values and verify your network environment. #128
 - https://github.com/dsdanielpark/Bard-API/issues/128
 
-<br>
+***
 
 ### #05. Using Proxy
 If you cannot receive a normal response in your area, try making the request through [Crawlbase](https://crawlbase.com/)'s anonymous [smart proxy service.](https://crawlbase.com/docs/smart-proxy/get/) (Still, be mindful of Google's rate limiting, so adjust the time between requests and avoid requesting duplicate responses.)
@@ -114,6 +114,7 @@ bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
+***
 
 ### #06. How to output results sequentially without delay like ChatGPT?
 
@@ -136,6 +137,8 @@ output = model.generate(**inputs, streamer=streamer, use_cache=True)
 ```
 
 Furthermore, since this package is an unofficial Python package that intercepts values returned by the web UI of Google Bard's official website, there is nothing more we can support at this package level.
+
+***
 
 ### #07. The conversation keeps starting anew. Can this be resolved?
 
