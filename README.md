@@ -187,14 +187,16 @@ bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
+To make the async bard code collapsible in Markdown, you can use HTML details and summary tags. This allows the code to be hidden under a summary title, which can be clicked to expand and view the full code block. Here's how you can modify your Markdown content:
+
 ### Reusable session object
 You can continue the conversation using a reusable session.
 ```python
 from bardapi import Bard
-import os
 import requests
-os.environ['_BARD_API_KEY'] = 'xxxxxxx'
-# token='xxxxxxx'
+# import os
+# os.environ['_BARD_API_KEY'] = 'xxxxxxx'
+token='xxxxxxx'
 
 session = requests.Session()
 session.headers = {
@@ -214,6 +216,51 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 # Continued conversation without set new session
 bard.get_answer("What is my last prompt??")['content']
 ```
+
+<details>
+<summary>Async Bard Code (Click to expand)</summary>
+
+```python
+from httpx import AsyncClient
+from bardapi import BardAsync
+import os
+
+# Uncomment and set your API key as needed
+# os.environ['_BARD_API_KEY'] = 'xxxxxxx'
+
+token = 'xxxxxxx'  # Replace with your actual token
+
+# Define SESSION_HEADERS
+SESSION_HEADERS = {
+    "Host": "bard.google.com",
+    "X-Same-Domain": "1",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    "Origin": "https://bard.google.com",
+    "Referer": "https://bard.google.com/",
+}
+
+# Set timeout and proxies as needed
+timeout = 30  # Example timeout
+proxies = {}  # Replace with your proxies if needed
+
+client = AsyncClient(
+    http2=True,
+    headers=SESSION_HEADERS,
+    cookies={"__Secure-1PSID": token},
+    timeout=timeout,
+    proxies=proxies,
+)
+
+bard_async = BardAsync(token=token, client=client)
+
+# Example usage (ensure you are in an async context or use asyncio.run for testing)
+# response = await bard_async.get_answer("Tell me about NewJeans, popular among my peers")
+# print(response['content'])
+```
+
+</details>
+
 
 ### Auto Cookie Bard
 Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extract the `__Secure-1PSID` cookie from all browsers, and then we can use the API without passing the token. However, there are still incomplete dependency packages and various variables, so please seek assistance in the following [GitHub Issues](https://github.com/borisbabic/browser_cookie3/issues) or adjust your browser's version.
