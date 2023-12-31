@@ -26,6 +26,7 @@ class ChatBard(Bard):
     def __init__(
         self,
         token: Optional[str] = None,
+        token_ts: Optional[str] = None,
         timeout: int = 20,
         proxies: Optional[dict] = None,
         session: Optional[requests.Session] = None,
@@ -38,6 +39,7 @@ class ChatBard(Bard):
 
         Args:
             token (str, optional): Bard API token.
+            token_ts (str, optional): Bard API token.
             timeout (int, optional, default = 20): Request timeout in seconds.
             proxies (dict, optional): Proxy configuration for requests.
             session (requests.Session, optional): Requests session object.
@@ -46,10 +48,10 @@ class ChatBard(Bard):
             token_from_browser (bool, optional, default = False): Gets a token from the browser
         """
 
-        self.session = session or self._init_session(token)
+        self.session = session or self._init_session(token, token_ts)
         self.language = language or os.getenv("_BARD_API_LANG") or "english"
         self.timeout = int(timeout or os.getenv("_BARD_API_TIMEOUT") or 30)
-        self.token = token or os.getenv("_BARD_API_KEY") or self._get_api_key()
+        self.token, self.token_ts = (token, token_ts) or (os.getenv("_BARD_API_KEY"), os.getenv("_BARD_API_TS")) or self._get_api_key()
         self.token_from_browser = token_from_browser
         self.proxies = proxies
         self.google_translator_api_key = google_translator_api_key
@@ -64,19 +66,25 @@ class ChatBard(Bard):
         session = requests.Session()
         session.headers = SESSION_HEADERS
         session.cookies.set("__Secure-1PSID", token)
+        session.cookies.set("__Secure-1PSIDTS", token_ts)
         return session
 
     @staticmethod
     def _get_api_key():
         key = input("Enter the Bard API Key(__Secure-1PSID): ")
+        key_ts = input("Enter the Bard API Key(__Secure-1PSIDTS): ")
         if not key:
             print("Bard API(__Secure-1PSID) Key must be entered.")
             exit(1)
-        return key
+        if not key_ts:
+            print("Bard API(__Secure-1PSIDTS) Key must be entered.")
+            exit(1)
+        return key, key_ts
 
     def _init_bard(self):
         return Bard(
             token=self.token,
+            token_ts=self.token_ts,
             session=self.session,
             google_translator_api_key=self.google_translator_api_key,
             timeout=self.timeout,

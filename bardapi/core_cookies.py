@@ -68,7 +68,7 @@ class BardCookies(Bard):
             Exception: If the token is not provided and can't be extracted from the browser.
         """
         if token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=True)
+            extracted_cookie_dict = extract_bard_cookie()
             if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
             return extracted_cookie_dict
@@ -332,7 +332,7 @@ class BardAsyncCookies(BardAsync):
             Exception: If the token is not provided and can't be extracted from the browser.
         """
         if token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=True)
+            extracted_cookie_dict = extract_bard_cookie()
             if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
             return extracted_cookie_dict

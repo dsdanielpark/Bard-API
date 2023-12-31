@@ -42,6 +42,7 @@ class BardAsync:
     def __init__(
         self,
         token: Optional[str] = None,
+        token_ts: Optional[str] = None,
         timeout: int = 20,
         proxies: Optional[dict] = None,
         client: Optional[AsyncClient] = None,
@@ -65,7 +66,7 @@ class BardAsync:
             token_from_browser (bool, optional, default = False): Gets a token from the browser
         """
 
-        self.token = self._get_token(token, token_from_browser)
+        self.token, self.token_ts = self._get_token(token, token_ts, token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -74,7 +75,7 @@ class BardAsync:
         self.choice_id = ""
         self.client = self._get_client(client) # Creating an httpx async client for asynchronous core code
         self.language = language
-        self.cookie_dict = {"__Secure-1PSID": self.token}
+        self.cookie_dict = {"__Secure-1PSID": self.token, "__Secure-1PSIDTS": self.token_ts}
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
         self.SNlM0e = self._get_snim0e()
@@ -95,7 +96,7 @@ class BardAsync:
 
         :return: The SNlM0e value as a string.
         """
-        if isinstance(self.SNlM0e, str):
+        if hasattr(self, 'SNlM0e') and isinstance(self.SNlM0e, str):
             return self.SNlM0e
 
         if not self.token or self.token[-1] != ".":
@@ -119,7 +120,7 @@ class BardAsync:
         self.SNlM0e = snim0e_match.group(1)
         return self.SNlM0e
 
-    def _get_token(self, token: str, token_from_browser: bool) -> str:
+    def _get_token(self, token: str, token_ts: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -131,15 +132,15 @@ class BardAsync:
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
-        if token:
-            return token
-        elif os.getenv("_BARD_API_KEY"):
-            return os.getenv("_BARD_API_KEY")
+        if token and token_ts:
+            return token, token_ts
+        elif os.getenv("_BARD_API_KEY") and os.getenv("_BARD_API_TS"):
+            return os.getenv("_BARD_API_KEY"), os.getenv("_BARD_API_TS")
         elif token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=False)
+            extracted_cookie_dict = extract_bard_cookie()
             if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
-            return extracted_cookie_dict["__Secure-1PSID"]
+            return extracted_cookie_dict["__Secure-1PSID"], extracted_cookie_dict["__Secure-1PSIDTS"]
         else:
             raise Exception(
                 "Bard API Key must be provided as token argument or extracted from browser."
@@ -159,7 +160,7 @@ class BardAsync:
             async_client = AsyncClient(
             http2=True,
             headers=SESSION_HEADERS,
-            cookies={"__Secure-1PSID": self.token},
+            cookies={"__Secure-1PSID": self.token, "__Secure-1PSIDTS": self.token_ts},
             timeout=self.timeout,
             proxies=self.proxies,
             )
@@ -178,7 +179,8 @@ class BardAsync:
         >>>
         >>> async def main():
         >>>     token = 'xxxxxx'
-        >>>     bard = BardAsync(token=token)
+        >>>     token_ts = 'xxxxxx'
+        >>>     bard = BardAsync(token=token, token_ts=token_ts)
         >>>     response = await bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>>     print(response['content'])
         >>>
@@ -358,7 +360,8 @@ class BardAsync:
         >>>
         >>> async def main():
         >>>     token = 'xxxxxx'
-        >>>     bard = BardAsync(token=token)
+        >>>     token_ts = 'xxxxxx'
+        >>>     bard = BardAsync(token=token, token_ts=token_ts)
         >>>     audio = await bard.speech("Hello")
         >>>     with open("bard.ogg", "wb") as f:
         >>>         f.write(bytes(audio['audio']))
@@ -421,7 +424,8 @@ class BardAsync:
         >>>
         >>> async def main():
         >>>     token = 'xxxxxx'
-        >>>     bard = BardAsync(token=token)
+        >>>     token_ts = 'xxxxxx'
+        >>>     bard = BardAsync(token=token, token_ts=token_ts)
         >>>     bard_answer = await bard.get_answer("hello!")
         >>>     url = await bard.export_conversation(bard_answer, title="Export Conversation")
         >>>     print(url['url'])
@@ -509,7 +513,8 @@ class BardAsync:
         >>>
         >>> async def main():
         >>>     token = 'xxxxxx'
-        >>>     bard = BardAsync(token=token)
+        >>>     token_ts = 'xxxxxx'
+        >>>     bard = BardAsync(token=token, token_ts=token_ts)
         >>>     bard_answer = await bard.get_answer("Give me python code to print hello world")
         >>>     url = await bard.export_replit(bard_answer['code'], bard_answer['program_lang'])
         >>>     print(url['url'])
@@ -609,7 +614,8 @@ class BardAsync:
         >>>
         >>> async def main():
         >>>     token = 'xxxxxx'
-        >>>     bard = BardAsync(token=token)
+        >>>     token_ts = 'xxxxxx'
+        >>>     bard = BardAsync(token=token, token_ts=token_ts)
         >>>     image = open('image.jpg', 'rb').read()
         >>>     bard_answer = await bard.ask_about_image("what is in the image?", image)
         >>>     print(bard_answer['content'])

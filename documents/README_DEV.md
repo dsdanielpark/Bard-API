@@ -55,6 +55,7 @@ class Bard:
     def __init__(
         self,
         token: Optional[str] = None,
+        token_ts: Optional[str] = None,
         timeout: int = 20,
         proxies: Optional[dict] = None,
         session: Optional[requests.Session] = None,
@@ -112,7 +113,7 @@ class Bard:
         Get the requests Session object.
         """
 
-    def _get_token(self, token: str, token_from_browser: bool) -> str:
+    def _get_token(self, token: str, token_ts: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
         """ 
@@ -138,7 +139,7 @@ print(bard_answer)
 ```python
 from bardapi import Bard
 
-bard = Bard(token= xxxxxxxxx )
+bard = Bard(token= xxxxxxxxx, token_ts= xxxxxxxxx )
 audio = bard.speech("Hello, I am bard! How can I assist you?", lang='en-US') # Get bytes audio object.
 
 # Save audio object.
@@ -157,7 +158,7 @@ For commercial use cases, please refrain from using the unofficial Google Transl
 ```python
 from bardapi import Bard
 
-bard = Bard(token=token, language='chinese (simplified)')
+bard = Bard(token=token, token_ts=token_ts, language='chinese (simplified)')
 res = bard.get_answer("今天首尔的天气怎么样？")
 print(res['content'])
 ```
@@ -167,6 +168,7 @@ from bardapi import Bard
 import os
 os.environ["_BARD_API_LANG"] = 'chinese (simplified)'
 os.environ["_BARD_API_KEY"] = 'xxxxxxxxx'
+os.environ["_BARD_API_TS"] = 'xxxxxxxxx'
 
 res = Bard().get_answer("今天首尔的天气怎么样？")
 print(res['content'])
@@ -181,7 +183,7 @@ As an experimental feature, it is possible to ask questions with an image. Howev
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxxx')
+bard = Bard(token='xxxxxxxx', token_ts='xxxxxxxx')
 image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
 bard_answer = bard.ask_about_image('What is in the image?', image)
 print(bard_answer['content'])
@@ -192,7 +194,7 @@ print(bard_answer['content'])
 ### Get image links
 ```python
 from bardapi import Bard
-bard = Bard(token='xxxxxxxx')
+bard = Bard(token='xxxxxxxx', token_ts='xxxxxxxx')
 res = bard.get_answer("Find me an image of the main entrance of Stanford University.")
 res['links'] # Get image links (list)
 res['images'] # Get images (list)
@@ -206,7 +208,7 @@ Some errors in ChatBard have been fixed. However, it is recommended not to pass 
 ```python
 from bardapi import ChatBard
     
-chat = ChatBard(token="xxxxxxxx", language='en')
+chat = ChatBard(token='xxxxxxxx', token_ts='xxxxxxxx', language='en')
 chat.start()
 ```
 or
@@ -214,6 +216,7 @@ or
 from bardapi import ChatBard
 import os
 os.environ["_BARD_API_KEY"]='xxxxxxxx'   # Requird
+os.environ["_BARD_API_TS"]='xxxxxxxx'   # Requird
 os.environ["_BARD_API_LANG"]="Arabic"     # Optional, Default to English
 os.environ["_BARD_API_TIMEOUT"]=30        # Optional, Session Timeout
  
@@ -227,6 +230,7 @@ import os
 import requests
 
 token='xxxxxxxx'
+token_ts='xxxxxxxx'
 session = requests.Session()
 session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token) 
@@ -235,7 +239,7 @@ proxies = {
     'https': 'https://proxy.example.com:8080'
 }
     
-ChatBard(token=token, session=session, proxies=proxies, timeout=40, language="chinese (simplified)").start()
+ChatBard(token=token, token_ts=token_ts, session=session, proxies=proxies, timeout=40, language="chinese (simplified)").start()
 ```
 
 <br>    
@@ -246,7 +250,7 @@ Bard UI offers a convenient way to share a specific answer from Bard by generati
 
 ```python
 from bardapi import Bard
-bard = Bard(token='xxxxxxxx')
+bard = Bard(token='xxxxxxxx', token_ts='xxxxxxxx')
 bard_answer = bard.get_answer('How are you?')
 url = bard.export_conversation(bard_answer, title='Example Shared conversation')
 print(url['url'])
@@ -259,7 +263,7 @@ print(url['url'])
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxxx')
+bard = Bard(token='xxxxxxxx', token_ts='xxxxxxxx')
 
 bard_answer = bard.get_answer("code python to print hello world")
 # {'code': 'print("Hello World")', 'program_lang': 'python'}
@@ -276,7 +280,7 @@ print(url['url']) # https://replit.com/external/v1/claims/xxx/claim
 ```python
 from bardapi import Bard
     
-bard = Bard(token="xxxxxxxx", run_code=True)
+bard = Bard(token="xxxxxxxx", token_ts='xxxxxxxx', run_code=True)
 bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 'green':30, 'purple':15}")
 ```
 ![](assets/bardapi_run_code.png)
@@ -291,7 +295,7 @@ BardAsync is present in translate_to.core_async.BardAsync
 ```python
 from bardapi import BardAsync 
     
-bard = BardAsync(token="xxxxxxxx")
+bard = BardAsync(token="xxxxxxxx", token_ts='xxxxxxxx')
 await bard.get_answer("What is Metaverse?")
 ```
 or
@@ -299,7 +303,7 @@ or
 import asyncio
 from bardapi import BardAsync
     
-bard = BardAsync(token="xxxxxxxx")
+bard = BardAsync(token="xxxxxxxx", token_ts='xxxxxxxx')
 asyncio.run(bard.get_answer("What is Metaverse?"))
 ```
 
@@ -312,8 +316,7 @@ from bardapi import BardCookies
 
 cookie_dict = {
     "__Secure-1PSID": "xxxxxxxx",
-    "__Secure-1PSIDTS": "xxxxxxxx",
-    "__Secure-1PSIDCC", "xxxxxxxx",
+    "__Secure-1PSIDTS": "xxxxxxxx"
     # Any cookie values you want to pass session object.
 }
 
@@ -328,7 +331,6 @@ from bardapi import Bard, SESSION_HEADERS
 
 session = requests.Session()
 session.cookies.set("__Secure-1PSID", "bard __Secure-1PSID token")
-session.cookies.set( "__Secure-1PSIDCC", "bard __Secure-1PSIDCC token")
 session.cookies.set("__Secure-1PSIDTS", "bard __Secure-1PSIDTS token")
 session.headers = SESSION_HEADERS
 
@@ -360,14 +362,16 @@ import requests
 
 # Set token
 token= 'xxxxxxxx'
+token_ts= 'xxxxxxxx'
 
 # Set session
 session = requests.Session()
 session.headers = SESSION_HEADERS
 session.cookies.set("__Secure-1PSID", token) 
+session.cookies.set("__Secure-1PSIDTS", token_ts) 
 
 # Give session and conversation id. (check manually)
-bard = Bard(token=token, session=session, conversation_id="c_1f04f704a788e6e4", timeout=30)
+bard = Bard(token=token, token_ts=token_ts, session=session, conversation_id="c_1f04f704a788e6e4", timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -390,7 +394,8 @@ Bard does not support temperature or hyperparameter adjustments, but it is possi
 from bardapi import Bard, max_token, max_sentence
 
 token = 'xxxxxxx'
-bard = Bard(token=token)
+token_ts = 'xxxxxxx'
+bard = Bard(token=token, token_ts=token_ts)
 
 # max_token==30
 max_token(bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content'], 30) 

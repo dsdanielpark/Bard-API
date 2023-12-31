@@ -63,7 +63,7 @@ def upload_image(image: bytes, filename: str = "Photo.jpg"):
     return resp.text
 
 
-def extract_bard_cookie(cookies: bool = False) -> dict:
+def extract_bard_cookie() -> dict:
     """
     Extracts the specified Bard cookie(s) from the browser's cookies.
 
@@ -106,14 +106,9 @@ def extract_bard_cookie(cookies: bool = False) -> dict:
                 print(cookie.name)
                 if cookie.name == "__Secure-1PSID" and cookie.value.endswith("."):
                     cookie_dict["__Secure-1PSID"] = cookie.value
-                if cookies:
-                    if cookie.name == "__Secure-1PSIDTS":
-                        print(cookie.value)
-                        cookie_dict["__Secure-1PSIDTS"] = cookie.value
-                    elif cookie.name == "__Secure-1PSIDCC":
-                        print(cookie.value)
-                        cookie_dict["__Secure-1PSIDCC"] = cookie.value
-                if len(cookie_dict) == 3:
+                if cookie.name == "__Secure-1PSIDTS":
+                    cookie_dict["__Secure-1PSIDTS"] = cookie.value
+                if len(cookie_dict) == 2:
                     return cookie_dict
         except Exception as e:
             # Ignore exceptions and try the next browser function

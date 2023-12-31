@@ -110,7 +110,7 @@ import requests
 proxy_url = "http://xxxxxxxxxxxxxx:@smartproxy.crawlbase.com:8012" 
 proxies = {"http": proxy_url, "https": proxy_url}
 
-bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
+bard = Bard(token='xxxxxxx', token_ts='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 

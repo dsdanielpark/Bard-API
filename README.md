@@ -112,7 +112,8 @@ Simple Usage
 from bardapi import Bard
 
 token = 'xxxxxxx'
-bard = Bard(token=token)
+token_ts = 'xxxxxxx'
+bard = Bard(token=token, token_ts=token_ts)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 Or you can use this
@@ -120,6 +121,7 @@ Or you can use this
 from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxx"
+os.environ['_BARD_API_TS']="xxxxxxx"
 
 Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
@@ -131,6 +133,9 @@ import os
 
 # set your __Secure-1PSID value to key
 token = 'xxxxxxx'
+
+# set your __Secure-1PSIDTS value to key
+token_ts = 'xxxxxxx'
 
 # set your input text
 input_text = "나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘"
@@ -146,6 +151,7 @@ Addressing errors caused by delayed responses in environments like Google Colab 
 from bardapi import Bard
 import os
 os.environ['_BARD_API_KEY']="xxxxxxx"
+os.environ['_BARD_API_TS']="xxxxxxx"
 
 bard = Bard(timeout=30) # Set timeout in seconds
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
@@ -167,7 +173,7 @@ proxies = {
     'https': 'https://proxy.example.com:8080'
 }
 
-bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
+bard = Bard(token='xxxxxxx', token_ts='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -183,7 +189,7 @@ import requests
 proxy_url = "http://xxxxxxxxxxxxxx:@smartproxy.crawlbase.com:8012" 
 proxies = {"http": proxy_url, "https": proxy_url}
 
-bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
+bard = Bard(token='xxxxxxx', token_ts='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
@@ -196,7 +202,9 @@ from bardapi import Bard
 import requests
 # import os
 # os.environ['_BARD_API_KEY'] = 'xxxxxxx'
+# os.environ['_BARD_API_TS'] = 'xxxxxxx'
 token='xxxxxxx'
+token_ts='xxxxxxx'
 
 session = requests.Session()
 session.headers = {
@@ -208,9 +216,11 @@ session.headers = {
             "Referer": "https://bard.google.com/",
         }
 session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
+session.cookies.set("__Secure-1PSIDTS", os.getenv("_BARD_API_TS")) 
 # session.cookies.set("__Secure-1PSID", token) 
+# session.cookies.set("__Secure-1PSIDTS", token_ts) 
 
-bard = Bard(token=token, session=session, timeout=30)
+bard = Bard(token=token, token_ts=token_ts, session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 
 # Continued conversation without set new session
@@ -281,7 +291,7 @@ As an experimental feature, it is possible to ask questions with an image. Howev
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxx')
+bard = Bard(token='xxxxxxx', token_ts='xxxxxxx')
 image = open('image.jpg', 'rb').read() # (jpeg, png, webp) are supported.
 bard_answer = bard.ask_about_image('What is in the image?', image)
 print(bard_answer['content'])
@@ -293,7 +303,7 @@ The user is solely responsible for all code, and it is imperative to consult Goo
 ```python
 from bardapi import Bard
 
-bard = Bard(token='xxxxxxx')
+bard = Bard(token='xxxxxxx', token_ts='xxxxxxx')
 audio = bard.speech('Hello, I am Bard! How can I help you today?')
 with open("speech.ogg", "wb") as f:
   f.write(bytes(audio['audio']))

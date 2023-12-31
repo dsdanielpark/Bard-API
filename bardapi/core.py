@@ -46,6 +46,7 @@ class Bard:
     def __init__(
         self,
         token: Optional[str] = None,
+        token_ts: Optional[str] = None,
         timeout: int = 20,
         proxies: Optional[dict] = None,
         session: Optional[requests.Session] = None,
@@ -69,7 +70,7 @@ class Bard:
             run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
             token_from_browser (bool, optional, default = False): Gets a token from the browser
         """
-        self.token = self._get_token(token, token_from_browser)
+        self.token, self.token_ts = self._get_token(token, token_ts, token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -89,12 +90,13 @@ class Bard:
         if google_translator_api_key:
             assert translate
 
-    def _get_token(self, token: str, token_from_browser: bool) -> str:
+    def _get_token(self, token: str, token_ts: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
         Args:
             token (str): Bard API token.
+            token_ts (str): Bard API token ts
             token_from_browser (bool): Whether to extract the token from the browser cookie.
 
         Returns:
@@ -102,15 +104,15 @@ class Bard:
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
-        if token:
-            return token
-        elif os.getenv("_BARD_API_KEY"):
-            return os.getenv("_BARD_API_KEY")
+        if token and token_ts:
+            return token, token_ts
+        elif os.getenv("_BARD_API_KEY") and os.getenv("_BARD_API_TS"):
+            return os.getenv("_BARD_API_KEY"), os.getenv("_BARD_API_TS")
         elif token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=False)
+            extracted_cookie_dict = extract_bard_cookie()
             if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
-            return extracted_cookie_dict["__Secure-1PSID"]
+            return extracted_cookie_dict["__Secure-1PSID"], extracted_cookie_dict["__Secure-1PSIDTS"]
         else:
             raise Exception(
                 "Bard API Key must be provided as token argument or extracted from browser."
@@ -130,6 +132,7 @@ class Bard:
             new_session = requests.Session()
             new_session.headers = SESSION_HEADERS
             new_session.cookies.set("__Secure-1PSID", self.token)
+            new_session.cookies.set("__Secure-1PSIDTS", self.token_ts)
             new_session.proxies = self.proxies
             return new_session
         else:
@@ -158,7 +161,7 @@ class Bard:
         snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e:
             raise Exception(
-                "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as token='xxxxx'."
+                "SNlM0e value not found. Double-check __Secure-1PSID and __Secure-1PSIDTS value or pass it as token='xxxxx' and token_ts='xxxxx'."
             )
         return snim0e.group(1)
 
@@ -351,7 +354,8 @@ class Bard:
 
         Example:
         >>> token = 'xxxxxx'
-        >>> bard = Bard(token=token)
+        >>> token_ts = 'xxxxxx'
+        >>> bard = Bard(token=token, token_ts=token_ts)
 
         >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>> print(response['content'])
@@ -523,7 +527,8 @@ class Bard:
 
         Example:
         >>> token = 'xxxxxx'
-        >>> bard = Bard(token=token)
+        >>> token_ts = 'xxxxxx'
+        >>> bard = Bard(token=token, token_ts=token_ts)
         >>> audio = bard.speech("hello!")
         >>> with open("bard.ogg", "wb") as f:
         >>>     f.write(bytes(audio['audio']))
@@ -582,7 +587,8 @@ class Bard:
 
         Example:
         >>> token = 'xxxxxx'
-        >>> bard = Bard(token=token)
+        >>> token_ts = 'xxxxxx'
+        >>> bard = Bard(token=token, token_ts=token_ts)
         >>> bard_answer = bard.get_answer("hello!")
         >>> url = bard.export_conversation(bard_answer, title="Export Conversation")
         >>> print(url['url'])
@@ -641,7 +647,8 @@ class Bard:
 
         Example:
         >>> token = 'xxxxxx'
-        >>> bard = Bard(token=token)
+        >>> token_ts = 'xxxxxx'
+        >>> bard = Bard(token=token, token_ts=token_ts)
         >>> image = open('image.jpg', 'rb').read()
         >>> bard_answer = bard.ask_about_image("what is in the image?", image)['content']
 
@@ -824,7 +831,8 @@ class Bard:
 
         Example:
         >>> token = 'xxxxxx'
-        >>> bard = Bard(token=token)
+        >>> token_ts = 'xxxxxx'
+        >>> bard = Bard(token=token, token_ts=token_ts)
         >>> bard_answer = bard.get_answer("Give me python code to print hello world")
         >>> url = bard.export_replit(bard_answer['code'], bard_answer['program_lang'])
         >>> print(url['url'])

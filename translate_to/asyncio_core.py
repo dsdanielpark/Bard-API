@@ -27,12 +27,14 @@ class Bard:
 
         Args:
             token (str): Bard API token.
+            token_ts (str): Bard API token ts.
             timeout (int): Request timeout in seconds.
             proxies (dict): Proxy configuration for requests.
             session (aiohttp.ClientSession): aiohttp session object.
             language (str): Language code for translation (e.g., "en", "ko", "ja").
         """
         self.token = token or os.getenv("_BARD_API_KEY")
+        self.token_ts = token_ts or os.getenv("_BARD_API_TS")
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -103,7 +105,8 @@ class Bard:
 
         Example:
         >>> token = 'xxxxxxxxxx'
-        >>> bard = Bard(token=token)
+        >>> token_ts = 'xxxxxxxxxx'
+        >>> bard = Bard(token=token, token_ts=token_ts)
         >>> response = await bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>> print(response['content'])
 
