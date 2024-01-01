@@ -72,7 +72,9 @@ class BardAsync:
         self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-        self.client = self._get_client(client) # Creating an httpx async client for asynchronous core code
+        self.client = self._get_client(
+            client
+        )  # Creating an httpx async client for asynchronous core code
         self.language = language
         self.cookie_dict = {"__Secure-1PSID": self.token}
         self.run_code = run_code or False
@@ -157,17 +159,16 @@ class BardAsync:
         """
         if session is None:
             async_client = AsyncClient(
-            http2=True,
-            headers=SESSION_HEADERS,
-            cookies={"__Secure-1PSID": self.token},
-            timeout=self.timeout,
-            proxies=self.proxies,
+                http2=True,
+                headers=SESSION_HEADERS,
+                cookies={"__Secure-1PSID": self.token},
+                timeout=self.timeout,
+                proxies=self.proxies,
             )
             return async_client
         else:
-            assert type(session)==AsyncClient 
+            assert type(session) == AsyncClient
             return session
-
 
     async def get_answer(self, input_text: str) -> dict:
         """
@@ -679,7 +680,12 @@ class BardAsync:
         input_data_struct = [
             None,
             [
-                [translated_input_text, 0, None, [[[image_url, 1], "uploaded_photo.jpg"]]],
+                [
+                    translated_input_text,
+                    0,
+                    None,
+                    [[[image_url, 1], "uploaded_photo.jpg"]],
+                ],
                 [lang if lang is not None else self.language],
                 ["", "", ""],
                 "",  # Unknown random string value (1000 characters +)
