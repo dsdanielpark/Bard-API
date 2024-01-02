@@ -95,9 +95,9 @@ Cookie value subject to frequent changes. Verify the value again if an error occ
 
 <br>
 
-If you need to set multiple Cookie values
+If you need to set multiple cookie values:
 
-- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-cookie-bard) - After confirming that multiple cookie values are required to receive responses reliably in certain countries, I will deploy it for testing purposes. Please debug and create a pull request
+- [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-cookie-bard) - After confirming that multiple cookie values are required to receive responses reliably in certain countries, I will deploy it for testing purposes. Please debug and create a pull request.
 
 
 <br>
