@@ -1,6 +1,7 @@
 Development Status :: 5 - Production/Stable
 
 # FAQ
+Cookie values may only be valid for a limited time (approximately 15-20 minutes and may be subject to rate limiting even sooner). Again, it's challenging to implement this in official services. Also, this is not an official Google package, and its availability for future use is uncertain.
 
 ## Before using the Bard API
 - Google Bard can return different responses based on various factors such as account, country, region, IP, etc., following Google's policies. This means that even well-functioning methods, especially the `ask_about_image` method, can encounter Response Errors, which are caused by various reasons related to Google's policies, not package errors. It cannot be resolved at the package level. (e.g., [CAPTCHA](https://en.wikipedia.org/wiki/CAPTCHA) or [HTTP 429 error](https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/429))
