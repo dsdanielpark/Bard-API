@@ -119,7 +119,7 @@ Or you can use this
 ```python
 from bardapi import Bard
 import os
-os.environ['_BARD_API_KEY']="xxxxxxx"
+os.environ['_BARD_API_KEY'] = "xxxxxxx"
 
 Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
@@ -196,7 +196,7 @@ from bardapi import Bard
 import requests
 # import os
 # os.environ['_BARD_API_KEY'] = 'xxxxxxx'
-token='xxxxxxx'
+token = 'xxxxxxx'
 
 session = requests.Session()
 session.headers = {
@@ -307,6 +307,7 @@ Starting from version `0.1.18`, the GitHub version of BardAPI will be synchroniz
 $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
+- [Multi-cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-cookie-bard)
 - [Auto Cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#auto-cookie-bard)
 - [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#text-to-speechtts)
 - [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-language-bard-api)
@@ -318,7 +319,7 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#fix-conversation-id-fix-context)
-- [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
+- [Max_token, Max_sentences](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#translation-to-another-programming-language)
 
 
