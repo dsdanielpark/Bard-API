@@ -28,6 +28,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 - [Google  Bard API](#google--bard-api)
+  - [What is Google Gemini?](#what-is-google-gemini)
   - [What is Google Bard?](#what-is-google-bard)
   - [Install](#install)
   - [Authentication](#authentication)
