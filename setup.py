@@ -1,4 +1,4 @@
-# Copyright 2023 parkminwoo, MIT License
+# Copyright 2023 Daniel Park, MIT License
 
 import re
 from setuptools import find_packages

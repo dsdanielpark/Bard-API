@@ -1,4 +1,4 @@
-# Copyright 2023 Minwoo Park, MIT License.
+# Copyright 2023 Daniel Park, MIT License
 
 from os import environ
 from bardapi.core import Bard
