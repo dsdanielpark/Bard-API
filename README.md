@@ -28,6 +28,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 - [Google  Bard API](#google--bard-api)
+  - [What is Google Gemini?](#what-is-google-gemini)
   - [What is Google Bard?](#what-is-google-bard)
   - [Install](#install)
   - [Authentication](#authentication)
@@ -66,7 +67,7 @@ For more on Gemini:
 
 <br>
 
-## What is Google Bard?
+## What is Google [Bard](https://bard.google.com/chat)?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
 
 
@@ -85,7 +86,7 @@ $ pip install bardapi==0.1.23a
 <br>
 
 ## Authentication
-> **Warning** Do not expose the `__Secure-1PSID` 
+> **Warning** Do not expose the `__Secure-1PSID`. For testing purposes only; avoid direct application use. Cookie values change periodically (every 15-20 minutes). Frequent session changes may briefly block access; headless mode is challenging. Rate limiting applies and changes often. If the cookie changes, log out of your Google account, close the browser, and enter the new cookie value. Or manually reset the cookie for a new value. See FAQ and issue pages for details.
 1. Visit https://bard.google.com/
 2. F12 for console
 3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
@@ -119,7 +120,7 @@ Or you can use this
 ```python
 from bardapi import Bard
 import os
-os.environ['_BARD_API_KEY']="xxxxxxx"
+os.environ['_BARD_API_KEY'] = "xxxxxxx"
 
 Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
@@ -196,7 +197,7 @@ from bardapi import Bard
 import requests
 # import os
 # os.environ['_BARD_API_KEY'] = 'xxxxxxx'
-token='xxxxxxx'
+token = 'xxxxxxx'
 
 session = requests.Session()
 session.headers = {
@@ -270,8 +271,8 @@ Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extrac
 from bardapi import Bard
 
 bard = Bard(token_from_browser=True)
-res = bard.get_answer("Do you like cookies?")
-print(res['content'])
+response = bard.get_answer("Do you like cookies?")
+print(response['content'])
 ```
 
 ### Bard `ask_about_image` method 
@@ -307,6 +308,7 @@ Starting from version `0.1.18`, the GitHub version of BardAPI will be synchroniz
 $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 ```
 
+- [Multi-cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-cookie-bard)
 - [Auto Cookie Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#auto-cookie-bard)
 - [TTS from Bard](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#text-to-speechtts)
 - [Multi-language Bard API](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#multi-language-bard-api)
@@ -318,7 +320,7 @@ $ pip install git+https://github.com/dsdanielpark/Bard-API.git
 - [Using Bard Asynchronously](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#using-bard-asynchronously)
 - [Bard Cookies](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#bard-which-can-get-cookies)
 - [Fix Coversation ID (Fix Context)](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#fix-conversation-id-fix-context)
-- [max_token-max_sentence](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
+- [Max_token, Max_sentences](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#max_token-max_sentence)
 - [Translation to another programming language](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_DEV.md#translation-to-another-programming-language)
 
 
