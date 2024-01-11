@@ -188,7 +188,6 @@ bard = Bard(token='xxxxxxx', proxies=proxies, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']
 ```
 
-To make the async bard code collapsible in Markdown, you can use HTML details and summary tags. This allows the code to be hidden under a summary title, which can be clicked to expand and view the full code block. Here's how you can modify your Markdown content:
 
 ### Reusable session object
 You can continue the conversation using a reusable session. However, this feature is limited, and it is difficult for a package-level feature to perfectly maintain conversation_id and context. You can try to maintain the consistency of conversations same way as other LLM services, such as passing some sort of summary of past conversations to the DB.
