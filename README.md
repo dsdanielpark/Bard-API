@@ -46,36 +46,6 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
-## What is Google [Gemini](https://deepmind.google/technologies/gemini/#introduction)?
-[Gemini](https://deepmind.google/technologies/gemini/#introduction) is an advanced, multimodal AI model by [Google DeepMind](https://deepmind.google/), capable of understanding and integrating various information types like text, code, audio, images, and video.
-
-- Paper: https://storage.googleapis.com/deepmind-media/gemini/gemini_1_report.pdf
-- Web: https://blog.google/technology/ai/google-gemini-ai/#capabilities
-- Code Guide: https://ai.google.dev/tutorials/python_quickstart
-- Official API On [Google AI Studio](https://makersuite.google.com/app/apikey).
-
-## Google AI Studio
-Google AI Studio creates a new Google Cloud project for each new API key. You also can create an API key in an existing Google Cloud project. All projects are subject to the [Google Cloud Platform Terms of Service](https://cloud.google.com/terms).
-- Web: https://makersuite.google.com/app/apikey
-- Note: The Gemini API is currently in public preview. Production applications are not supported yet.
-<br>
-
-### Access to Gemini Pro in Bard API 
-The Bard API, sourcing responses from [Google Bard's official website](https://bard.google.com/chat), allows you to receive the same responses as the website. So, if Gemini answers are available on the web, you can also accessed Gemini through the Bard API. However, it's important to note that responses might also come from other models, not exclusively Gemini Pro or Ultra. 
-- There is no official Bard API or early access/waiting list for Gemini, although the [PaLM2 API](https://github.com/dsdanielpark/Bard-API#google-palm-api) is available.
-  - Google's PaLM2 API differs from Bard, with some aspects of Bard being superior.
-  - It's speculated that after expert review, Bard Advanced lineup will likely provide an official API in 2024.
-- Gemini and previous generative AI model responses are provided randomly on Bard Web.
-- The Bard API, with its imperfect extension features(e.g, `ask_about_image`), occasionally demonstrates Gemini's capabilities. This behavior may vary by region, language, or Google account.
-- More information in the [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md).
-
-For more on Gemini:
-- [Official API](https://makersuite.google.com/app/apikey)
-- [Introducing Gemini: our largest and most capable AI model](https://blog.google/technology/ai/google-gemini-ai/)
-- [How it's made: multimodal prompting](https://developers.googleblog.com/2023/12/how-its-made-gemini-multimodal-prompting.html)
-- [YouTube Demo](https://www.youtube.com/watch?v=UIZAiXYceBI)
-
-<br>
 
 ## What is Google [Bard](https://bard.google.com/chat)?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
@@ -377,14 +347,41 @@ print(answer)
 
 </details>
 
+<br>
 
+## What is Google [Gemini](https://deepmind.google/technologies/gemini/#introduction)?
+[Gemini](https://deepmind.google/technologies/gemini/#introduction) is an advanced, multimodal AI model by [Google DeepMind](https://deepmind.google/), capable of understanding and integrating various information types like text, code, audio, images, and video.
+
+- Paper: https://storage.googleapis.com/deepmind-media/gemini/gemini_1_report.pdf
+- Web: https://blog.google/technology/ai/google-gemini-ai/#capabilities
+- Code Guide: https://ai.google.dev/tutorials/python_quickstart
+- Official API On [Google AI Studio](https://makersuite.google.com/app/apikey).
+
+### Google AI Studio
+Google AI Studio creates a new Google Cloud project for each new API key. You also can create an API key in an existing Google Cloud project. All projects are subject to the [Google Cloud Platform Terms of Service](https://cloud.google.com/terms).
+- Web: https://makersuite.google.com/app/apikey
+- Note: The Gemini API is currently in public preview. Production applications are not supported yet.
+
+### Access to Gemini Pro in Bard API package
+The Bard API, sourcing responses from [Google Bard's official website](https://bard.google.com/chat), allows you to receive the same responses as the website. So, if Gemini answers are available on the web, you can also accessed Gemini through the Bard API. However, it's important to note that responses might also come from other models, not exclusively Gemini Pro or Ultra. 
+- There is no official Bard API or early access/waiting list for Gemini, although the [PaLM2 API](https://github.com/dsdanielpark/Bard-API#google-palm-api) is available.
+  - Google's PaLM2 API differs from Bard, with some aspects of Bard being superior.
+  - It's speculated that after expert review, Bard Advanced lineup will likely provide an official API in 2024.
+- Gemini and previous generative AI model responses are provided randomly on Bard Web.
+- The Bard API, with its imperfect extension features(e.g, `ask_about_image`), occasionally demonstrates Gemini's capabilities. This behavior may vary by region, language, or Google account.
+- More information in the [FAQ](https://github.com/dsdanielpark/Bard-API/blob/main/documents/README_FAQ.md).
+
+For more on Gemini:
+- [Official API](https://makersuite.google.com/app/apikey)
+- [Introducing Gemini: our largest and most capable AI model](https://blog.google/technology/ai/google-gemini-ai/)
+- [How it's made: multimodal prompting](https://developers.googleblog.com/2023/12/how-its-made-gemini-multimodal-prompting.html)
+- [YouTube Demo](https://www.youtube.com/watch?v=UIZAiXYceBI)
 
 <br>
 
-# Google PaLM API
-You can explore information about various generative AI models by Google. Although the palm2 API seems to be under preparation, you can check out demos related to palm2 on the demo page.
 
-## PaLM API
+
+## Google PaLM
 Try demo at https://makersuite.google.com/app/prompts/new_text.
 ```
 who are you?
