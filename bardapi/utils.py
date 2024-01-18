@@ -126,26 +126,26 @@ def extract_bard_cookie(cookies: bool = False) -> dict:
     return cookie_dict
 
 
-def max_token(text: str, n: int):
+def max_token(text: str, n: int) -> str:
     """
-    Print the first 'n' tokens (words) of the given text.
+    Return the first 'n' tokens (words) of the given text.
 
     Args:
         text (str): The input text to be processed.
-        n (int): The number of tokens (words) to be printed from the beginning.
+        n (int): The number of tokens (words) to be included in the result.
 
     Returns:
-        None
+        str: The first 'n' tokens from the input text.
     """
-    word_count = 0
-    for i, char in enumerate(text):
-        if char.isspace():
-            word_count += 1
-            if word_count == n:
-                print(text[:i])
-                break
+    if not isinstance(text, str):
+        raise ValueError("Input 'text' must be a valid string.")
+    
+    tokens = text.split()  # Split the text into tokens (words)
+    if n <= len(tokens):
+        return " ".join(tokens[:n])  # Return the first 'n' tokens as a string
     else:
-        print(text)
+        return text
+
 
 
 def max_sentence(text: str, n: int):
@@ -168,9 +168,8 @@ def max_sentence(text: str, n: int):
         if char in punctuations:
             sentence_count += 1
             if sentence_count == n:
-                print("".join(sentences).strip())
-                return
-    print("".join(sentences).strip())
+                result = "".join(sentences).strip()
+                return result
 
 
 def build_input_text_struct(
