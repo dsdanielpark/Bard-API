@@ -42,12 +42,24 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [More features](#more-features)
   - [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
   - [The Python package hf-transllm](#the-python-package-hf-transllm)
+    - [Example code of hf-transllm](#example-code-of-hf-transllm)
+    - [Usage](#usage-1)
+      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
+      - [For LLM that use `English`](#for-llm-that-use-english)
   - [What is Google Gemini?](#what-is-google-gemini)
     - [Google AI Studio](#google-ai-studio)
     - [Access to Gemini Pro in Bard API package](#access-to-gemini-pro-in-bard-api-package)
   - [Google PaLM](#google-palm)
     - [Quick Start](#quick-start)
+  - [Sponsor](#sponsor)
   - [FAQ](#faq)
+  - [Scripts](#scripts)
+  - [Contributors](#contributors)
+  - [License](#license)
+  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
+  - [Bugs and Issues](#bugs-and-issues)
+  - [Contacts](#contacts)
+  - [Reference](#reference)
 
 
 
@@ -214,10 +226,8 @@ import os
 
 # Uncomment and set your API key as needed
 # os.environ['_BARD_API_KEY'] = 'xxxxxxx'
-
 token = 'xxxxxxx'  # Replace with your actual token
 
-# Define SESSION_HEADERS
 SESSION_HEADERS = {
     "Host": "bard.google.com",
     "X-Same-Domain": "1",
@@ -226,8 +236,6 @@ SESSION_HEADERS = {
     "Origin": "https://bard.google.com",
     "Referer": "https://bard.google.com/",
 }
-
-# Set timeout and proxies as needed
 timeout = 30  # Example timeout
 proxies = {}  # Replace with your proxies if needed
 
@@ -241,9 +249,13 @@ client = AsyncClient(
 
 bard_async = BardAsync(token=token, client=client)
 
-# Example usage (ensure you are in an async context or use asyncio.run for testing)
-# response = await bard_async.get_answer("Tell me about NewJeans, popular among my peers")
-# print(response['content'])
+# Asynchronous function to get the answer
+async def get_bard_answer(question):
+    await bard_async.async_setup()  # Ensure async setup is done
+    return await bard_async.get_answer(question)
+
+response = await get_bard_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+print(response['content'])
 ```
 
 </details>

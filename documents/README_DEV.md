@@ -287,20 +287,43 @@ bard.get_answer("code a pie chart in python for this data={'blue':25, 'red':30, 
 Using asynchronous implementation will be efficient when implementing ChatBots or something alone those lines.    
 BardAsync is not using requests library instead it is using httpx library and http2 protocol.
     
-BardAsync is present in translate_to.core_async.BardAsync
 ```python
-from bardapi import BardAsync 
-    
-bard = BardAsync(token="xxxxxxxx")
-await bard.get_answer("What is Metaverse?")
-```
-or
-```python
-import asyncio
+from httpx import AsyncClient
 from bardapi import BardAsync
-    
-bard = BardAsync(token="xxxxxxxx")
-asyncio.run(bard.get_answer("What is Metaverse?"))
+import os
+
+# Uncomment and set your API key as needed
+# os.environ['_BARD_API_KEY'] = 'xxxxxxx'
+token = 'xxxxxxx'  # Replace with your actual token
+
+SESSION_HEADERS = {
+    "Host": "bard.google.com",
+    "X-Same-Domain": "1",
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+    "Origin": "https://bard.google.com",
+    "Referer": "https://bard.google.com/",
+}
+timeout = 30  # Example timeout
+proxies = {}  # Replace with your proxies if needed
+
+client = AsyncClient(
+    http2=True,
+    headers=SESSION_HEADERS,
+    cookies={"__Secure-1PSID": token},
+    timeout=timeout,
+    proxies=proxies,
+)
+
+bard_async = BardAsync(token=token, client=client)
+
+# Asynchronous function to get the answer
+async def get_bard_answer(question):
+    await bard_async.async_setup()  # Ensure async setup is done
+    return await bard_async.get_answer(question)
+
+response = await get_bard_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
+print(response['content'])
 ```
 
 <br>
