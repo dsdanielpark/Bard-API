@@ -330,6 +330,7 @@ print(response['content'])
     
 
 ### Multi-cookie Bard
+Depending on the country, region, and status of your Google account, you may need to use multiple cookies. If so, please provide the cookies in the form of a dictionary.
 ```python
 from bardapi import BardCookies
 
