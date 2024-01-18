@@ -44,5 +44,5 @@ __all__ = [
     "max_sentence",
     "Tool",
 ]
-__version__ = "0.1.38"
+__version__ = "0.1.39"
 __author__ = "daniel park <parkminwoo1991@gmail.com>"
