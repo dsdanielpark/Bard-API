@@ -35,10 +35,11 @@ from bardapi.utils import (
     build_input_text_struct,
 )
 
+
 class BardAsync:
     """
     BardAsync is a class for interacting with the Bard API asynchronously.
-    
+
     Attributes:
         token (str): Bard API token.
         client (AsyncClient): Asynchronous client for making HTTP requests.
@@ -48,6 +49,7 @@ class BardAsync:
         run_code (bool): A flag to determine whether to execute code snippets.
         token_from_browser (bool): A flag to determine whether to get the token from the browser.
     """
+
     def __init__(
         self,
         token: Optional[str] = None,
@@ -62,7 +64,7 @@ class BardAsync:
     ):
         """
         Initialize the BardAsync class.
-        
+
         Args:
             token (Optional[str]): Bard API token.
             timeout (int): Timeout for HTTP requests.
@@ -73,13 +75,15 @@ class BardAsync:
             language (Optional[str]): The language in which the input text is written.
             run_code (bool): A flag to determine whether to execute code snippets.
             token_from_browser (bool): A flag to determine whether to get the token from the browser.
-            
+
         Raises:
             Exception: If the token is not provided and cannot be extracted from the environment variable.
         """
         self.token = self._get_token(token, token_from_browser)
         if not self.token:
-            raise Exception("Token must be provided either directly or through _BARD_API_KEY environment variable.")
+            raise Exception(
+                "Token must be provided either directly or through _BARD_API_KEY environment variable."
+            )
         self.client = client or AsyncClient(
             http2=True,
             headers=SESSION_HEADERS,
@@ -111,7 +115,7 @@ class BardAsync:
     async def _get_snim0e(self) -> Optional[str]:
         """
         Get the SNlM0e value from the Bard website.
-        
+
         Returns:
             Optional[str]: The SNlM0e value if found, otherwise None.
         """
@@ -138,11 +142,11 @@ class BardAsync:
 
         self.SNlM0e = snim0e_match.group(1)
         return self.SNlM0e
-    
+
     async def _initialize_client(self) -> AsyncClient:
         """
         Initialize the AsyncClient instance.
-        
+
         Returns:
             AsyncClient: The initialized AsyncClient instance.
         """
@@ -157,14 +161,14 @@ class BardAsync:
     def _get_token(self, token: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
-        
+
         Args:
             token (str): Bard API token.
             token_from_browser (bool): Whether to extract the token from the browser cookie.
-            
+
         Returns:
             str: The Bard API token.
-            
+
         Raises:
             Exception: If the token is not provided and can't be extracted from the browser.
         """
@@ -185,10 +189,10 @@ class BardAsync:
     async def _get_client(self, session: Optional[AsyncClient]) -> AsyncClient:
         """
         Get or initialize the AsyncClient instance.
-        
+
         Args:
             session (Optional[AsyncClient]): Existing AsyncClient instance.
-            
+
         Returns:
             AsyncClient: The AsyncClient instance.
         """
@@ -208,10 +212,10 @@ class BardAsync:
     async def get_answer(self, input_text: str) -> dict:
         """
         Get the answer from the Bard API for the input text.
-        
+
         Args:
             input_text (str): Text input for which the answer is sought.
-            
+
         Returns:
             dict: The response from the Bard API.
         """
@@ -230,10 +234,10 @@ class BardAsync:
     def _prepare_request(self, input_text: str) -> Tuple[dict, dict]:
         """
         Prepare the request for the Bard API.
-        
+
         Args:
             input_text (str): Text input for which the answer is sought.
-            
+
         Returns:
             Tuple[dict, dict]: The parameters and data for the POST request.
         """
@@ -241,8 +245,12 @@ class BardAsync:
         if self.language not in ALLOWED_LANGUAGES:
             if self.google_translator_api_key:
                 # Translate using the official Google Cloud Translation API
-                google_official_translator = translate.Client(api_key=self.google_translator_api_key)
-                input_text = google_official_translator.translate(input_text, target_language="en")
+                google_official_translator = translate.Client(
+                    api_key=self.google_translator_api_key
+                )
+                input_text = google_official_translator.translate(
+                    input_text, target_language="en"
+                )
             else:
                 # Translate using an unofficial translator
                 translator_to_eng = GoogleTranslator(source="auto", target="en")
@@ -270,10 +278,10 @@ class BardAsync:
     def _process_response(self, resp) -> dict:
         """
         Process the response from the Bard API.
-        
+
         Args:
             resp: The response from the Bard API.
-            
+
         Returns:
             dict: The processed response.
         """
@@ -294,11 +302,11 @@ class BardAsync:
     def _extract_answer(self, parsed_answer, resp) -> dict:
         """
         Extract the answer from the parsed response.
-        
+
         Args:
             parsed_answer: The parsed response from the Bard API.
             resp: The original response from the Bard API.
-            
+
         Returns:
             dict: The extracted answer.
         """
@@ -321,7 +329,7 @@ class BardAsync:
     def _update_state(self, bard_answer) -> None:
         """
         Update the state with the latest conversation ID, response ID, and choice ID.
-        
+
         Args:
             bard_answer (dict): The bard answer containing the state information.
         """
@@ -334,7 +342,7 @@ class BardAsync:
     def _execute_code_if_needed(self, bard_answer) -> None:
         """
         Execute code snippets if the `run_code` flag is set and code is present in the bard answer.
-        
+
         Args:
             bard_answer (dict): The bard answer containing the code to execute.
         """
