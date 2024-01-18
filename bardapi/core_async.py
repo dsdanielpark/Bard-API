@@ -6,6 +6,7 @@ import string
 import random
 import base64
 from typing import Optional
+import logging
 from re import search
 from httpx import AsyncClient
 
@@ -21,6 +22,7 @@ from bardapi.constants import (
     SESSION_HEADERS,
     TEXT_GENERATION_WEB_SERVER_PARAM,
     Tool,
+    POST_ENDPOINT,
 )
 from bardapi.models.result import BardResult
 from bardapi.utils import (
@@ -33,16 +35,11 @@ from bardapi.utils import (
     build_input_text_struct,
 )
 
-
 class BardAsync:
-    """
-    Bard class for interacting with the Bard API using httpx[http2]
-    """
-
     def __init__(
         self,
         token: Optional[str] = None,
-        timeout: int = 20,
+        timeout: int = 30,
         proxies: Optional[dict] = None,
         client: Optional[AsyncClient] = None,
         conversation_id: Optional[str] = None,
@@ -51,75 +48,67 @@ class BardAsync:
         run_code: bool = False,
         token_from_browser: bool = False,
     ):
-        """
-        Initialize the Bard instance.
-
-        Args:
-            token (str, optional): Bard API token.
-            timeout (int, optional, default = 20): Request timeout in seconds.
-            proxies (dict, optional): Proxy configuration for requests.
-            conversation_id (str, optional): Conversation ID.
-            google_translator_api_key (str, optional): Google cloud translation API key.
-            language (str, optional): Natural language code for translation (e.g., "en", "ko", "ja").
-            run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
-            token_from_browser (bool, optional, default = False): Gets a token from the browser
-        """
-
         self.token = self._get_token(token, token_from_browser)
+        if not self.token:
+            raise Exception("Token must be provided either directly or through _BARD_API_KEY environment variable.")
+        self.client = client or AsyncClient(
+            http2=True,
+            headers=SESSION_HEADERS,
+            cookies={"__Secure-1PSID": self.token},
+            timeout=timeout,
+            proxies=proxies,
+        )
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
         self.conversation_id = conversation_id or ""
         self.response_id = ""
         self.choice_id = ""
-        self.client = self._get_client(
-            client
-        )  # Creating an httpx async client for asynchronous core code
+        self.client = client  # Will be initialized in async_setup
         self.language = language
         self.cookie_dict = {"__Secure-1PSID": self.token}
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
-        self.SNlM0e = self._get_snim0e()
+        self.SNlM0e = None
 
-        if self.google_translator_api_key is not None:
-            from langdetect import detect
-            from deep_translator import GoogleTranslator
-            from google.cloud import translate_v2 as translate
+    async def async_setup(self):
+        self.SNlM0e = await self._get_snim0e()
+        if not self.client:
+            self.client = await self._get_client()  # Ensure this is awaited
 
-    def _get_snim0e(self):
-        """
-        Asynchronously retrieves the SNlM0e value from a specified URL.
-
-        It checks if the SNlM0e value is already a string and returns it.
-        Otherwise, it makes an HTTP GET request to retrieve the SNlM0e value.
-        The method raises an exception if the token format is incorrect or
-        if the SNlM0e value is not found in the response.
-
-        :return: The SNlM0e value as a string.
-        """
+    async def _get_snim0e(self):
         if isinstance(self.SNlM0e, str):
             return self.SNlM0e
 
         if not self.token or self.token[-1] != ".":
-            raise Exception(
-                "__Secure-1PSID value must end with a single dot. Enter correct __Secure-1PSID value."
+            print(
+                "__Secure-1PSID value should end with a single dot. Enter correct __Secure-1PSID value."
             )
 
-        resp = self.client.get(
+        resp = await self.client.get(
             "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
         )
         if resp.status_code != 200:
-            raise Exception(
-                f"Response status code is not 200. Response Status is {resp.status_code}"
+            raise ConnectionError(
+                f"Failed to fetch SNlM0e. Response status: {resp.status_code}"
             )
         snim0e_match = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e_match:
-            raise Exception(
+            raise LookupError(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
             )
 
         self.SNlM0e = snim0e_match.group(1)
         return self.SNlM0e
+    
+    async def _initialize_client(self) -> AsyncClient:
+        return AsyncClient(
+            http2=True,
+            headers=SESSION_HEADERS,
+            cookies=self.cookie_dict,
+            timeout=self.timeout,
+            proxies=self.proxies,
+        )
 
     def _get_token(self, token: str, token_from_browser: bool) -> str:
         """
@@ -171,67 +160,31 @@ class BardAsync:
             return session
 
     async def get_answer(self, input_text: str) -> dict:
-        """
-        Get an answer from the Bard API for the given input text.
+        params, data = self._prepare_request(input_text)
+        resp = await self.client.post(
+            POST_ENDPOINT,
+            params=params,
+            data=data,
+            timeout=self.timeout,
+            follow_redirects=True,
+            headers=SESSION_HEADERS,
+            cookies=self.cookie_dict,
+        )
+        return self._process_response(resp)
 
-        Example:
-        >>> import asyncio
-        >>>
-        >>> async def main():
-        >>>     token = 'xxxxxx'
-        >>>     bard = BardAsync(token=token)
-        >>>     response = await bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
-        >>>     print(response['content'])
-        >>>
-        >>> asyncio.run(main())
+    def _prepare_request(self, input_text: str):
+        # Translate the input text if the language is not allowed and a translator is available
+        if self.language not in ALLOWED_LANGUAGES:
+            if self.google_translator_api_key:
+                # Translate using the official Google Cloud Translation API
+                google_official_translator = translate.Client(api_key=self.google_translator_api_key)
+                input_text = google_official_translator.translate(input_text, target_language="en")
+            else:
+                # Translate using an unofficial translator
+                translator_to_eng = GoogleTranslator(source="auto", target="en")
+                input_text = translator_to_eng.translate(input_text)
 
-        Args:
-            input_text (str): Input text for the query.
-
-        Returns:
-            dict: Answer from the Bard API in the following format:
-                {
-                    "content": str,
-                    "conversation_id": str,
-                    "response_id": str,
-                    "factuality_queries": list,
-                    "text_query": str,
-                    "choices": list,
-                    "links": list
-                    "images": list,
-                    "program_lang": str,
-                    "code": str,
-                    "status_code": int
-                }
-        """
-        params = {
-            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
-            "_reqid": str(self._reqid),
-            "rt": "c",
-        }
-        if self.google_translator_api_key is not None:
-            google_official_translator = translate.Client(
-                api_key=self.google_translator_api_key
-            )
-
-        # [Optional] Set language
-        if (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_eng = GoogleTranslator(source="auto", target="en")
-            input_text = translator_to_eng.translate(input_text)
-        elif (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
-        ):
-            input_text = google_official_translator.translate(
-                input_text, target_language="en"
-            )
-
-        # Make post data structure and insert prompt
+        # Prepare the data structure for the POST request
         input_text_struct = [
             [input_text],
             None,
@@ -242,77 +195,31 @@ class BardAsync:
             "at": self.SNlM0e,
         }
 
-        resp = await self.client.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
-            params=params,
-            data=data,
-            timeout=self.timeout,
-            follow_redirects=True,
-            headers=SESSION_HEADERS,
-            cookies=self.cookie_dict,
-        )
+        # Prepare the parameters for the POST request
+        params = {
+            "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
+            "_reqid": str(self._reqid),
+            "rt": "c",
+        }
+        return params, data
 
-        # Post-processing of response
+    def _process_response(self, resp) -> dict:
+        if resp.status_code != 200:
+            logging.error(f"Response status code: {resp.status_code}")
+            return {"content": f"Response Error: {resp.content}."}
+
         resp_dict = json.loads(resp.content.splitlines()[3])[0][2]
-
         if not resp_dict:
             return {"content": f"Response Error: {resp.content}."}
-        resp_json = json.loads(resp_dict)
 
-        # [Optional] Gather image links
-        try:
-            images = list()
-            if len(resp_json) >= 3:
-                if len(resp_json[4][0]) >= 4 and resp_json[4][0][4] is not None:
-                    for img in resp_json[4][0][4]:
-                        try:
-                            images.append(img[0][0][0])
-                        except Exception as e:
-                            # TODO:
-                            #  handle exception using logging instead
-                            print(f"Unable to parse image from the response: {e}")
-        except:
-            pass
         parsed_answer = json.loads(resp_dict)
+        bard_answer = self._extract_answer(parsed_answer, resp)
+        self._update_state(bard_answer)
+        self._execute_code_if_needed(bard_answer)
+        return bard_answer
 
-        # [Optional] Translated by google translator
-        ## Unofficial for testing
-        if (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is None
-        ):
-            translator_to_lang = GoogleTranslator(source="auto", target=self.language)
-            parsed_answer[4] = [
-                [x[0], [translator_to_lang.translate(x[1][0])] + x[1][1:], x[2]]
-                for x in parsed_answer[4]
-            ]
-        ## Official google cloud translation API
-        elif (
-            self.language is not None
-            and self.language not in ALLOWED_LANGUAGES
-            and self.google_translator_api_key is not None
-        ):
-            parsed_answer[4] = [
-                [
-                    x[0],
-                    [google_official_translator(x[1][0], target_language=self.language)]
-                    + x[1][1:],
-                    x[2],
-                ]
-                for x in parsed_answer[4]
-            ]
-
-        # Get code
-        try:
-            program_lang = (
-                parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
-            )
-            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
-        except Exception:
-            program_lang, code = None, None
-
-        # Returned dictionary object
+    def _extract_answer(self, parsed_answer, resp) -> dict:
+        # Assuming 'parsed_answer' is a dictionary that contains the required information
         bard_answer = {
             "content": parsed_answer[4][0][1][0],
             "conversation_id": parsed_answer[1][0],
@@ -320,35 +227,53 @@ class BardAsync:
             "factuality_queries": parsed_answer[3],
             "text_query": parsed_answer[2][0] if parsed_answer[2] else "",
             "choices": [{"id": x[0], "content": x[1]} for x in parsed_answer[4]],
-            "links": extract_links(parsed_answer[4]),
-            "images": images,
-            "program_lang": program_lang,
-            "code": code,
+            "links": self._extract_links(parsed_answer[4]),
+            "images": [""],
+            "program_lang": "",
+            "code": "",
             "status_code": resp.status_code,
         }
-
-        self.conversation_id, self.response_id, self.choice_id = (
-            bard_answer["conversation_id"],
-            bard_answer["response_id"],
-            bard_answer["choices"][0]["id"],
-        )
-        self._reqid += 100000
-
-        # Execute code
-        if self.run_code and bard_answer["code"] is not None:
-            try:
-                print(bard_answer["code"])
-                # TODO:
-                #  find a way to handle this following warning
-                #  EX100: use of builtin exec function for dynamic input is insecure and can leave your application
-                #  open to arbitrary code execution. Found in 'exec(bard_answer['code'])'.
-                exec(bard_answer["code"])
-            except Exception as e:
-                # TODO:
-                #  handle exception using logging instead
-                print(f"Unable to execute the code: {e}")
-
         return bard_answer
+
+    def _update_state(self, bard_answer):
+        self.conversation_id = bard_answer.get("conversation_id", "")
+        self.response_id = bard_answer.get("response_id", "")
+        choice_id = bard_answer.get("choices", [{}])[0].get("id", "")
+        self.choice_id = choice_id if choice_id else self.choice_id
+        self._reqid += 100000  # Increment _reqid for the next request
+
+    def _execute_code_if_needed(self, bard_answer):
+        if self.run_code and bard_answer.get("code"):
+            code = bard_answer["code"]
+            try:
+                # Execute the code safely. It's important to consider security implications here.
+                # You might want to restrict the types of code that can be executed.
+                exec(code)
+            except Exception as e:
+                logging.error(f"Error executing code: {e}")
+
+    def _extract_links(self, data: list) -> list:
+        """
+        Extract links from the given data.
+
+        Args:
+            data: Data to extract links from.
+
+        Returns:
+            list: Extracted links.
+        """
+        links = []
+        if isinstance(data, list):
+            for item in data:
+                if isinstance(item, list):
+                    links.extend(self._extract_links(item))
+                elif (
+                    isinstance(item, str)
+                    and item.startswith("http")
+                    and "favicon" not in item
+                ):
+                    links.append(item)
+        return links
 
     async def speech(self, input_text: str, lang: str = "en-US") -> dict:
         """
@@ -709,7 +634,7 @@ class BardAsync:
         }
 
         resp = await self.client.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            POST_ENDPOINT,
             params=params,
             data=data,
         )
@@ -813,7 +738,7 @@ class BardAsync:
 
         # Get response
         resp = await self.client.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            POST_ENDPOINT,
             params={
                 "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
                 "_reqid": str(self._reqid),
