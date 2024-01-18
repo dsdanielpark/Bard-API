@@ -139,13 +139,12 @@ def max_token(text: str, n: int) -> str:
     """
     if not isinstance(text, str):
         raise ValueError("Input 'text' must be a valid string.")
-    
+
     tokens = text.split()  # Split the text into tokens (words)
     if n <= len(tokens):
         return " ".join(tokens[:n])  # Return the first 'n' tokens as a string
     else:
         return text
-
 
 
 def max_sentence(text: str, n: int):
