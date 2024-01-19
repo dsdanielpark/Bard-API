@@ -13,7 +13,7 @@ class DraftCitation:
 
     def __init__(self, input_list: list, text: str):
         self._input_list = input_list
-        self.span: tuple[int, int] = self._input_list[0], self._input_list[1]
+        self.span: tuple[int, int] = (self._input_list[0], self._input_list[1])
         if self.span[0] is None or self.span[1] is None:
             self.text = ""
         else:
