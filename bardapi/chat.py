@@ -4,7 +4,7 @@ from typing import Optional
 from bardapi import Bard
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
-from bardapi import BardCookies
+from bardapi.chat import BardCookies
 
 
 class ChatBard(Bard):
