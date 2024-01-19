@@ -204,4 +204,3 @@ class ChatBard(Bard):
             None
         """
         self.chat_history.append({"User": user_input, "Chatbot": chatbot_response})
-

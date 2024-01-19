@@ -45,7 +45,9 @@ class BardCookies(Bard):
             token_from_browser (bool, optional, default = False): Whether to extract the token from browser cookies.
         """
         print("The BardCookies class is no longer in use.")
-        print("Please use the Bard class with the 'cookie_dict' and 'multi_cookies_bool' arguments in the Bard constructor.")
+        print(
+            "Please use the Bard class with the 'cookie_dict' and 'multi_cookies_bool' arguments in the Bard constructor."
+        )
         self.cookie_dict = cookie_dict or self._get_token(token_from_browser)
         self.proxies = proxies
         self.timeout = timeout
