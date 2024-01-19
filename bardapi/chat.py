@@ -1,10 +1,9 @@
 import os
 import requests
 from typing import Optional
-from bardapi import Bard
+from bardapi import Bard, BardCookies
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
-from bardapi.chat import BardCookies
 
 
 class ChatBard(Bard):
