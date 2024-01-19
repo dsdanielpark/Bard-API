@@ -2,7 +2,7 @@
 
 from os import environ
 from bardapi.core import Bard
-from bardapi.chat import ChatBard, ChatBardCookise
+from bardapi.chat import ChatBard
 from bardapi.core_async import BardAsync
 from bardapi.core_cookies import BardCookies, BardAsyncCookies
 from bardapi.constants import (
@@ -28,7 +28,6 @@ bard_api_key = environ.get("_BARD_API_KEY")
 __all__ = [
     "Bard",
     "ChatBard",
-    "ChatBardCookise",
     "BardAsync",
     "BardCookies",
     "BardAsyncCookies",
