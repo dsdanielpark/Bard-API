@@ -55,7 +55,7 @@ class Bard:
         run_code: bool = False,
         token_from_browser: bool = False,
         multi_cookies: bool = False,
-        cookie_dict
+        cookie_dict: dict = None,
     ):
         """
         Initialize the Bard instance.
@@ -71,6 +71,7 @@ class Bard:
             run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
             token_from_browser (bool, optional, default = False): Gets a token from the browser
             multi_cookies: S
+            cookie_dict: 
         """
         self.multi_cookies = multi_cookies
         self.token = self._get_token(token, token_from_browser, multi_cookies)
