@@ -273,7 +273,21 @@ class BardCookies(Bard):
 
 class BardAsyncCookies(BardAsync):
     """
-    Bard class for interacting with the Bard API using httpx[http2]
+    BardAsyncCookies facilitates interaction with the Bard API via httpx[http2],
+    supporting efficient network use and improved performance with HTTP/2.
+
+    It's beneficial for managing cookies, especially for authentication or maintaining sessions.
+
+    Example:
+        from bardapi import ChatBardCookies
+
+        # Instantiate ChatBardCookies to manage cookies and authentication automatically.
+        chat = ChatBardCookies(token_from_browser=True)
+        chat.start()  # Initiates a chat session with automatic cookie handling.
+
+    Note:
+        'httpx[http2]' is required for HTTP/2 support.
+        'token_from_browser=True' fetches authentication tokens from browser cookies.
     """
 
     def __init__(
