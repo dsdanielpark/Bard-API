@@ -54,6 +54,8 @@ class Bard:
         language: Optional[str] = None,
         run_code: bool = False,
         token_from_browser: bool = False,
+        multi_cookies: bool = False,
+        cookie_dict
     ):
         """
         Initialize the Bard instance.
@@ -68,8 +70,10 @@ class Bard:
             language (str, optional): Natural language code for translation (e.g., "en", "ko", "ja").
             run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
             token_from_browser (bool, optional, default = False): Gets a token from the browser
+            multi_cookies: S
         """
-        self.token = self._get_token(token, token_from_browser)
+        self.multi_cookies = multi_cookies
+        self.token = self._get_token(token, token_from_browser, multi_cookies)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -89,7 +93,7 @@ class Bard:
         if google_translator_api_key:
             assert translate
 
-    def _get_token(self, token: str, token_from_browser: bool) -> str:
+    def _get_token(self, token: str, token_from_browser: bool, multi_cookies: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -107,7 +111,7 @@ class Bard:
         elif os.getenv("_BARD_API_KEY"):
             return os.getenv("_BARD_API_KEY")
         elif token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=False)
+            extracted_cookie_dict = extract_bard_cookie(cookies=multi_cookies)
             if not extracted_cookie_dict:
                 raise Exception("Failed to extract cookie from browsers.")
             return extracted_cookie_dict["__Secure-1PSID"]
@@ -224,48 +228,48 @@ class Bard:
             if matches_init_value:
                 self.init_value = matches_init_value[0]
 
-    def update_1PSIDTS(self):
-        # Prepare request data
-        self._set_cookie_refresh_data()
-        data = [self.og_pid, f"{self.init_value}"]
-        data = json.dumps(data)
-        update_cookies_url = f"https://accounts.google.com/RotateCookiesPage?og_pid={self.og_pid}&rot={self.rot}&origin=https%3A%2F%2Fbard.google.com&exp_id={self.exp_id}"
+    # def update_1PSIDTS(self):
+    #     # Prepare request data
+    #     self._set_cookie_refresh_data()
+    #     data = [self.og_pid, f"{self.init_value}"]
+    #     data = json.dumps(data)
+    #     update_cookies_url = f"https://accounts.google.com/RotateCookiesPage?og_pid={self.og_pid}&rot={self.rot}&origin=https%3A%2F%2Fbard.google.com&exp_id={self.exp_id}"
 
-        # Update 1PSIDTS using the extracted og_pid and initValue
-        update_1psidts_url = "https://accounts.google.com/RotateCookies"
-        headers_rotate = {
-            "Host": "accounts.google.com",
-            "Content-Type": "application/json",
-            "Referer": update_cookies_url,
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
-        }
-        # headers_rotate.update(self.headers)
+    #     # Update 1PSIDTS using the extracted og_pid and initValue
+    #     update_1psidts_url = "https://accounts.google.com/RotateCookies"
+    #     headers_rotate = {
+    #         "Host": "accounts.google.com",
+    #         "Content-Type": "application/json",
+    #         "Referer": update_cookies_url,
+    #         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
+    #     }
+    #     # headers_rotate.update(self.headers)
 
-        response = self.session.post(
-            update_1psidts_url,
-            data=data,
-            headers=headers_rotate,
-            timeout=self.timeout,
-            proxies=self.proxies,
-        )
-        response.raise_for_status()
+    #     response = self.session.post(
+    #         update_1psidts_url,
+    #         data=data,
+    #         headers=headers_rotate,
+    #         timeout=self.timeout,
+    #         proxies=self.proxies,
+    #     )
+    #     response.raise_for_status()
 
-        # Extract updated 1PSIDTS from the response headers
-        cookie_headers = response.headers.get("Set-Cookie", "")
-        parsed_cookies = self.parse_cookies(cookie_headers)
-        return parsed_cookies
+    #     # Extract updated 1PSIDTS from the response headers
+    #     cookie_headers = response.headers.get("Set-Cookie", "")
+    #     parsed_cookies = self.parse_cookies(cookie_headers)
+    #     return parsed_cookies
 
-    def parse_cookies(self, cookie_headers):
-        cookie_dict = {}
+    # def parse_cookies(self, cookie_headers):
+    #     cookie_dict = {}
 
-        matches = re.findall(r"([^;]+)", cookie_headers)
+    #     matches = re.findall(r"([^;]+)", cookie_headers)
 
-        for match in matches:
-            key_value = match.split("=")
-            if len(key_value) == 2:
-                cookie_dict[key_value[0].strip()] = key_value[1].strip()
+    #     for match in matches:
+    #         key_value = match.split("=")
+    #         if len(key_value) == 2:
+    #             cookie_dict[key_value[0].strip()] = key_value[1].strip()
 
-        return cookie_dict
+    #     return cookie_dict
 
     def ask(
         self,
