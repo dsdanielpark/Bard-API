@@ -40,7 +40,7 @@ from bardapi.utils import (
 
 class Bard:
     """
-    Bard class for interacting with the Google Bard.
+    Bard class for interacting with Google Bard.
     """
 
     def __init__(
@@ -54,7 +54,7 @@ class Bard:
         language: Optional[str] = None,
         run_code: bool = False,
         token_from_browser: bool = False,
-        multi_cookies: bool = False,
+        multi_cookies_bool: bool = False,
         cookie_dict: dict = None,
     ):
         """
@@ -65,16 +65,17 @@ class Bard:
             timeout (int, optional, default = 20): Request timeout in seconds.
             proxies (dict, optional): Proxy configuration for requests.
             session (requests.Session, optional): Requests session object.
-            conversation_id (str, optional): ID to fetch conversational context
-            google_translator_api_key (str, optional): Google cloud translation API key.
+            conversation_id (str, optional): ID for fetching conversational context.
+            google_translator_api_key (str, optional): Google Cloud Translation API key.
             language (str, optional): Natural language code for translation (e.g., "en", "ko", "ja").
-            run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (Python only)
-            token_from_browser (bool, optional, default = False): Gets a token from the browser
-            multi_cookies: S
-            cookie_dict: 
+            run_code (bool, optional, default = False): Whether to directly execute the code included in the answer (IPython only).
+            token_from_browser (bool, optional, default = False): Retrieve a token from the browser.
+            multi_cookies_bool: When using token_from_browser, automatically extract 3 cookies (__Secure-1PSID, __Secure-1PSIDTS, __Secure-1PSIDCC).
+            cookie_dict: Pass 3 cookies (__Secure-1PSID, __Secure-1PSIDTS, __Secure-1PSIDCC) as keys with their respective values.
         """
-        self.multi_cookies = multi_cookies
-        self.token = self._get_token(token, token_from_browser, multi_cookies)
+        self.cookie_dict = cookie_dict
+        self.multi_cookies_bool = multi_cookies_bool
+        self.token = self._get_token(token, token_from_browser, multi_cookies_bool)
         self.proxies = proxies
         self.timeout = timeout
         self._reqid = int("".join(random.choices(string.digits, k=4)))
@@ -94,13 +95,14 @@ class Bard:
         if google_translator_api_key:
             assert translate
 
-    def _get_token(self, token: str, token_from_browser: bool, multi_cookies: bool) -> str:
+    def _get_token(self, token: str, token_from_browser: bool, multi_cookies_bool: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
         Args:
             token (str): Bard API token.
             token_from_browser (bool): Whether to extract the token from the browser cookie.
+            multi_cookies_bool (bool): Whether to extract multiple cookies from the browser.
 
         Returns:
             str: The Bard API token.
@@ -109,17 +111,28 @@ class Bard:
         """
         if token:
             return token
-        elif os.getenv("_BARD_API_KEY"):
-            return os.getenv("_BARD_API_KEY")
-        elif token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=multi_cookies)
-            if not extracted_cookie_dict:
-                raise Exception("Failed to extract cookie from browsers.")
-            return extracted_cookie_dict["__Secure-1PSID"]
-        else:
-            raise Exception(
-                "Bard API Key must be provided as token argument or extracted from browser."
-            )
+        
+        env_token = os.getenv("_BARD_API_KEY")
+        if env_token:
+            return env_token
+        
+        if token_from_browser:
+            extracted_cookie_dict = extract_bard_cookie(cookies=multi_cookies_bool)
+            if self.multi_cookies_bool:
+                self.cookie_dict = extracted_cookie_dict
+                required_cookies = ["__Secure-1PSID", "__Secure-1PSIDTS", "__Secure-1PSIDCC"]
+                if len(extracted_cookie_dict) < len(required_cookies) or not all(
+                    key in extracted_cookie_dict for key in required_cookies
+                ):
+                    print("Missing one or more required cookies.")
+                    return extracted_cookie_dict.get("__Secure-1PSID", "")
+            if extracted_cookie_dict:
+                return extracted_cookie_dict.get("__Secure-1PSID", "")
+        
+        raise Exception(
+            "Bard API Key must be provided as the 'token' argument or extracted from the browser."
+        )
+
 
     def _get_session(self, session: Optional[requests.Session]) -> requests.Session:
         """
@@ -131,14 +144,20 @@ class Bard:
         Returns:
             requests.Session: The Session object.
         """
-        if session is None:
-            new_session = requests.Session()
-            new_session.headers = SESSION_HEADERS
-            new_session.cookies.set("__Secure-1PSID", self.token)
-            new_session.proxies = self.proxies
-            return new_session
-        else:
+        if session is not None:
             return session
+
+        new_session = requests.Session()
+        new_session.headers = SESSION_HEADERS
+        new_session.cookies.set("__Secure-1PSID", self.token)
+        new_session.proxies = self.proxies
+
+        if self.cookie_dict is not None:
+            new_session.cookies.set("__Secure-1PSIDTS", self.cookie_dict.get("__Secure-1PSIDTS", ""))
+            new_session.cookies.set("__Secure-1PSIDCC", self.cookie_dict.get("__Secure-1PSIDCC", ""))
+
+        return new_session
+
 
     def _get_snim0e(self) -> str:
         """
