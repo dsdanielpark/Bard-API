@@ -4,7 +4,7 @@ from typing import Optional
 from bardapi import Bard
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
-from bardapi import BardCookis
+from bardapi import BardCookies
 
 class ChatBard(Bard):
     """
@@ -206,7 +206,7 @@ class ChatBard(Bard):
         self.chat_history.append({"User": user_input, "Chatbot": chatbot_response})
 
 
-class ChatBardCookise(BardCookis):
+class ChatBardCookise(BardCookies):
     """
     A class representing a chatbot powered by the Bard API.
 
