@@ -6,6 +6,7 @@ from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
 from bardapi import BardCookies
 
+
 class ChatBard(Bard):
     """
     A class representing a chatbot powered by the Bard API.
