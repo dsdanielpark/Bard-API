@@ -42,12 +42,24 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [More features](#more-features)
   - [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
   - [The Python package hf-transllm](#the-python-package-hf-transllm)
+    - [Example code of hf-transllm](#example-code-of-hf-transllm)
+    - [Usage](#usage-1)
+      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
+      - [For LLM that use `English`](#for-llm-that-use-english)
   - [What is Google Gemini?](#what-is-google-gemini)
     - [Google AI Studio](#google-ai-studio)
     - [Access to Gemini Pro in Bard API package](#access-to-gemini-pro-in-bard-api-package)
   - [Google PaLM](#google-palm)
     - [Quick Start](#quick-start)
+  - [Sponsor](#sponsor)
   - [FAQ](#faq)
+  - [Scripts](#scripts)
+  - [Contributors](#contributors)
+  - [License](#license)
+  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
+  - [Bugs and Issues](#bugs-and-issues)
+  - [Contacts](#contacts)
+  - [Reference](#reference)
 
 
 
@@ -115,7 +127,6 @@ Bard().get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해�
 To get reponse dictionary
 ```python
 import bardapi
-import os
 
 # set your __Secure-1PSID value to key
 token = 'xxxxxxx'
@@ -146,7 +157,6 @@ bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 
 If you are working behind a proxy, use the following.
 ```python
 from bardapi import Bard
-import os
 
 # Change 'http://proxy.example.com:8080' to your http proxy
 # timeout in seconds
@@ -194,8 +204,8 @@ session.headers = {
             "Origin": "https://bard.google.com",
             "Referer": "https://bard.google.com/",
         }
-session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
-# session.cookies.set("__Secure-1PSID", token) 
+# session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
+session.cookies.set("__Secure-1PSID", token) 
 
 bard = Bard(token=token, session=session, timeout=30)
 bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")['content']

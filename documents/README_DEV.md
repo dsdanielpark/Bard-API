@@ -223,7 +223,6 @@ chat.start()
 or
 ```python
 from bardapi import Bard, SESSION_HEADERS
-import os
 import requests
 
 token='xxxxxxxx'
@@ -290,9 +289,8 @@ BardAsync is not using requests library instead it is using httpx library and ht
 ```python
 from httpx import AsyncClient
 from bardapi import BardAsync
-import os
-
 # Uncomment and set your API key as needed
+# import os
 # os.environ['_BARD_API_KEY'] = 'xxxxxxx'
 token = 'xxxxxxx'  # Replace with your actual token
 
@@ -379,7 +377,6 @@ BART returns multiple responses as candidate answers. Each of these responses is
 
 ```python
 from bardapi import Bard, SESSION_HEADERS
-import os
 import requests
 
 # Set token
