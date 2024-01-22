@@ -48,6 +48,8 @@ class BardAsync:
         language (str): The language in which the input text is written.
         run_code (bool): A flag to determine whether to execute code snippets.
         token_from_browser (bool): A flag to determine whether to get the token from the browser.
+        multi_cookies_bool (bool): A flag to determine whether to extract multiple cookies from the browser.
+        cookie_dict (dict): A dictionary containing custom cookies to be set.
     """
 
     def __init__(
@@ -61,6 +63,8 @@ class BardAsync:
         language: Optional[str] = None,
         run_code: bool = False,
         token_from_browser: bool = False,
+        multi_cookies_bool: bool = False,
+        cookie_dict: dict = None,
     ):
         """
         Initialize the BardAsync class.
@@ -75,11 +79,13 @@ class BardAsync:
             language (Optional[str]): The language in which the input text is written.
             run_code (bool): A flag to determine whether to execute code snippets.
             token_from_browser (bool): A flag to determine whether to get the token from the browser.
+            multi_cookies_bool (bool): A flag to determine whether to extract multiple cookies from the browser.
+            cookie_dict (dict): A dictionary containing custom cookies to be set.
 
         Raises:
             Exception: If the token is not provided and cannot be extracted from the environment variable.
         """
-        self.token = self._get_token(token, token_from_browser)
+        self.token = self._get_token(token, token_from_browser, multi_cookies_bool)
         if not self.token:
             raise Exception(
                 "Token must be provided either directly or through _BARD_API_KEY environment variable."
@@ -103,6 +109,9 @@ class BardAsync:
         self.run_code = run_code or False
         self.google_translator_api_key = google_translator_api_key
         self.SNlM0e = None
+        self.multi_cookies_bool = multi_cookies_bool
+        if cookie_dict:
+            self.cookie_dict.update(cookie_dict)
 
     async def async_setup(self) -> None:
         """
@@ -110,7 +119,7 @@ class BardAsync:
         """
         self.SNlM0e = await self._get_snim0e()
         if not self.client:
-            self.client = await self._get_client()  # Ensure this is awaited
+            self.client = await self._initialize_client()  # Ensure this is awaited
 
     async def _get_snim0e(self) -> Optional[str]:
         """
@@ -134,7 +143,7 @@ class BardAsync:
             raise ConnectionError(
                 f"Failed to fetch SNlM0e. Response status: {resp.status_code}"
             )
-        snim0e_match = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
+        snim0e_match = re.search(r'\\?*"SNlM0e\\?*":"(.*?)"', resp.text)
         if not snim0e_match:
             raise LookupError(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
@@ -158,13 +167,16 @@ class BardAsync:
             proxies=self.proxies,
         )
 
-    def _get_token(self, token: str, token_from_browser: bool) -> str:
+    def _get_token(
+        self, token: str, token_from_browser: bool, multi_cookies_bool: bool
+    ) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
         Args:
             token (str): Bard API token.
             token_from_browser (bool): Whether to extract the token from the browser cookie.
+            multi_cookies_bool (bool): Whether to extract multiple cookies from the browser.
 
         Returns:
             str: The Bard API token.
@@ -174,19 +186,37 @@ class BardAsync:
         """
         if token:
             return token
-        elif os.getenv("_BARD_API_KEY"):
-            return os.getenv("_BARD_API_KEY")
-        elif token_from_browser:
-            extracted_cookie_dict = extract_bard_cookie(cookies=False)
-            if not extracted_cookie_dict:
-                raise Exception("Failed to extract cookie from browsers.")
-            return extracted_cookie_dict["__Secure-1PSID"]
-        else:
-            raise Exception(
-                "Bard API Key must be provided as token argument or extracted from browser."
-            )
 
-    async def _get_client(self, session: Optional[AsyncClient]) -> AsyncClient:
+        env_token = os.getenv("_BARD_API_KEY")
+        if env_token:
+            return env_token
+
+        if token_from_browser:
+            extracted_cookie_dict = extract_bard_cookie(cookies=multi_cookies_bool)
+            if self.multi_cookies_bool:
+                self.cookie_dict = extracted_cookie_dict
+                required_cookies = [
+                    "__Secure-1PSID",
+                    "__Secure-1PSIDTS",
+                    "__Secure-1PSIDCC",
+                ]
+                if len(extracted_cookie_dict) < len(required_cookies) or not all(
+                    key in extracted_cookie_dict for key in required_cookies
+                ):
+                    print(
+                        "Essential cookies (__Secure-1PSID, __Secure-1PSIDTS, __Secure-1PSIDCC) are missing."
+                    )
+                    return extracted_cookie_dict.get("__Secure-1PSID", "")
+            if extracted_cookie_dict:
+                return extracted_cookie_dict.get("__Secure-1PSID", "")
+
+        raise Exception(
+            "Bard API Key must be provided as the 'token' argument or extracted from the browser."
+        )
+
+    async def _get_client(
+        self, session: Optional[AsyncClient]
+    ) -> AsyncClient:
         """
         Get or initialize the AsyncClient instance.
 
@@ -197,16 +227,10 @@ class BardAsync:
             AsyncClient: The AsyncClient instance.
         """
         if session is None:
-            async_client = AsyncClient(
-                http2=True,
-                headers=SESSION_HEADERS,
-                cookies={"__Secure-1PSID": self.token},
-                timeout=self.timeout,
-                proxies=self.proxies,
-            )
+            async_client = await self._initialize_client()
             return async_client
         else:
-            assert type(session) == AsyncClient
+            assert isinstance(session, AsyncClient)
             return session
 
     async def get_answer(self, input_text: str) -> dict:
