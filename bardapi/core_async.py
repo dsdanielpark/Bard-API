@@ -214,9 +214,7 @@ class BardAsync:
             "Bard API Key must be provided as the 'token' argument or extracted from the browser."
         )
 
-    async def _get_client(
-        self, session: Optional[AsyncClient]
-    ) -> AsyncClient:
+    async def _get_client(self, session: Optional[AsyncClient]) -> AsyncClient:
         """
         Get or initialize the AsyncClient instance.
 
