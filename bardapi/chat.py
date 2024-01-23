@@ -220,6 +220,9 @@ class ChatBard(Bard):
 
         print(SEPARATOR_LINE)
 
+    def get_chat_history(self) -> list:
+        return self.chat_history
+
     @staticmethod
     def _is_valid_input(user_input: str) -> bool:
         """
