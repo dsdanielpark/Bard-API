@@ -1,3 +1,6 @@
+# The asynchronous bard may not yield significant benefits and may not be perfectly implemented. 
+# You can contribute a more optimized implementation anytime through a Pull Request.
+
 import os
 import re
 import json
