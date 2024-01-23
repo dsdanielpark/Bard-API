@@ -4,6 +4,18 @@ from typing import Optional
 from bardapi import Bard, BardCookies
 from colorama import Fore, Back, Style
 from bardapi.constants import SEPARATOR_LINE, SESSION_HEADERS
+from bardapi.utils import (
+    extract_bard_cookie,
+)
+
+import os
+from typing import Optional
+import requests
+from bardapi import Bard, extract_bard_cookie
+
+SESSION_HEADERS = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3"
+}
 
 
 class ChatBard(Bard):
@@ -32,6 +44,8 @@ class ChatBard(Bard):
         google_translator_api_key: Optional[str] = None,
         language: Optional[str] = None,
         token_from_browser: bool = False,
+        multi_cookies_bool: bool = False,
+        cookie_dict: dict = None,
     ):
         """
         Initialize the Chat Bard.
@@ -45,37 +59,17 @@ class ChatBard(Bard):
             language (str, optional): Chat Bard language.
             token_from_browser (bool, optional, default = False): Gets a token from the browser
         """
-
-        self.session = session or self._init_session(token)
-        self.language = language or os.getenv("_BARD_API_LANG") or "english"
-        self.timeout = int(timeout or os.getenv("_BARD_API_TIMEOUT") or 30)
-        self.token = token or os.getenv("_BARD_API_KEY") or self._get_api_key()
+        self.cookie_dict = cookie_dict
+        self.multi_cookies_bool = multi_cookies_bool
+        self.session = session or self._get_session(token, proxies)
+        self.language = language or os.getenv("_BARD_API_LANG", "english")
+        self.timeout = int(timeout or os.getenv("_BARD_API_TIMEOUT", 30))
+        self.token = self._get_token(token, token_from_browser)
         self.token_from_browser = token_from_browser
         self.proxies = proxies
         self.google_translator_api_key = google_translator_api_key
 
-        self.bard = self._init_bard()
-
-        # Chat history
-        self.chat_history = []
-
-    @staticmethod
-    def _init_session(token):
-        session = requests.Session()
-        session.headers = SESSION_HEADERS
-        session.cookies.set("__Secure-1PSID", token)
-        return session
-
-    @staticmethod
-    def _get_api_key():
-        key = input("Enter the Bard API Key(__Secure-1PSID): ")
-        if not key:
-            print("Bard API(__Secure-1PSID) Key must be entered.")
-            exit(1)
-        return key
-
-    def _init_bard(self):
-        return Bard(
+        super().__init__(
             token=self.token,
             session=self.session,
             google_translator_api_key=self.google_translator_api_key,
@@ -83,7 +77,82 @@ class ChatBard(Bard):
             language=self.language,
             proxies=self.proxies,
             token_from_browser=self.token_from_browser,
+            cookie_dict=self.cookie_dict,
+            multi_cookies_bool=self.multi_cookies_bool,
         )
+
+        # Chat history list
+        self.chat_history = []
+
+    def _get_session(
+        self, token: Optional[str], proxies: Optional[dict]
+    ) -> requests.Session:
+        """
+        Get the requests Session object.
+
+        Args:
+            token (str, optional): Bard API token.
+            proxies (dict, optional): Proxy configuration for requests.
+
+        Returns:
+            requests.Session: The Session object.
+        """
+        new_session = requests.Session()
+        new_session.headers = SESSION_HEADERS
+        new_session.cookies.set("__Secure-1PSID", self.token)
+        new_session.proxies = proxies
+
+        if self.cookie_dict is not None:
+            for k, v in self.cookie_dict.items():
+                new_session.cookies.set(k, v)
+
+        return new_session
+
+    def _get_token(
+        self, token: str, token_from_browser: bool
+    ) -> str:
+        """
+        Get the Bard API token either from the provided token or from the browser cookie.
+
+        Args:
+            token (str, optional): Bard API token.
+            token_from_browser (bool): Whether to extract the token from the browser cookie.
+
+        Returns:
+            str: The Bard API token.
+        Raises:
+            Exception: If the token is not provided and can't be extracted from the browser.
+        """
+        if token:
+            return token
+
+        env_token = os.getenv("_BARD_API_KEY")
+        if env_token:
+            return env_token
+
+        if token_from_browser:
+            extracted_cookie_dict = extract_bard_cookie(cookies=self.multi_cookies_bool)
+            if self.multi_cookies_bool:
+                self.cookie_dict = extracted_cookie_dict
+                required_cookies = [
+                    "__Secure-1PSID",
+                    "__Secure-1PSIDTS",
+                    "__Secure-1PSIDCC",
+                ]
+                if len(extracted_cookie_dict) < len(required_cookies) or not all(
+                    key in extracted_cookie_dict for key in required_cookies
+                ):
+                    print(
+                        "Essential cookies (__Secure-1PSID, __Secure-1PSIDTS, __Secure-1PSIDCC) are missing."
+                    )
+                    return extracted_cookie_dict.get("__Secure-1PSID", "")
+            if extracted_cookie_dict:
+                return extracted_cookie_dict.get("__Secure-1PSID", "")
+
+        raise Exception(
+            "Bard API Key must be provided as the 'token' argument or extracted from the browser."
+        )
+
 
     def start(self, prompt: Optional[str] = None) -> None:
         """
