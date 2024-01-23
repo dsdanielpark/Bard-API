@@ -5,21 +5,17 @@ import os
 import random
 import re
 import string
-from urllib.parse import parse_qs, urlparse
 import uuid
 import requests
-
-# Third-party imports
 from typing import Optional
 
+# from urllib.parse import parse_qs, urlparse
 try:
     from langdetect import detect
     from deep_translator import GoogleTranslator
     from google.cloud import translate_v2 as translate
 except ImportError:
     pass
-
-# Local module or custom library imports
 from bardapi.constants import (
     ALLOWED_LANGUAGES,
     REPLIT_SUPPORT_PROGRAM_LANGUAGES,
@@ -209,15 +205,11 @@ class Bard:
         >>> response = bard.get_answer("나와 내 동년배들이 좋아하는 뉴진스에 대해서 알려줘")
         >>> print(response['content'])
 
-        >>> response = bard.get_answer("Show me grocery stores close to the entrance to Grand Teton National Park and give me ideas for good snacks to bring hiking", tool=Tool.GOOGLE_MAPS)
-        >>> print(response['content'])
-
         Args:
             input_text (str): Input text for the query.
             image (bytes): Input image bytes for the query, support image types: jpeg, png, webp
             image_name (str): Short file name
             tool : tool to use can be one of Gmail, Google Docs, Google Drive, Google Flights, Google Hotels, Google Maps, Youtube
-
 
         Returns:
             dict: Answer from the Bard API in the following format:

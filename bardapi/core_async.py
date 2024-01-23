@@ -1,6 +1,5 @@
 # The asynchronous bard may not yield significant benefits and may not be perfectly implemented.
 # You can contribute a more optimized implementation anytime through a Pull Request.
-
 import os
 import re
 import json
@@ -10,7 +9,7 @@ import random
 import base64
 import logging
 from re import search
-from typing import Optional, Tuple, Union
+from typing import Optional, Tuple
 from httpx import AsyncClient
 
 try:
@@ -19,7 +18,6 @@ try:
     from langdetect import detect
 except ImportError:
     pass
-
 from bardapi.constants import (
     ALLOWED_LANGUAGES,
     SESSION_HEADERS,
@@ -30,9 +28,6 @@ from bardapi.constants import (
 from bardapi.models.result import BardResult
 from bardapi.utils import (
     extract_links,
-    build_input_replit_data_struct,
-    build_export_data_structure,
-    build_bard_answer,
     upload_image,
     extract_bard_cookie,
     build_input_text_struct,

@@ -1,5 +1,4 @@
 from enum import Enum
-
 from colorama import Fore
 
 # https://support.google.com/bard/answer/13575153?hl=en

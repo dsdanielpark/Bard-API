@@ -1,8 +1,7 @@
 # Util Functions for Async and Sync Core Cookie Modes
 import json
-from typing import Optional
-
 import requests
+from typing import Optional
 from bardapi.constants import IMG_UPLOAD_HEADERS
 
 
