@@ -1,5 +1,5 @@
-Bard API Package
-================
+bardapi package
+===============
 
 Subpackages
 -----------
