@@ -108,9 +108,7 @@ class ChatBard(Bard):
 
         return new_session
 
-    def _get_token(
-        self, token: str, token_from_browser: bool
-    ) -> str:
+    def _get_token(self, token: str, token_from_browser: bool) -> str:
         """
         Get the Bard API token either from the provided token or from the browser cookie.
 
@@ -152,7 +150,6 @@ class ChatBard(Bard):
         raise Exception(
             "Bard API Key must be provided as the 'token' argument or extracted from the browser."
         )
-
 
     def start(self, prompt: Optional[str] = None) -> None:
         """
