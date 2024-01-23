@@ -42,24 +42,10 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [More features](#more-features)
   - [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
   - [The Python package hf-transllm](#the-python-package-hf-transllm)
-    - [Example code of hf-transllm](#example-code-of-hf-transllm)
-    - [Usage](#usage-1)
-      - [For LLM that use languages `other than English`](#for-llm-that-use-languages-other-than-english)
-      - [For LLM that use `English`](#for-llm-that-use-english)
   - [What is Google Gemini?](#what-is-google-gemini)
-    - [Google AI Studio](#google-ai-studio)
-    - [Access to Gemini Pro in Bard API package](#access-to-gemini-pro-in-bard-api-package)
   - [Google PaLM](#google-palm)
-    - [Quick Start](#quick-start)
-  - [Sponsor](#sponsor)
   - [FAQ](#faq)
-  - [Scripts](#scripts)
-  - [Contributors](#contributors)
-  - [License](#license)
-  - [Shifting Service Policies: Bard and Google's Dynamics](#shifting-service-policies-bard-and-googles-dynamics)
-  - [Bugs and Issues](#bugs-and-issues)
-  - [Contacts](#contacts)
-  - [Reference](#reference)
+
 
 
 
