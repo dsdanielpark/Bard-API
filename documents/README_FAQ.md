@@ -41,7 +41,27 @@ Cookie values may only be valid for a limited time (approximately 15-20 minutes 
 
 <br><br>
 
+***
 
+### Q: Why is the package structure so messy and unorganized like this?
+
+### A: While rapidly adapting to Google's interface changes, various unexpected features were added, causing the structure to become messy. This package is not intended for providing stable services, and it may become unusable at any time based on Google's decisions, so it hasn't been heavily optimized. It would be advisable to use it temporarily for testing purposes only.
+
+[#263](https://github.com/dsdanielpark/Bard-API/discussions/267)
+
+Originally, Bard had very simple functionality as it was meant for experimental purposes. It used to fetch only a single response through a single cookie even in the 'get_answer' function. However, various additional features were added to Bard over time, such as uploading images, fetching image links, or executing code, among others. The Bard API package was developed quickly in Python to implement these features and perform lightweight testing.
+
+In other words, the package initially lacked these diverse functionalities, and as unexpected features were added, the focus was solely on getting the functionality to work. This resulted in a messy package structure and less-than-clean code.
+
+Additionally, implementing asynchronous functionality did not provide significant benefits, but it was added upon the requests of some developers to quickly implement the features. It was discovered that some users needed more than one cookie, so the goal was to implement these functionalities within the existing structure in the shortest possible time.
+
+Overall, it was difficult to predict the interface or structure, and this package was created primarily for temporary and lightweight prototyping, as it was not meant for providing a stable service.
+
+Therefore, it is very messy and not optimized, and this continues to be a major concern. The package's functionality may stop working at any time due to changes in Google's interface decisions.
+
+Furthermore, adapting to new features or removing them is not straightforward. I feel a great responsibility for providing developers with unoptimized code that has caused inefficiencies, but developing a new package to address this issue has been challenging given the uncertainty of when the functionality might come to an end.
+
+Nevertheless, I am making efforts to revise the package structure whenever possible. Your understanding is appreciated.
 
 ***
 
