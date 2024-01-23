@@ -218,6 +218,34 @@ class ChatBard(Bard):
         print(SEPARATOR_LINE)
 
     def get_chat_history(self) -> list:
+        """
+        Retrieve the chat history.
+
+        Usage:
+            chat = ChatBard()
+            chat.start()
+            history_list = chat.get_chat_history()
+
+        Returns:
+            list: A list of dictionaries containing chat history entries.
+                Each entry has two keys: 'User' and 'Chatbot'.
+                'User' contains the user input, and 'Chatbot' contains the chatbot's response.
+
+        Example:
+            chat = ChatBard()
+            chat.start()
+            history_list = chat.get_chat_history()
+
+            # Access individual chat history entries
+            for entry in history_list:
+                user_input = entry['User']
+                chatbot_response = entry['Chatbot']
+                print(f"User: {user_input}")
+                print(f"Chatbot: {chatbot_response}")
+
+        :return: List of chat history entries.
+        :rtype: list
+        """
         return self.chat_history
 
     @staticmethod
