@@ -1,5 +1,4 @@
 # The Python file is considered legacy and will only be used up to version 0.1.39.
-
 import os
 import re
 import string

@@ -11,7 +11,6 @@ import logging
 from re import search
 from typing import Optional, Tuple
 from httpx import AsyncClient
-
 try:
     from deep_translator import GoogleTranslator
     from google.cloud import translate_v2 as translate
