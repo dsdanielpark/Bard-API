@@ -129,11 +129,6 @@ class BardAsync:
         if isinstance(self.SNlM0e, str):
             return self.SNlM0e
 
-        if not self.token or self.token[-1] != ".":
-            print(
-                "__Secure-1PSID value should end with a single dot. Enter correct __Secure-1PSID value."
-            )
-
         resp = await self.client.get(
             "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
         )
