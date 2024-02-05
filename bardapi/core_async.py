@@ -115,9 +115,11 @@ class BardAsync:
         """
         Set up the BardAsync instance asynchronously.
         """
-        self.SNlM0e = await self._get_snim0e()
+        # Note:
+        # we have to initialize client first, since _get_snim0e requires client
         if not self.client:
             self.client = await self._initialize_client()  # Ensure this is awaited
+        self.SNlM0e = await self._get_snim0e()
 
     async def _get_snim0e(self) -> Optional[str]:
         """
@@ -835,7 +837,7 @@ class BardAsync:
         image_name: Optional[str] = None,
         tool: Optional[Tool] = None,
     ) -> BardResult:
-        if not isinstance(self.SNlM0e, str):
+        if not isinstance(self.SNlM0e, str) and self.SNlM0e is not None:
             self.SNlM0e = await self.SNlM0e
 
         if image is not None:
