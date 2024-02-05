@@ -138,7 +138,7 @@ class BardAsync:
             raise ConnectionError(
                 f"Failed to fetch SNlM0e. Response status: {resp.status_code}"
             )
-        snim0e_match = re.search(r'\\?*"SNlM0e\\?*":"(.*?)"', resp.text)
+        snim0e_match = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e_match:
             raise LookupError(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
