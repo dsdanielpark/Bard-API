@@ -115,9 +115,11 @@ class BardAsync:
         """
         Set up the BardAsync instance asynchronously.
         """
-        self.SNlM0e = await self._get_snim0e()
+        # Note:
+        # we have to initialize client first, since _get_snim0e requires client
         if not self.client:
             self.client = await self._initialize_client()  # Ensure this is awaited
+        self.SNlM0e = await self._get_snim0e()
 
     async def _get_snim0e(self) -> Optional[str]:
         """
@@ -129,11 +131,6 @@ class BardAsync:
         if isinstance(self.SNlM0e, str):
             return self.SNlM0e
 
-        if not self.token or self.token[-1] != ".":
-            print(
-                "__Secure-1PSID value should end with a single dot. Enter correct __Secure-1PSID value."
-            )
-
         resp = await self.client.get(
             "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
         )
@@ -141,7 +138,7 @@ class BardAsync:
             raise ConnectionError(
                 f"Failed to fetch SNlM0e. Response status: {resp.status_code}"
             )
-        snim0e_match = re.search(r'\\?*"SNlM0e\\?*":"(.*?)"', resp.text)
+        snim0e_match = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
         if not snim0e_match:
             raise LookupError(
                 "SNlM0e value not found in response. Check __Secure-1PSID value."
@@ -840,7 +837,7 @@ class BardAsync:
         image_name: Optional[str] = None,
         tool: Optional[Tool] = None,
     ) -> BardResult:
-        if not isinstance(self.SNlM0e, str):
+        if not isinstance(self.SNlM0e, str) and self.SNlM0e is not None:
             self.SNlM0e = await self.SNlM0e
 
         if image is not None:
