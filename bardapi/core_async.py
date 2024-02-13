@@ -132,7 +132,7 @@ class BardAsync:
             return self.SNlM0e
 
         resp = await self.client.get(
-            "https://bard.google.com/", timeout=self.timeout, follow_redirects=True
+            "https://gemini.google.com/", timeout=self.timeout, follow_redirects=True
         )
         if resp.status_code != 200:
             raise ConnectionError(
@@ -439,7 +439,7 @@ class BardAsync:
 
         # Get response
         resp = await self.client.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -524,7 +524,7 @@ class BardAsync:
             "at": self.SNlM0e,
         }
         resp = await self.client.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -632,7 +632,7 @@ class BardAsync:
         }
 
         resp = await self.client.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
             timeout=self.timeout,

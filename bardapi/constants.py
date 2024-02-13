@@ -107,16 +107,16 @@ DEFAULT_LANGUAGE = "en"
 SEPARATOR_LINE = "=" * 36
 USER_PROMPT = Fore.BLUE + "You: " + Fore.RESET
 TEXT_GENERATION_WEB_SERVER_PARAM = "boq_assistant-bard-web-server_20230912.07_p1"
-POST_ENDPOINT = "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate"
+POST_ENDPOINT = "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate"
 
 
 SESSION_HEADERS = {
-    "Host": "bard.google.com",
+    "Host": "gemini.google.com",
     "X-Same-Domain": "1",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-    "Origin": "https://bard.google.com",
-    "Referer": "https://bard.google.com/",
+    "Origin": "https://gemini.google.com",
+    "Referer": "https://gemini.google.com/",
 }
 
 IMG_UPLOAD_HEADERS = {
@@ -125,9 +125,9 @@ IMG_UPLOAD_HEADERS = {
     "accept-language": "en-US,en;q=0.7",
     "authorization": "Basic c2F2ZXM6cyNMdGhlNmxzd2F2b0RsN3J1d1U=",  # Constant Authorization Key
     "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
-    "origin": "https://bard.google.com",
+    "origin": "https://gemini.google.com",
     "push-id": "feeds/mcudyrk2a4khkz",  # Constant
-    "referer": "https://bard.google.com/",
+    "referer": "https://gemini.google.com/",
     "x-goog-upload-command": "start",
     "x-goog-upload-header-content-length": "",
     "x-goog-upload-protocol": "resumable",

@@ -175,7 +175,7 @@ class Bard:
                 "__Secure-1PSID value should end with a single dot. Enter correct __Secure-1PSID value."
             )
         resp = self.session.get(
-            "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+            "https://gemini.google.com/", timeout=self.timeout, proxies=self.proxies
         )
         if resp.status_code != 200:
             raise Exception(
@@ -277,7 +277,7 @@ class Bard:
 
         # Get response
         resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -401,7 +401,7 @@ class Bard:
 
         # Get response
         resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -462,7 +462,7 @@ class Bard:
             "at": self.SNlM0e,
         }
         resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -579,7 +579,7 @@ class Bard:
         }
 
         resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -682,7 +682,7 @@ class Bard:
 
         # Get response
         resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
+            "https://gemini.google.com/_/BardChatUi/data/assistant.lamda.BardFrontendService/StreamGenerate",
             params={
                 "bl": TEXT_GENERATION_WEB_SERVER_PARAM,
                 "_reqid": str(self._reqid),
@@ -788,7 +788,7 @@ class Bard:
 
         # Get response
         resp = self.session.post(
-            "https://bard.google.com/_/BardChatUi/data/batchexecute",
+            "https://gemini.google.com/_/BardChatUi/data/batchexecute",
             params=params,
             data=data,
             timeout=self.timeout,
@@ -830,7 +830,7 @@ class Bard:
 
     # def _set_cookie_refresh_data(self):
     #     resp = self.session.get(
-    #         "https://bard.google.com/", timeout=self.timeout, proxies=self.proxies
+    #         "https://gemini.google.com/", timeout=self.timeout, proxies=self.proxies
     #     )
 
     #     og_pid_regex = r"https:\/\/accounts\.google\.com\/ListAccounts\?authuser=[0-9]+\\u0026pid=([0-9]+)"
@@ -868,7 +868,7 @@ class Bard:
     #         update_cookies_url = f"https://accounts.google.com/RotateCookiesPage?og_pid={self.og_pid}&rot={self.rot}&origin=https%3A%2F%2Fbard.google.com&exp_id={self.exp_id}"
     #         headers_google = {
     #             "Host": "accounts.google.com",
-    #             "Referer": "https://bard.google.com/",
+    #             "Referer": "https://gemini.google.com/",
     #             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
     #         }
 

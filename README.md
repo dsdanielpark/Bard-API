@@ -1,7 +1,7 @@
 Development Status :: 5 - Production/Stable
 
 
-# Google <a href="https://bard.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> Bard API
+# Google <a href="https://gemini.google.com/"><img src="https://camo.githubusercontent.com/adb54264fe2ad5067d07d0752fc32600b4e6250073b01ce8c386575b431e3f06/68747470733a2f2f7777772e677374617469632e636f6d2f6c616d64612f696d616765732f66617669636f6e5f76315f31353031363063646466663766323934636533302e737667" height="20px"></a> ~~Bard~~ Gemini API
 
 <p align="left">
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
@@ -16,7 +16,7 @@ Development Status :: 5 - Production/Stable
 </p>
 
 
-> The python package that returns response of [Google Bard](https://bard.google.com/) through value of cookie.
+> The python package that returns response of [Google ~~Bard~~ Gemini](https://gemini.google.com/) through value of cookie.
 
 ![](./assets/bard_api.gif)
 
@@ -27,8 +27,8 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
-- [Google  Bard API](#google--bard-api)
-  - [What is Google Bard?](#what-is-google-bard)
+- [Google  ~~Bard~~ Gemini API](#google--bard-api)
+  - [What is Google ~~Bard~~ Gemini?](#what-is-google-gemini)
   - [Install](#install)
   - [Authentication](#authentication)
   - [Usage](#usage)
@@ -42,7 +42,7 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
   - [More features](#more-features)
   - [Amazing Bard Prompts Is All You Need!](#amazing-bard-prompts-is-all-you-need)
   - [The Python package hf-transllm](#the-python-package-hf-transllm)
-  - [What is Google Gemini?](#what-is-google-gemini)
+  - [What is Google ~~Bard~~ Gemini?](#what-is-google-gemini)
   - [Google PaLM](#google-palm)
   - [FAQ](#faq)
 
@@ -52,8 +52,8 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 <br>
 
 
-## What is Google [Bard](https://bard.google.com/chat)?
-Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://bard.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
+## What is Google [Bard](https://gemini.google.com/chat)?
+Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://gemini.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
 
 
 ## Install
@@ -72,7 +72,7 @@ $ pip install bardapi==0.1.23a
 
 ## Authentication
 > **Warning** Do not expose the `__Secure-1PSID`. For testing purposes only; avoid direct application use. Cookie values change periodically (every 15-20 minutes). Frequent session changes may briefly block access; headless mode is challenging. Rate limiting applies and changes often. If the cookie changes, log out of your Google account, close the browser, and enter the new cookie value. Or manually reset the cookie for a new value. See FAQ and issue pages for details.
-1. Visit https://bard.google.com/
+1. Visit https://gemini.google.com/
 2. F12 for console
 3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
 
@@ -183,12 +183,12 @@ token = 'xxxxxxx'
 
 session = requests.Session()
 session.headers = {
-            "Host": "bard.google.com",
+            "Host": "gemini.google.com",
             "X-Same-Domain": "1",
             "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-            "Origin": "https://bard.google.com",
-            "Referer": "https://bard.google.com/",
+            "Origin": "https://gemini.google.com",
+            "Referer": "https://gemini.google.com/",
         }
 # session.cookies.set("__Secure-1PSID", os.getenv("_BARD_API_KEY")) 
 session.cookies.set("__Secure-1PSID", token) 
@@ -213,12 +213,12 @@ import os
 token = 'xxxxxxx'  # Replace with your actual token
 
 SESSION_HEADERS = {
-    "Host": "bard.google.com",
+    "Host": "gemini.google.com",
     "X-Same-Domain": "1",
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
-    "Origin": "https://bard.google.com",
-    "Referer": "https://bard.google.com/",
+    "Origin": "https://gemini.google.com",
+    "Referer": "https://gemini.google.com/",
 }
 timeout = 30  # Example timeout
 proxies = {}  # Replace with your proxies if needed
@@ -247,7 +247,7 @@ print(response['content'])
 
 ### Auto Cookie Bard
 Using [browser_cookie3](https://github.com/borisbabic/browser_cookie3) we extract the `__Secure-1PSID` cookie from all browsers, and then we can use the API without passing the token. However, there are still incomplete dependency packages and various variables, so please seek assistance in the following [GitHub Issues](https://github.com/borisbabic/browser_cookie3/issues) or adjust your browser's version.
-- Visit https://bard.google.com/ in your browser and execute the following command while in the chat-enabled state. Refer to browser_cookie3 for details on how it works. If any issues arise, please restart the browser or log in to your Google account again. 
+- Visit https://gemini.google.com/ in your browser and execute the following command while in the chat-enabled state. Refer to browser_cookie3 for details on how it works. If any issues arise, please restart the browser or log in to your Google account again. 
 *Recommended to keep the browser open.*
 ```python
 from bardapi import Bard
@@ -353,7 +353,7 @@ print(answer)
 <br>
 
 ## What is Google [Gemini](https://deepmind.google/technologies/gemini/#introduction)?
-[Gemini](https://deepmind.google/technologies/gemini/#introduction) is an advanced, multimodal AI model by [Google DeepMind](https://deepmind.google/), capable of understanding and integrating various information types like text, code, audio, images, and video.
+[Gemini](https://deepmind.google/technologies/gemini/#introduction) or formerly knowns as Bard is an advanced, multimodal AI model by [Google DeepMind](https://deepmind.google/), capable of understanding and integrating various information types like text, code, audio, images, and video.
 
 - Paper: https://storage.googleapis.com/deepmind-media/gemini/gemini_1_report.pdf
 - Web: https://blog.google/technology/ai/google-gemini-ai/#capabilities
@@ -366,7 +366,7 @@ Google AI Studio creates a new Google Cloud project for each new API key. You al
 - Note: The Gemini API is currently in public preview. Production applications are not supported yet.
 
 ### Access to Gemini Pro in Bard API package
-The Bard API, sourcing responses from [Google Bard's official website](https://bard.google.com/chat), allows you to receive the same responses as the website. So, if Gemini answers are available on the web, you can also accessed Gemini through the Bard API. However, it's important to note that responses might also come from other models, not exclusively Gemini Pro or Ultra. 
+The Bard API, sourcing responses from [Google ~~Bard~~Gemini's official website](https://gemini.google.com/chat), allows you to receive the same responses as the website. So, if Gemini answers are available on the web, you can also accessed Gemini through the Bard API. However, it's important to note that responses might also come from other models, not exclusively Gemini Pro or Ultra. 
 - There is no official Bard API or early access/waiting list for Gemini, although the [PaLM2 API](https://github.com/dsdanielpark/Bard-API#google-palm-api) is available.
   - Google's PaLM2 API differs from Bard, with some aspects of Bard being superior.
   - It's speculated that after expert review, Bard Advanced lineup will likely provide an official API in 2024.
