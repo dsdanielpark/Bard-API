@@ -175,7 +175,7 @@ class Bard:
                 "__Secure-1PSID value should end with a single dot. Enter correct __Secure-1PSID value."
             )
         resp = self.session.get(
-            "https://gemini.google.com/", timeout=self.timeout, proxies=self.proxies
+            "https://gemini.google.com/app", timeout=self.timeout, proxies=self.proxies
         )
         if resp.status_code != 200:
             raise Exception(
