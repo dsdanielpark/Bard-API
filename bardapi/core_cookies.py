@@ -95,10 +95,10 @@ class BardCookies(Bard):
 
         if session is None:
             new_session = requests.Session()
-            new_session.headers = SESSION_HEADERS
-
+            cookie = ""
             for k, v in self.cookie_dict.items():
-                new_session.cookies.set(k, v)
+                cookie += f"{k}={v}; "
+            new_session.headers.update({"Cookie": cookie})
             return new_session
         else:
             return session
