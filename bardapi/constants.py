@@ -116,7 +116,7 @@ SESSION_HEADERS = {
     "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.114 Safari/537.36",
     "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
     "Origin": "https://gemini.google.com",
-    "Referer": "https://gemini.google.com/",
+    "Referer": "https://gemini.google.com/app",
 }
 
 IMG_UPLOAD_HEADERS = {
@@ -127,7 +127,7 @@ IMG_UPLOAD_HEADERS = {
     "content-type": "application/x-www-form-urlencoded;charset=UTF-8",
     "origin": "https://gemini.google.com",
     "push-id": "feeds/mcudyrk2a4khkz",  # Constant
-    "referer": "https://gemini.google.com/",
+    "referer": "https://gemini.google.com/app",
     "x-goog-upload-command": "start",
     "x-goog-upload-header-content-length": "",
     "x-goog-upload-protocol": "resumable",
