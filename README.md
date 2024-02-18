@@ -51,6 +51,10 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 <br>
 
+## Updates 
+- `2024.02.09` We are currently proceeding with a hotfix update due to the service name change from bard to Gemini. Please wait a moment.
+
+<br>
 
 ## What is Google [Bard](https://gemini.google.com/chat)?
 Bard is a conversational generative artificial intelligence chatbot developed by Google, based initially on the LaMDA family of LLMs(Large Language Models) and later the PaLM LLM. Please check official documents for [updates](https://gemini.google.com/updates) on Bard, including [available regions and languages](https://support.google.com/bard/answer/13575153?hl=en).
