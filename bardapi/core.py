@@ -170,10 +170,6 @@ class Bard:
         Raises:
             Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
         """
-        if not self.token or self.token[-1] != ".":
-            print(
-                "__Secure-1PSID value should end with a single dot. Enter correct __Secure-1PSID value."
-            )
         resp = self.session.get(
             "https://gemini.google.com/app", timeout=self.timeout, proxies=self.proxies
         )
