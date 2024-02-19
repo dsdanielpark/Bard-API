@@ -122,6 +122,7 @@ class Bard:
                     "__Secure-1PSID",
                     "__Secure-1PSIDTS",
                     "__Secure-1PSIDCC",
+                    "NID"
                 ]
                 if len(extracted_cookie_dict) < len(required_cookies) or not all(
                     key in extracted_cookie_dict for key in required_cookies
