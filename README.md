@@ -1,7 +1,9 @@
 Development Status :: 5 - Production/Stable
 
 
-# Google ~~Bard~~ Gemini API
+
+
+# Google Bard API
 
 <p align="left">
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
@@ -48,11 +50,6 @@ I referred to this github repository([github.com/acheong08/Bard](https://github.
 
 
 
-
-<br>
-
-## Updates 
-- `2024.02.09` We are currently proceeding with a hotfix update due to the service name change from bard to Gemini. Please wait a moment.
 
 <br>
 
