@@ -11,7 +11,7 @@ Development Status :: 7 - Inactive
 
 In February 2024, Bard has changed its service name to Gemini.
 - For some countries/regions where the `__Secure-1PSID` cookie value ends with a single dot: [Bard API](https://github.com/dsdanielpark/Bard-API) >= 0.1.40
-- For all other countries/regions: Go to the [Gemini API](https://github.com/dsdanielpark/Gemini-API) package.
+- For all other countries/regions: Starting from March 1st, please go to the [Gemini API](https://github.com/dsdanielpark/Gemini-API) package.
 
 Moving forward, updates will primarily focus on the Gemini API package.
 
