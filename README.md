@@ -2,13 +2,14 @@ Development Status :: 7 - Inactive
 
 <br>
 
-`Important Notice`
+
 
 ***
 
-### 2024.02 Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
 
-Bard has changed its service name to Gemini.
+### `Important Notice`: Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
+
+In February 2024, Bard has changed its service name to Gemini.
 - For some countries/regions where the `__Secure-1PSID` cookie value ends with a single dot: [Bard API](https://github.com/dsdanielpark/Bard-API) >= 0.1.40
 - For all other countries/regions: Go to the [Gemini API](https://github.com/dsdanielpark/Gemini-API) package.
 
@@ -19,7 +20,7 @@ Moving forward, updates will primarily focus on the Gemini API package.
 <br>
 
 
-# <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> Google Bard API
+# <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> Google - Bard API
 
 <p align="left">
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
