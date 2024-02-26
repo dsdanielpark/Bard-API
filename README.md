@@ -94,7 +94,7 @@ $ pip install bardapi==0.1.23a
 2. F12 for console
 3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie. Or try to use `SIDCC` as token.
 
-Note that while I referred to `__Secure-1PSID` value as an API key for convenience, it is not an officially provided API key. 
+Note that while I referred to `__Secure-1PSID` or `SIDCC` value as an API key for convenience, it is not an officially provided API key. 
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 
 <br>
