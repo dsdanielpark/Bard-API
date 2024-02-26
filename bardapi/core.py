@@ -171,19 +171,19 @@ class Bard:
         Raises:
             Exception: If the __Secure-1PSID value is invalid or SNlM0e value is not found in the response.
         """
-        resp = self.session.get(
-            "https://gemini.google.com/app", timeout=self.timeout, proxies=self.proxies
+        response = self.session.get(
+            "https://gemini.google.com/", timeout=self.timeout, proxies=self.proxies
         )
-        if resp.status_code != 200:
+        if response.status_code != 200:
             raise Exception(
-                f"Response status code is not 200. Response Status is {resp.status_code}"
+                f"Response status code is not 200. Response Status is {response.status_code}"
             )
-        snim0e = re.search(r"SNlM0e\":\"(.*?)\"", resp.text)
-        if not snim0e:
+        snim0e = re.findall(r'nonce="([^"]+)"', response.text)
+        if snim0e == None:
             raise Exception(
-                "SNlM0e value not found. Double-check __Secure-1PSID value or pass it as Bard(token='xxxxx')"
+                "SNlM0e token value not found. Double-check cookies dict value or set 'auto_cookies' parametes as True.\nOccurs due to cookie changes. Re-enter new cookie, restart browser, re-login, or manually refresh cookie."
             )
-        return snim0e.group(1)
+        return snim0e
 
     def get_answer(
         self,
