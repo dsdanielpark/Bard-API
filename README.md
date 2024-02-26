@@ -92,7 +92,7 @@ $ pip install bardapi==0.1.23a
 > **Warning** Do not expose the `__Secure-1PSID`. For testing purposes only; avoid direct application use. Cookie values change periodically (every 15-20 minutes). Frequent session changes may briefly block access; headless mode is challenging. Rate limiting applies and changes often. If the cookie changes, log out of your Google account, close the browser, and enter the new cookie value. Or manually reset the cookie for a new value. See FAQ and issue pages for details.
 1. Visit https://gemini.google.com/
 2. F12 for console
-3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
+3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie. Or try to use `SIDCC` as token.
 
 Note that while I referred to `__Secure-1PSID` value as an API key for convenience, it is not an officially provided API key. 
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
