@@ -514,8 +514,9 @@ Bard's service status and Google's API interfaces are in constant flux. *The num
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
 
 ## Contacts
-- Core maintainer: [Daniel Park, South Korea](https://github.com/DSDanielPark) <br>
-- E-mail: parkminwoo1991@gmail.com <br>
+- Core maintainer: 
+  - [Daniel Park, parkminwoo1991@gmail.com](https://github.com/DSDanielPark) <br>
+  - [Antonio Cheong, teapotv8@proton.me](https://github.com/acheong08)
 
 ## Reference 
 [1] https://github.com/acheong08/Bard <br>
