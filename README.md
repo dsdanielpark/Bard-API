@@ -4,10 +4,9 @@ Development Status :: 7 - Inactive
 
 
 
-***
 
 
-### `Notice` Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
+### Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
 
 In February 2024, Bard has changed its service name to Gemini.
 - For some countries/regions where the `__Secure-1PSID` cookie value ends with a single dot: [Bard API](https://github.com/dsdanielpark/Bard-API) >= 0.1.40
@@ -16,7 +15,6 @@ In February 2024, Bard has changed its service name to Gemini.
 Moving forward, updates will primarily focus on the Gemini API package.
 
 
-***
 <br>
 
 
@@ -24,7 +22,8 @@ Moving forward, updates will primarily focus on the Gemini API package.
 
 <p align="left">
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
-<a href="https://pepy.tech/project/bardapi"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a>
+<!-- <a href="https://img.shields.io/pepy/dt/bardapi?logoColor=black"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a> -->
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/%20downloads-379k-000000.svg"></a>
 <!-- <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a> -->
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%23000000&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=BardAPI&edge_flat=false"/></a>
