@@ -4,19 +4,17 @@ Development Status :: 7 - Inactive
 
 
 
-***
 
 
-### `Notice` Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
+### Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
 
-In February 2024, Bard has changed its service name to Gemini.
+In February 2024, Bard has changed its service name to Gemini. 
 - For some countries/regions where the `__Secure-1PSID` cookie value ends with a single dot: [Bard API](https://github.com/dsdanielpark/Bard-API) >= 0.1.40
 - For all other countries/regions: Starting from March 1st, 2024, please go to the [Gemini API](https://github.com/dsdanielpark/Gemini-API) package.
 
-Moving forward, updates will primarily focus on the Gemini API package.
+Moving forward, updates will primarily focus on the Gemini API package. Alternatively, utilize the official Gemini API at [Google AI Studio](https://ai.google.dev/tutorials/ai-studio_quickstart).
 
 
-***
 <br>
 
 
@@ -24,7 +22,8 @@ Moving forward, updates will primarily focus on the Gemini API package.
 
 <p align="left">
 <a href="https://github.com/dsdanielpark/Bard-API"><img alt="PyPI package" src="https://img.shields.io/badge/pypi-BardAPI-black"></a>
-<a href="https://pepy.tech/project/bardapi"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a>
+<!-- <a href="https://img.shields.io/pepy/dt/bardapi?logoColor=black"><img alt="Downloads" src="https://pepy.tech/badge/bardapi"></a> -->
+<a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/%20downloads-379k-000000.svg"></a>
 <!-- <a><img alt="commit update" src="https://img.shields.io/github/last-commit/dsdanielpark/Bard-API?color=black"></a> -->
 <a href="https://github.com/psf/black"><img alt="Code style: black" src="https://img.shields.io/badge/code%20style-black-000000.svg"></a>
 <a href="https://github.com/dsdanielpark/Bard-API"><img src="https://hits.seeyoufarm.com/api/count/incr/badge.svg?url=https%3A%2F%2Fgithub.com%2Fdsdanielpark%2FBARD_API&count_bg=%23000000&title_bg=%23555555&icon=&icon_color=%23E7E7E7&title=BardAPI&edge_flat=false"/></a>
@@ -35,7 +34,7 @@ Moving forward, updates will primarily focus on the Gemini API package.
 </p>
 
 
-> The python package that returns response of [Google ~~Bard~~ Gemini](https://gemini.google.com/) through value of cookie.
+> The python package that returns response of [Google Bard](https://gemini.google.com/) through value of cookie.
 
 ![](./assets/bard_api.gif)
 
@@ -92,9 +91,9 @@ $ pip install bardapi==0.1.23a
 > **Warning** Do not expose the `__Secure-1PSID`. For testing purposes only; avoid direct application use. Cookie values change periodically (every 15-20 minutes). Frequent session changes may briefly block access; headless mode is challenging. Rate limiting applies and changes often. If the cookie changes, log out of your Google account, close the browser, and enter the new cookie value. Or manually reset the cookie for a new value. See FAQ and issue pages for details.
 1. Visit https://gemini.google.com/
 2. F12 for console
-3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie.
+3. Session: Application → Cookies → Copy the value of  `__Secure-1PSID` cookie. Or try to use `SIDCC` as token.
 
-Note that while I referred to `__Secure-1PSID` value as an API key for convenience, it is not an officially provided API key. 
+Note that while I referred to `__Secure-1PSID` or `SIDCC` value as an API key for convenience, it is not an officially provided API key. 
 Cookie value subject to frequent changes. Verify the value again if an error occurs. Most errors occur when an invalid cookie value is entered.
 
 <br>
@@ -472,7 +471,7 @@ Please check the FAQ and open issues for similar questions before creating a new
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## Contributors
-I would like to express my sincere gratitude to all the contributors.
+We would like to express our sincere gratitude to all the contributors.
 
 <a href="https://github.com/dsdanielpark/Bard_API/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard_API" />
@@ -483,7 +482,7 @@ I would like to express my sincere gratitude to all the contributors.
 
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
-We hold no legal responsibility; for more information, please refer to the bottom of the readme file. We just want you to give me and [them](https://github.com/acheong08/Bard) a star.
+We hold no legal responsibility; for more information, please refer to the bottom of the readme file. We just want you to give me and [them](https://github.com/acheong08/Bard) a star. This project is a personal initiative and is not affiliated with or endorsed by Google. It is recommended to use Google's official API.
 ```
 The MIT License (MIT)
 
@@ -515,8 +514,9 @@ Bard's service status and Google's API interfaces are in constant flux. *The num
 Sincerely grateful for any reports on new features or bugs. Your valuable feedback on the code is highly appreciated.
 
 ## Contacts
-- Core maintainer: [Daniel Park, South Korea](https://github.com/DSDanielPark) <br>
-- E-mail: parkminwoo1991@gmail.com <br>
+- Core maintainer:
+  - [Antonio Cheong](https://github.com/acheong08) / teapotv8@proton.me <br>
+  - [Daniel Park](https://github.com/DSDanielPark) / parkminwoo1991@gmail.com
 
 ## Reference 
 [1] https://github.com/acheong08/Bard <br>
