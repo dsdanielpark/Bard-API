@@ -471,7 +471,7 @@ Please check the FAQ and open issues for similar questions before creating a new
 In the scripts [folder](./scripts/), I have released a script to help you compare [OpenAI-ChatGPT](./scripts/openai_api.ipynb), [Microsoft-EdgeGPT](./scripts/microsoft_api.ipynb) and [Google-Bard](./scripts/google_api.ipynb). I hope they will help more developers.
 
 ## Contributors
-I would like to express my sincere gratitude to all the contributors.
+We would like to express our sincere gratitude to all the contributors.
 
 <a href="https://github.com/dsdanielpark/Bard_API/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=dsdanielpark/Bard_API" />
