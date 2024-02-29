@@ -482,7 +482,7 @@ I would like to express my sincere gratitude to all the contributors.
 
 ## License
 [MIT](https://opensource.org/license/mit/) <br>
-We hold no legal responsibility; for more information, please refer to the bottom of the readme file. We just want you to give me and [them](https://github.com/acheong08/Bard) a star.
+We hold no legal responsibility; for more information, please refer to the bottom of the readme file. We just want you to give me and [them](https://github.com/acheong08/Bard) a star. This project is a personal initiative and is not affiliated with or endorsed by Google. It is recommended to use Google's official API.
 ```
 The MIT License (MIT)
 
