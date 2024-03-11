@@ -30,7 +30,9 @@ pip install -q -U python-gemini-api
 
 ***
 
-<br><br>
+<br>
+Reflection on the Bard API Project https://github.com/dsdanielpark/Bard-API/issues/289
+<br>
 
 # <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> Google - Bard API
 
