@@ -6,11 +6,14 @@ Development Status :: 7 - Inactive
 
 
 [NOTICE] 
-# Please, go to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://pypi.org/project/python-gemini-api/)
+# Please, go to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
 
-https://pypi.org/project/python-gemini-api/
+
 
 A *unofficial* Python wrapper, [python-gemini-api](https://pypi.org/project/python-gemini-api/), operates through reverse-engineering, utilizing cookie values to interact with [Google Gemini](https://gemini.google.com) for users struggling with frequent authentication problems or unable to authenticate via [Google Authentication](https://developers.google.com/identity/protocols/oauth2?hl=en).
+
+- Gemini API GitHub: https://github.com/dsdanielpark/Gemini-API
+- PyPi: https://pypi.org/project/python-gemini-api/
 
 Collaborated competently with [Antonio Cheong](https://github.com/acheong08).
 
