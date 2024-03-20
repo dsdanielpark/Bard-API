@@ -5,18 +5,37 @@ Development Status :: 7 - Inactive
 
 
 
+[NOTICE] 
+# Please, go to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
 
-### Transition to <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> [Gemini API](https://github.com/dsdanielpark/Gemini-API)
 
-In February 2024, Bard has changed its service name to Gemini. 
-- For some countries/regions where the `__Secure-1PSID` cookie value ends with a single dot: [Bard API](https://github.com/dsdanielpark/Bard-API) >= 0.1.40
-- For all other countries/regions: Starting from March 1st, 2024, please go to the [Gemini API](https://github.com/dsdanielpark/Gemini-API) package.
 
-Moving forward, updates will primarily focus on the Gemini API package. Alternatively, utilize the official Gemini API at [Google AI Studio](https://ai.google.dev/tutorials/ai-studio_quickstart).
+A *unofficial* Python wrapper, [python-gemini-api](https://pypi.org/project/python-gemini-api/), operates through reverse-engineering, utilizing cookie values to interact with [Google Gemini](https://gemini.google.com) for users struggling with frequent authentication problems or unable to authenticate via [Google Authentication](https://developers.google.com/identity/protocols/oauth2?hl=en).
 
+- Gemini API GitHub: https://github.com/dsdanielpark/Gemini-API
+- PyPi: https://pypi.org/project/python-gemini-api/
+
+Collaborated competently with [Antonio Cheong](https://github.com/acheong08).
+
+
+## Installation
+```bash
+pip install python-gemini-api
+```
+```bash
+pip install git+https://github.com/dsdanielpark/Gemini-API.git
+```
+For the updated version, use as follows:
+```
+pip install -q -U python-gemini-api
+```
+<br><br><br>
+
+***
 
 <br>
-
+Reflection on the Bard API Project https://github.com/dsdanielpark/Bard-API/issues/289
+<br>
 
 # <img src="https://www.gstatic.com/lamda/images/favicon_v1_150160cddff7f294ce30.svg" width="35px" alt="Gemini Icon" /> Google - Bard API
 
