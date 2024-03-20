@@ -6,3 +6,4 @@ langdetect
 deep_translator
 google-cloud-translate
 browser_cookie3
+python-gemini-api > 2.3.0

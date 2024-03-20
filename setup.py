@@ -25,7 +25,7 @@ version = get_version()
 
 setup(
     name="bardapi",
-    version="0.1.41",
+    version="1.0.0",
     author="daniel park",
     author_email="parkminwoo1991@gmail.com",
     description="The python package that returns Response of Google Bard through API.",
@@ -38,6 +38,7 @@ setup(
         "httpx[http2]>=0.20.0",
         "requests",
         "colorama",
+        "python-gemini-api"
     ],
     extras_require={
         "translate": [
