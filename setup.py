@@ -38,7 +38,7 @@ setup(
         "httpx[http2]>=0.20.0",
         "requests",
         "colorama",
-        "python-gemini-api"
+        "python-gemini-api",
     ],
     extras_require={
         "translate": [

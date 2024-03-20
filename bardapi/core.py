@@ -285,10 +285,9 @@ class Bard:
 
         try:
             parser = ResponseParser(cookies=self.cookies)
-            return  parser.parse(resp)
+            return parser.parse(resp)
         except:
             pass
-
 
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[-5])[0][2]
