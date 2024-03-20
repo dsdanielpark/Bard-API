@@ -7,7 +7,9 @@ import re
 import string
 import uuid
 import requests
+import gemini
 from typing import Optional
+from gemini.src.model.parser.response_parser import ResponseParser
 
 # from urllib.parse import parse_qs, urlparse
 try:
@@ -280,6 +282,13 @@ class Bard:
             timeout=self.timeout,
             proxies=self.proxies,
         )
+
+        try:
+            parser = ResponseParser(cookies=self.cookies)
+            return  parser.parse(resp)
+        except:
+            pass
+
 
         # Post-processing of response
         resp_dict = json.loads(resp.content.splitlines()[-5])[0][2]
