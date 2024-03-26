@@ -10,6 +10,7 @@ import requests
 import gemini
 from typing import Optional
 from gemini.src.model.parser.response_parser import ResponseParser
+from gemini import Gemini
 
 # from urllib.parse import parse_qs, urlparse
 try:
@@ -89,6 +90,7 @@ class Bard:
         self.rot = ""
         self.exp_id = ""
         self.init_value = ""
+        self.gemini = Gemini(cookies=self.cookie_dict)
 
         if google_translator_api_key:
             assert translate
@@ -287,85 +289,86 @@ class Bard:
             parser = ResponseParser(cookies=self.cookies)
             return parser.parse(resp)
         except:
-            pass
+            response = self.gemini.generate_content(input_text)
+            return response.payload
 
-        # Post-processing of response
-        resp_dict = json.loads(resp.content.splitlines()[-5])[0][2]
+        # # Post-processing of response
+        # resp_dict = json.loads(resp.content.splitlines()[-5])[0][2]
 
-        if not resp_dict:
-            return {
-                "content": f"Response Error: {resp.content}. "
-                f"\nUnable to get response."
-                f"\nPlease double-check the cookie values and verify your network environment or google account."
-            }
-        resp_json = json.loads(resp_dict)
-        if resp_json[4] is None:
-            resp_dict = json.loads(resp.content.splitlines()[-7])[0][2]
-            resp_json = json.loads(resp_dict)
+        # if not resp_dict:
+        #     return {
+        #         "content": f"Response Error: {resp.content}. "
+        #         f"\nUnable to get response."
+        #         f"\nPlease double-check the cookie values and verify your network environment or google account."
+        #     }
+        # resp_json = json.loads(resp_dict)
+        # if resp_json[4] is None:
+        #     resp_dict = json.loads(resp.content.splitlines()[-7])[0][2]
+        #     resp_json = json.loads(resp_dict)
 
-        # [Optional] Gather image links
-        images = list()
-        try:
-            if len(resp_json) >= 3:
-                nested_list = resp_json[4][0][4]
-                for img in nested_list:
-                    images.append(img[0][0][0])
-        except (IndexError, TypeError, KeyError):
-            pass
+        # # [Optional] Gather image links
+        # images = list()
+        # try:
+        #     if len(resp_json) >= 3:
+        #         nested_list = resp_json[4][0][4]
+        #         for img in nested_list:
+        #             images.append(img[0][0][0])
+        # except (IndexError, TypeError, KeyError):
+        #     pass
 
-        # Parsed Answer Object
-        parsed_answer = json.loads(resp_dict)
+        # # Parsed Answer Object
+        # parsed_answer = json.loads(resp_dict)
 
-        # [Optional] Translated by google translator
-        # Unofficial
-        if self.language is not None and self.language not in ALLOWED_LANGUAGES:
-            if self.google_translator_api_key is None:
-                translator_func = GoogleTranslator(
-                    source="auto", target=self.language
-                ).translate
-            else:
+        # # [Optional] Translated by google translator
+        # # Unofficial
+        # if self.language is not None and self.language not in ALLOWED_LANGUAGES:
+        #     if self.google_translator_api_key is None:
+        #         translator_func = GoogleTranslator(
+        #             source="auto", target=self.language
+        #         ).translate
+        #     else:
 
-                def translator_func(text):
-                    return google_official_translator(
-                        text, target_language=self.language
-                    )
+        #         def translator_func(text):
+        #             return google_official_translator(
+        #                 text, target_language=self.language
+        #             )
 
-            parsed_answer[4] = [
-                [x[0], [translator_func(x[1][0])] + x[1][1:], x[2]]
-                for x in parsed_answer[4]
-            ]
+        #     parsed_answer[4] = [
+        #         [x[0], [translator_func(x[1][0])] + x[1][1:], x[2]]
+        #         for x in parsed_answer[4]
+        #     ]
 
-        # [Optional] Get program_lang & code
-        try:
-            program_lang = (
-                parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
-            )
-            code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
-        except Exception:
-            program_lang, code = None, None
+        # # [Optional] Get program_lang & code
+        # try:
+        #     program_lang = (
+        #         parsed_answer[4][0][1][0].split("```")[1].split("\n")[0].strip()
+        #     )
+        #     code = parsed_answer[4][0][1][0].split("```")[1][len(program_lang) :]
+        # except Exception:
+        #     program_lang, code = None, None
 
-        # Returns dictionary object
-        bard_answer = build_bard_answer(
-            parsed_answer, images, program_lang, code, resp.status_code
-        )
+        # # Returns dictionary object
+        # bard_answer = build_bard_answer(
+        #     parsed_answer, images, program_lang, code, resp.status_code
+        # )
 
-        # Update params
-        self.conversation_id, self.response_id, self.choice_id = (
-            bard_answer["conversation_id"],
-            bard_answer["response_id"],
-            bard_answer["choices"][0]["id"],
-        )
-        self._reqid += 100000
+        # # Update params
+        # self.conversation_id, self.response_id, self.choice_id = (
+        #     bard_answer["conversation_id"],
+        #     bard_answer["response_id"],
+        #     bard_answer["choices"][0]["id"],
+        # )
+        # self._reqid += 100000
 
-        # [Optional] Execute code
-        if self.run_code and bard_answer["code"] is not None:
-            try:
-                print(bard_answer["code"])
-                exec(bard_answer["code"])
-            except Exception:
-                pass
+        # # [Optional] Execute code
+        # if self.run_code and bard_answer["code"] is not None:
+        #     try:
+        #         print(bard_answer["code"])
+        #         exec(bard_answer["code"])
+        #     except Exception:
+        #         pass
 
-        return bard_answer
+        # return bard_answer
 
     def speech(self, input_text: str, lang: str = "en-US") -> dict:
         """
